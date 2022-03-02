@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRM_BuisnessLayer.Models
+namespace CRM_DataLayer.Repositories
 {
-    public class AccountModel
+    public class AccountRepository
     {
     }
 }

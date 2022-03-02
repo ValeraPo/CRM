@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CRM_BuisnessLayer.Models
 {
-    internal class LeadModel
+    public class LeadModel
     {
     }
 }

@@ -1,0 +1,78 @@
+﻿namespace CRM_APILayer.Extensions
+{
+    public class IServiceProvaderExtensioncs
+    {
+        public static void RegisterCleanMOQasineServices(this IServiceCollection services)
+        {
+            services.AddScoped<ILeadService, LeadService>();
+            services.AddScoped<IAccountService,AccountService>();
+        }
+
+        public static void RegisterCleanMOQasineRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<ICleaningTypeRepository, CleaningTypeRepository>();
+            services.AddScoped<ICleaningAdditionRepository, CleaningAdditionRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IGradeRepository, GradeRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IWorkingTimeRepository, WorkingTimeRepository>();
+        }
+
+        public static void RegisterCleanMOQasineAutomappers(this IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(AutoMapperFromApi), typeof(AutoMapperToData));
+            services.AddAutoMapper(typeof(AutoMapperToData), typeof(OrderMapper));
+        }
+
+        public static void AddCustomAuth(this IServiceCollection services)
+        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = AuthOptions.Issuer,
+                        ValidateAudience = true,
+                        ValidAudience = AuthOptions.Audience,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true
+                    };
+                });
+            services.AddAuthorization();
+        }
+
+        public static void RegisterSwaggerGen(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(config =>
+            {
+                config.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    Description = "JWT Authorization header using the Bearer scheme."
+
+                });
+                config.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                          {
+                              Reference = new OpenApiReference
+                              {
+                                  Type = ReferenceType.SecurityScheme,
+                                  Id = "Bearer"
+                              }
+                          },
+                         new string[] {}
+                    }
+                });
+            });
+        }
+        }
+}

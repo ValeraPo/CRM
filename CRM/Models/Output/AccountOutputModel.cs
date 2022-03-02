@@ -1,5 +1,4 @@
-﻿namespace CRM_APILayer.Models.Output
-{
+﻿namespace CRM_APILayer.Models
     public class AccountOutputModel
     {
     }
