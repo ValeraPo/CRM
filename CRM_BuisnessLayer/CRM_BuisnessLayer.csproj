@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CRM_DataLayer\CRM_DataLayer.csproj" />
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configurations\" />
+    <ProjectReference Include="..\CRM_DataLayer\CRM_DataLayer.csproj" />
   </ItemGroup>
 
 </Project>

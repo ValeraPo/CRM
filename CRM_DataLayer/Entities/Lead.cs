@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CRM_DataLayer.Entities
 {
-    internal class Lead
+    public class Lead
     {
     }
 }
