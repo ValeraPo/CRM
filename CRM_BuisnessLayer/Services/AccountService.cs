@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CRM_BuisnessLayer.Services.Interfaces;
+
 
 namespace CRM_BuisnessLayer.Services
 {
-    internal class AccountService
+    public class AccountService : IAccountService
     {
     }
 }

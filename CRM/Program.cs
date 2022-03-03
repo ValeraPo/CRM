@@ -1,4 +1,7 @@
+using CRM_APILayer.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
+string _connectionStringVariableName = "CRM_CONNECTION_STRING";
 
 // Add services to the container.
 
@@ -7,7 +10,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.RegisterCRMServices();
+builder.Services.RegisterCRMRepositories();
+builder.Services.RegisterCRMAutomappers();
+
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

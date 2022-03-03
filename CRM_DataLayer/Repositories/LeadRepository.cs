@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CRM_DataLayer.Repositories.Interfaces;
 
 namespace CRM_DataLayer.Repositories
 {
-    public class LeadRepository
+    public class LeadRepository : ILeadRepository
     {
     }
 }
