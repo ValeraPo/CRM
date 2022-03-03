@@ -27,7 +27,6 @@ namespace CRM_DataLayer.Repositories
                     DateBirth = lead.DateBirth,
                     Email = lead.Email,
                     Phone = lead.Phone,
-                    Password = lead.Password,
                     Role = lead.Role
                 },
 
