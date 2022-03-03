@@ -1,0 +1,12 @@
+﻿CREATE TABLE [dbo].[Lead]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
+	[Name] varchar(20) NOT NULL,
+	[LastName] varchar(20) NOT NULL,
+	[DateBirth] date NOT NULL,
+	[Email] varchar(30) NOT NULL,
+	[Phone] varchar(20) NOT NULL,
+	[Password] varchar(150) NOT NULL,
+	CONSTRAINT AK_Email UNIQUE(Email),
+	CONSTRAINT AK_Phone UNIQUE(Phone)
+)
