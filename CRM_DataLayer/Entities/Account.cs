@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CRM_DataLayer.Entities
+﻿namespace CRM_DataLayer
 {
-    internal class Account
+    public class Account
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string CurrencyType { get; set; }
+        public Lead Lead { get; set; }
     }
 }
