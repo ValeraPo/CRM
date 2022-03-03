@@ -10,12 +10,11 @@ namespace CRM_APILayer.Models
         public string LastName { get; set; }
         public DateTime DateBirth { get; set; }
 
-        [Email(ErrorMessage = "Email введен некорректно.")]
+        [EmailAddress(ErrorMessage = "Email введен некорректно.")]
         public string Email { get; set; }
 
         [Phone(ErrorMessage = "Телефон введен некорректно.")]
         public string Phone { get; set; }
-        public string Password { get; set; }
         public Enum Role { get; set; }
     }
 }

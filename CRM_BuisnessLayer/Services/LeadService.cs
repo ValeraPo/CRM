@@ -24,5 +24,11 @@ namespace CRM_BuisnessLayer.Services
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
             _leadRepository.AddLead(mappedLead);
         }
+
+        public void UpdateLead(LeadModel leadModel)
+        {
+            var mappedUser = _autoMapper.Map<Lead>(leadModel);
+            _leadRepository.UpdateLeadById(mappedUser);
+        }
     }
 }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CRM_BuisnessLayer.Models;
 
 namespace CRM_BuisnessLayer.Services.Interfaces
 {
     public interface ILeadService
     {
+        void AddLead(LeadModel leadModel);
+        void UpdateLead(LeadModel leadModel);
     }
 }
