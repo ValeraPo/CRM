@@ -1,14 +1,9 @@
 ﻿using Dapper;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRM_DataLayer.Repositories
 {
-    public class LeadRepository : BaseRepository 
+    public class LeadRepository : BaseRepository
     {
         private const string _updateProc = "dbo.Lead_Update";
 
