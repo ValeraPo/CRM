@@ -5,7 +5,6 @@
 	@DateBirth date,
 	@Email varchar(30),
 	@Phone varchar(30),
-	@Password varchar(30),
 	@Role int
 	
 AS
@@ -17,7 +16,6 @@ BEGIN
 		DateBirth = @DateBirth,
 		Email = @Email,
 		Phone = @Phone,
-		[Password] = @Password,
 		[Role] = @Role
 	WHERE Id = @Id
 END
