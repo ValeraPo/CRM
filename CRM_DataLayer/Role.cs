@@ -9,6 +9,7 @@ namespace CRM_DataLayer
     public enum Role
     {
         Admin, 
-        User,
+        Vip,
+        Regular
     }
 }
