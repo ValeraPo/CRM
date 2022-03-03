@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CRM_BuisnessLayer.Services.Interfaces
 {
-    public class ILeadService
+    public interface ILeadService
     {
     }
 }

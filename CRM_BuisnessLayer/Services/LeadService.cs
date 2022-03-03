@@ -2,7 +2,7 @@
 using CRM_BuisnessLayer.Models;
 using CRM_BuisnessLayer.Security;
 using CRM_BuisnessLayer.Services.Interfaces;
-using CRM_DataLayer.Entities;
+using CRM_DataLayer;
 using CRM_DataLayer.Repositories.Interfaces;
 
 namespace CRM_BuisnessLayer.Services

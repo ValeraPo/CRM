@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace CRM_DataLayer.Repositories.Interfaces
 {
-    public class ILeadRepository
+    public interface ILeadRepository
     {
+        void AddLead(Lead lead);
+        
     }
 }

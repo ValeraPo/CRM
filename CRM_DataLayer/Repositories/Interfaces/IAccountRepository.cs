@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CRM_DataLayer.Repositories.Interfaces
 {
-    public class IAccountRepository
+    public interface IAccountRepository
     {
 
     }
