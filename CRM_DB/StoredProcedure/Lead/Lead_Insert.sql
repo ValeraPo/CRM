@@ -10,14 +10,20 @@
 	
 AS
 BEGIN 
-	update dbo.[Lead]
-	SET 
-		[Name] = @Name,
-		LastName = @LastName,
-		DateBirth = @DateBirth,
-		Email = @Email,
-		Phone = @Phone,
-		[Password] = @Password,
-		[Role] = @Role
-	WHERE Id = @Id
+	insert into dbo.[Lead]
+		([Name], 
+		LastName,
+		DateBirth,
+		Email,
+		Phone,
+		[Password],
+		[Role])
+	values
+		(@Name,
+		@DateBirth,
+		@Email,
+		@Phone,
+		@Password,
+		@Role)
+SELECT SCOPE_IDENTITY()
 END
