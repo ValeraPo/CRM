@@ -7,6 +7,7 @@
 	[Email] varchar(30) NOT NULL,
 	[Phone] varchar(20) NOT NULL,
 	[Password] varchar(150) NOT NULL,
-	CONSTRAINT AK_Email UNIQUE(Email),
+	[Role] INT NOT NULL, 
+    CONSTRAINT AK_Email UNIQUE(Email),
 	CONSTRAINT AK_Phone UNIQUE(Phone)
 )
