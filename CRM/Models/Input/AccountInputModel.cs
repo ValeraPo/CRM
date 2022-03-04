@@ -1,4 +1,4 @@
-﻿namespace CRM_APILayer.Models
+﻿namespace CRM.APILayer.Models
 { 
     public class AccountInputModel
     {

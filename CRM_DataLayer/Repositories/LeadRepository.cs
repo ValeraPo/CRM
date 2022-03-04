@@ -31,7 +31,7 @@ namespace CRM.DataLayer.Repositories
                         Email = lead.Email,
                         Phone = lead.Phone,
                         Passord = lead.Password,
-                        Role = lead.Role
+                        
                     },
                     commandType: CommandType.StoredProcedure
                 );
@@ -48,7 +48,8 @@ namespace CRM.DataLayer.Repositories
                     lead.Name,
                     lead.LastName,
                     lead.BirthDate,
-                    lead.Phone
+                    lead.Phone,
+                    lead.Role
                 },
 
                 commandType: CommandType.StoredProcedure);

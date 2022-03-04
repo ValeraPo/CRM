@@ -1,15 +1,14 @@
-﻿using CRM.DataLayer.Entities;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CRM.APILayer.Models
 {
-    public class LeadOutputModel
+    public class LeadInputModel
     {
         public string Name { get; set; }
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
-        public string Email { get; set; }
+
+        [Phone(ErrorMessage = "Телефон введен некорректно.")]
         public string Phone { get; set; }
-        public Role Role { get; set; }
-        public List<AccountOutputModel> Accounts { get; set; }
     }
 }

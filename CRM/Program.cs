@@ -1,6 +1,6 @@
 using CRM.DataLayer.Repositories;
 using CRM.DataLayer.Repositories.Interfaces;
-using CRM_APILayer.Extensions;
+using CRM.APILayer.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 string _connectionStringVariableName = "CRM_CONNECTION_STRING";

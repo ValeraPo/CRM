@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using CRM.DataLayer.Entities;
-using CRM_BuisnessLayer.Models;
+using CRM.BusinessLayer.Models;
 
 
-namespace CRM_BuisnessLayer.Configurations
+namespace CRM.BusinessLayer.Configurations
 {
     public class AutoMapperToData: Profile
     {

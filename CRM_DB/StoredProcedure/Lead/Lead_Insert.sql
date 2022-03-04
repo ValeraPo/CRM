@@ -15,13 +15,11 @@ BEGIN
 		BirthDate,
 		Email,
 		Phone,
-		[Password],
-		[Role])
+		[Password])
 	values
 		(@Name,
 		@BirthDate,
 		@Email,
 		@Phone,
-		@Password,
-		@Role)
+		@Password)
 END

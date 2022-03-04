@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using CRM_APILayer.Models;
-using CRM_BuisnessLayer.Models;
-using CRM_BuisnessLayer.Services.Interfaces;
+using CRM.APILayer.Models;
+using CRM.BusinessLayer.Models;
+using CRM.BusinessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 
-namespace CRM_APILayer.Controllers
+namespace CRM.APILayer.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

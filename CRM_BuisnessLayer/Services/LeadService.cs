@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
-using CRM_BuisnessLayer.Models;
-using CRM_BuisnessLayer.Security;
-using CRM_BuisnessLayer.Services.Interfaces;
+using CRM.BusinessLayer.Models;
+using CRM.BusinessLayer.Security;
+using CRM.BusinessLayer.Services.Interfaces;
 
-namespace CRM_BuisnessLayer.Services
+namespace CRM.BusinessLayer.Services
 {
     public class LeadService : ILeadService
     {

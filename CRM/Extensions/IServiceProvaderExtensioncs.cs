@@ -1,12 +1,12 @@
-﻿using CRM_APILayer.Configuration;
-using CRM_BuisnessLayer.Configurations;
-using CRM_BuisnessLayer.Services;
-using CRM_BuisnessLayer.Services.Interfaces;
+﻿using CRM.APILayer.Configuration;
+using CRM.BusinessLayer.Configurations;
+using CRM.BusinessLayer.Services;
+using CRM.BusinessLayer.Services.Interfaces;
 using AutoMapper;
 using CRM.DataLayer.Repositories;
 using CRM.DataLayer.Repositories.Interfaces;
 
-namespace CRM_APILayer.Extensions
+namespace CRM.APILayer.Extensions
 {
     public static class IServiceProvaderExtensioncs
     {
