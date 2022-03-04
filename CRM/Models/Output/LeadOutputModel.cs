@@ -1,6 +1,8 @@
-﻿namespace CRM_DataLayer
+﻿using CRM_DataLayer;
+
+namespace CRM_APILayer.Models
 {
-    public class Lead
+    public class LeadOutputModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -8,8 +10,6 @@
         public DateTime DateBirth { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public string Password { get; set; }
-        public List<Account> Accounts { get; set; }
         public Role Role { get; set; }
     }
 }

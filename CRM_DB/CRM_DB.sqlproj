@@ -65,6 +65,7 @@
     <Build Include="Tables\Lead.sql" />
     <Build Include="Tables\Account.sql" />
     <Build Include="StoredProcedure\Lead\Lead_Update.sql" />
+    <Build Include="StoredProcedure\Lead\Lead_Insert.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CRM_DB.refactorlog" />
