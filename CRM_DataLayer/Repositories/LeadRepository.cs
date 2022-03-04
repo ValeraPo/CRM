@@ -27,7 +27,7 @@ namespace CRM.DataLayer.Repositories
                     {
                         Name = lead.Name,
                         LastName = lead.LastName,
-                        DateBirth = lead.DateBirth,
+                        BirthDate = lead.BirthDate,
                         Email = lead.Email,
                         Phone = lead.Phone,
                         Passord = lead.Password,
@@ -47,7 +47,7 @@ namespace CRM.DataLayer.Repositories
                     lead.Id,
                     lead.Name,
                     lead.LastName,
-                    lead.DateBirth,
+                    lead.BirthDate,
                     lead.Phone
                 },
 

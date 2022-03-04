@@ -7,7 +7,7 @@ namespace CRM_APILayer.Models
     {
         public string Name { get; set; }
         public string LastName { get; set; }
-        public DateTime DateBirth { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [EmailAddress(ErrorMessage = "Email введен некорректно.")]
         public string Email { get; set; }

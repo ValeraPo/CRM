@@ -7,7 +7,7 @@ namespace CRM_APILayer.Models
     {
         public string Name { get; set; }
         public string LastName { get; set; }
-        public DateTime DateBirth { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [Phone(ErrorMessage = "Телефон введен некорректно.")]
         public string Phone { get; set; }
