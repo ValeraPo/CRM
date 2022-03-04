@@ -1,6 +1,6 @@
 ﻿namespace CRM_APILayer.Models
 { 
-    public class AccountInputModel
+    public class AccountRequest
     {
         public string Name { get; set; }
         public string CurrencyType { get; set; }
