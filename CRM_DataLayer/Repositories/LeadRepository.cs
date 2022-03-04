@@ -48,9 +48,7 @@ namespace CRM.DataLayer.Repositories
                     lead.Name,
                     lead.LastName,
                     lead.DateBirth,
-                    lead.Email,
-                    lead.Phone,
-                    lead.Role
+                    lead.Phone
                 },
 
                 commandType: CommandType.StoredProcedure);

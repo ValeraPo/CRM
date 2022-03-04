@@ -11,6 +11,5 @@ namespace CRM_APILayer.Models
 
         [Phone(ErrorMessage = "Телефон введен некорректно.")]
         public string Phone { get; set; }
-        public Enum Role { get; set; }
     }
 }

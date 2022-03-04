@@ -14,8 +14,6 @@ BEGIN
 		[Name] = @Name,
 		LastName = @LastName,
 		DateBirth = @DateBirth,
-		Email = @Email,
-		Phone = @Phone,
-		[Role] = @Role
+		Phone = @Phone
 	WHERE Id = @Id
 END
