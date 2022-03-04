@@ -1,21 +1,23 @@
 ﻿using CRM_DataLayer.Repositories.Interfaces;
+using Dapper;
 using System.Data;
 
 
 namespace CRM_DataLayer.Repositories
 {
-    public class LeadRepository : ILeadRepository
+    public class LeadRepository : BaseRepository, ILeadRepository
     {
         private const string _updateProc = "dbo.Lead_Update";
         private const string _insertProc = "dbo.Lead_Insert";
-        //провести через DL connection_string
-        public LeadRepository()
-        {
 
+        public LeadRepository(string conn) : base(conn)
+        {
         }
 
         public void AddLead(Lead lead)
         {
+            using IDbConnection connection = ProvideConnection();
+
             connection.Execute(_insertProc,
                new
                {
@@ -34,7 +36,8 @@ namespace CRM_DataLayer.Repositories
 
         public void UpdateLeadById(Lead lead)
         {
-            //вставить тут connection_string
+            using IDbConnection connection = ProvideConnection();
+
             connection.Execute(_updateProc,
                 new
                 {
@@ -52,3 +55,5 @@ namespace CRM_DataLayer.Repositories
 
     }
 }
+
+﻿

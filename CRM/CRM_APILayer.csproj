@@ -14,4 +14,8 @@
     <ProjectReference Include="..\CRM_BuisnessLayer\CRM_BuisnessLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CRM_DataLayer\CRM_DataLayer.csproj" />
+  </ItemGroup>
+
 </Project>
