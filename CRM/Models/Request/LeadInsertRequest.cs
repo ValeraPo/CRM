@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CRM_APILayer.Models
 {
-    public class LeadInsertInputModel
+    public class LeadInsertRequest
     {
         public string Name { get; set; }
         public string LastName { get; set; }
