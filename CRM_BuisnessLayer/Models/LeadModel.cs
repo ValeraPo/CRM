@@ -1,5 +1,4 @@
-﻿using CRM_DataLayer;
-
+﻿using CRM.DataLayer.Entities;
 
 namespace CRM_BuisnessLayer.Models
 {

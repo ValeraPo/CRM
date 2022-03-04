@@ -1,4 +1,4 @@
-﻿namespace CRM_DataLayer.Repositories.Interfaces
+﻿namespace CRM.DataLayer.Repositories.Interfaces
 {
     public interface IAccountRepository
     {

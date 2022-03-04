@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using CRM.DataLayer.Repositories.Interfaces;
 using CRM_BuisnessLayer.Services.Interfaces;
-using CRM_DataLayer.Repositories.Interfaces;
 
 namespace CRM_BuisnessLayer.Services
 {

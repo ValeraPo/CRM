@@ -1,4 +1,4 @@
-﻿using CRM_DataLayer;
+﻿using CRM.DataLayer.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace CRM_APILayer.Models

@@ -1,10 +1,10 @@
-﻿using CRM_APILayer.Configurations;
+﻿using CRM_APILayer.Configuration;
 using CRM_BuisnessLayer.Configurations;
 using CRM_BuisnessLayer.Services;
 using CRM_BuisnessLayer.Services.Interfaces;
-using CRM_DataLayer.Repositories;
-using CRM_DataLayer.Repositories.Interfaces;
 using AutoMapper;
+using CRM.DataLayer.Repositories;
+using CRM.DataLayer.Repositories.Interfaces;
 
 namespace CRM_APILayer.Extensions
 {

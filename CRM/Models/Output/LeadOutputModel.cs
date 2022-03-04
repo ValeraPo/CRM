@@ -1,4 +1,4 @@
-﻿using CRM_DataLayer;
+﻿using CRM.DataLayer.Entities;
 
 namespace CRM_APILayer.Models
 {
@@ -11,5 +11,6 @@ namespace CRM_APILayer.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public Role Role { get; set; }
+        public List<AccountOutputModel> Accounts { get; set; }
     }
 }

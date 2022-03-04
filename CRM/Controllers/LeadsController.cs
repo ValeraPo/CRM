@@ -25,20 +25,21 @@ namespace CRM_APILayer.Controllers
         [HttpPost]
         [Description("Create lead")]
         [ProducesResponseType(typeof(LeadOutputModel), StatusCodes.Status201Created)]
-        public ActionResult<LeadOutputModel> AddLead([FromBody] LeadInsertInputModel leadInsertInputModel)
+        public ActionResult<int> AddLead([FromBody] LeadInsertInputModel leadInsertInputModel)
         {
             var leadModel = _autoMapper.Map<LeadModel>(leadInsertInputModel);
-            _leadService.AddLead(leadModel);
-            return StatusCode(StatusCodes.Status201Created, leadModel);
+            var id = _leadService.AddLead(leadModel);
+            return StatusCode(StatusCodes.Status201Created, id);
         }
 
-        //api/Leads
-        [HttpPut()]
+        //api/Leads/42
+        [HttpPut("{id}")]
         [Description("Update lead")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult UpdateUser(int id, [FromBody] LeadUpdateInputModel leadUpdateInputModel)
+        public ActionResult UpdateLead(int id, [FromBody] LeadUpdateInputModel leadUpdateInputModel)
         {
             var leadModel = _autoMapper.Map<LeadModel>(leadUpdateInputModel);
+            leadModel.Id = id;
             _leadService.UpdateLead(leadModel);
             return Ok($"Lead with id = {id} was updated");
         }

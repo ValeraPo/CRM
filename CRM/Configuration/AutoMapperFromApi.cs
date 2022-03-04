@@ -2,7 +2,7 @@
 using CRM_APILayer.Models;
 using CRM_BuisnessLayer.Models;
 
-namespace CRM_APILayer.Configurations
+namespace CRM_APILayer.Configuration
 {
     public class AutoMapperFromApi : Profile
     {

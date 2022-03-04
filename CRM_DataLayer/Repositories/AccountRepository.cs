@@ -1,6 +1,6 @@
-﻿using CRM_DataLayer.Repositories.Interfaces;
+﻿using CRM.DataLayer.Repositories.Interfaces;
 
-namespace CRM_DataLayer.Repositories
+namespace CRM.DataLayer.Repositories
 {
     public class AccountRepository : IAccountRepository
 

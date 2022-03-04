@@ -1,4 +1,4 @@
-﻿namespace CRM_DataLayer
+﻿namespace CRM.DataLayer.Entities
 {
     public class Lead
     {
