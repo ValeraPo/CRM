@@ -5,7 +5,7 @@ namespace CRM_DataLayer.Repositories
 {
     public class BaseRepository : IBaseRepository
     {
-        string _connectionString = null;
+        string _connectionString;
 
         public BaseRepository(string conn)
         {

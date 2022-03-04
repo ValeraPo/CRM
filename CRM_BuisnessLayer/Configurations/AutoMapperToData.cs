@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CRM_BuisnessLayer.Models;
-using CRM_DataLayer.Entities;
+using CRM_DataLayer;
 
 
 namespace CRM_BuisnessLayer.Configurations

@@ -9,9 +9,11 @@ namespace CRM_DataLayer.Repositories
     {
         private const string _updateProc = "dbo.Lead_Update";
         private const string _insertProc = "dbo.Lead_Insert";
+        string _connectionString;
 
         public LeadRepository(string conn) : base(conn)
         {
+            _connectionString = conn;
         }
 
         public void AddLead(Lead lead)
