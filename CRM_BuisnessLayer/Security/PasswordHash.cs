@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace CRM_BuisnessLayer.Security
+namespace CRM.BusinessLayer.Security
 {
     public class PasswordHash
     {

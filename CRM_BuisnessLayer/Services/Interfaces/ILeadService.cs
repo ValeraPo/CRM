@@ -1,10 +1,10 @@
-﻿using CRM_BuisnessLayer.Models;
+﻿using CRM.BusinessLayer.Models;
 
-namespace CRM_BuisnessLayer.Services.Interfaces
+namespace CRM.BusinessLayer.Services.Interfaces
 {
     public interface ILeadService
     {
-        void AddLead(LeadModel leadModel);
+        int AddLead(LeadModel leadModel);
         void UpdateLead(LeadModel leadModel);
     }
 }

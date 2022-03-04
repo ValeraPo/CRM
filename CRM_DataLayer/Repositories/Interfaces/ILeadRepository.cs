@@ -1,8 +1,10 @@
-﻿namespace CRM_DataLayer.Repositories.Interfaces
+﻿using CRM.DataLayer.Entities;
+
+namespace CRM.DataLayer.Repositories.Interfaces
 {
     public interface ILeadRepository
     {
-        void AddLead(Lead lead);
+        int AddLead(Lead lead);
         void UpdateLeadById(Lead lead);
     }
 }

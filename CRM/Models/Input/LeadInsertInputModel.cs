@@ -1,20 +1,15 @@
-﻿using CRM_DataLayer;
+﻿using CRM.DataLayer.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace CRM_APILayer.Models
+namespace CRM.APILayer.Models
 {
-    public class LeadInsertInputModel
+    public class LeadInsertInputModel : LeadInputModel
     {
-        public string Name { get; set; }
-        public string LastName { get; set; }
-        public DateTime DateBirth { get; set; }
-
         [EmailAddress(ErrorMessage = "Email введен некорректно.")]
         public string Email { get; set; }
 
-        [Phone(ErrorMessage = "Телефон введен некорректно.")]
-        public string Phone { get; set; }
+        [DataType(DataType.Password)]
+        [StringLength(30, ErrorMessage = "Поле должно иметь минимум 8 и максимум 30 символов.", MinimumLength = 8)]
         public string Password { get; set; }
-        public Role Role { get; set; }
     }
 }
