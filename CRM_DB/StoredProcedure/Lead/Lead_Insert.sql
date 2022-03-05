@@ -1,8 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[Lead_Insert]
-	@Id int,
 	@Name varchar(30),
 	@LastName varchar(30),
-	@DateBirth date,
+	@BirthDate date,
 	@Email varchar(30),
 	@Phone varchar(30),
 	@Password varchar(30),
@@ -13,17 +12,14 @@ BEGIN
 	insert into dbo.[Lead]
 		([Name], 
 		LastName,
-		DateBirth,
+		BirthDate,
 		Email,
 		Phone,
-		[Password],
-		[Role])
+		[Password])
 	values
 		(@Name,
-		@DateBirth,
+		@BirthDate,
 		@Email,
 		@Phone,
-		@Password,
-		@Role)
-SELECT SCOPE_IDENTITY()
+		@Password)
 END

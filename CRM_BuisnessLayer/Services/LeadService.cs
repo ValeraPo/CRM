@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using CRM_BuisnessLayer.Models;
-using CRM_BuisnessLayer.Security;
-using CRM_BuisnessLayer.Services.Interfaces;
-using CRM_DataLayer;
-using CRM_DataLayer.Repositories.Interfaces;
+using CRM.DataLayer.Entities;
+using CRM.DataLayer.Repositories.Interfaces;
+using CRM.BusinessLayer.Models;
+using CRM.BusinessLayer.Security;
+using CRM.BusinessLayer.Services.Interfaces;
 
-namespace CRM_BuisnessLayer.Services
+namespace CRM.BusinessLayer.Services
 {
     public class LeadService : ILeadService
     {
@@ -18,11 +18,12 @@ namespace CRM_BuisnessLayer.Services
             _autoMapper = autoMapper;
         }
 
-        public void AddLead(LeadModel leadModel)
+        public int AddLead(LeadModel leadModel)
         {
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
-            _leadRepository.AddLead(mappedLead);
+            var id = _leadRepository.AddLead(mappedLead);
+            return id;
         }
 
         public void UpdateLead(LeadModel leadModel)

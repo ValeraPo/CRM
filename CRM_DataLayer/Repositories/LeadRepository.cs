@@ -1,9 +1,10 @@
-﻿using CRM_DataLayer.Repositories.Interfaces;
+﻿using CRM.DataLayer.Entities;
+using CRM.DataLayer.Repositories.Interfaces;
 using Dapper;
 using System.Data;
 
 
-namespace CRM_DataLayer.Repositories
+namespace CRM.DataLayer.Repositories
 {
     public class LeadRepository : BaseRepository, ILeadRepository
     {
@@ -19,25 +20,24 @@ namespace CRM_DataLayer.Repositories
             _connectionString = conn;
         }
 
-        public void AddLead(Lead lead)
+        public int AddLead(Lead lead)
         {
             using IDbConnection connection = ProvideConnection();
 
-            connection.Execute(_insertProc,
-               new
-               {
-                   Id = lead.Id,
-                   Name = lead.Name,
-                   LastName = lead.LastName,
-                   DateBirth = lead.DateBirth,
-                   Email = lead.Email,
-                   Phone = lead.Phone,
-                   Password = lead.Password,
-                   Role = lead.Role,
-                   IsBanned = false
-               },
-
-               commandType: CommandType.StoredProcedure);
+            return connection.QueryFirstOrDefault<int>(
+                    _insertProc,
+                    new
+                    {
+                        Name = lead.Name,
+                        LastName = lead.LastName,
+                        BirthDate = lead.BirthDate,
+                        Email = lead.Email,
+                        Phone = lead.Phone,
+                        Passord = lead.Password,
+                        
+                    },
+                    commandType: CommandType.StoredProcedure
+                );
         }
 
         public void UpdateLeadById(Lead lead)
@@ -47,13 +47,12 @@ namespace CRM_DataLayer.Repositories
             connection.Execute(_updateProc,
                 new
                 {
-                    Id = lead.Id,
-                    Name = lead.Name,
-                    LastName = lead.LastName,
-                    DateBirth = lead.DateBirth,
-                    Email = lead.Email,
-                    Phone = lead.Phone,
-                    Role = lead.Role
+                    lead.Id,
+                    lead.Name,
+                    lead.LastName,
+                    lead.BirthDate,
+                    lead.Phone,
+                    lead.Role
                 },
 
                 commandType: CommandType.StoredProcedure);

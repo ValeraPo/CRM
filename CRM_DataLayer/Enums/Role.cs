@@ -1,8 +1,8 @@
-﻿namespace CRM_DataLayer
+﻿namespace CRM.DataLayer.Entities
 {
     public enum Role
     {
-        Admin = 1, 
+        Admin = 1,
         Vip,
         Regular
     }

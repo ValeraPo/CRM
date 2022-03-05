@@ -1,12 +1,10 @@
 ﻿
-namespace CRM_BuisnessLayer.Models
+using CRM.DataLayer.Entities;
+
+namespace CRM.BusinessLayer.Models
 {
-    public class AccountModel
+    public class AccountModel : Account
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string CurrencyType { get; set; }
-        public LeadModel Lead { get; set; }
         public decimal Balance { get; set; }
     }
 }
