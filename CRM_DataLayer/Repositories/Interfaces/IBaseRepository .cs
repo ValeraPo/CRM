@@ -1,4 +1,4 @@
-﻿namespace CRM_DataLayer.Repositories
+﻿namespace CRM.DataLayer.Repositories.Interfaces
 {
     public interface IBaseRepository
     {

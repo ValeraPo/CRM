@@ -1,4 +1,4 @@
-﻿namespace CRM_APILayer
+﻿namespace CRM.APILayer
 {
     public interface iCofigurationProvider
     {

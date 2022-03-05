@@ -13,11 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CRM_BuisnessLayer\CRM_BuisnessLayer.csproj" />
+    <ProjectReference Include="..\CRM_BuisnessLayer\CRM.BusinessLayer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CRM_DataLayer\CRM_DataLayer.csproj" />
+    <ProjectReference Include="..\CRM_DataLayer\CRM.DataLayer.csproj" />
   </ItemGroup>
 
 </Project>

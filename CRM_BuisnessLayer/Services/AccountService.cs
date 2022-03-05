@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using CRM_BuisnessLayer.Services.Interfaces;
-using CRM_DataLayer.Repositories.Interfaces;
+using CRM.DataLayer.Repositories.Interfaces;
+using CRM.BusinessLayer.Services.Interfaces;
 
-namespace CRM_BuisnessLayer.Services
+namespace CRM.BusinessLayer.Services
 {
     public class AccountService : IAccountService
     {
