@@ -2,6 +2,7 @@
 using CRM.APILayer.Models;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
+using CRM.APILayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 
@@ -24,10 +25,10 @@ namespace CRM.APILayer.Controllers
         //api/Leads
         [HttpPost]
         [Description("Create lead")]
-        [ProducesResponseType(typeof(LeadOutputModel), StatusCodes.Status201Created)]
-        public ActionResult<int> AddLead([FromBody] LeadInsertInputModel leadInsertInputModel)
+        [ProducesResponseType(typeof(LeadResponse), StatusCodes.Status201Created)]
+        public ActionResult<int> AddLead([FromBody] LeadInsertRequest leadInsertRequest)
         {
-            var leadModel = _autoMapper.Map<LeadModel>(leadInsertInputModel);
+            var leadModel = _autoMapper.Map<LeadModel>(leadInsertRequest);
             var id = _leadService.AddLead(leadModel);
             return StatusCode(StatusCodes.Status201Created, id);
         }
@@ -36,9 +37,9 @@ namespace CRM.APILayer.Controllers
         [HttpPut("{id}")]
         [Description("Update lead")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult UpdateLead(int id, [FromBody] LeadUpdateInputModel leadUpdateInputModel)
+        public ActionResult UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
         {
-            var leadModel = _autoMapper.Map<LeadModel>(leadUpdateInputModel);
+            var leadModel = _autoMapper.Map<LeadModel>(leadUpdateRequest);
             leadModel.Id = id;
             _leadService.UpdateLead(leadModel);
             return Ok($"Lead with id = {id} was updated");

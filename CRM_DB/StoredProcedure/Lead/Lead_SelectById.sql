@@ -5,7 +5,7 @@ BEGIN
 	select
 		[Name], 
 		LastName,
-		DateBirth,
+		BirthDate,
 		Email,
 		Phone,
 		[Password],

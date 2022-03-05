@@ -22,4 +22,5 @@ BEGIN
 		@Email,
 		@Phone,
 		@Password)
+	select scope_identity()
 END

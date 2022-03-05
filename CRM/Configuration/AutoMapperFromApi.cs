@@ -12,7 +12,7 @@ namespace CRM.APILayer.Configuration
             CreateMap<LeadUpdateRequest, LeadModel>();
             CreateMap<LeadModel, LeadResponse>();
             CreateMap<AccountRequest, AccountModel>();
-            CreateMap<AccountModel, AccountRespnse>();
+            CreateMap<AccountModel, AccountResponse>();
         }
     }
 }
