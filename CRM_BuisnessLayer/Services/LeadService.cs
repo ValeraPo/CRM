@@ -28,8 +28,37 @@ namespace CRM.BusinessLayer.Services
 
         public void UpdateLead(LeadModel leadModel)
         {
-            var mappedUser = _autoMapper.Map<Lead>(leadModel);
-            _leadRepository.UpdateLeadById(mappedUser);
+            var mappedLead = _autoMapper.Map<Lead>(leadModel);
+            var entity = _leadRepository.GetById(mappedLead.Id);
+            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            _leadRepository.UpdateLeadById(mappedLead);
+        }
+
+        public void DeleteById(int id)
+        {
+            var entity = _leadRepository.GetById(id);
+            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            _leadRepository.DeleteById(id);
+        }
+
+        public void RestoreById(int id)
+        {
+            var entity = _leadRepository.GetById(id);
+            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            _leadRepository.RestoreById(id);
+        }
+
+        public List<LeadModel> GetAll()
+        {
+            var leads = _leadRepository.GetAll();
+            return _autoMapper.Map<List<LeadModel>>(leads);
+        }
+
+        public LeadModel GetById(int id)
+        {
+            var entity = _leadRepository.GetById(id);
+            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            return _autoMapper.Map<LeadModel>(entity);
         }
     }
 }
