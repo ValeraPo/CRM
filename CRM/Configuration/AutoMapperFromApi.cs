@@ -8,11 +8,11 @@ namespace CRM.APILayer.Configuration
     {
         public AutoMapperFromApi()
         {
-            CreateMap<LeadInsertInputModel, LeadModel>();
-            CreateMap<LeadUpdateInputModel, LeadModel>();
-            CreateMap<LeadModel, LeadOutputModel>();
-            CreateMap<AccountInputModel, AccountModel>();
-            CreateMap<AccountModel, AccountOutputModel>();
+            CreateMap<LeadInsertRequest, LeadModel>();
+            CreateMap<LeadUpdateRequest, LeadModel>();
+            CreateMap<LeadModel, LeadResponse>();
+            CreateMap<AccountRequest, AccountModel>();
+            CreateMap<AccountModel, AccountRespnse>();
         }
     }
 }

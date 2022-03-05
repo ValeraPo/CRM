@@ -2,7 +2,7 @@
 
 namespace CRM.APILayer.Models
 { 
-    public class AccountInputModel
+    public class AccountRequest
     {
         [StringLength(20, ErrorMessage = "Максимальная длина 20 символов.")]
         public string Name { get; set; }
