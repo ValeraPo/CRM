@@ -8,5 +8,6 @@
 	[Phone] varchar(20) NULL,
 	[Password] varchar(150) NOT NULL,
 	[Role] INT NOT NULL, 
+    [IsBanned] BIT NOT NULL, 
     CONSTRAINT AK_Email UNIQUE(Email),
 )
