@@ -15,10 +15,6 @@ namespace CRM.DataLayer.Repositories
         private const string _selectAll = "dbo.Lead_SelectAll";
         string _connectionString;
 
-        public LeadRepository(string conn) : base(conn)
-        {
-            _connectionString = conn;
-        }
 
         public int AddLead(Lead lead)
         {
