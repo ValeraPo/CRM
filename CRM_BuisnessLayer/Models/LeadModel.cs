@@ -1,18 +1,9 @@
-﻿using CRM_DataLayer;
+﻿using CRM.DataLayer.Entities;
 
-
-namespace CRM_BuisnessLayer.Models
+namespace CRM.BusinessLayer.Models
 {
-    public class LeadModel
+    public class LeadModel : Lead
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
-        public DateTime DateBirth { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string Password { get; set; }
-        public List<AccountModel> Accounts { get; set; }
-        public Role Role { get; set; }
+       
     }
 }

@@ -1,7 +1,8 @@
-﻿using System.Data;
+﻿using CRM.DataLayer.Repositories.Interfaces;
+using System.Data;
 using System.Data.SqlClient;
 
-namespace CRM_DataLayer.Repositories
+namespace CRM.DataLayer.Repositories
 {
     public class BaseRepository : IBaseRepository
     {

@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM_APILayer", "CRM\CRM_APILayer.csproj", "{4C1D7DE3-2732-4834-ADB6-86A2090557FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.APILayer", "CRM\CRM.APILayer.csproj", "{4C1D7DE3-2732-4834-ADB6-86A2090557FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM_BuisnessLayer", "CRM_BuisnessLayer\CRM_BuisnessLayer.csproj", "{5E5EF73C-8311-4B25-B4D3-400D0EF6C5C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.BusinessLayer", "CRM_BuisnessLayer\CRM.BusinessLayer.csproj", "{5E5EF73C-8311-4B25-B4D3-400D0EF6C5C3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM_DataLayer", "CRM_DataLayer\CRM_DataLayer.csproj", "{0AD56EAE-CB39-4D74-84AC-BD80BF34A2E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.DataLayer", "CRM_DataLayer\CRM.DataLayer.csproj", "{0AD56EAE-CB39-4D74-84AC-BD80BF34A2E7}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CRM_DB", "CRM_DB\CRM_DB.sqlproj", "{A53EBB80-CC2D-4C7F-BB60-040FDE611E44}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CRM.DB", "CRM_DB\CRM.DB.sqlproj", "{A53EBB80-CC2D-4C7F-BB60-040FDE611E44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
