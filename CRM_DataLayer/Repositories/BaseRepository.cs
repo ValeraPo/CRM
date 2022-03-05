@@ -6,13 +6,10 @@ namespace CRM.DataLayer.Repositories
 {
     public class BaseRepository : IBaseRepository
     {
-        string _connectionString;
+        public string ConnectionString { get; set; }
+        
 
-        public BaseRepository(string conn)
-        {
-            _connectionString = conn;
-        }
-        protected IDbConnection ProvideConnection() => new SqlConnection(_connectionString);
+        protected IDbConnection ProvideConnection() => new SqlConnection(ConnectionString);
 
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace CRM.APILayer.Models
 { 
-    public class AccountRespnse
+    public class AccountResponse
     {
         public int Id { get; set; }
         public string Name { get; set; }

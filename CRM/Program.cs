@@ -3,21 +3,21 @@ using CRM.DataLayer.Repositories.Interfaces;
 using CRM.APILayer.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
 string _connectionStringVariableName = "CRM_CONNECTION_STRING";
+string connString = builder.Configuration.GetValue<string>(_connectionStringVariableName);
 
-
-string connectionString = "Server=.\\SQLEXPRESS;Initial Catalog=userstore;Integrated Security=True";
+builder.Services.Configure<BaseRepository>(opt =>
+{
+    opt.ConnectionString = connString;
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Configuration.AddJsonFile
-
-builder.Services.Configure<DBContext>()
-builder.Services.AddScoped<ILeadRepository, LeadRepository>(provider => new LeadRepository(connectionString));
-builder.Services.RegisterCRMServices();
 builder.Services.RegisterCRMRepositories();
+builder.Services.RegisterCRMServices();
 builder.Services.RegisterCRMAutomappers();
 
 var app = builder.Build();

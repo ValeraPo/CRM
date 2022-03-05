@@ -1,7 +1,7 @@
-﻿using CRM_DataLayer;
+﻿using CRM.DataLayer;
 using System.ComponentModel.DataAnnotations;
 
-namespace CRM_APILayer.Models
+namespace CRM.APILayer.Models
 {
     public class LeadUpdateRequest
     {
