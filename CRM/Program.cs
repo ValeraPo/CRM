@@ -12,6 +12,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Configuration.AddJsonFile
+
+builder.Services.Configure<DBContext>()
 builder.Services.AddScoped<ILeadRepository, LeadRepository>(provider => new LeadRepository(connectionString));
 builder.Services.RegisterCRMServices();
 builder.Services.RegisterCRMRepositories();
