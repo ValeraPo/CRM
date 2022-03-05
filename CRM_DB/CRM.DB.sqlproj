@@ -69,6 +69,11 @@
     <Build Include="StoredProcedure\Lead\Lead_Ban.sql" />
     <Build Include="StoredProcedure\Lead\Lead_SelectById.sql" />
     <Build Include="StoredProcedure\Lead\Lead_SelectAll.sql" />
+    <Build Include="StoredProcedure\Account\Account_Insert.sql" />
+    <Build Include="StoredProcedure\Account\Account_SelectByLead.sql" />
+    <Build Include="StoredProcedure\Account\Account_SelectById.sql" />
+    <Build Include="StoredProcedure\Account\Account_Lock.sql" />
+    <Build Include="StoredProcedure\Account\Account_Update.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CRM_DB.refactorlog" />
