@@ -2,7 +2,7 @@
 	@Id int,
 	@Name varchar(30),
 	@LastName varchar(30),
-	@DateBirth date,
+	@BirthDate date,
 	@Email varchar(30),
 	@Phone varchar(30),
 	@Role int
@@ -13,9 +13,7 @@ BEGIN
 	SET 
 		[Name] = @Name,
 		LastName = @LastName,
-		DateBirth = @DateBirth,
-		Email = @Email,
-		Phone = @Phone,
-		[Role] = @Role
+		BirthDate = @BirthDate,
+		Phone = @Phone
 	WHERE Id = @Id
 END
