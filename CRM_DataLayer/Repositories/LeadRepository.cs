@@ -15,7 +15,6 @@ namespace CRM.DataLayer.Repositories
         private const string _banProc = "dbo.Lead_Ban";
         private const string _selectById = "dbo.Lead_SelectById";
         private const string _selectAll = "dbo.Lead_SelectAll";
-        string _connectionString;
 
         public LeadRepository(IOptions<DbConfiguration> options) : base(options)
         {
@@ -35,7 +34,8 @@ namespace CRM.DataLayer.Repositories
                         Email = lead.Email,
                         Phone = lead.Phone,
                         Passord = lead.Password,
-                        
+                        Role = Role.Regular,
+                        IsBanned = false
                     },
                     commandType: CommandType.StoredProcedure
                 );

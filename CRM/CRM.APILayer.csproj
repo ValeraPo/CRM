@@ -20,4 +20,10 @@
     <ProjectReference Include="..\CRM_DataLayer\CRM.DataLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="CurrencyEnum">
+      <HintPath>..\CRM_BuisnessLayer\bin\Debug\net6.0\CurrencyEnum.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

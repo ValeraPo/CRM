@@ -5,7 +5,8 @@
 	@Email varchar(30),
 	@Phone varchar(30),
 	@Password varchar(30),
-	@Role int
+	@Role int,
+	@IsBanned BIT
 	
 AS
 BEGIN 
@@ -15,12 +16,17 @@ BEGIN
 		BirthDate,
 		Email,
 		Phone,
-		[Password])
+		[Password],
+		[Role],
+		IsBanned)
 	values
 		(@Name,
+		@LastName,
 		@BirthDate,
 		@Email,
 		@Phone,
-		@Password)
+		@Password,
+		@Role,
+		@IsBanned)
 	select scope_identity()
 END
