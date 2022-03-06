@@ -10,12 +10,14 @@ namespace CRM.BusinessLayer.Services
     public class LeadService : ILeadService
     {
         private readonly ILeadRepository _leadRepository;
+        private readonly IAccountRepository _accountRepository;
         private readonly IMapper _autoMapper;
 
         public LeadService(IMapper autoMapper, ILeadRepository leadRepository)
         {
             _leadRepository = leadRepository;
             _autoMapper = autoMapper;
+
         }
 
         public int AddLead(LeadModel leadModel)
@@ -23,6 +25,12 @@ namespace CRM.BusinessLayer.Services
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
             var id = _leadRepository.AddLead(mappedLead);
+            _accountRepository.AddAccount(new Account
+            {
+                Name = "MyAccount",
+                CurrencyType = CurrencyEnum.Currency.RUB,
+                Lead = mappedLead
+            });
             return id;
         }
 

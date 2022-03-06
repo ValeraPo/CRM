@@ -28,7 +28,8 @@ namespace CRM.DataLayer.Repositories
                         Email = lead.Email,
                         Phone = lead.Phone,
                         Passord = lead.Password,
-                        
+                        Role = Role.Regular,
+                        IsBanned = false
                     },
                     commandType: CommandType.StoredProcedure
                 );
