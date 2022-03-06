@@ -13,10 +13,11 @@ namespace CRM.BusinessLayer.Services
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _autoMapper;
 
-        public LeadService(IMapper autoMapper, ILeadRepository leadRepository)
+        public LeadService(IMapper autoMapper, ILeadRepository leadRepository, IAccountRepository accountRepository)
         {
             _leadRepository = leadRepository;
             _autoMapper = autoMapper;
+            _accountRepository = accountRepository;
 
         }
 

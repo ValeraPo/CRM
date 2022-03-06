@@ -2,11 +2,8 @@
 
 namespace CRM.APILayer.Models
 { 
-    public class AccountRequest
+    public class AccountInsertRequest : AccountUpdateRequest
     {
-        [StringLength(20, ErrorMessage = "Максимальная длина 20 символов.")]
-        public string Name { get; set; }
-
         [Required(ErrorMessage = "Поле CurrencyType не может быть пустым")]
         public string CurrencyType { get; set; }
 
