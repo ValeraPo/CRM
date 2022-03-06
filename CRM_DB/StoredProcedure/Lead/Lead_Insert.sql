@@ -4,7 +4,7 @@
 	@BirthDate date,
 	@Email varchar(30),
 	@Phone varchar(30),
-	@Password varchar(30),
+	@Password varchar(150),
 	@Role int,
 	@IsBanned BIT
 	
