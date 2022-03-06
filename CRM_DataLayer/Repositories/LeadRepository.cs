@@ -1,6 +1,8 @@
-﻿using CRM.DataLayer.Entities;
+﻿using CRM.DataLayer.Configuration;
+using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Dapper;
+using Microsoft.Extensions.Options;
 using System.Data;
 
 
@@ -15,6 +17,9 @@ namespace CRM.DataLayer.Repositories
         private const string _selectAll = "dbo.Lead_SelectAll";
         string _connectionString;
 
+        public LeadRepository(IOptions<DbConfiguration> options) : base(options)
+        {
+        }
 
         public int AddLead(Lead lead)
         {
