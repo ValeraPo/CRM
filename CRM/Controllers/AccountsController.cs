@@ -25,7 +25,7 @@ namespace CRM.APILayer.Controllers
         [HttpPost]
         [Description("Create account")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
-        public ActionResult<int> AddLead([FromBody] AccountInsertRequest accountInsertRequest)
+        public ActionResult<int> AddAccount([FromBody] AccountInsertRequest accountInsertRequest)
         {
             var accountModel = _autoMapper.Map<AccountModel>(accountInsertRequest);
             var id = _accountService.AddAccount(accountModel);
@@ -42,7 +42,7 @@ namespace CRM.APILayer.Controllers
             var accountModel = _autoMapper.Map<AccountModel>(accountUpdateRequest);
             accountModel.Id = id;
             _accountService.UpdateAccount(accountModel);
-            return Ok($"Lead with id = {id} was updated");
+            return Ok($"Account with id = {id} was updated");
         }
 
         //api/Accounts/42
@@ -58,7 +58,7 @@ namespace CRM.APILayer.Controllers
 
         //api/Accounts/42
         [HttpPatch("{id}")]
-        [Description("Restore lead")]
+        [Description("UnlockAccount")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult UnlockById(int id)
@@ -87,7 +87,7 @@ namespace CRM.APILayer.Controllers
         public ActionResult<AccountResponse> GetById(int id)
         {
             var accountModel = _accountService.GetById(id);
-            var output = _autoMapper.Map<LeadResponse>(accountModel);
+            var output = _autoMapper.Map<AccountResponse>(accountModel);
             return Ok(output);
         }
     }
