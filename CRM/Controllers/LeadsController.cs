@@ -24,7 +24,7 @@ namespace CRM.APILayer.Controllers
         //api/Leads
         [HttpPost]
         [Description("Create lead")]
-        [ProducesResponseType(typeof(LeadResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         public ActionResult<int> AddLead([FromBody] LeadInsertRequest leadInsertRequest)
         {
             var leadModel = _autoMapper.Map<LeadModel>(leadInsertRequest);
@@ -36,6 +36,7 @@ namespace CRM.APILayer.Controllers
         [HttpPut("{id}")]
         [Description("Update lead")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
         {
             var leadModel = _autoMapper.Map<LeadModel>(leadUpdateRequest);
@@ -70,7 +71,7 @@ namespace CRM.APILayer.Controllers
         [HttpGet()]
         [Description("Get all leads")]
         [ProducesResponseType(typeof(List<LeadResponse>), StatusCodes.Status200OK)]
-        public ActionResult<List<LeadModel>> GetAll()
+        public ActionResult<List<LeadResponse>> GetAll()
         {
             var leadModels = _leadService.GetAll();
             var outputs = _autoMapper.Map<List<LeadResponse>>(leadModels);
@@ -79,7 +80,7 @@ namespace CRM.APILayer.Controllers
 
         //api/Leads/42
         [HttpGet("{id}")]
-        [Description("Get all leads")]
+        [Description("Get lead by id")]
         [ProducesResponseType(typeof(LeadResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<LeadResponse> GetById(int id)
