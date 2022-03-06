@@ -13,8 +13,6 @@ namespace CRM.DataLayer.Repositories
         private const string _banProc = "dbo.Lead_Ban";
         private const string _selectById = "dbo.Lead_SelectById";
         private const string _selectAll = "dbo.Lead_SelectAll";
-        string _connectionString;
-
 
         public int AddLead(Lead lead)
         {
