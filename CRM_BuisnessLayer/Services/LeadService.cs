@@ -70,17 +70,17 @@ namespace CRM.BusinessLayer.Services
             return _autoMapper.Map<LeadModel>(entity);
         }
 
-        public void ChangePassword(int id, string newPassword)
+        public void ChangePassword(int id, string oldPassword, string newPassword)
         {
             var entity = _leadRepository.GetById(id);
+            
             ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            ExceptionsHelper.ThrowIfPasswordIsIncorrected(oldPassword, entity.Password);
+
             string hashPassword = PasswordHash.HashPassword(newPassword);
             _leadRepository.ChangePassword(entity, hashPassword);
         }
 
-        public bool ValidatePassword(string password)
-        {
-
-        }
+        
     }
 }

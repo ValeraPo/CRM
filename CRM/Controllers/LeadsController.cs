@@ -96,8 +96,7 @@ namespace CRM.APILayer.Controllers
         [Description("Change lead password")]
         public ActionResult ChangePassword(int id, [FromBody] LeadChangePasswordRequest changePasswordRequest)
         {
-
-            _leadService.ChangePassword(id, changePasswordRequest.NewPassword);
+            _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
             return Ok();
         }
 

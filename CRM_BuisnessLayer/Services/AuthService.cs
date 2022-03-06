@@ -1,17 +1,18 @@
-﻿using CRM.DataLayer.Entities;
+﻿using BearGoodbyeKolkhozProject.Business.Configuration;
+using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CRM.BusinessLayer.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly ILeadRepository _leadRepo;
 
@@ -27,7 +28,6 @@ namespace CRM.BusinessLayer.Services
 
             ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
             ExceptionsHelper.ThrowIfLeadWasBanned(entity.Id, entity);
-
             ExceptionsHelper.ThrowIfPasswordIsIncorrected(pass, entity.Password);
 
             List<Claim> claims = new List<Claim> {
@@ -35,7 +35,6 @@ namespace CRM.BusinessLayer.Services
                 new Claim(ClaimTypes.UserData, entity.Id.ToString()),
                 new Claim(ClaimTypes.Role, entity.Role.ToString())
             };
-
 
             var jwt = new JwtSecurityToken(
                             issuer: AuthOptions.Issuer,
