@@ -25,7 +25,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                     Password = "qert123",
                     Phone = "+79567436745",
                     Role = Role.Regular,
-                    Accounts = new List<Account> { 
+                    Accounts = new List<Account> {
                         new AccountModel
                         {
                             CurrencyType = CurrencyEnum.Currency.RUB
@@ -88,6 +88,61 @@ namespace CRM.BusinessLayer.Tests.TestData
                 }
             };
             return accountModel;
+        }
+        public List<Account> GetListOfAccountsForTests()
+        {
+            return new List<Account>{
+                new Account
+                {
+                    Id = 1,
+                    CurrencyType = CurrencyEnum.Currency.USD,
+                    IsBlocked = false,
+                    LockDate = null,
+                    Name = "MyAccount",
+                    Lead = new LeadModel
+                    {
+                        Id = 1,
+                        Name = "Василий",
+                        LastName = "Иванов",
+                        BirthDate = System.DateTime.Today,
+                        Email = "ivanov@mail.com",
+                        Password = "qert123",
+                        Phone = "+79567436745",
+                        Role = Role.Regular,
+                        Accounts = new List<Account> {
+                            new AccountModel
+                            {
+                                CurrencyType = CurrencyEnum.Currency.RUB
+                            }
+                        }
+                    }
+                },
+                new Account
+                {
+                    Id = 2,
+                    CurrencyType = CurrencyEnum.Currency.USD,
+                    IsBlocked = false,
+                    LockDate = null,
+                    Name = "MyAccount",
+                    Lead = new LeadModel
+                    {
+                        Id = 1,
+                        Name = "Василий",
+                        LastName = "Иванов",
+                        BirthDate = System.DateTime.Today,
+                        Email = "ivanov@mail.com",
+                        Password = "qert123",
+                        Phone = "+79567436745",
+                        Role = Role.Regular,
+                        Accounts = new List<Account> {
+                            new AccountModel
+                            {
+                                CurrencyType = CurrencyEnum.Currency.USD
+                            }
+                        }
+                    }
+                }
+            };
         }
     }
 }

@@ -40,8 +40,7 @@ namespace CRM.APILayer.Controllers
         public ActionResult UpdateAccount(int id, [FromBody] AccountUpdateRequest accountUpdateRequest)
         {
             var accountModel = _autoMapper.Map<AccountModel>(accountUpdateRequest);
-            accountModel.Id = id;
-            _accountService.UpdateAccount(accountModel);
+            _accountService.UpdateAccount(id, accountModel);
             return Ok($"Account with id = {id} was updated");
         }
 

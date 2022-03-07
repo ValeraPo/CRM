@@ -14,12 +14,14 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
     public class AccountServiceTests
     {
         private Mock<IAccountRepository> _accountRepositoryMock;
+        private Mock<ILeadRepository> _leadRepositoryMock;
         private readonly AccountTestData _accountTestData;
         private readonly IMapper _autoMapper;
 
         public AccountServiceTests()
         {
             _accountRepositoryMock = new Mock<IAccountRepository>();
+            _leadRepositoryMock = new Mock<ILeadRepository>();
             _accountTestData = new AccountTestData();
             _autoMapper = new Mapper(
                 new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperToData>()));
@@ -51,7 +53,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             var accountModel = _accountTestData.GetAccountModelAdminForTests();
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object);
+            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
 
             //then
             Assert.Throws<AuthorizationException>(() => sut.AddAccount(accountModel));
@@ -62,7 +64,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             var accountModel = _accountTestData.GetAccountModelRegularForTests();
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object);
+            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
 
             //then
             Assert.Throws<AuthorizationException>(() => sut.AddAccount(accountModel));
@@ -73,18 +75,120 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             var account = new Account();
+            _accountRepositoryMock.Setup(m => m.UpdateAccountById(It.IsAny<Account>()));
             _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(account);
-            _accountRepositoryMock.Setup(m => m.UpdateAccountById(account));
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object);
+            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
 
             //when
-            sut.UpdateAccount(new AccountModel());
+            sut.UpdateAccount(42, new AccountModel());
 
             //then
             _accountRepositoryMock.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
-            _accountRepositoryMock.Verify(m => m.UpdateAccountById(account), Times.Once());
+            _accountRepositoryMock.Verify(m => m.UpdateAccountById(It.IsAny<Account>()), Times.Once());
         }
 
+        [Test]
+        public void UpdateAccountNegativeTest()
+        {
+            //given
+            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Account)null);
+            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
 
+            //then
+            Assert.Throws<NotFoundException>(() => sut.UpdateAccount(It.IsAny<int>(), new AccountModel()));
+        }
+
+        [Test]
+        public void LockByIdTest()
+        {
+            //given
+            var account = new Account();
+            _accountRepositoryMock.Setup(m => m.LockById(It.IsAny<int>()));
+            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(account);
+            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
+
+            //when
+            sut.LockById(It.IsAny<int>());
+
+            //then
+            _accountRepositoryMock.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
+            _accountRepositoryMock.Verify(m => m.LockById(It.IsAny<int>()), Times.Once());
+        }
+
+        [Test]
+        public void LockByIdNegativeTest()
+        {
+            //given
+            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Account)null);
+            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
+
+            //then
+            Assert.Throws<NotFoundException>(() => sut.LockById(It.IsAny<int>()));
+        }
+
+        [Test]
+        public void UnlockByIdTest()
+        {
+            //given
+            var account = new Account();
+            _accountRepositoryMock.Setup(m => m.UnlockById(It.IsAny<int>()));
+            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(account);
+            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
+
+            //when
+            sut.UnlockById(It.IsAny<int>());
+
+            //then
+            _accountRepositoryMock.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
+            _accountRepositoryMock.Verify(m => m.UnlockById(It.IsAny<int>()), Times.Once());
+        }
+
+        [Test]
+        public void UnlockByIdNegativeTest()
+        {
+            //given
+            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Account)null);
+            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
+
+            //then
+            Assert.Throws<NotFoundException>(() => sut.UnlockById(It.IsAny<int>()));
+        }
+
+        [Test]
+        public void GetByLeadTest()
+        {
+            //given
+            var accounts = _accountTestData.GetListOfAccountsForTests();
+            var lead = new Lead();
+            _accountRepositoryMock.Setup(m => m.GetByLead(It.IsAny<int>())).Returns(accounts);
+            _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(lead);
+            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
+
+            //when
+            var actual = sut.GetByLead(It.IsAny<int>());
+
+            //then
+            Assert.IsNotNull(actual);
+            Assert.IsTrue(actual.Count > 0);
+
+            for (int i = 0; i < actual.Count; i++)
+            {
+                Assert.IsNotNull(actual[i].Id);
+                Assert.IsNotNull(actual[i].Name);
+                Assert.IsNotNull(actual[i].CurrencyType);
+                Assert.IsNotNull(actual[i].Lead);
+            }
+        }
+
+        [Test]
+        public void GetByLeadNegativeTest()
+        {
+            //given
+            _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Lead)null);
+            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
+
+            //then
+            Assert.Throws<NotFoundException>(() => sut.GetByLead(It.IsAny<int>()));
+        }
     }
 }

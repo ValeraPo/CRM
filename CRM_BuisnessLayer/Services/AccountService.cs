@@ -12,10 +12,14 @@ namespace CRM.BusinessLayer.Services
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly ILeadRepository _leadRepository;
         private readonly IMapper _autoMapper;
-        public AccountService(IMapper mapper, IAccountRepository accountRepository)
+
+
+        public AccountService(IMapper mapper, IAccountRepository accountRepository, ILeadRepository leadRepository)
         {
             _accountRepository = accountRepository;
+            _leadRepository = leadRepository;
             _autoMapper = mapper;
         }
 
@@ -37,40 +41,40 @@ namespace CRM.BusinessLayer.Services
             return id;
         }
 
-        public void UpdateAccount(AccountModel accountModel)
+        public void UpdateAccount(int id, AccountModel accountModel)
         {
+            var entity = _accountRepository.GetById(id);
+            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
-            var entity = _accountRepository.GetById(mappedAccount.Id);
-            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
             _accountRepository.UpdateAccountById(mappedAccount);
         }
 
         public void LockById(int id)
         {
             var entity = _accountRepository.GetById(id);
-            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             _accountRepository.LockById(id);
         }
 
         public void UnlockById(int id)
         {
             var entity = _accountRepository.GetById(id);
-            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             _accountRepository.UnlockById(id);
         }
 
         public List<AccountModel> GetByLead(int leadId)
         {
+            var entity = _leadRepository.GetById(leadId);
+            ExceptionsHelper.ThrowIfEntityNotFound(leadId, entity);
             var accounts = _accountRepository.GetByLead(leadId);
-            if (accounts.Count == 0)
-                throw new NotFoundException($"Лид с id = {leadId} не найден");
             return _autoMapper.Map<List<AccountModel>>(accounts);
         }
 
         public AccountModel GetById(int id)
         {
             var entity = _accountRepository.GetById(id);
-            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             return _autoMapper.Map<AccountModel>(entity);
         }
     }
