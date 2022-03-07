@@ -1,6 +1,8 @@
-﻿using CRM.DataLayer.Entities;
+﻿using CRM.DataLayer.Configuration;
+using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Dapper;
+using Microsoft.Extensions.Options;
 using System.Data;
 
 namespace CRM.DataLayer.Repositories
@@ -12,6 +14,10 @@ namespace CRM.DataLayer.Repositories
         private const string _selectById = "dbo.Account_SelectById";
         private const string _selectByLead = "dbo.Account_SelectByLead";
         private const string _updateProc = "dbo.Account_Update";
+
+        public AccountRepository(IOptions<DbConfiguration> options) : base(options)
+        {
+        }
 
         public int AddAccount(Account account)
         {
@@ -52,7 +58,7 @@ namespace CRM.DataLayer.Repositories
                 {
                     Id = id,
                     IsBlocked = true,
-                    LockDate = DateTime.Now
+                    LockDate = DateTime.Today
                 },
                 commandType: CommandType.StoredProcedure);
         }
