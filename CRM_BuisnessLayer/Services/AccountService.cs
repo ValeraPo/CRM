@@ -4,6 +4,7 @@ using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
+using System.Linq;
 
 namespace CRM.BusinessLayer.Services
 {
