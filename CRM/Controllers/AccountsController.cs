@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace CRM.APILayer.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/accounts")]
 
     public class AccountsController : Controller
     {
@@ -21,7 +21,7 @@ namespace CRM.APILayer.Controllers
             _autoMapper = autoMapper;
         }
 
-        //api/Accounts
+        //api/accounts
         [HttpPost]
         [Description("Create account")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
@@ -32,7 +32,7 @@ namespace CRM.APILayer.Controllers
             return StatusCode(StatusCodes.Status201Created, id);
         }
 
-        //api/Accounts/42
+        //api/accounts/42
         [HttpPut("{id}")]
         [Description("Update account")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -45,7 +45,7 @@ namespace CRM.APILayer.Controllers
             return Ok($"Account with id = {id} was updated");
         }
 
-        //api/Accounts/42
+        //api/accounts/42
         [HttpDelete("{id}")]
         [Description("Lock account")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -56,7 +56,7 @@ namespace CRM.APILayer.Controllers
             return Ok($"Account with id = {id} was locked");
         }
 
-        //api/Accounts/42
+        //api/accounts/42
         [HttpPatch("{id}")]
         [Description("UnlockAccount")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -67,7 +67,7 @@ namespace CRM.APILayer.Controllers
             return Ok($"Account with id = {id} was unlocked");
         }
 
-        //api/Accounts/lead/42
+        //api/accounts/lead/42
         [HttpGet("lead/{id}")]
         [Description("Get accounts by lead")]
         [ProducesResponseType(typeof(List<AccountResponse>), StatusCodes.Status200OK)]
@@ -79,7 +79,7 @@ namespace CRM.APILayer.Controllers
             return Ok(outputs);
         }
 
-        //api/Accounts/42
+        //api/accounts/42
         [HttpGet("{id}")]
         [Description("Get account by id")]
         [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]

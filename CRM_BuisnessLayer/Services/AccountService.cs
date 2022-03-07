@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CRM.BusinessLayer.Exceptions;
 using CRM.BusinessLayer.Models;
+using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
