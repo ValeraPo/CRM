@@ -12,7 +12,9 @@ namespace CRM.DataLayer.Repositories
         private const string _insertProc = "dbo.Lead_Insert";
         private const string _banProc = "dbo.Lead_Ban";
         private const string _selectById = "dbo.Lead_SelectById";
+        private const string _selectByEmail = "dbo.Lead_SelectByEmail";
         private const string _selectAll = "dbo.Lead_SelectAll";
+        private const string _changePassword = "dbo.Lead_ChangePassword";
 
         public int AddLead(Lead lead)
         {
@@ -83,11 +85,11 @@ namespace CRM.DataLayer.Repositories
 
             return connection.
                 Query<Lead>(
-                _selectAll, 
+                _selectAll,
                 commandType: CommandType.StoredProcedure)
                 .ToList();
         }
-        
+
         public Lead GetById(int id)
         {
             using IDbConnection connection = ProvideConnection();
@@ -96,6 +98,29 @@ namespace CRM.DataLayer.Repositories
                 .QueryFirstOrDefault<Lead>(
                 _selectById,
                 new { Id = id },
+                commandType: CommandType.StoredProcedure);
+        }
+        public Lead GetByEmail(string email)
+        {
+            using IDbConnection connection = ProvideConnection();
+
+            return connection
+                .QueryFirstOrDefault<Lead>(
+                _selectByEmail,
+                new { Email = email },
+                commandType: CommandType.StoredProcedure);
+        }
+
+        public void ChangePassword(Lead lead, string hashPassword)
+        {
+            using IDbConnection connection = ProvideConnection();
+            connection
+                .Execute(_changePassword,
+                new
+                {
+                    lead.Id,
+                    hashPassword,
+                },
                 commandType: CommandType.StoredProcedure);
         }
 

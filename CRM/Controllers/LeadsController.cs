@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace CRM.APILayer.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/leads")]
 
     public class LeadsController : Controller
     {
@@ -89,5 +89,16 @@ namespace CRM.APILayer.Controllers
             var output = _autoMapper.Map<LeadResponse>(leadModel);
             return Ok(output);
         }
+
+
+
+        [HttpPut("{id}/password")]
+        [Description("Change lead password")]
+        public ActionResult ChangePassword(int id, [FromBody] LeadChangePasswordRequest changePasswordRequest)
+        {
+            _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
+            return Ok();
+        }
+
     }
 }
