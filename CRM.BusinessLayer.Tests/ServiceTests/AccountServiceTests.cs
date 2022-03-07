@@ -71,7 +71,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         }
 
         [Test]
-        public void UpdateAccount()
+        public void UpdateAccountTest()
         {
             //given
             var account = new Account();
