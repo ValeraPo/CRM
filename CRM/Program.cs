@@ -1,13 +1,15 @@
 using CRM.DataLayer.Repositories;
 using CRM.DataLayer.Repositories.Interfaces;
 using CRM.APILayer.Extensions;
+using CRM.APILayer.Configuration;
+using CRM.DataLayer.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 string _connectionStringVariableName = "CRM_CONNECTION_STRING";
 string connString = builder.Configuration.GetValue<string>(_connectionStringVariableName);
 
-builder.Services.Configure<BaseRepository>(opt =>
+builder.Services.Configure<DbConfiguration>(opt =>
 {
     opt.ConnectionString = connString;
 });
