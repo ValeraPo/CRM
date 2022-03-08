@@ -6,8 +6,5 @@ namespace CRM.APILayer.Models
     {
         [Required(ErrorMessage = "Поле CurrencyType не может быть пустым")]
         public string CurrencyType { get; set; }
-
-        [Required(ErrorMessage = "Поле LeadId не может быть пустым")]
-        public int LeadId { get; set; }
     }
 }

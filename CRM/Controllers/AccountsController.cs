@@ -32,6 +32,7 @@ namespace CRM.APILayer.Controllers
         public ActionResult<int> AddAccount([FromBody] AccountInsertRequest accountInsertRequest)
         {
             var accountModel = _autoMapper.Map<AccountModel>(accountInsertRequest);
+            accountModel.Lead.Id = GetLeadId();
             int id;
             if (GetLeadRole() == 2)
                 id = _accountService.AddVipAccount(accountModel);
