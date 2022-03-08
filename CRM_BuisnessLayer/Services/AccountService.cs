@@ -23,20 +23,20 @@ namespace CRM.BusinessLayer.Services
             _autoMapper = mapper;
         }
 
-        public int AddAccount(AccountModel accountModel)
+        public int AddVipAccount(AccountModel accountModel)
         {
+            CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
-            if (mappedAccount.Lead.Role == Role.Admin)
-                throw new AuthorizationException("Администратор не может создавать аккаунты");
-            if (mappedAccount.Lead.Role == Role.Regular
-                && mappedAccount.CurrencyType != CurrencyEnum.Currency.USD)
+            var id = _accountRepository.AddAccount(mappedAccount);
+            return id;
+        }
+
+        public int AddRegularAccount(AccountModel accountModel)
+        {
+            CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
+            if (accountModel.CurrencyType != CurrencyEnum.Currency.USD)
                 throw new AuthorizationException("Лид с такой ролью не может создавать валютные счета кроме долларового");
-            if (_accountRepository
-                .GetByLead(mappedAccount.Lead.Id)
-                .Select(a => a.CurrencyType)
-                .ToList()
-                .Contains(accountModel.CurrencyType))
-                throw new DuplicationException("Счет с такой валютой уже существует");
+            var mappedAccount = _autoMapper.Map<Account>(accountModel);
             var id = _accountRepository.AddAccount(mappedAccount);
             return id;
         }
@@ -71,11 +71,23 @@ namespace CRM.BusinessLayer.Services
             return _autoMapper.Map<List<AccountModel>>(accounts);
         }
 
-        public AccountModel GetById(int id)
+        public AccountModel GetById(int id, int leadId)
         {
             var entity = _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
+            if (entity.Lead.Id != leadId)
+                throw new AuthorizationException("Нет доступа к чужому аккаунту.");
             return _autoMapper.Map<AccountModel>(entity);
+        }
+
+        private void CheckDuplicationAccount(int leadId, CurrencyEnum.Currency currency)
+        {
+            if (_accountRepository
+                .GetByLead(leadId)
+                .Select(a => a.CurrencyType)
+                .ToList()
+                .Contains(currency))
+                throw new DuplicationException("Счет с такой валютой уже существует");
         }
     }
 }
