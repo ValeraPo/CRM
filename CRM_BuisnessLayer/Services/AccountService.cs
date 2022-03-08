@@ -34,7 +34,7 @@ namespace CRM.BusinessLayer.Services
         public int AddRegularAccount(AccountModel accountModel)
         {
             CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
-            if (accountModel.CurrencyType != CurrencyEnum.Currency.USD)
+            if (accountModel.CurrencyType != MarvelousContracts.Currency.USD)
                 throw new AuthorizationException("Лид с такой ролью не может создавать валютные счета кроме долларового");
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
             var id = _accountRepository.AddAccount(mappedAccount);
@@ -80,7 +80,7 @@ namespace CRM.BusinessLayer.Services
             return _autoMapper.Map<AccountModel>(entity);
         }
 
-        private void CheckDuplicationAccount(int leadId, CurrencyEnum.Currency currency)
+        private void CheckDuplicationAccount(int leadId, MarvelousContracts.Currency currency)
         {
             var accounts = _accountRepository.GetByLead(leadId);
             var c = accounts.Select(x => x.CurrencyType).ToList();

@@ -1,5 +1,7 @@
 ﻿
 using CRM.DataLayer.Entities;
+using MarvelousContracts;
+
 
 namespace CRM.BusinessLayer.Models
 {

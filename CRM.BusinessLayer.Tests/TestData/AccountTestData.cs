@@ -11,7 +11,7 @@ namespace CRM.BusinessLayer.Tests.TestData
             AccountModel accountModel = new AccountModel
             {
                 Id = 1,
-                CurrencyType = CurrencyEnum.Currency.GBP,
+                CurrencyType = MarvelousContracts.Currency.GBP,
                 IsBlocked = false,
                 LockDate = null,
                 Name = "MyAccount",
@@ -28,7 +28,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                     Accounts = new List<Account> {
                         new AccountModel
                         {
-                            CurrencyType = CurrencyEnum.Currency.RUB
+                            CurrencyType = MarvelousContracts.Currency.RUB
                         }
                     }
                 }
@@ -41,7 +41,7 @@ namespace CRM.BusinessLayer.Tests.TestData
             AccountModel accountModel = new AccountModel
             {
                 Id = 1,
-                CurrencyType = CurrencyEnum.Currency.USD,
+                CurrencyType = MarvelousContracts.Currency.USD,
                 IsBlocked = false,
                 LockDate = null,
                 Name = "MyAccount",
@@ -65,7 +65,7 @@ namespace CRM.BusinessLayer.Tests.TestData
             AccountModel accountModel = new AccountModel
             {
                 Id = 1,
-                CurrencyType = CurrencyEnum.Currency.USD,
+                CurrencyType = MarvelousContracts.Currency.USD,
                 IsBlocked = false,
                 LockDate = null,
                 Name = "MyAccount",
@@ -82,7 +82,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                     Accounts = new List<Account> {
                         new AccountModel
                         {
-                            CurrencyType = CurrencyEnum.Currency.RUB
+                            CurrencyType = MarvelousContracts.Currency.RUB
                         }
                     }
                 }
@@ -95,7 +95,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                 new Account
                 {
                     Id = 1,
-                    CurrencyType = CurrencyEnum.Currency.USD,
+                    CurrencyType = MarvelousContracts.Currency.USD,
                     IsBlocked = false,
                     LockDate = null,
                     Name = "MyAccount",
@@ -112,7 +112,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                         Accounts = new List<Account> {
                             new AccountModel
                             {
-                                CurrencyType = CurrencyEnum.Currency.RUB
+                                CurrencyType = MarvelousContracts.Currency.RUB
                             }
                         }
                     }
@@ -120,7 +120,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                 new Account
                 {
                     Id = 2,
-                    CurrencyType = CurrencyEnum.Currency.USD,
+                    CurrencyType = MarvelousContracts.Currency.USD,
                     IsBlocked = false,
                     LockDate = null,
                     Name = "MyAccount",
@@ -137,7 +137,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                         Accounts = new List<Account> {
                             new AccountModel
                             {
-                                CurrencyType = CurrencyEnum.Currency.USD
+                                CurrencyType = MarvelousContracts.Currency.USD
                             }
                         }
                     }
