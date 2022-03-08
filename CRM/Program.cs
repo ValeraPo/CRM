@@ -17,6 +17,9 @@ builder.Services.Configure<DbConfiguration>(opt =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.RegisterSwaggerGen();
+
+builder.Services.AddCustomAuth();
 
 builder.Services.RegisterCRMRepositories();
 builder.Services.RegisterCRMServices();

@@ -26,7 +26,7 @@ namespace CRM.BusinessLayer.Services
         {
             Lead entity = _leadRepo.GetByEmail(email);
 
-            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            ExceptionsHelper.ThrowIfEmailNotFound(email, entity);
             ExceptionsHelper.ThrowIfLeadWasBanned(entity.Id, entity);
             ExceptionsHelper.ThrowIfPasswordIsIncorrected(pass, entity.Password);
 
