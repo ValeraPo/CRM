@@ -11,7 +11,7 @@ namespace CRM.BusinessLayer.Tests.TestData
             AccountModel accountModel = new AccountModel
             {
                 Id = 1,
-                CurrencyType = CurrencyEnum.Currency.USD,
+                CurrencyType = CurrencyEnum.Currency.GBP,
                 IsBlocked = false,
                 LockDate = null,
                 Name = "MyAccount",
@@ -36,7 +36,7 @@ namespace CRM.BusinessLayer.Tests.TestData
             return accountModel;
         }
 
-        public AccountModel GetAccountModelAdminForTests()
+        public AccountModel GetAccountModelVipForTests()
         {
             AccountModel accountModel = new AccountModel
             {
@@ -54,7 +54,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                     Email = "ivanov@mail.com",
                     Password = "qert123",
                     Phone = "+79567436745",
-                    Role = Role.Admin,
+                    Role = Role.Vip,
                 }
             };
             return accountModel;
@@ -65,7 +65,7 @@ namespace CRM.BusinessLayer.Tests.TestData
             AccountModel accountModel = new AccountModel
             {
                 Id = 1,
-                CurrencyType = CurrencyEnum.Currency.ANG,
+                CurrencyType = CurrencyEnum.Currency.USD,
                 IsBlocked = false,
                 LockDate = null,
                 Name = "MyAccount",
@@ -144,5 +144,6 @@ namespace CRM.BusinessLayer.Tests.TestData
                 }
             };
         }
+
     }
 }

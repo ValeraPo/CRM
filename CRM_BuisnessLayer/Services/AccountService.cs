@@ -82,6 +82,9 @@ namespace CRM.BusinessLayer.Services
 
         private void CheckDuplicationAccount(int leadId, CurrencyEnum.Currency currency)
         {
+            var accounts = _accountRepository.GetByLead(leadId);
+            var c = accounts.Select(x => x.CurrencyType).ToList();
+
             if (_accountRepository
                 .GetByLead(leadId)
                 .Select(a => a.CurrencyType)
