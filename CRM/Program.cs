@@ -3,6 +3,7 @@ using CRM.DataLayer.Repositories.Interfaces;
 using CRM.APILayer.Extensions;
 using CRM.APILayer.Configuration;
 using CRM.DataLayer.Configuration;
+using CRM.APILayer.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseMiddleware<ErrorExceptionMiddleware>();
 
 app.MapControllers();
 
