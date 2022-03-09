@@ -1,4 +1,4 @@
-﻿using CurrencyEnum;
+﻿using MarvelousContracts;
 
 namespace CRM.APILayer.Models
 { 

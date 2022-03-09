@@ -29,7 +29,7 @@ namespace CRM.BusinessLayer.Services
             _accountRepository.AddAccount(new Account
             {
                 Name = "MyAccount",
-                CurrencyType = CurrencyEnum.Currency.RUB,
+                CurrencyType = MarvelousContracts.Currency.RUB,
                 Lead = mappedLead
             });
             return id;

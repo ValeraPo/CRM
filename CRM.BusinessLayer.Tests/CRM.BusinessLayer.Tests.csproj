@@ -25,8 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="CurrencyEnum">
-      <HintPath>..\CRM_BuisnessLayer\bin\Debug\net6.0\CurrencyEnum.dll</HintPath>
+    <Reference Include="MarvelousContracts">
+      <HintPath>..\CRM_DataLayer\bin\Debug\net6.0\MarvelousContracts.dll</HintPath>
     </Reference>
   </ItemGroup>
 
