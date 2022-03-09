@@ -41,7 +41,7 @@ namespace CRM.APILayer.Controllers
         {
             var leadModel = _autoMapper.Map<LeadModel>(leadUpdateRequest);
             leadModel.Id = id;
-            _leadService.UpdateLead(leadModel);
+            _leadService.UpdateLead(id, leadModel);
             return Ok($"Lead with id = {id} was updated");
         }
 
@@ -90,8 +90,7 @@ namespace CRM.APILayer.Controllers
             return Ok(output);
         }
 
-
-
+        //api/Leads/42/password
         [HttpPut("{id}/password")]
         [Description("Change lead password")]
         public ActionResult ChangePassword(int id, [FromBody] LeadChangePasswordRequest changePasswordRequest)
