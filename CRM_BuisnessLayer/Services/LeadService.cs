@@ -35,25 +35,25 @@ namespace CRM.BusinessLayer.Services
             return id;
         }
 
-        public void UpdateLead(LeadModel leadModel)
+        public void UpdateLead(int id, LeadModel leadModel)
         {
+            var entity = _leadRepository.GetById(id);
+            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
-            var entity = _leadRepository.GetById(mappedLead.Id);
-            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
             _leadRepository.UpdateLeadById(mappedLead);
         }
 
         public void DeleteById(int id)
         {
             var entity = _leadRepository.GetById(id);
-            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             _leadRepository.DeleteById(id);
         }
 
         public void RestoreById(int id)
         {
             var entity = _leadRepository.GetById(id);
-            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             _leadRepository.RestoreById(id);
         }
 
@@ -66,7 +66,7 @@ namespace CRM.BusinessLayer.Services
         public LeadModel GetById(int id)
         {
             var entity = _leadRepository.GetById(id);
-            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             return _autoMapper.Map<LeadModel>(entity);
         }
 
@@ -74,7 +74,7 @@ namespace CRM.BusinessLayer.Services
         {
             var entity = _leadRepository.GetById(id);
             
-            ExceptionsHelper.ThrowIfEntityNotFound(entity.Id, entity);
+            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             ExceptionsHelper.ThrowIfPasswordIsIncorrected(oldPassword, entity.Password);
 
             string hashPassword = PasswordHash.HashPassword(newPassword);
