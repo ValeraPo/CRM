@@ -18,9 +18,9 @@ namespace CRM.BusinessLayer
                 throw new NotFoundException($"Lead с {email} не найден");
         }
 
-        public static void ThrowIfLeadWasBanned<T>(int id, T entity)
+        public static void ThrowIfLeadWasBanned(int id, Lead lead)
         {
-            if (entity is null)
+            if (lead is null)
                 throw new BannedException($"Lead с id = {id} забанен");
         }
 
