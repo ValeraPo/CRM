@@ -1,23 +1,17 @@
 ﻿CREATE PROCEDURE [dbo].[Account_Insert]
 	@Name varchar(20),
 	@CurrencyType varchar(30),
-	@LeadId int,
-	@LockDate date,
-	@IsBlocked bit
+	@LeadId int
 	
 AS
 BEGIN 
 	insert into dbo.[Account]
 		([Name], 
 		CurrencyType,
-		LeadId,
-		LockDate,
-		IsBlocked)
+		LeadId)
 	values
 		(@Name,
 		@CurrencyType,
-		@LeadId,
-		@LockDate,
-		@IsBlocked)
+		@LeadId)
 	select scope_identity()
 END

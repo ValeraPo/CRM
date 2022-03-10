@@ -29,8 +29,7 @@ namespace CRM.DataLayer.Repositories
                     {
                         account.Name,
                         account.CurrencyType,
-                        LeadId = account.Lead.Id,
-                        IsBlocked = false
+                        LeadId = account.Lead.Id
                     },
                     commandType: CommandType.StoredProcedure
                 );
@@ -57,8 +56,7 @@ namespace CRM.DataLayer.Repositories
                 new
                 {
                     Id = id,
-                    IsBlocked = true,
-                    LockDate = DateTime.Today
+                    IsBlocked = true
                 },
                 commandType: CommandType.StoredProcedure);
         }
@@ -70,8 +68,7 @@ namespace CRM.DataLayer.Repositories
                 new
                 {
                     Id = id,
-                    IsBlocked = false,
-                    LockDate = DateTime.Now
+                    IsBlocked = false
                 },
                 commandType: CommandType.StoredProcedure);
         }

@@ -1,11 +1,11 @@
 ﻿using CRM.BusinessLayer.Models;
+using CRM.DataLayer.Entities;
 
 namespace CRM.BusinessLayer.Services.Interfaces
 {
     public interface IAccountService
     {
-        int AddVipAccount(AccountModel accountModel);
-        int AddRegularAccount(AccountModel accountModel);
+        int AddAccount(int role, AccountModel accountModel);
         void UpdateAccount(int id, AccountModel accountModel);
         void LockById(int id);
         void UnlockById(int id);

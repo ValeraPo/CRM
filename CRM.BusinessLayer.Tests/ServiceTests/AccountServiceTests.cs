@@ -35,7 +35,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         }
 
         [Test]
-        public void AddVipAccountTest()
+        public void AddAccountTest()
         {
             //given
             var accountModel = _accountTestData.GetAccountModelVipForTests();
@@ -45,45 +45,14 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
 
             //when
-            sut.AddVipAccount(accountModel);
+            sut.AddAccount((int)Role.Vip, accountModel);
 
             //then
             _accountRepositoryMock.Verify(m => m.AddAccount(It.IsAny<Account>()), Times.Once());
         }
 
         [Test]
-        public void AddVipAccountNegativeTest()
-        {
-            //given
-            var accountModel = _accountTestData.GetAccountModelVipForTests();
-            var accounts = _accountTestData.GetListOfAccountsForTests();
-            _accountRepositoryMock.Setup(a => a.AddAccount(It.IsAny<Account>())).Returns(23);
-            _accountRepositoryMock.Setup(m => m.GetByLead(It.IsAny<int>())).Returns(accounts);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
-
-            //then
-            Assert.Throws<DuplicationException>(() => sut.AddVipAccount(accountModel));
-        }
-
-        [Test]
-        public void AddRegularAccountTest()
-        {
-            //given
-            var accountModel = _accountTestData.GetAccountModelRegularForTests();
-            var accounts = new List<Account>();
-            _accountRepositoryMock.Setup(a => a.AddAccount(It.IsAny<Account>())).Returns(23);
-            _accountRepositoryMock.Setup(m => m.GetByLead(It.IsAny<int>())).Returns(accounts);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
-
-            //when
-            sut.AddRegularAccount(accountModel);
-
-            //then
-            _accountRepositoryMock.Verify(m => m.AddAccount(It.IsAny<Account>()), Times.Once());
-        }
-
-        [Test]
-        public void AddRegularAccountNegativeTest_DuplicationException()
+        public void AddAccountNegativeTest_DuplicationException()
         {
             //given
             var accountModel = _accountTestData.GetAccountModelRegularForTests();
@@ -93,11 +62,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
 
             //then
-            Assert.Throws<DuplicationException>(() => sut.AddRegularAccount(accountModel));
+            Assert.Throws<DuplicationException>(() => sut.AddAccount(It.IsAny<int>(), accountModel));
         }
 
         [Test]
-        public void AddRegularAccountNegativeTest_AuthorizationExceptionRegular()
+        public void AddAccountNegativeTest_AuthorizationExceptionRegular()
         {
             //given
             var accountModel = _accountTestData.GetAccountModelForTests();
@@ -107,7 +76,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object);
 
             //then
-            Assert.Throws<AuthorizationException>(() => sut.AddRegularAccount(accountModel));
+            Assert.Throws<AuthorizationException>(() => sut.AddAccount((int)Role.Regular, accountModel));
         }
 
         [Test]
