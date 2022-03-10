@@ -36,8 +36,8 @@ namespace CRM.DataLayer.Repositories
                         Email = lead.Email,
                         Phone = lead.Phone,
                         Passord = lead.Password,
-                        Role = Role.Regular,
-                        IsBanned = false
+                        City = lead.City,
+                        Role = Role.Regular
                     },
                     commandType: CommandType.StoredProcedure
                 );
@@ -101,11 +101,22 @@ namespace CRM.DataLayer.Repositories
             using IDbConnection connection = ProvideConnection();
 
             return connection
-                .QueryFirstOrDefault<Lead>(
+                .Query<Lead, Account, Lead>(
                 _selectById,
-                new { Id = id },
-                commandType: CommandType.StoredProcedure);
+                (lead, account) =>
+                {
+                    lead.Accounts.Add(account);
+                    return lead;
+                },
+                new 
+                { 
+                    Id = id 
+                },
+                splitOn: "LeadId",
+                commandType: CommandType.StoredProcedure).
+                FirstOrDefault();
         }
+
         public Lead GetByEmail(string email)
         {
             using IDbConnection connection = ProvideConnection();
@@ -117,14 +128,14 @@ namespace CRM.DataLayer.Repositories
                 commandType: CommandType.StoredProcedure);
         }
 
-        public void ChangePassword(Lead lead, string hashPassword)
+        public void ChangePassword(int id, string hashPassword)
         {
             using IDbConnection connection = ProvideConnection();
             connection
                 .Execute(_changePassword,
                 new
                 {
-                    lead.Id,
+                    id,
                     hashPassword,
                 },
                 commandType: CommandType.StoredProcedure);

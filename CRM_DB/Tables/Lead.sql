@@ -9,5 +9,6 @@
 	[Password] varchar(150) NOT NULL,
 	[Role] INT NOT NULL, 
     [IsBanned] BIT NOT NULL DEFAULT 0, 
+    [City] VARCHAR(30) NULL, 
     CONSTRAINT AK_Email UNIQUE(Email),
 )

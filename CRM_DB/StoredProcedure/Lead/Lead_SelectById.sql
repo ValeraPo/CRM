@@ -10,6 +10,8 @@ BEGIN
 		Phone,
 		[Password],
 		[Role]
-	from dbo.[Lead]
-	where Id =@Id
+	from dbo.[Lead] l
+	inner join dbo.Account a on l.Id = a.LeadId
+	where Id = @Id
+
 END

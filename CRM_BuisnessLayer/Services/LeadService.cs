@@ -78,7 +78,7 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfPasswordIsIncorrected(oldPassword, entity.Password);
 
             string hashPassword = PasswordHash.HashPassword(newPassword);
-            _leadRepository.ChangePassword(entity, hashPassword);
+            _leadRepository.ChangePassword(entity.Id, hashPassword);
         }
 
         
