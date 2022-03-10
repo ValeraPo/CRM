@@ -35,7 +35,7 @@ namespace CRM.DataLayer.Repositories
                         BirthDate = lead.BirthDate,
                         Email = lead.Email,
                         Phone = lead.Phone,
-                        Passord = lead.Password,
+                        Password = lead.Password,
                         Role = Role.Regular,
                         IsBanned = false
                     },
@@ -106,6 +106,7 @@ namespace CRM.DataLayer.Repositories
                 new { Id = id },
                 commandType: CommandType.StoredProcedure);
         }
+
         public Lead GetByEmail(string email)
         {
             using IDbConnection connection = ProvideConnection();

@@ -32,7 +32,7 @@ namespace CRM.APILayer.Infrastructure
                 // ошибка когда БД вообще отсуствует или миграция иная на БД и стобцы не сходятся.
                 await ConstructResponse(context, HttpStatusCode.ServiceUnavailable, message: "База данных недоступна");
             }
-            catch (NotFoundException error)
+            catch (ForbiddenException error)
             {
                 await ConstructResponse(context, HttpStatusCode.Forbidden, error.Message);
             }

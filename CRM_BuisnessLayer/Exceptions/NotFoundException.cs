@@ -1,6 +1,6 @@
 ﻿namespace CRM.BusinessLayer.Exceptions
 {
-    public class NotFoundException : Exception
+    public class NotFoundException : ForbiddenException
     {
         public NotFoundException(string message) : base(message)
         {}

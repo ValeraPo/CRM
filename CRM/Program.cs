@@ -1,9 +1,6 @@
-using CRM.DataLayer.Repositories;
-using CRM.DataLayer.Repositories.Interfaces;
 using CRM.APILayer.Extensions;
-using CRM.APILayer.Configuration;
-using CRM.DataLayer.Configuration;
 using CRM.APILayer.Infrastructure;
+using CRM.DataLayer.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
