@@ -23,18 +23,10 @@ namespace CRM.BusinessLayer.Services
             _autoMapper = mapper;
         }
 
-        public int AddVipAccount(AccountModel accountModel)
+        public int AddAccount(int role, AccountModel accountModel)
         {
             CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
-            var mappedAccount = _autoMapper.Map<Account>(accountModel);
-            var id = _accountRepository.AddAccount(mappedAccount);
-            return id;
-        }
-
-        public int AddRegularAccount(AccountModel accountModel)
-        {
-            CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
-            if (accountModel.CurrencyType != MarvelousContracts.Currency.USD)
+            if (role == (int)Role.Regular && accountModel.CurrencyType != MarvelousContracts.Currency.USD)
                 throw new AuthorizationException("Лид с такой ролью не может создавать валютные счета кроме долларового");
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
             var id = _accountRepository.AddAccount(mappedAccount);

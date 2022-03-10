@@ -7,7 +7,6 @@ using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
-using System.Security.Claims;
 
 namespace CRM.APILayer.Controllers
 {
@@ -34,11 +33,7 @@ namespace CRM.APILayer.Controllers
         {
             var accountModel = _autoMapper.Map<AccountModel>(accountInsertRequest);
             accountModel.Lead.Id = this.GetLeadId();
-            int id;
-            if (this.GetLeadRole() == 2)
-                id = _accountService.AddVipAccount(accountModel);
-            else
-                id = _accountService.AddRegularAccount(accountModel);
+            var id = _accountService.AddAccount(this.GetLeadRole(), accountModel);
             return StatusCode(StatusCodes.Status201Created, id);
         }
 
@@ -108,6 +103,6 @@ namespace CRM.APILayer.Controllers
             return Ok(output);
         }
 
-       
+
     }
 }
