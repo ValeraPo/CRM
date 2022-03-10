@@ -1,6 +1,6 @@
 ﻿namespace CRM.BusinessLayer.Exceptions
 {
-    public class TypeMismatchException : Exception
+    public class TypeMismatchException : BadRequestException
     {
         public TypeMismatchException(string message) : base(message)
         {
