@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CRM.APILayer.Attribites;
+using CRM.APILayer.Extensions;
 using CRM.APILayer.Models;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
@@ -32,9 +33,9 @@ namespace CRM.APILayer.Controllers
         public ActionResult<int> AddAccount([FromBody] AccountInsertRequest accountInsertRequest)
         {
             var accountModel = _autoMapper.Map<AccountModel>(accountInsertRequest);
-            accountModel.Lead.Id = GetLeadId();
+            accountModel.Lead.Id = this.GetLeadId();
             int id;
-            if (GetLeadRole() == 2)
+            if (this.GetLeadRole() == 2)
                 id = _accountService.AddVipAccount(accountModel);
             else
                 id = _accountService.AddRegularAccount(accountModel);
@@ -45,7 +46,7 @@ namespace CRM.APILayer.Controllers
         [HttpPut("{id}")]
         [AuthorizeEnum(Role.Vip, Role.Regular)]
         [Description("Update account")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult UpdateAccount(int id, [FromBody] AccountUpdateRequest accountUpdateRequest)
         {
@@ -58,7 +59,7 @@ namespace CRM.APILayer.Controllers
         [HttpDelete("{id}")]
         [AuthorizeEnum(Role.Admin)]
         [Description("Lock account")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult LockById(int id)
         {
@@ -70,7 +71,7 @@ namespace CRM.APILayer.Controllers
         [HttpPatch("{id}")]
         [AuthorizeEnum(Role.Admin)]
         [Description("UnlockAccount")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult UnlockById(int id)
         {
@@ -86,7 +87,7 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<List<AccountResponse>> GetByLead()
         {
-            var id = GetLeadId();
+            var id = this.GetLeadId();
             var accountModels = _accountService.GetByLead(id);
             var outputs = _autoMapper.Map<List<AccountResponse>>(accountModels);
             return Ok(outputs);
@@ -101,26 +102,12 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<AccountResponse> GetById(int id)
         {
-            var leadId = GetLeadId();
+            var leadId = this.GetLeadId();
             var accountModel = _accountService.GetById(id, leadId);
             var output = _autoMapper.Map<AccountResponse>(accountModel);
             return Ok(output);
         }
 
-        private int GetLeadRole()
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            List<Claim> claims = identity.Claims.ToList();
-            var role = int.Parse(claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault());
-            return role;
-        }
-
-        private int GetLeadId()
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            List<Claim> claims = identity.Claims.ToList();
-            var idUser = int.Parse(claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value).SingleOrDefault());
-            return idUser;
-        }
+       
     }
 }
