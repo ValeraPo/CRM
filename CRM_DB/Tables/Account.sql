@@ -5,6 +5,6 @@
     [CurrencyType] INT NOT NULL, 
     [LeadId] INT NOT NULL,
     [LockDate] date NULL,
-    [IsBlocked] BIT NOT NULL,
+    [IsBlocked] BIT NOT NULL DEFAULT 0,
     CONSTRAINT [FK_LeadId_ToLead] FOREIGN KEY ([LeadId]) REFERENCES [dbo].[Lead]([Id])
 )

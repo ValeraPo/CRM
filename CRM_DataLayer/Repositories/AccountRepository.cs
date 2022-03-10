@@ -29,8 +29,7 @@ namespace CRM.DataLayer.Repositories
                     {
                         Name = account.Name,
                         CurrencyType = account.CurrencyType,
-                        LeadId = account.Lead.Id,
-                        IsBlocked = false
+                        LeadId = account.Lead.Id
                     },
                     commandType: CommandType.StoredProcedure
                 );
