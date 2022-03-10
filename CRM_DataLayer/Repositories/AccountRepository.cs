@@ -27,7 +27,7 @@ namespace CRM.DataLayer.Repositories
                     _insertProc,
                     new
                     {
-                        Name = account.Name,
+                        account.Name,
                         CurrencyType = account.CurrencyType,
                         LeadId = account.Lead.Id
                     },
