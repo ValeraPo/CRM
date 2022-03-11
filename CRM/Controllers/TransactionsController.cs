@@ -9,10 +9,10 @@ namespace CRM.APILayer.Controllers
 {
     public class TransactionsController : Controller
     {
-        private readonly ITransactionServise _transactionService;
+        private readonly ITransactionService _transactionService;
         private readonly IMapper _mapper;
 
-        public TransactionsController(ITransactionServise transactionService, IMapper autoMapper)
+        public TransactionsController(ITransactionService transactionService, IMapper autoMapper)
         {
             _transactionService = transactionService;
             _mapper = autoMapper;
@@ -20,8 +20,8 @@ namespace CRM.APILayer.Controllers
 
         // api/transaction/
         [HttpPost("deposit")]
-        [SwaggerOperation(Summary = "Add deposit")]
-        [SwaggerResponse(201, "Deposit added")]
+        //[SwaggerOperation(Summary = "Add deposit")]
+        //[SwaggerResponse(201, "Deposit added")]
         public ActionResult AddDeposit([FromBody] TransactionRequest transaction)
         {
             var transactionModel = _mapper.Map<TransactionModel>(transaction);

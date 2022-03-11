@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace CRM.BusinessLayer.Services
 {
-    public class TransactionServise : ITransactionServise
+    public class TransactionService : ITransactionService
     {
         private readonly IAccountRepository _accountRepository;
 
 
-        public TransactionServise(IAccountRepository accountRepository)
+        public TransactionService(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
         }
