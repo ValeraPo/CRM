@@ -2,6 +2,7 @@
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Dapper;
+using Marvelous.Contracts;
 using Microsoft.Extensions.Options;
 using System.Data;
 

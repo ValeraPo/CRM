@@ -4,6 +4,7 @@ using CRM.DataLayer.Repositories.Interfaces;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Security;
 using CRM.BusinessLayer.Services.Interfaces;
+using Marvelous.Contracts;
 
 namespace CRM.BusinessLayer.Services
 {
@@ -29,7 +30,7 @@ namespace CRM.BusinessLayer.Services
             _accountRepository.AddAccount(new Account
             {
                 Name = "MyAccount",
-                CurrencyType = MarvelousContracts.Currency.RUB,
+                CurrencyType = Currency.RUB,
                 Lead = mappedLead
             });
             return id;
