@@ -11,19 +11,17 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CRM_BuisnessLayer\CRM.BusinessLayer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CRM_DataLayer\CRM.DataLayer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="MarvelousContracts">
-      <HintPath>..\CRM_BuisnessLayer\bin\Debug\net6.0\MarvelousContracts.dll</HintPath>
+      <HintPath>..\CRM_BuisnessLayer\bin\Debug\net6.0\ref\MarvelousContracts.dll</HintPath>
     </Reference>
   </ItemGroup>
 

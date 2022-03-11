@@ -23,38 +23,25 @@ namespace CRM.APILayer.Infrastructure
             {
                 await _next(context);
             }
-            catch (AuthorizationException error)
+            catch (ForbiddenException error)
             {
                 await ConstructResponse(context, HttpStatusCode.Forbidden, error.Message);
             }
             catch (System.Data.SqlClient.SqlException)
             {
-                // ошибка когда БД вообще отсуствует или миграция иная на БД и стобцы не сходятся.
                 await ConstructResponse(context, HttpStatusCode.ServiceUnavailable, message: "База данных недоступна");
             }
             catch (NotFoundException error)
             {
-                await ConstructResponse(context, HttpStatusCode.Forbidden, error.Message);
+                await ConstructResponse(context, HttpStatusCode.NotFound, error.Message);
             }
-            catch (TypeMismatchException error)
+            catch (BadRequestException error)
             {
-                await ConstructResponse(context, HttpStatusCode.Forbidden, error.Message);
-            }
-            catch (IncorrectPasswordException error)
-            {
-                await ConstructResponse(context, HttpStatusCode.Forbidden, error.Message);
+                await ConstructResponse(context, HttpStatusCode.BadRequest, error.Message);
             }
             catch (DuplicationException error)
             {
                 await ConstructResponse(context, HttpStatusCode.Conflict, error.Message);
-            }
-            catch (BannedException error)
-            {
-                await ConstructResponse(context, HttpStatusCode.Forbidden, error.Message);
-            }
-            catch (EntryPointNotFoundException error)
-            {
-                await ConstructResponse(context, HttpStatusCode.NotFound, error.Message);
             }
             catch (Exception ex)
             {

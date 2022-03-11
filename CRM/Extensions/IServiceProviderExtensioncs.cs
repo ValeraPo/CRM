@@ -27,6 +27,7 @@ namespace CRM.APILayer.Extensions
         {
             services.AddScoped<ILeadService, LeadService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ITransactionService, TransactionService>();
         }
 
         public static void RegisterCRMAutomappers(this IServiceCollection services)

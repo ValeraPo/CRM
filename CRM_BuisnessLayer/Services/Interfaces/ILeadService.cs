@@ -5,7 +5,7 @@ namespace CRM.BusinessLayer.Services.Interfaces
     public interface ILeadService
     {
         int AddLead(LeadModel leadModel);
-        void UpdateLead(LeadModel leadModel);
+        void UpdateLead(int id, LeadModel leadModel);
         void DeleteById(int id);
         void RestoreById(int id);
         void ChangePassword(int id, string oldPassword, string newPassword);

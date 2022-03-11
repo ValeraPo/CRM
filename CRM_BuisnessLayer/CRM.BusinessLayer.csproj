@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
+    <PackageReference Include="RestSharp" Version="107.3.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
   </ItemGroup>
 
@@ -18,7 +19,7 @@
 
   <ItemGroup>
     <Reference Include="MarvelousContracts">
-      <HintPath>bin\Debug\net6.0\MarvelousContracts.dll</HintPath>
+      <HintPath>bin\Debug\net6.0\ref\MarvelousContracts.dll</HintPath>
     </Reference>
   </ItemGroup>
 

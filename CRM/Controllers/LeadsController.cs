@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
+using CRM.APILayer.Attribites;
+using CRM.APILayer.Extensions;
 using CRM.APILayer.Models;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
+using CRM.DataLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 
@@ -24,6 +28,7 @@ namespace CRM.APILayer.Controllers
         //api/Leads
         [HttpPost]
         [Description("Create lead")]
+        [AuthorizeEnum(Role.Admin)]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         public ActionResult<int> AddLead([FromBody] LeadInsertRequest leadInsertRequest)
         {
@@ -35,20 +40,22 @@ namespace CRM.APILayer.Controllers
         //api/Leads/42
         [HttpPut("{id}")]
         [Description("Update lead")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
         {
             var leadModel = _autoMapper.Map<LeadModel>(leadUpdateRequest);
             leadModel.Id = id;
-            _leadService.UpdateLead(leadModel);
+            _leadService.UpdateLead(id, leadModel);
             return Ok($"Lead with id = {id} was updated");
         }
 
         //api/Leads/42
         [HttpDelete("{id}")]
         [Description("Delete lead")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [AuthorizeEnum(Role.Admin)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult DeleteById(int id)
         {
@@ -59,7 +66,8 @@ namespace CRM.APILayer.Controllers
         //api/Leads/42
         [HttpPatch("{id}")]
         [Description("Restore lead")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [AuthorizeEnum(Role.Admin)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult RestoreById(int id)
         {
@@ -70,6 +78,7 @@ namespace CRM.APILayer.Controllers
         //api/Leads/
         [HttpGet()]
         [Description("Get all leads")]
+        [AuthorizeEnum(Role.Admin)]
         [ProducesResponseType(typeof(List<LeadResponse>), StatusCodes.Status200OK)]
         public ActionResult<List<LeadResponse>> GetAll()
         {
@@ -81,6 +90,7 @@ namespace CRM.APILayer.Controllers
         //api/Leads/42
         [HttpGet("{id}")]
         [Description("Get lead by id")]
+        [Authorize]
         [ProducesResponseType(typeof(LeadResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<LeadResponse> GetById(int id)
@@ -90,12 +100,14 @@ namespace CRM.APILayer.Controllers
             return Ok(output);
         }
 
-
-
-        [HttpPut("{id}/password")]
+        //api/Leads/password
+        [HttpPut("password")]
         [Description("Change lead password")]
-        public ActionResult ChangePassword(int id, [FromBody] LeadChangePasswordRequest changePasswordRequest)
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public ActionResult ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
         {
+            var id = this.GetLeadId();
             _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
             return Ok();
         }
