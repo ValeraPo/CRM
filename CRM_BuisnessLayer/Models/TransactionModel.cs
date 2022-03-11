@@ -1,4 +1,4 @@
-﻿using MarvelousContracts;
+﻿using Marvelous.Contracts;
 
 namespace CRM.BusinessLayer.Models
 {

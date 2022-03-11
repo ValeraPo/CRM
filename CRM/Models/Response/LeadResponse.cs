@@ -1,4 +1,5 @@
 ﻿using CRM.DataLayer.Entities;
+using Marvelous.Contracts;
 
 namespace CRM.APILayer.Models
 {

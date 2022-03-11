@@ -5,6 +5,7 @@ using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
+using Marvelous.Contracts;
 using System.Linq;
 
 namespace CRM.BusinessLayer.Services
@@ -26,7 +27,7 @@ namespace CRM.BusinessLayer.Services
         public int AddAccount(int role, AccountModel accountModel)
         {
             CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
-            if (role == (int)Role.Regular && accountModel.CurrencyType != MarvelousContracts.Currency.USD)
+            if (role == (int)Role.Regular && accountModel.CurrencyType != Currency.USD)
                 throw new AuthorizationException("Лид с такой ролью не может создавать валютные счета кроме долларового");
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
             var id = _accountRepository.AddAccount(mappedAccount);
@@ -72,7 +73,7 @@ namespace CRM.BusinessLayer.Services
             return _autoMapper.Map<AccountModel>(entity);
         }
 
-        private void CheckDuplicationAccount(int leadId, MarvelousContracts.Currency currency)
+        private void CheckDuplicationAccount(int leadId, Currency currency)
         {
             var accounts = _accountRepository.GetByLead(leadId);
             var c = accounts.Select(x => x.CurrencyType).ToList();
