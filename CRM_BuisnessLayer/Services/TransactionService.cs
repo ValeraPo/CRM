@@ -24,7 +24,7 @@ namespace CRM.BusinessLayer.Services
         {
             var entity = _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
-            var client = new RestClient("https://api.myorg.com");
+            var client = new RestClient("https://api.marvelous.com");
             var request = new RestRequest("/transaction/", Method.Post);
             request.AddJsonBody(transactionModel);
             var response = client.ExecuteAsync(request);
@@ -39,7 +39,7 @@ namespace CRM.BusinessLayer.Services
             var accountTo = _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, accountTo);
 
-            var client = new RestClient("https://api.myorg.com");
+            var client = new RestClient("https://api.marvelous.com");
             var request = new RestRequest($"/transfer-to-{accountIdTo}-in-{currencyTo}/", Method.Post);
             request.AddJsonBody(transactionModel);
             var response = client.ExecuteAsync(request);
@@ -51,7 +51,7 @@ namespace CRM.BusinessLayer.Services
         {
             var entity = _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
-            var client = new RestClient("https://api.myorg.com");
+            var client = new RestClient("https://api.marvelous.com");
             var request = new RestRequest("/withdraw/", Method.Post);
             request.AddJsonBody(transactionModel);
             var response = client.ExecuteAsync(request);

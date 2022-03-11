@@ -20,8 +20,8 @@ namespace CRM.APILayer.Controllers
 
         // api/transaction/
         [HttpPost("deposit")]
-        //[SwaggerOperation(Summary = "Add deposit")]
-        //[SwaggerResponse(201, "Deposit added")]
+        [SwaggerOperation(Summary = "Add deposit")]
+        [SwaggerResponse(201, "Deposit added")]
         public ActionResult AddDeposit([FromBody] TransactionRequest transaction)
         {
             var transactionModel = _mapper.Map<TransactionModel>(transaction);
