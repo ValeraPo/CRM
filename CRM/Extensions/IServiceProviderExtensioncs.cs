@@ -12,7 +12,7 @@ using Microsoft.OpenApi.Models;
 
 namespace CRM.APILayer.Extensions
 {
-    public static class IServiceProvaderExtensioncs
+    public static class IServiceProviderExtensioncs
     {
         public static void RegisterCRMRepositories(this IServiceCollection services)
         {
