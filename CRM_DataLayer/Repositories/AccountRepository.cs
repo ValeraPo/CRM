@@ -3,6 +3,7 @@ using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Dapper;
 using Microsoft.Extensions.Options;
+using NLog;
 using System.Data;
 
 namespace CRM.DataLayer.Repositories
@@ -14,6 +15,7 @@ namespace CRM.DataLayer.Repositories
         private const string _selectById = "dbo.Account_SelectById";
         private const string _selectByLead = "dbo.Account_SelectByLead";
         private const string _updateProc = "dbo.Account_Update";
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public AccountRepository(IOptions<DbConfiguration> options) : base(options)
         {
@@ -21,9 +23,11 @@ namespace CRM.DataLayer.Repositories
 
         public int AddAccount(Account account)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
 
-            return connection.QueryFirstOrDefault<int>(
+            var id =  connection.QueryFirstOrDefault<int>(
                     _insertProc,
                     new
                     {
@@ -33,11 +37,15 @@ namespace CRM.DataLayer.Repositories
                     },
                     commandType: CommandType.StoredProcedure
                 );
+            logger.Debug($"Аккаунт с id = {id} добавлен в базу данных.");
+            return id;
         }
 
         public void UpdateAccountById(Account account)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
 
             connection.Execute(_updateProc,
                 new
@@ -47,11 +55,15 @@ namespace CRM.DataLayer.Repositories
                 },
 
                 commandType: CommandType.StoredProcedure);
+            logger.Debug($"Аккаунт с id = {account.Id} обновлен.");
+
         }
 
         public void LockById(int id)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
             connection.Execute(_lockProc,
                 new
                 {
@@ -59,11 +71,14 @@ namespace CRM.DataLayer.Repositories
                     IsBlocked = true
                 },
                 commandType: CommandType.StoredProcedure);
+            logger.Debug($"Аккаунт с id = {id} был заблокирован.");
         }
 
         public void UnlockById(int id)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
             connection.Execute(_lockProc,
                 new
                 {
@@ -71,29 +86,40 @@ namespace CRM.DataLayer.Repositories
                     IsBlocked = false
                 },
                 commandType: CommandType.StoredProcedure);
+            logger.Debug($"Аккаунт с id = {id} был разблокирован.");
         }
 
         public List<Account> GetByLead(int leadId)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
 
-            return connection.
+            var accounts =  connection.
                 Query<Account>(
                 _selectByLead,
                 new { LeadId = leadId },
                 commandType: CommandType.StoredProcedure)
                 .ToList();
+            logger.Debug($"Были возвращены все аккаунты лида с id = {leadId}");
+
+            return accounts;
         }
 
         public Account GetById(int id)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
 
-            return connection
+            var account =  connection
                 .QueryFirstOrDefault<Account>(
                 _selectById,
                 new { Id = id },
                 commandType: CommandType.StoredProcedure);
+            logger.Debug($"Аккаунт с id = {id} был возвращен.");
+
+            return account;
         }
 
     }

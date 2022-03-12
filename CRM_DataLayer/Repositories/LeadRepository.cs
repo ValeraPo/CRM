@@ -1,8 +1,10 @@
 ﻿using CRM.DataLayer.Configuration;
 using CRM.DataLayer.Entities;
+using CRM.DataLayer.Extensions;
 using CRM.DataLayer.Repositories.Interfaces;
 using Dapper;
 using Microsoft.Extensions.Options;
+using NLog;
 using System.Data;
 
 
@@ -17,6 +19,7 @@ namespace CRM.DataLayer.Repositories
         private const string _selectByEmail = "dbo.Lead_SelectByEmail";
         private const string _selectAll = "dbo.Lead_SelectAll";
         private const string _changePassword = "dbo.Lead_ChangePassword";
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public LeadRepository(IOptions<DbConfiguration> options) : base(options)
         {
@@ -24,9 +27,10 @@ namespace CRM.DataLayer.Repositories
 
         public int AddLead(Lead lead)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
-
-            return connection.QueryFirstOrDefault<int>(
+            logger.Debug("Произведено подключение к базе данных.");
+            var id = connection.QueryFirstOrDefault<int>(
                     _insertProc,
                     new
                     {
@@ -41,11 +45,15 @@ namespace CRM.DataLayer.Repositories
                     },
                     commandType: CommandType.StoredProcedure
                 );
+            logger.Debug($"Лид с id = {id} добавлен в базу данных.");
+            return id;
         }
 
         public void UpdateLeadById(Lead lead)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
 
             connection.Execute(_updateProc,
                 new
@@ -59,11 +67,15 @@ namespace CRM.DataLayer.Repositories
                 },
 
                 commandType: CommandType.StoredProcedure);
+            logger.Debug($"Лид с id = {lead.Id} был обновлен.");
         }
 
         public void DeleteById(int id)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
+
             connection.Execute(_banProc,
                 new
                 {
@@ -71,11 +83,14 @@ namespace CRM.DataLayer.Repositories
                     IsBanned = true
                 },
                 commandType: CommandType.StoredProcedure);
+            logger.Debug($"Лид с id = {id} был удален.");
         }
 
         public void RestoreById(int id)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
             connection.Execute(_banProc,
                 new
                 {
@@ -83,24 +98,31 @@ namespace CRM.DataLayer.Repositories
                     IsBanned = false
                 },
                 commandType: CommandType.StoredProcedure);
+            logger.Debug($"Лид с id = {id} был восстановлен.");
         }
 
         public List<Lead> GetAll()
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
 
-            return connection.
+            var leads =  connection.
                 Query<Lead>(
                 _selectAll,
                 commandType: CommandType.StoredProcedure)
                 .ToList();
+            logger.Debug($"Были возвращены все лиды");
+            return leads;
         }
 
         public Lead GetById(int id)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
 
-            return connection
+            var lead = connection
                 .Query<Lead, Account, Lead>(
                 _selectById,
                 (lead, account) =>
@@ -115,22 +137,31 @@ namespace CRM.DataLayer.Repositories
                 splitOn: "LeadId",
                 commandType: CommandType.StoredProcedure).
                 FirstOrDefault();
+            logger.Debug($"Были возвращен лид с id = {id}");
+            return lead;
         }
 
         public Lead GetByEmail(string email)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
 
-            return connection
+            var lead =  connection
                 .QueryFirstOrDefault<Lead>(
                 _selectByEmail,
                 new { Email = email },
                 commandType: CommandType.StoredProcedure);
+            logger.Debug($"Были возвращен лид с email = {email.Encryptor()}");
+            return lead;
         }
 
         public void ChangePassword(int id, string hashPassword)
         {
+            logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
+            logger.Debug("Произведено подключение к базе данных.");
+
             connection
                 .Execute(_changePassword,
                 new
@@ -139,6 +170,7 @@ namespace CRM.DataLayer.Repositories
                     hashPassword,
                 },
                 commandType: CommandType.StoredProcedure);
+            logger.Debug($"Были изменен пароль у лида id {id}");
         }
 
     }

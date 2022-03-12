@@ -3,7 +3,7 @@
 AS
 BEGIN
 	select
-		[Name], 
+		--[Name], 
 		LastName,
 		BirthDate,
 		Email,
@@ -12,6 +12,6 @@ BEGIN
 		[Role]
 	from dbo.[Lead] l
 	inner join dbo.Account a on l.Id = a.LeadId
-	where Id = @Id
+	--where Id = @Id
 
 END
