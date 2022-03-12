@@ -78,7 +78,7 @@ namespace CRM.APILayer.Controllers
         //api/Leads/
         [HttpGet()]
         [Description("Get all leads")]
-        [AuthorizeEnum(Role.Admin)]
+        //[AuthorizeEnum(Role.Admin)]
         [ProducesResponseType(typeof(List<LeadResponse>), StatusCodes.Status200OK)]
         public ActionResult<List<LeadResponse>> GetAll()
         {

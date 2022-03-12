@@ -15,17 +15,18 @@ namespace CRM.DataLayer.Repositories
         private const string _selectById = "dbo.Account_SelectById";
         private const string _selectByLead = "dbo.Account_SelectByLead";
         private const string _updateProc = "dbo.Account_Update";
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static Logger _logger;
 
         public AccountRepository(IOptions<DbConfiguration> options) : base(options)
         {
+            _logger = LogManager.GetCurrentClassLogger();
         }
 
         public int AddAccount(Account account)
         {
-            logger.Debug("Попытка подключения к базе данных.");
+            _logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
-            logger.Debug("Произведено подключение к базе данных.");
+            _logger.Debug("Произведено подключение к базе данных.");
 
             var id =  connection.QueryFirstOrDefault<int>(
                     _insertProc,
@@ -37,15 +38,15 @@ namespace CRM.DataLayer.Repositories
                     },
                     commandType: CommandType.StoredProcedure
                 );
-            logger.Debug($"Аккаунт с id = {id} добавлен в базу данных.");
+            _logger.Debug($"Аккаунт с id = {id} добавлен в базу данных.");
             return id;
         }
 
         public void UpdateAccountById(Account account)
         {
-            logger.Debug("Попытка подключения к базе данных.");
+            _logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
-            logger.Debug("Произведено подключение к базе данных.");
+            _logger.Debug("Произведено подключение к базе данных.");
 
             connection.Execute(_updateProc,
                 new
@@ -55,15 +56,15 @@ namespace CRM.DataLayer.Repositories
                 },
 
                 commandType: CommandType.StoredProcedure);
-            logger.Debug($"Аккаунт с id = {account.Id} обновлен.");
+            _logger.Debug($"Аккаунт с id = {account.Id} обновлен.");
 
         }
 
         public void LockById(int id)
         {
-            logger.Debug("Попытка подключения к базе данных.");
+            _logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
-            logger.Debug("Произведено подключение к базе данных.");
+            _logger.Debug("Произведено подключение к базе данных.");
             connection.Execute(_lockProc,
                 new
                 {
@@ -71,14 +72,14 @@ namespace CRM.DataLayer.Repositories
                     IsBlocked = true
                 },
                 commandType: CommandType.StoredProcedure);
-            logger.Debug($"Аккаунт с id = {id} был заблокирован.");
+            _logger.Debug($"Аккаунт с id = {id} был заблокирован.");
         }
 
         public void UnlockById(int id)
         {
-            logger.Debug("Попытка подключения к базе данных.");
+            _logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
-            logger.Debug("Произведено подключение к базе данных.");
+            _logger.Debug("Произведено подключение к базе данных.");
             connection.Execute(_lockProc,
                 new
                 {
@@ -86,14 +87,14 @@ namespace CRM.DataLayer.Repositories
                     IsBlocked = false
                 },
                 commandType: CommandType.StoredProcedure);
-            logger.Debug($"Аккаунт с id = {id} был разблокирован.");
+            _logger.Debug($"Аккаунт с id = {id} был разблокирован.");
         }
 
         public List<Account> GetByLead(int leadId)
         {
-            logger.Debug("Попытка подключения к базе данных.");
+            _logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
-            logger.Debug("Произведено подключение к базе данных.");
+            _logger.Debug("Произведено подключение к базе данных.");
 
             var accounts =  connection.
                 Query<Account>(
@@ -101,23 +102,23 @@ namespace CRM.DataLayer.Repositories
                 new { LeadId = leadId },
                 commandType: CommandType.StoredProcedure)
                 .ToList();
-            logger.Debug($"Были возвращены все аккаунты лида с id = {leadId}");
+            _logger.Debug($"Были возвращены все аккаунты лида с id = {leadId}");
 
             return accounts;
         }
 
         public Account GetById(int id)
         {
-            logger.Debug("Попытка подключения к базе данных.");
+            _logger.Debug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
-            logger.Debug("Произведено подключение к базе данных.");
+            _logger.Debug("Произведено подключение к базе данных.");
 
             var account =  connection
                 .QueryFirstOrDefault<Account>(
                 _selectById,
                 new { Id = id },
                 commandType: CommandType.StoredProcedure);
-            logger.Debug($"Аккаунт с id = {id} был возвращен.");
+            _logger.Debug($"Аккаунт с id = {id} был возвращен.");
 
             return account;
         }

@@ -4,6 +4,7 @@ using CRM.DataLayer.Repositories.Interfaces;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Security;
 using CRM.BusinessLayer.Services.Interfaces;
+using NLog;
 
 namespace CRM.BusinessLayer.Services
 {
@@ -12,17 +13,19 @@ namespace CRM.BusinessLayer.Services
         private readonly ILeadRepository _leadRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _autoMapper;
+        private static Logger _logger;
 
         public LeadService(IMapper autoMapper, ILeadRepository leadRepository, IAccountRepository accountRepository)
         {
             _leadRepository = leadRepository;
             _autoMapper = autoMapper;
             _accountRepository = accountRepository;
-
+            _logger = LogManager.GetCurrentClassLogger();
         }
 
         public int AddLead(LeadModel leadModel)
         {
+            _logger.Info("Запрос на добавление лида.");
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
             var id = _leadRepository.AddLead(mappedLead);
@@ -37,6 +40,7 @@ namespace CRM.BusinessLayer.Services
 
         public void UpdateLead(int id, LeadModel leadModel)
         {
+            _logger.Info($"Запрос на обновление лида id = {id}.");
             var entity = _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
@@ -45,6 +49,7 @@ namespace CRM.BusinessLayer.Services
 
         public void DeleteById(int id)
         {
+            _logger.Info($"Запрос на удаление лида id = {id}.");
             var entity = _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             _leadRepository.DeleteById(id);
@@ -52,6 +57,7 @@ namespace CRM.BusinessLayer.Services
 
         public void RestoreById(int id)
         {
+            _logger.Info($"Запрос на восстановление лида id = {id}.");
             var entity = _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             _leadRepository.RestoreById(id);
@@ -59,12 +65,14 @@ namespace CRM.BusinessLayer.Services
 
         public List<LeadModel> GetAll()
         {
+            _logger.Info($"Запрос на получение всех лидов.");
             var leads = _leadRepository.GetAll();
             return _autoMapper.Map<List<LeadModel>>(leads);
         }
 
         public LeadModel GetById(int id)
         {
+            _logger.Info($"Запрос на получение аккаунта id = {id}.");
             var entity = _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             return _autoMapper.Map<LeadModel>(entity);
@@ -72,6 +80,7 @@ namespace CRM.BusinessLayer.Services
 
         public void ChangePassword(int id, string oldPassword, string newPassword)
         {
+            _logger.Info($"Запрос на изменение пароля лида id = {id}.");
             var entity = _leadRepository.GetById(id);
             
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
