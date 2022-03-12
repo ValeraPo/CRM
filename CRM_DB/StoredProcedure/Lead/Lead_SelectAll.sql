@@ -2,6 +2,7 @@
 AS
 BEGIN
 	select
+		Id,
 		[Name], 
 		LastName,
 		BirthDate,

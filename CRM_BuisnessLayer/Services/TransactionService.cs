@@ -1,12 +1,6 @@
-﻿using AutoMapper;
-using CRM.BusinessLayer.Models;
+﻿using CRM.BusinessLayer.Models;
 using CRM.DataLayer.Repositories.Interfaces;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRM.BusinessLayer.Services
 {
@@ -43,7 +37,7 @@ namespace CRM.BusinessLayer.Services
             var request = new RestRequest($"/transfer-to-{accountIdTo}-in-{currencyTo}/", Method.Post);
             request.AddJsonBody(transactionModel);
             var response = client.ExecuteAsync(request);
-            
+
             return response;
         }
 

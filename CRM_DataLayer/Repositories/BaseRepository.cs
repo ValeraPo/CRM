@@ -14,6 +14,7 @@ namespace CRM.DataLayer.Repositories
         {
             ConnectionString = options.Value.ConnectionString;
         }
+
         protected IDbConnection ProvideConnection() => new SqlConnection(ConnectionString);
     }
 }

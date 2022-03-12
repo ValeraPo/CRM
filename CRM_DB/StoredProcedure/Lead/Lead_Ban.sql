@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[Lead_Delete]
+﻿CREATE PROCEDURE [dbo].[Lead_Ban]
 	@Id int,
 	@IsBanned bit
 	

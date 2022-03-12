@@ -1,5 +1,4 @@
 ﻿using CRM.BusinessLayer.Models;
-using CRM.DataLayer.Entities;
 
 namespace CRM.BusinessLayer.Services.Interfaces
 {

@@ -1,4 +1,6 @@
-﻿namespace CRM.DataLayer.Entities
+﻿using Marvelous.Contracts;
+
+namespace CRM.DataLayer.Entities
 {
     public class Lead
     {

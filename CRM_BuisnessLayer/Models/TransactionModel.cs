@@ -1,8 +1,8 @@
-﻿using MarvelousContracts;
+﻿using Marvelous.Contracts;
 
 namespace CRM.BusinessLayer.Models
 {
-    public  class TransactionModel
+    public class TransactionModel
     {
         public decimal Amount { get; set; }
         public int AccountId { get; set; }
