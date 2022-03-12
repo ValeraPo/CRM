@@ -2,7 +2,7 @@
 using Marvelous.Contracts;
 
 namespace CRM.APILayer.Models
-{ 
+{
     public class AccountResponse
     {
         public int Id { get; set; }

@@ -3,6 +3,7 @@
 AS
 BEGIN
 	SELECT
+		l.Id,
 		l.[Name], 
 		l.LastName,
 		l.BirthDate,
@@ -12,6 +13,6 @@ BEGIN
 		a.Id,
 		a.[Name],
 		a.CurrencyType
-	FROM dbo.[Lead] l inner join dbo.[Account] a ON l.Id = a.LeadId
+	FROM dbo.[Lead] l inner join dbo.[Account] a ON a.LeadId = l.Id
 	WHERE l.Id = @Id
 END

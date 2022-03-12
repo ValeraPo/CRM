@@ -1,5 +1,4 @@
 ﻿using Marvelous.Contracts;
-using System.ComponentModel.DataAnnotations;
 
 namespace CRM.APILayer.Models
 {

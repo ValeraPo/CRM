@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using CRM.DataLayer.Entities;
-using CRM.DataLayer.Repositories.Interfaces;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Security;
 using CRM.BusinessLayer.Services.Interfaces;
+using CRM.DataLayer.Entities;
+using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts;
 
 namespace CRM.BusinessLayer.Services
@@ -27,6 +27,7 @@ namespace CRM.BusinessLayer.Services
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
             var id = _leadRepository.AddLead(mappedLead);
+            mappedLead.Id = id;
             _accountRepository.AddAccount(new Account
             {
                 Name = "MyAccount",
@@ -74,7 +75,7 @@ namespace CRM.BusinessLayer.Services
         public void ChangePassword(int id, string oldPassword, string newPassword)
         {
             var entity = _leadRepository.GetById(id);
-            
+
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             ExceptionsHelper.ThrowIfPasswordIsIncorrected(oldPassword, entity.Password);
 
@@ -82,6 +83,6 @@ namespace CRM.BusinessLayer.Services
             _leadRepository.ChangePassword(entity.Id, hashPassword);
         }
 
-        
+
     }
 }

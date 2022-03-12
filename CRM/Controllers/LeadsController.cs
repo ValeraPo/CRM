@@ -4,7 +4,6 @@ using CRM.APILayer.Extensions;
 using CRM.APILayer.Models;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
-using CRM.DataLayer.Entities;
 using Marvelous.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +28,7 @@ namespace CRM.APILayer.Controllers
         //api/Leads
         [HttpPost]
         [Description("Create lead")]
-        [AuthorizeEnum(Role.Admin)]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         public ActionResult<int> AddLead([FromBody] LeadInsertRequest leadInsertRequest)
         {
@@ -61,7 +60,7 @@ namespace CRM.APILayer.Controllers
         public ActionResult DeleteById(int id)
         {
             _leadService.DeleteById(id);
-            return Ok($"Lead with id = {id} was deleted");
+            return Ok($"Lead with id = {id} was banned");
         }
 
         //api/Leads/42
