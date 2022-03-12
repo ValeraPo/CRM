@@ -1,16 +1,9 @@
-﻿using AutoMapper;
-using CRM.APILayer.Attribites;
-using CRM.APILayer.Models;
-using CRM.BusinessLayer.Models;
-using CRM.BusinessLayer.Services.Interfaces;
-using CRM.DataLayer.Entities;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace CRM.APILayer.Extensions
 {
-    public static class ControllerExtensions 
+    public static class ControllerExtensions
     {
 
         private static List<Claim> GetInfoFromToken(this Controller controller)
