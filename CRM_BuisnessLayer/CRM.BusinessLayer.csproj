@@ -18,10 +18,4 @@
     <ProjectReference Include="..\CRM_DataLayer\CRM.DataLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="MarvelousContracts">
-      <HintPath>bin\Debug\net6.0\ref\MarvelousContracts.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

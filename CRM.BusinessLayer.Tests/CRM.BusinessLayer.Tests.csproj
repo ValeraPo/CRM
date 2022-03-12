@@ -25,10 +25,4 @@
     <Folder Include="ModelTests\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="MarvelousContracts">
-      <HintPath>..\CRM_BuisnessLayer\bin\Debug\net6.0\ref\MarvelousContracts.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
