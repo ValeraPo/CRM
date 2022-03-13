@@ -4,6 +4,7 @@ using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
+using Marvelous.Contracts;
 using NLog;
 
 namespace CRM.BusinessLayer.Services
@@ -84,7 +85,7 @@ namespace CRM.BusinessLayer.Services
             return _autoMapper.Map<AccountModel>(entity);
         }
 
-        private void CheckDuplicationAccount(int leadId, MarvelousContracts.Currency currency)
+        private void CheckDuplicationAccount(int leadId, Currency currency)
         {
             var accounts = _accountRepository.GetByLead(leadId);
             var c = accounts.Select(x => x.CurrencyType).ToList();

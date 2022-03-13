@@ -3,6 +3,7 @@ using CRM.DataLayer.Entities;
 using CRM.DataLayer.Extensions;
 using CRM.DataLayer.Repositories.Interfaces;
 using Dapper;
+using Marvelous.Contracts;
 using Microsoft.Extensions.Options;
 using NLog;
 using System.Data;
@@ -35,13 +36,13 @@ namespace CRM.DataLayer.Repositories
                     _insertProc,
                     new
                     {
-                        Name = lead.Name,
-                        LastName = lead.LastName,
-                        BirthDate = lead.BirthDate,
-                        Email = lead.Email,
-                        Phone = lead.Phone,
-                        Passord = lead.Password,
-                        City = lead.City,
+                        lead.Name,
+                        lead.LastName,
+                        lead.BirthDate,
+                        lead.Email,
+                        lead.Phone,
+                        lead.Password,
+                        lead.City,
                         Role = Role.Regular
                     },
                     commandType: CommandType.StoredProcedure
@@ -128,16 +129,14 @@ namespace CRM.DataLayer.Repositories
                 _selectById,
                 (lead, account) =>
                 {
+                    lead.Accounts = new List<Account>();
                     lead.Accounts.Add(account);
                     return lead;
                 },
-                new 
-                { 
-                    Id = id 
-                },
-                splitOn: "LeadId",
-                commandType: CommandType.StoredProcedure).
-                FirstOrDefault();
+                new { Id = id },
+                splitOn: "Id",
+                commandType: CommandType.StoredProcedure)
+                .FirstOrDefault();
             _logger.Debug($"Были возвращен лид с id = {id}");
             return lead;
         }

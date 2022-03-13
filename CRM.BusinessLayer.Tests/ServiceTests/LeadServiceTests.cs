@@ -2,7 +2,6 @@
 using CRM.BusinessLayer.Configurations;
 using CRM.BusinessLayer.Exceptions;
 using CRM.BusinessLayer.Models;
-using CRM.BusinessLayer.Security;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Tests.TestData;
 using CRM.DataLayer.Entities;
@@ -208,8 +207,8 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var lead = _leadTestData.GetLeadModelForTests();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(lead);
-            _leadRepositoryMock.Setup(m => m.ChangePassword(It.IsAny<Lead>(), It.IsAny<string>()));
-            
+            _leadRepositoryMock.Setup(m => m.ChangePassword(It.IsAny<int>(), It.IsAny<string>()));
+
             var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object);
 
             //when
@@ -217,7 +216,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
             //then
             _leadRepositoryMock.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
-            _leadRepositoryMock.Verify(m => m.ChangePassword(It.IsAny<Lead>(), It.IsAny<string>()), Times.Once());
+            _leadRepositoryMock.Verify(m => m.ChangePassword(It.IsAny<int>(), It.IsAny<string>()), Times.Once());
         }
 
         [Test]
@@ -237,7 +236,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var lead = _leadTestData.GetLeadModelForTests();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(lead);
-            _leadRepositoryMock.Setup(m => m.ChangePassword(It.IsAny<Lead>(), It.IsAny<string>()));
+            _leadRepositoryMock.Setup(m => m.ChangePassword(It.IsAny<int>(), It.IsAny<string>()));
             var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object);
 
             //then

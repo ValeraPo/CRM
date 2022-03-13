@@ -1,11 +1,10 @@
-﻿using CRM.DataLayer;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CRM.APILayer.Models
 {
     public class LeadInsertRequest : LeadRequest
     {
-       
+
         [EmailAddress(ErrorMessage = "Email введен некорректно.")]
         public string Email { get; set; }
 

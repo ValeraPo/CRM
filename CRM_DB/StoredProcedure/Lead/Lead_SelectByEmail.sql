@@ -4,6 +4,7 @@ AS
 BEGIN
 	select
 		[Name], 
+		Id,
 		LastName,
 		BirthDate,
 		Email,

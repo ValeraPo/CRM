@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Marvelous.Contracts" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.2" />
     <PackageReference Include="NLog.Config" Version="4.7.14" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
@@ -18,12 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CRM_BuisnessLayer\CRM.BusinessLayer.csproj" />
     <ProjectReference Include="..\CRM_DataLayer\CRM.DataLayer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="MarvelousContracts">
-      <HintPath>..\CRM_BuisnessLayer\bin\Debug\net6.0\ref\MarvelousContracts.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

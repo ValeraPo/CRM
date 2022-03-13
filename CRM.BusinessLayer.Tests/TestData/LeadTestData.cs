@@ -1,5 +1,6 @@
 ﻿using CRM.BusinessLayer.Models;
 using CRM.DataLayer.Entities;
+using Marvelous.Contracts;
 using System.Collections.Generic;
 
 namespace CRM.BusinessLayer.Tests.TestData
@@ -22,7 +23,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                 Accounts = new List<Account> {
                         new AccountModel
                         {
-                            CurrencyType = MarvelousContracts.Currency.RUB
+                            CurrencyType = Currency.RUB
                         }
                     }
             };
@@ -46,7 +47,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                    Accounts = new List<Account> {
                        new AccountModel
                        {
-                           CurrencyType = MarvelousContracts.Currency.RUB
+                           CurrencyType = Currency.RUB
                        }
                    }
                },
@@ -64,7 +65,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                    Accounts = new List<Account> {
                        new AccountModel
                        {
-                           CurrencyType = MarvelousContracts.Currency.USD
+                           CurrencyType = Currency.USD
                        }
                    }
                }

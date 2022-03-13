@@ -1,13 +1,12 @@
-﻿using CRM.APILayer.Configuration;
+﻿using BearGoodbyeKolkhozProject.Business.Configuration;
+using CRM.APILayer.Configuration;
 using CRM.BusinessLayer.Configurations;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
-using AutoMapper;
 using CRM.DataLayer.Repositories;
 using CRM.DataLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using BearGoodbyeKolkhozProject.Business.Configuration;
 using Microsoft.OpenApi.Models;
 
 namespace CRM.APILayer.Extensions
@@ -20,7 +19,7 @@ namespace CRM.APILayer.Extensions
 
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ILeadRepository, LeadRepository>();
-            
+
         }
 
         public static void RegisterCRMServices(this IServiceCollection services)
@@ -28,6 +27,7 @@ namespace CRM.APILayer.Extensions
             services.AddScoped<ILeadService, LeadService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<IAuthService, AuthService>();
         }
 
         public static void RegisterCRMAutomappers(this IServiceCollection services)
