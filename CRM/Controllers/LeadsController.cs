@@ -7,6 +7,7 @@ using CRM.BusinessLayer.Services.Interfaces;
 using Marvelous.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 using System.ComponentModel;
 
 namespace CRM.APILayer.Controllers
@@ -18,11 +19,13 @@ namespace CRM.APILayer.Controllers
     {
         private readonly ILeadService _leadService;
         private readonly IMapper _autoMapper;
+        private static Logger _logger;
 
         public LeadsController(ILeadService leadService, IMapper autoMapper)
         {
             _leadService = leadService;
             _autoMapper = autoMapper;
+            _logger = LogManager.GetCurrentClassLogger();
         }
 
         //api/Leads
@@ -32,8 +35,10 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         public ActionResult<int> AddLead([FromBody] LeadInsertRequest leadInsertRequest)
         {
+            _logger.Info($"Получен запрос на создание лида.");
             var leadModel = _autoMapper.Map<LeadModel>(leadInsertRequest);
             var id = _leadService.AddLead(leadModel);
+            _logger.Info($"Лид с id = {id} успешно создан.");
             return StatusCode(StatusCodes.Status201Created, id);
         }
 
@@ -45,9 +50,11 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
         {
+            _logger.Info($"Получен запрос на создание лида с id = {id}.");
             var leadModel = _autoMapper.Map<LeadModel>(leadUpdateRequest);
             leadModel.Id = id;
             _leadService.UpdateLead(id, leadModel);
+            _logger.Info($"Лид с id = {id} успешно обновлен.");
             return Ok($"Lead with id = {id} was updated");
         }
 
@@ -59,8 +66,10 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult DeleteById(int id)
         {
+            _logger.Info($"Получен запрос на удаление лида с id = {id}.");
             _leadService.DeleteById(id);
-            return Ok($"Lead with id = {id} was banned");
+            _logger.Info($"Лид с id = {id} успешно удален.");
+            return Ok($"Lead with id = {id} was deleted");
         }
 
         //api/Leads/42
@@ -71,19 +80,23 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult RestoreById(int id)
         {
+            _logger.Info($"Получен запрос на восстановление лида с id = {id}.");
             _leadService.RestoreById(id);
+            _logger.Info($"Лид с id = {id} успешно восстановлен.");
             return Ok($"Lead with id = {id} was restored");
         }
 
         //api/Leads/
         [HttpGet()]
         [Description("Get all leads")]
-        [AuthorizeEnum(Role.Admin)]
+        //[AuthorizeEnum(Role.Admin)]
         [ProducesResponseType(typeof(List<LeadResponse>), StatusCodes.Status200OK)]
         public ActionResult<List<LeadResponse>> GetAll()
         {
+            _logger.Info($"Получен запрос на получение всех лидов.");
             var leadModels = _leadService.GetAll();
             var outputs = _autoMapper.Map<List<LeadResponse>>(leadModels);
+            _logger.Info($"Все лиды успешно получены.");
             return Ok(outputs);
         }
 
@@ -95,8 +108,10 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<LeadResponse> GetById(int id)
         {
+            _logger.Info($"Получен запрос на получение лида с id = {id}.");
             var leadModel = _leadService.GetById(id);
             var output = _autoMapper.Map<LeadResponse>(leadModel);
+            _logger.Info($"Лид с id = {id} успешно получен.");
             return Ok(output);
         }
 
@@ -108,7 +123,9 @@ namespace CRM.APILayer.Controllers
         public ActionResult ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
         {
             var id = this.GetLeadId();
+            _logger.Info($"Получен запрос на изменение пароля лида с id = {id}.");
             _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
+            _logger.Info($"Пароль лида с id = {id} успешно изменен.");
             return Ok();
         }
 
