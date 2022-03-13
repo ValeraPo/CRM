@@ -28,7 +28,7 @@ namespace CRM.BusinessLayer.Services
         {
             _logger.Info("Запрос на добавление аккаунта.");
             CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
-            if (role == (int)Role.Regular && accountModel.CurrencyType != MarvelousContracts.Currency.USD)
+            if (role == (int)Role.Regular && accountModel.CurrencyType != Currency.USD)
             {
                 _logger.Error("Ошибка добавления аккаунта. Лид с такой ролью не может создавать валютные счета кроме долларового.");
                 throw new AuthorizationException("Лид с такой ролью не может создавать валютные счета кроме долларового");
