@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using CRM.BusinessLayer.Exceptions;
 using CRM.BusinessLayer.Models;
-using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using NLog;
-using System.Linq;
 
 namespace CRM.BusinessLayer.Services
 {
@@ -30,7 +28,10 @@ namespace CRM.BusinessLayer.Services
             _logger.Info("Запрос на добавление аккаунта.");
             CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
             if (role == (int)Role.Regular && accountModel.CurrencyType != MarvelousContracts.Currency.USD)
+            {
+                _logger.Error("Ошибка добавления аккаунта. Лид с такой ролью не может создавать валютные счета кроме долларового.");
                 throw new AuthorizationException("Лид с такой ролью не может создавать валютные счета кроме долларового");
+            }
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
             var id = _accountRepository.AddAccount(mappedAccount);
             return id;
@@ -76,7 +77,10 @@ namespace CRM.BusinessLayer.Services
             var entity = _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             if (entity.Lead.Id != leadId)
+            {
+                _logger.Error($"Ошибка запроса на получение аккаунта id = {id}. Нет доступа к чужому аккаунту.");
                 throw new AuthorizationException("Нет доступа к чужому аккаунту.");
+            }
             return _autoMapper.Map<AccountModel>(entity);
         }
 
@@ -90,7 +94,10 @@ namespace CRM.BusinessLayer.Services
                 .Select(a => a.CurrencyType)
                 .ToList()
                 .Contains(currency))
+            {
+                _logger.Error("Ошибка добавления аккаунта. Счет с такой валютой уже существует.");
                 throw new DuplicationException("Счет с такой валютой уже существует");
+            }
         }
     }
 }
