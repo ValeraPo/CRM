@@ -1,5 +1,5 @@
-﻿using CRM.BusinessLayer.Models;
-using CRM.DataLayer.Repositories.Interfaces;
+﻿using CRM.DataLayer.Repositories.Interfaces;
+using Marvelous.Contracts;
 using NLog;
 using RestSharp;
 
@@ -10,7 +10,7 @@ namespace CRM.BusinessLayer.Services
     {
         private readonly IAccountRepository _accountRepository;
         private static Logger _logger;
-
+        private const string _url = "https://api.marvelous.com";
 
         public TransactionService(IAccountRepository accountRepository)
         {
@@ -18,49 +18,42 @@ namespace CRM.BusinessLayer.Services
             _logger = LogManager.GetCurrentClassLogger();
         }
 
-        public Task<RestResponse> AddDeposit(TransactionModel transactionModel)
+        public Task<RestResponse> AddDeposit(TransactionRequestModel transactionModel)
         {
             _logger.Info($"Попытка транзакии с аккаунта id = {transactionModel.AccountId}.");
             var entity = _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
-            var client = new RestClient("https://api.marvelous.com");
-            var request = new RestRequest("/transaction/", Method.Post);
             _logger.Info($"Отправка запроса на транзакию с аккаунта id = {transactionModel.AccountId}.");
-            request.AddJsonBody(transactionModel);
-            var response = client.ExecuteAsync(request);
+            var request = new RequestHelper<TransactionRequestModel>();
+            var response = request.GenerateRequest(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
             _logger.Info($"Получен ответ на транзакию с аккаунта id = {transactionModel.AccountId}.");
 
             return response;
         }
 
-        public Task<RestResponse> AddTransfer(TransactionModel transactionModel, int accountIdTo, int currencyTo)
+        public Task<RestResponse> AddTransfer(TransferRequestModel transactionModel)
         {
-            _logger.Info($"Попытка трансфера с аккаунта id = {transactionModel.AccountId} на аккаунт id = {accountIdTo}.");
-            var entity = _accountRepository.GetById(transactionModel.AccountId);
-            ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
-            var accountTo = _accountRepository.GetById(transactionModel.AccountId);
-            ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, accountTo);
-
-            var client = new RestClient("https://api.marvelous.com");
-            var request = new RestRequest($"/transfer-to-{accountIdTo}-in-{currencyTo}/", Method.Post);
-            request.AddJsonBody(transactionModel);
-            _logger.Info($"Отправка запроса трансфера с аккаунта id = {transactionModel.AccountId} на аккаунт id = {accountIdTo}.");
-            var response = client.ExecuteAsync(request);
-            _logger.Info($"Получен ответ на трансфер с аккаунта id = {transactionModel.AccountId} на аккаунт id = {accountIdTo}.");
+            _logger.Info($"Попытка трансфера с аккаунта id = {transactionModel.AccountIdFrom} на аккаунт id = {transactionModel.AccountIdTo}.");
+            var entity = _accountRepository.GetById(transactionModel.AccountIdFrom);
+            ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdFrom, entity);
+            var accountTo = _accountRepository.GetById(transactionModel.AccountIdTo);
+            ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdTo, accountTo);
+            _logger.Info($"Отправка запроса трансфера с аккаунта id = {transactionModel.AccountIdFrom} на аккаунт id = {transactionModel.AccountIdTo}.");
+            var request = new RequestHelper<TransferRequestModel>();
+            var response = request.GenerateRequest(_url, UrlTransaction.Transfer, Method.Post, transactionModel);
+            _logger.Info($"Получен ответ на трансфер с аккаунта id = {transactionModel.AccountIdFrom} на аккаунт id = {transactionModel.AccountIdTo}.");
 
             return response;
         }
 
-        public Task<RestResponse> Withdraw(TransactionModel transactionModel)
+        public Task<RestResponse> Withdraw(TransactionRequestModel transactionModel)
         {
             _logger.Info($"Попытка вывода средств с аккаунта id = {transactionModel.AccountId}.");
             var entity = _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
-            var client = new RestClient("https://api.marvelous.com");
-            var request = new RestRequest("/withdraw/", Method.Post);
             _logger.Info($"Отправка запроса на вывод средств с аккаунта id = {transactionModel.AccountId}.");
-            request.AddJsonBody(transactionModel);
-            var response = client.ExecuteAsync(request);
+            var request = new RequestHelper<TransactionRequestModel>();
+            var response = request.GenerateRequest(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
             _logger.Info($"Получен ответ на вывод средств с аккаунта id = {transactionModel.AccountId}.");
 
             return response;

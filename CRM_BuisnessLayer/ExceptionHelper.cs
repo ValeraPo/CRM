@@ -45,5 +45,14 @@ namespace CRM.BusinessLayer
             }
         }
 
+        public static void ThrowIfEmailRepeat(List<string> emails, string email)
+        {
+            if (emails.Contains(email))
+            {
+                _logger.Error($"Ошибка добавления лида. Пользователь {email} уже существует.");
+                throw new DuplicationException($"Пользователь {email} уже существует.");
+            }
+        }
+
     }
 }

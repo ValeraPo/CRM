@@ -27,6 +27,7 @@ namespace CRM.BusinessLayer.Services
         public int AddLead(LeadModel leadModel)
         {
             _logger.Info("Запрос на добавление лида.");
+            ExceptionsHelper.ThrowIfEmailRepeat(_leadRepository.GetAll().Select(e => e.Email).ToList(), leadModel.Email);
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
             var id = _leadRepository.AddLead(mappedLead);
@@ -91,7 +92,6 @@ namespace CRM.BusinessLayer.Services
             string hashPassword = PasswordHash.HashPassword(newPassword);
             _leadRepository.ChangePassword(entity.Id, hashPassword);
         }
-
 
     }
 }

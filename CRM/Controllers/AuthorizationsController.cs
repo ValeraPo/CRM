@@ -4,6 +4,7 @@ using CRM.DataLayer.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel;
 
 namespace CRM.APILayer.Controllers
@@ -24,7 +25,7 @@ namespace CRM.APILayer.Controllers
 
         [HttpPost("login")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        [Description("Authentication")]
+        [SwaggerOperation("Authentication")]
         public ActionResult Login([FromBody] AuthRequest auth)
         {
             _logger.Info($"Получен запрос на аутентификаию лида с email = {auth.Email.Encryptor()}.");

@@ -8,6 +8,7 @@ using Marvelous.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel;
 
 namespace CRM.APILayer.Controllers
@@ -30,9 +31,9 @@ namespace CRM.APILayer.Controllers
 
         //api/Leads
         [HttpPost]
-        [Description("Create lead")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        [SwaggerOperation("Create lead")]
         public ActionResult<int> AddLead([FromBody] LeadInsertRequest leadInsertRequest)
         {
             _logger.Info($"Получен запрос на создание лида.");
@@ -44,10 +45,10 @@ namespace CRM.APILayer.Controllers
 
         //api/Leads/42
         [HttpPut("{id}")]
-        [Description("Update lead")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation("Update lead by id. Roles: All")]
         public ActionResult UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
         {
             _logger.Info($"Получен запрос на создание лида с id = {id}.");
@@ -60,10 +61,10 @@ namespace CRM.APILayer.Controllers
 
         //api/Leads/42
         [HttpDelete("{id}")]
-        [Description("Delete lead")]
         [AuthorizeEnum(Role.Admin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation("Delete lead by id. Roles: Admin")]
         public ActionResult DeleteById(int id)
         {
             _logger.Info($"Получен запрос на удаление лида с id = {id}.");
@@ -74,10 +75,10 @@ namespace CRM.APILayer.Controllers
 
         //api/Leads/42
         [HttpPatch("{id}")]
-        [Description("Restore lead")]
         [AuthorizeEnum(Role.Admin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation("Restore lead by id. Roles: Admin")]
         public ActionResult RestoreById(int id)
         {
             _logger.Info($"Получен запрос на восстановление лида с id = {id}.");
@@ -88,9 +89,9 @@ namespace CRM.APILayer.Controllers
 
         //api/Leads/
         [HttpGet()]
-        [Description("Get all leads")]
-        //[AuthorizeEnum(Role.Admin)]
+        [AuthorizeEnum(Role.Admin)]
         [ProducesResponseType(typeof(List<LeadResponse>), StatusCodes.Status200OK)]
+        [SwaggerOperation("Restore all lead. Roles: Admin")]
         public ActionResult<List<LeadResponse>> GetAll()
         {
             _logger.Info($"Получен запрос на получение всех лидов.");
@@ -102,10 +103,10 @@ namespace CRM.APILayer.Controllers
 
         //api/Leads/42
         [HttpGet("{id}")]
-        [Description("Get lead by id")]
         [Authorize]
         [ProducesResponseType(typeof(LeadResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation("Get lead by id. Roles: Admin")]
         public ActionResult<LeadResponse> GetById(int id)
         {
             _logger.Info($"Получен запрос на получение лида с id = {id}.");
@@ -117,9 +118,9 @@ namespace CRM.APILayer.Controllers
 
         //api/Leads/password
         [HttpPut("password")]
-        [Description("Change lead password")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [SwaggerOperation("Change lead password. Roles: All")]
         public ActionResult ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
         {
             var id = this.GetLeadId();
