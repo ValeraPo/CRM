@@ -1,13 +1,13 @@
-﻿
-using CRM.BusinessLayer.Models;
+﻿using CRM.BusinessLayer.Models;
+using Marvelous.Contracts;
 using RestSharp;
 
 namespace CRM.BusinessLayer.Services
 {
     public interface ITransactionService
     {
-        Task<RestResponse> AddDeposit(TransactionModel transactionModel);
-        Task<RestResponse> AddTransfer(TransactionModel transactionModel, int accountIdTo, int currencyTo);
-        Task<RestResponse> Withdraw(TransactionModel transactionModel);
+        Task<RestResponse> AddDeposit(TransactionRequestModel transactionModel);
+        Task<RestResponse> AddTransfer(TransferRequestModel transactionModel);
+        Task<RestResponse> Withdraw(TransactionRequestModel transactionModel);
     }
 }

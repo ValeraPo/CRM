@@ -7,6 +7,7 @@ using CRM.BusinessLayer.Services.Interfaces;
 using Marvelous.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel;
 
 namespace CRM.APILayer.Controllers
@@ -30,8 +31,8 @@ namespace CRM.APILayer.Controllers
         //api/accounts
         [HttpPost]
         [AuthorizeEnum(Role.Vip, Role.Regular)]
-        [Description("Create account")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        [SwaggerOperation("Add new account. Roles: Vip, Regular")]
         public ActionResult<int> AddAccount([FromBody] AccountInsertRequest accountInsertRequest)
         {
             var leadId = this.GetLeadId();
@@ -46,9 +47,9 @@ namespace CRM.APILayer.Controllers
         //api/accounts/42
         [HttpPut("{id}")]
         [AuthorizeEnum(Role.Vip, Role.Regular)]
-        [Description("Update account")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation("Update account by id. Roles: Vip, Regular")]
         public ActionResult UpdateAccount(int id, [FromBody] AccountUpdateRequest accountUpdateRequest)
         {
             _logger.Info($"Получен запрос на обновление аккаунта id = {id} лидом с id = {this.GetLeadId()}.");
@@ -61,9 +62,9 @@ namespace CRM.APILayer.Controllers
         //api/accounts/42
         [HttpDelete("{id}")]
         [AuthorizeEnum(Role.Admin)]
-        [Description("Lock account")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation("Lock account by id. Roles: Admin")]
         public ActionResult LockById(int id)
         {
             _logger.Info($"Получен запрос на блокировку аккаунта id = {id} лидом с id = {this.GetLeadId()}.");
@@ -75,9 +76,9 @@ namespace CRM.APILayer.Controllers
         //api/accounts/42
         [HttpPatch("{id}")]
         [AuthorizeEnum(Role.Admin)]
-        [Description("UnlockAccount")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation("Unlock account by id. Roles: Admin")]
         public ActionResult UnlockById(int id)
         {
             _logger.Info($"Получен запрос на разблокировку аккаунта id = {id} лидом с id = {this.GetLeadId()}.");
@@ -89,9 +90,9 @@ namespace CRM.APILayer.Controllers
         //api/accounts
         [HttpGet()]
         [AuthorizeEnum(Role.Vip, Role.Regular)]
-        [Description("Get accounts by lead")]
         [ProducesResponseType(typeof(List<AccountResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation("Get accounts by lead. Roles: Vip, Regular")]
         public ActionResult<List<AccountResponse>> GetByLead()
         {
             var id = this.GetLeadId();
@@ -105,10 +106,10 @@ namespace CRM.APILayer.Controllers
         //api/accounts/42
         [HttpGet("{id}")]
         [AuthorizeEnum(Role.Vip, Role.Regular)]
-        [Description("Get account by id")]
         [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerOperation("Get account by id. Roles: Vip, Regular")]
         public ActionResult<AccountResponse> GetById(int id)
         {
             _logger.Info($"Получен запрос на получение аккаунта с id = {id} лидом с id = {id}.");

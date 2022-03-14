@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using CRM.APILayer.Models;
-using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services;
+using Marvelous.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Swashbuckle.AspNetCore.Annotations;
@@ -21,42 +20,39 @@ namespace CRM.APILayer.Controllers
             _logger = LogManager.GetCurrentClassLogger();
         }
 
-        // api/transaction/
-        [HttpPost("deposit")]
+        // api/deposit/
+        [HttpPost(UrlTransaction.Deposit)]
         [SwaggerOperation(Summary = "Add deposit")]
         [SwaggerResponse(201, "Deposit added")]
-        public ActionResult AddDeposit([FromBody] TransactionRequest transaction)
+        public ActionResult AddDeposit([FromBody] TransactionRequestModel transaction)
         {
             _logger.Info($"Получен запрос на добавление депозита в аккаунт id = {transaction.AccountId}.");
-            var transactionModel = _mapper.Map<TransactionModel>(transaction);
-            var transactionId = _transactionService.AddDeposit(transactionModel);
+            var transactionId = _transactionService.AddDeposit(transaction);
             _logger.Info($"Депозит с id = {transactionId} успешно добавлен в аккаунт id = {transaction.AccountId}.");
 
             return StatusCode(201, transactionId);
         }
 
-        // api/transaction/
-        [HttpPost("transfer-to-{accountId}-in-{currencyTo}")]
+        // api/trsnsfer/
+        [HttpPost(UrlTransaction.Transfer)]
         [SwaggerOperation(Summary = "Add transfer")]
         [SwaggerResponse(201, "List transactions by accountId ")]
-        public ActionResult AddTransfer([FromBody] TransactionRequest transaction, int accountId, int currencyTo)
+        public ActionResult AddTransfer([FromBody] TransferRequestModel transaction)
         {
-            _logger.Info($"Получен запрос на добавление трансфера с аккаунта id = {transaction.AccountId} на аккаунт id = {accountId}.");
-            var transactionModel = _mapper.Map<TransactionModel>(transaction);
-            var transactionId = _transactionService.AddTransfer(transactionModel, accountId, currencyTo);
-            _logger.Info($"Трансфер с id = {transactionId} с аккаунта id = {transaction.AccountId} на аккаунт id = {accountId} прошел успешно.");
-
+            _logger.Info($"Получен запрос на добавление трансфера с аккаунта id = {transaction.AccountIdFrom} на аккаунт id = {transaction.AccountIdTo}.");
+            var transactionId = _transactionService.AddTransfer(transaction);
+            _logger.Info($"Трансфер с id = {transactionId} с аккаунта id = {transaction.AccountIdFrom} на аккаунт id = {transaction.AccountIdTo} прошел успешно.");
             return StatusCode(201, transactionId);
         }
 
-        [HttpPost("withdraw")]
+        // api/withdraw/
+        [HttpPost(UrlTransaction.Withdraw)]
         [SwaggerOperation(Summary = "Withdraw")]
         [SwaggerResponse(201, "Withdraw successful")]
-        public ActionResult Withdraw([FromBody] TransactionRequest transaction)
+        public ActionResult Withdraw([FromBody] TransactionRequestModel transaction)
         {
             _logger.Info($"Получен запрос на вывод средств с аккаунта id = {transaction.AccountId}.");
-            var transactionModel = _mapper.Map<TransactionModel>(transaction);
-            var transactionId = _transactionService.Withdraw(transactionModel);
+            var transactionId = _transactionService.Withdraw(transaction);
             _logger.Info($"Вывод средств с id = {transactionId} с аккаунта id = {transaction.AccountId} прошел успешно.");
 
             return StatusCode(201, transactionId);
