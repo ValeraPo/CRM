@@ -16,7 +16,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                 IsBlocked = false,
                 LockDate = null,
                 Name = "MyAccount",
-                Lead = new LeadModel
+                Lead = new Lead
                 {
                     Id = 1,
                     Name = "Василий",
@@ -27,7 +27,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                     Phone = "+79567436745",
                     Role = Role.Regular,
                     Accounts = new List<Account> {
-                        new AccountModel
+                        new Account
                         {
                             CurrencyType = Currency.RUB
                         }
@@ -46,7 +46,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                 IsBlocked = false,
                 LockDate = null,
                 Name = "MyAccount",
-                Lead = new LeadModel
+                Lead = new Lead
                 {
                     Id = 1,
                     Name = "Василий",
@@ -70,7 +70,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                 IsBlocked = false,
                 LockDate = null,
                 Name = "MyAccount",
-                Lead = new LeadModel
+                Lead = new Lead
                 {
                     Id = 1,
                     Name = "Василий",
@@ -81,7 +81,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                     Phone = "+79567436745",
                     Role = Role.Admin,
                     Accounts = new List<Account> {
-                        new AccountModel
+                        new Account
                         {
                             CurrencyType = Currency.RUB
                         }
@@ -100,7 +100,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                     IsBlocked = false,
                     LockDate = null,
                     Name = "MyAccount",
-                    Lead = new LeadModel
+                    Lead = new Lead
                     {
                         Id = 1,
                         Name = "Василий",
@@ -111,7 +111,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                         Phone = "+79567436745",
                         Role = Role.Regular,
                         Accounts = new List<Account> {
-                            new AccountModel
+                            new Account
                             {
                                 CurrencyType = Currency.RUB
                             }
@@ -125,7 +125,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                     IsBlocked = false,
                     LockDate = null,
                     Name = "MyAccount",
-                    Lead = new LeadModel
+                    Lead = new Lead
                     {
                         Id = 1,
                         Name = "Василий",
@@ -136,7 +136,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                         Phone = "+79567436745",
                         Role = Role.Regular,
                         Accounts = new List<Account> {
-                            new AccountModel
+                            new Account
                             {
                                 CurrencyType = Currency.USD
                             }

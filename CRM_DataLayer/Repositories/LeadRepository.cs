@@ -150,7 +150,7 @@ namespace CRM.DataLayer.Repositories
             var lead =  connection
                 .QueryFirstOrDefault<Lead>(
                 _selectByEmail,
-                new { Email = email },
+                new { email },
                 commandType: CommandType.StoredProcedure);
             _logger.Debug($"Были возвращен лид с email = {email.Encryptor()}");
             return lead;
