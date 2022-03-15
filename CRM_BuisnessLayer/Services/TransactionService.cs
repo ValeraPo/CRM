@@ -10,7 +10,7 @@ namespace CRM.BusinessLayer.Services
     {
         private readonly IAccountRepository _accountRepository;
         private static Logger _logger;
-        private const string _url = "https://piter-education.ru:5050";
+        private const string _url = "https://piter-education.ru:6060";
 
         public TransactionService(IAccountRepository accountRepository)
         {
