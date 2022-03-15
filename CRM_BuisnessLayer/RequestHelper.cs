@@ -7,7 +7,7 @@ namespace CRM.BusinessLayer
         public Task<RestResponse> GenerateRequest(string url, string path, Method method, T requestModel)
         {
             var client = new RestClient(url);
-            var request = new RestRequest(path, method);
+            var request = new RestRequest($"/{path}/", method);
             request.AddJsonBody(requestModel);
             var response = client.ExecuteAsync(request);
 
