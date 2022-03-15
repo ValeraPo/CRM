@@ -169,7 +169,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         public void GetByIdTest()
         {
             //given
-            var lead = _leadTestData.GetLeadModelForTests();
+            var lead = _leadTestData.GetLeadForTests();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(lead);
             var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object);
 
@@ -205,7 +205,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         public void ChangePasswordTest()
         {
             //given
-            var lead = _leadTestData.GetLeadModelForTests();
+            var lead = _leadTestData.GetLeadForTests();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(lead);
             _leadRepositoryMock.Setup(m => m.ChangePassword(It.IsAny<int>(), It.IsAny<string>()));
 
@@ -234,7 +234,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         public void ChangePasswordNegativeTest_IncorrectPasswordException()
         {
             //given
-            var lead = _leadTestData.GetLeadModelForTests();
+            var lead = _leadTestData.GetLeadForTests();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(lead);
             _leadRepositoryMock.Setup(m => m.ChangePassword(It.IsAny<int>(), It.IsAny<string>()));
             var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object);

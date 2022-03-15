@@ -20,7 +20,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                 Password = "1000:8S83WAEVgLwRh+2W0UjHQzjSP6wMsKbJ:tSKgueB+sLXOYioRB0Ozd6uu/ww=",
                 Phone = "+79567436745",
                 Role = Role.Regular,
-                Accounts = new List<Account> {
+                Accounts = new List<AccountModel> {
                         new AccountModel
                         {
                             CurrencyType = Currency.RUB
@@ -30,11 +30,33 @@ namespace CRM.BusinessLayer.Tests.TestData
             return leadModel;
         }
 
+        public Lead GetLeadForTests()
+        {
+            Lead leadModel = new Lead
+            {
+
+                Id = 1,
+                Name = "Василий",
+                LastName = "Иванов",
+                BirthDate = System.DateTime.Today,
+                Email = "ivanov@mail.com",
+                Password = "1000:8S83WAEVgLwRh+2W0UjHQzjSP6wMsKbJ:tSKgueB+sLXOYioRB0Ozd6uu/ww=",
+                Phone = "+79567436745",
+                Role = Role.Regular,
+                Accounts = new List<Account> {
+                        new Account
+                        {
+                            CurrencyType = Currency.RUB
+                        }
+                    }
+            };
+            return leadModel;
+        }
 
         public List<Lead> GetListOfLeadsForTests()
         {
             return new List<Lead>{
-               new LeadModel
+               new Lead
                {
                    Id = 1,
                    Name = "Василий",
@@ -45,14 +67,14 @@ namespace CRM.BusinessLayer.Tests.TestData
                    Phone = "+79567436745",
                    Role = Role.Regular,
                    Accounts = new List<Account> {
-                       new AccountModel
+                       new Account
                        {
                            CurrencyType = Currency.RUB
                        }
                    }
                },
 
-               new LeadModel
+               new Lead
                {
                    Id = 2,
                    Name = "Михаил",
@@ -63,7 +85,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                    Phone = "+79567436745",
                    Role = Role.Vip,
                    Accounts = new List<Account> {
-                       new AccountModel
+                       new Account
                        {
                            CurrencyType = Currency.USD
                        }
