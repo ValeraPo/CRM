@@ -10,6 +10,7 @@ BEGIN
 		l.Email,
 		l.Phone,
 		l.[Role], 
+		l.IsBanned,
 		a.Id,
 		a.[Name],
 		a.CurrencyType

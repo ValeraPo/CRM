@@ -6,6 +6,7 @@ using NLog;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts;
+using CRM.BusinessLayer.Exceptions;
 
 namespace CRM.BusinessLayer.Services
 {
@@ -55,6 +56,13 @@ namespace CRM.BusinessLayer.Services
             _logger.Info($"Запрос на удаление лида id = {id}.");
             var entity = _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
+
+            if (entity.IsBanned)
+            {
+                _logger.Error($"Лид с ID {entity.Id} уже забанен");
+                throw new BannedException($"Лид с ID {entity.Id} уже забанен");
+            }
+
             _leadRepository.DeleteById(id);
         }
 
@@ -63,6 +71,13 @@ namespace CRM.BusinessLayer.Services
             _logger.Info($"Запрос на восстановление лида id = {id}.");
             var entity = _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
+
+            if (!entity.IsBanned)
+            {
+                _logger.Error($"Лид с ID {entity.Id} не забанен");
+                throw new BannedException($"Лид с ID {entity.Id} не забанен");
+            }
+
             _leadRepository.RestoreById(id);
         }
 
