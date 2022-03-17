@@ -2,7 +2,7 @@
 
 namespace CRM.BusinessLayer
 {
-    public class RequestHelper
+    public class RequestHelper : IRequestHelper
     {
         public Task<RestResponse> SendRequest<T>(string url, string path, Method method, T requestModel)
         {
