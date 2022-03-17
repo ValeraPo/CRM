@@ -24,8 +24,8 @@ namespace CRM.BusinessLayer.Services
             var entity = _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             _logger.Info($"Отправка запроса на транзакию с аккаунта id = {transactionModel.AccountId}.");
-            var request = new RequestHelper<TransactionRequestModel>();
-            var response = request.GenerateRequest(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
+            var request = new RequestHelper();
+            var response = request.SendRequest<TransactionRequestModel>(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
             _logger.Info($"Получен ответ на транзакию с аккаунта id = {transactionModel.AccountId}.");
 
             return response;
@@ -39,8 +39,8 @@ namespace CRM.BusinessLayer.Services
             var accountTo = _accountRepository.GetById(transactionModel.AccountIdTo);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdTo, accountTo);
             _logger.Info($"Отправка запроса трансфера с аккаунта id = {transactionModel.AccountIdFrom} на аккаунт id = {transactionModel.AccountIdTo}.");
-            var request = new RequestHelper<TransferRequestModel>();
-            var response = request.GenerateRequest(_url, UrlTransaction.Transfer, Method.Post, transactionModel);
+            var request = new RequestHelper();
+            var response = request.SendRequest<TransferRequestModel>(_url, UrlTransaction.Transfer, Method.Post, transactionModel);
             _logger.Info($"Получен ответ на трансфер с аккаунта id = {transactionModel.AccountIdFrom} на аккаунт id = {transactionModel.AccountIdTo}.");
 
             return response;
@@ -52,8 +52,8 @@ namespace CRM.BusinessLayer.Services
             var entity = _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             _logger.Info($"Отправка запроса на вывод средств с аккаунта id = {transactionModel.AccountId}.");
-            var request = new RequestHelper<TransactionRequestModel>();
-            var response = request.GenerateRequest(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
+            var request = new RequestHelper();
+            var response = request.SendRequest<TransactionRequestModel>(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
             _logger.Info($"Получен ответ на вывод средств с аккаунта id = {transactionModel.AccountId}.");
 
             return response;
