@@ -76,6 +76,7 @@
     <Build Include="StoredProcedure\Lead\Lead_Insert.sql" />
     <Build Include="StoredProcedure\Lead\Lead_ChangePassword.sql" />
     <Build Include="StoredProcedure\Lead\Lead_SelectByEmail.sql" />
+    <Build Include="StoredProcedure\Account\Account_SelectAll.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CRM_DB.refactorlog" />
