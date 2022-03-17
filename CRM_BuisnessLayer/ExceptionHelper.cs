@@ -54,5 +54,14 @@ namespace CRM.BusinessLayer
             }
         }
 
+        public static void ThrowIfLeadDontHaveAccesToAccount(int accountLeadId, int authorizathionLeadId)
+        {
+            if (accountLeadId != authorizathionLeadId)
+            {
+                _logger.Error($"Ошибка манипуляций с аккаунтом. Пользователь с Id {authorizathionLeadId} не имеет доступа к аккаунту с Id {accountLeadId}.");
+                throw new AuthorizationException($"Пользователь с Id {authorizathionLeadId} не имеет доступа к аккаунту с Id {accountLeadId}.");
+            }
+        }
+
     }
 }

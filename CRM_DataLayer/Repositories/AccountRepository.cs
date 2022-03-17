@@ -114,10 +114,16 @@ namespace CRM.DataLayer.Repositories
             _logger.Debug("Произведено подключение к базе данных.");
 
             var account =  connection
-                .QueryFirstOrDefault<Account>(
+                .Query<Account, Lead, Account>(
                 _selectById,
+                (account, lead) =>
+                {
+                    account.Lead = lead;
+                    return account;
+                },
                 new { Id = id },
-                commandType: CommandType.StoredProcedure);
+                splitOn: "Id",
+                commandType: CommandType.StoredProcedure).FirstOrDefault();
             _logger.Debug($"Аккаунт с id = {id} был возвращен.");
 
             return account;
