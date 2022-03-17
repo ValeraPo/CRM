@@ -1,5 +1,6 @@
 ﻿using BearGoodbyeKolkhozProject.Business.Configuration;
 using CRM.APILayer.Configuration;
+using CRM.BusinessLayer;
 using CRM.BusinessLayer.Configurations;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
@@ -28,6 +29,7 @@ namespace CRM.APILayer.Extensions
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IRequestHelper, RequestHelper>();
         }
 
         public static void RegisterCRMAutomappers(this IServiceCollection services)
