@@ -6,6 +6,7 @@ namespace CRM.DataLayer.Repositories.Interfaces
     {
         int AddLead(Lead lead);
         void UpdateLeadById(Lead lead);
+        void ChangeRoleLead(Lead lead);
         void DeleteById(int id);
         void RestoreById(int id);
         void ChangePassword(int id, string hashPassword);

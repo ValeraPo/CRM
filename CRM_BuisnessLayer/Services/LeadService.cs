@@ -51,6 +51,15 @@ namespace CRM.BusinessLayer.Services
             _leadRepository.UpdateLeadById(mappedLead);
         }
 
+        public void ChangeRoleLead(int id, LeadModel leadModel)
+        {
+            _logger.Info($"Запрос на обновление роли лида id = {id}.");
+            var entity = _leadRepository.GetById(id);
+            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
+            var mappedLead = _autoMapper.Map<Lead>(leadModel);
+            _leadRepository.ChangeRoleLead(mappedLead);
+        }
+
         public void DeleteById(int id)
         {
             _logger.Info($"Запрос на удаление лида id = {id}.");

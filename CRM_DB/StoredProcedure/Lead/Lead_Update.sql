@@ -3,8 +3,7 @@
 	@Name varchar(30),
 	@LastName varchar(30),
 	@BirthDate date,
-	@Phone varchar(30),
-	@Role int
+	@Phone varchar(30)
 	
 AS
 BEGIN 
@@ -13,7 +12,6 @@ BEGIN
 		[Name] = @Name,
 		LastName = @LastName,
 		BirthDate = @BirthDate,
-		Phone = @Phone,
-		[Role] = @Role
+		Phone = @Phone
 	WHERE Id = @Id
 END

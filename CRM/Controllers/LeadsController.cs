@@ -51,10 +51,26 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Update lead by id. Roles: All")]
         public ActionResult UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
         {
-            _logger.Info($"Получен запрос на создание лида с id = {id}.");
+            _logger.Info($"Получен запрос изменение лида с id = {id}.");
             var leadModel = _autoMapper.Map<LeadModel>(leadUpdateRequest);
             leadModel.Id = id;
             _leadService.UpdateLead(id, leadModel);
+            _logger.Info($"Лид с id = {id} успешно обновлен.");
+            return Ok($"Lead with id = {id} was updated");
+        }
+
+        //api/Leads/42/change-role
+        [HttpPut("{id}/change-role")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation("Change lead's role by id. Roles: All")]
+        public ActionResult ChangeRoleLead(int id, [FromBody] LeadChangeRoleRequest leadURequest)
+        {
+            _logger.Info($"Получен запрос изменение роли лида с id = {id}.");
+            var leadModel = _autoMapper.Map<LeadModel>(leadURequest);
+            leadModel.Id = id;
+            _leadService.ChangeRoleLead(id, leadModel);
             _logger.Info($"Лид с id = {id} успешно обновлен.");
             return Ok($"Lead with id = {id} was updated");
         }
