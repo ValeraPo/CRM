@@ -57,7 +57,8 @@ namespace CRM.APILayer.Controllers
             _logger.Info($"Получен запрос на обновление аккаунта id = {id} лидом с id = {this.GetLeadId()}.");
             var accountModel = _autoMapper.Map<AccountModel>(accountUpdateRequest);
             var leadId = this.GetLeadId();
-            _accountService.UpdateAccount(leadId, id, accountModel);
+            accountModel.Id = id;
+            _accountService.UpdateAccount(leadId, accountModel);
             _logger.Info($"Аккаунт с id = {id} успешно обновлен.");
             return Ok($"Account with id = {id} was updated");
         }
