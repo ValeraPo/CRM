@@ -52,13 +52,18 @@ namespace CRM.BusinessLayer.Services
             _leadRepository.UpdateLeadById(mappedLead);
         }
 
-        public void ChangeRoleLead(int id, LeadModel leadModel)
+        public void ChangeRoleLead(int id, int role)
         {
             _logger.LogInformation($"Запрос на обновление роли лида id = {id}.");
+            if (role != 2 || role != 3)
+            {
+                _logger.LogError($"Ошибка изменения роли. Роль можно изменить только на Vip или Regular.");
+                throw new IncorrectRoleException("Роль можно изменить только на Vip или Regular");
+            }
             var entity = _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
-            var mappedLead = _autoMapper.Map<Lead>(leadModel);
-            _leadRepository.ChangeRoleLead(mappedLead);
+            entity.Role = (Role)role;
+            _leadRepository.ChangeRoleLead(entity);
         }
 
         public void DeleteById(int id)

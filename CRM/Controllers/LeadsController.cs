@@ -60,18 +60,16 @@ namespace CRM.APILayer.Controllers
             return Ok($"Lead with id = {id} was updated");
         }
 
-        //api/Leads/42/change-role
-        [HttpPut("{id}/change-role")]
+        //api/Leads/42/2
+        [HttpPut("{id}/{role}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Change lead's role by id. Roles: All")]
-        public ActionResult ChangeRoleLead(int id, [FromBody] LeadChangeRoleRequest leadURequest)
+        public ActionResult ChangeRoleLead(int id, int role)
         {
             _logger.LogInformation($"Получен запрос изменение роли лида с id = {id}.");
-            var leadModel = _autoMapper.Map<LeadModel>(leadURequest);
-            leadModel.Id = id;
-            _leadService.ChangeRoleLead(id, leadModel);
+            _leadService.ChangeRoleLead(id, role);
             _logger.LogInformation($"Лид с id = {id} успешно обновлен.");
             return Ok($"Lead with id = {id} was updated");
         }
