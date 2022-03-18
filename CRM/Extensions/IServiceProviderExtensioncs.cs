@@ -9,6 +9,7 @@ using CRM.DataLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NLog.Extensions.Logging;
 
 namespace CRM.APILayer.Extensions
 {
@@ -97,6 +98,17 @@ namespace CRM.APILayer.Extensions
                 });
 
                 //config.EnableAnnotations();
+            });
+        }
+
+        public static void RegisterLogger(this IServiceCollection service, IConfiguration config)
+        {
+            service.Configure<ConsoleLifetimeOptions>(opts => opts.SuppressStatusMessages = true);
+            service.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.ClearProviders();
+                loggingBuilder.SetMinimumLevel(LogLevel.Information);
+                loggingBuilder.AddNLog(config);
             });
         }
 

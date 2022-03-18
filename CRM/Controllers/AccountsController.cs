@@ -19,13 +19,13 @@ namespace CRM.APILayer.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IMapper _autoMapper;
-        private static Logger _logger;
+        private readonly ILogger<AccountsController> _logger;
 
-        public AccountsController(IAccountService accountService, IMapper autoMapper)
+        public AccountsController(IAccountService accountService, IMapper autoMapper, ILogger<AccountsController> logger)
         {
             _accountService = accountService;
             _autoMapper = autoMapper;
-            _logger = LogManager.GetCurrentClassLogger();
+            _logger = logger;
         }
 
         //api/accounts
@@ -36,13 +36,13 @@ namespace CRM.APILayer.Controllers
         public ActionResult<int> AddAccount([FromBody] AccountInsertRequest accountInsertRequest)
         {
             var leadId = this.GetLeadId();
-            _logger.Info($"Получен запрос на добавление аккаунта лидом с id = {leadId}.");
+            _logger.LogInformation($"Получен запрос на добавление аккаунта лидом с id = {leadId}.");
             var accountModel = _autoMapper.Map<AccountModel>(accountInsertRequest);
             accountModel.Lead = new LeadModel();
             accountModel.Lead.Id = leadId;
             Role role = Enum.Parse<Role>(this.GetLeadRole());
             var id = _accountService.AddAccount((int)role, accountModel);
-            _logger.Info($"Аккаунт с id = {id} успешно добавлен.");
+            _logger.LogInformation($"Аккаунт с id = {id} успешно добавлен.");
             return StatusCode(StatusCodes.Status201Created, id);
         }
 
@@ -54,12 +54,12 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Update account by id. Roles: Vip, Regular")]
         public ActionResult UpdateAccount(int id, [FromBody] AccountUpdateRequest accountUpdateRequest)
         {
-            _logger.Info($"Получен запрос на обновление аккаунта id = {id} лидом с id = {this.GetLeadId()}.");
+            _logger.LogInformation($"Получен запрос на обновление аккаунта id = {id} лидом с id = {this.GetLeadId()}.");
             var accountModel = _autoMapper.Map<AccountModel>(accountUpdateRequest);
             var leadId = this.GetLeadId();
             accountModel.Id = id;
             _accountService.UpdateAccount(leadId, accountModel);
-            _logger.Info($"Аккаунт с id = {id} успешно обновлен.");
+            _logger.LogInformation($"Аккаунт с id = {id} успешно обновлен.");
             return Ok($"Account with id = {id} was updated");
         }
 
@@ -71,9 +71,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Lock account by id. Roles: Admin")]
         public ActionResult LockById(int id)
         {
-            _logger.Info($"Получен запрос на блокировку аккаунта id = {id} лидом с id = {this.GetLeadId()}.");
+            _logger.LogInformation($"Получен запрос на блокировку аккаунта id = {id} лидом с id = {this.GetLeadId()}.");
             _accountService.LockById(id);
-            _logger.Info($"Аккаунт с id = {id} успешно заблокирован.");
+            _logger.LogInformation($"Аккаунт с id = {id} успешно заблокирован.");
             return Ok($"Account with id = {id} was locked");
         }
 
@@ -85,9 +85,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Unlock account by id. Roles: Admin")]
         public ActionResult UnlockById(int id)
         {
-            _logger.Info($"Получен запрос на разблокировку аккаунта id = {id} лидом с id = {this.GetLeadId()}.");
+            _logger.LogInformation($"Получен запрос на разблокировку аккаунта id = {id} лидом с id = {this.GetLeadId()}.");
             _accountService.UnlockById(id);
-            _logger.Info($"Аккаунт с id = {id} успешно разблокирован.");
+            _logger.LogInformation($"Аккаунт с id = {id} успешно разблокирован.");
             return Ok($"Account with id = {id} was unlocked");
         }
 
@@ -100,10 +100,10 @@ namespace CRM.APILayer.Controllers
         public ActionResult<List<AccountResponse>> GetByLead()
         {
             var id = this.GetLeadId();
-            _logger.Info($"Получен запрос на получение всех аккаунтов лидом с id = {id}.");
+            _logger.LogInformation($"Получен запрос на получение всех аккаунтов лидом с id = {id}.");
             var accountModels = _accountService.GetByLead(id);
             var outputs = _autoMapper.Map<List<AccountResponse>>(accountModels);
-            _logger.Info($"Все аккаунты лида с id = {id} успешно получены.");
+            _logger.LogInformation($"Все аккаунты лида с id = {id} успешно получены.");
             return Ok(outputs);
         }
 
@@ -116,11 +116,11 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Get account by id. Roles: Vip, Regular")]
         public ActionResult<AccountResponse> GetById(int id)
         {
-            _logger.Info($"Получен запрос на получение аккаунта с id = {id} лидом с id = {id}.");
+            _logger.LogInformation($"Получен запрос на получение аккаунта с id = {id} лидом с id = {id}.");
             var leadId = this.GetLeadId();
             var accountModel = _accountService.GetById(id, leadId);
             var output = _autoMapper.Map<AccountResponse>(accountModel);
-            _logger.Info($"Аккаунт с id = {id} успешно получен.");
+            _logger.LogInformation($"Аккаунт с id = {id} успешно получен.");
             return Ok(output);
         }
 

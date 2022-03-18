@@ -12,6 +12,7 @@
     <PackageReference Include="Marvelous.Contracts" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.2" />
     <PackageReference Include="NLog.Config" Version="4.7.14" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.7.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.3.0" />
   </ItemGroup>

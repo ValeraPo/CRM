@@ -15,12 +15,13 @@ namespace CRM.APILayer.Controllers
     public class AuthorizationsController : Controller
     {
         private readonly IAuthService _authService;
-        private static Logger _logger;
+        private readonly ILogger<AccountsController> _logger;
 
-        public AuthorizationsController(IAuthService authService)
+
+        public AuthorizationsController(IAuthService authService, ILogger<AccountsController> logger)
         {
             _authService = authService;
-            _logger = LogManager.GetCurrentClassLogger();
+            _logger = logger;
         }
 
         [HttpPost("login")]
@@ -28,9 +29,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Authentication")]
         public ActionResult Login([FromBody] AuthRequest auth)
         {
-            _logger.Info($"Получен запрос на аутентификаию лида с email = {auth.Email.Encryptor()}.");
+            _logger.LogInformation($"Получен запрос на аутентификаию лида с email = {auth.Email.Encryptor()}.");
             var token = _authService.GetToken(auth.Email, auth.Password);
-            _logger.Info($"Аутентификаия лида с email = {auth.Email.Encryptor()} прошла успешно.");
+            _logger.LogInformation($"Аутентификаия лида с email = {auth.Email.Encryptor()} прошла успешно.");
             return Json(token);
         }
     }
