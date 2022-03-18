@@ -12,11 +12,11 @@ namespace CRM.APILayer.Extensions
             return identity.Claims.ToList();
         }
 
-        public static int GetLeadRole(this Controller controller) =>
-            int.Parse(GetInfoFromToken(controller)
+        public static string GetLeadRole(this Controller controller) =>
+            GetInfoFromToken(controller)
                 .Where(c => c.Type == ClaimTypes.Role)
                 .Select(c => c.Value)
-                .SingleOrDefault());
+                .SingleOrDefault();
 
         public static int GetLeadId(this Controller controller) =>
             int.Parse(GetInfoFromToken(controller)
