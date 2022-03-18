@@ -11,13 +11,14 @@ namespace CRM.APILayer.Controllers
     {
         private readonly ITransactionService _transactionService;
         private readonly IMapper _mapper;
-        private static Logger _logger;
+        private readonly ILogger<TransactionsController> _logger;
 
-        public TransactionsController(ITransactionService transactionService, IMapper autoMapper)
+
+        public TransactionsController(ITransactionService transactionService, IMapper autoMapper, ILogger<TransactionsController> logger)
         {
             _transactionService = transactionService;
             _mapper = autoMapper;
-            _logger = LogManager.GetCurrentClassLogger();
+            _logger = logger;
         }
 
         // api/deposit/
@@ -26,9 +27,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerResponse(201, "Deposit added")]
         public ActionResult AddDeposit([FromBody] TransactionRequestModel transaction)
         {
-            _logger.Info($"Получен запрос на добавление депозита в аккаунт id = {transaction.AccountId}.");
+            _logger.LogInformation($"Получен запрос на добавление депозита в аккаунт id = {transaction.AccountId}.");
             var transactionId = _transactionService.AddDeposit(transaction);
-            _logger.Info($"Депозит с id = {transactionId} успешно добавлен в аккаунт id = {transaction.AccountId}.");
+            _logger.LogInformation($"Депозит с id = {transactionId} успешно добавлен в аккаунт id = {transaction.AccountId}.");
 
             return StatusCode(201, transactionId);
         }
@@ -39,9 +40,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerResponse(201, "List transactions by accountId ")]
         public ActionResult AddTransfer([FromBody] TransferRequestModel transaction)
         {
-            _logger.Info($"Получен запрос на добавление трансфера с аккаунта id = {transaction.AccountIdFrom} на аккаунт id = {transaction.AccountIdTo}.");
+            _logger.LogInformation($"Получен запрос на добавление трансфера с аккаунта id = {transaction.AccountIdFrom} на аккаунт id = {transaction.AccountIdTo}.");
             var transactionId = _transactionService.AddTransfer(transaction);
-            _logger.Info($"Трансфер с id = {transactionId} с аккаунта id = {transaction.AccountIdFrom} на аккаунт id = {transaction.AccountIdTo} прошел успешно.");
+            _logger.LogInformation($"Трансфер с id = {transactionId} с аккаунта id = {transaction.AccountIdFrom} на аккаунт id = {transaction.AccountIdTo} прошел успешно.");
             return StatusCode(201, transactionId);
         }
 
@@ -51,9 +52,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerResponse(201, "Withdraw successful")]
         public ActionResult Withdraw([FromBody] TransactionRequestModel transaction)
         {
-            _logger.Info($"Получен запрос на вывод средств с аккаунта id = {transaction.AccountId}.");
+            _logger.LogInformation($"Получен запрос на вывод средств с аккаунта id = {transaction.AccountId}.");
             var transactionId = _transactionService.Withdraw(transaction);
-            _logger.Info($"Вывод средств с id = {transactionId} с аккаунта id = {transaction.AccountId} прошел успешно.");
+            _logger.LogInformation($"Вывод средств с id = {transactionId} с аккаунта id = {transaction.AccountId} прошел успешно.");
 
             return StatusCode(201, transactionId);
         }
