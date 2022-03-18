@@ -2,6 +2,7 @@
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Extensions;
 using CRM.DataLayer.Repositories.Interfaces;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using System;
@@ -14,18 +15,18 @@ namespace CRM.BusinessLayer.Services
     public class AuthService : IAuthService
     {
         private readonly ILeadRepository _leadRepo;
-        private static Logger _logger;
+        private readonly ILogger<AuthService> _logger;
 
 
-        public AuthService(ILeadRepository leadRepo)
+        public AuthService(ILeadRepository leadRepo, ILogger<AuthService> logger)
         {
             _leadRepo = leadRepo;
-            _logger = LogManager.GetCurrentClassLogger();
+            _logger = logger;
         }
 
         public string GetToken(string email, string pass)
         {
-            _logger.Info($"Попытка авторизаии пользователя с email = {email.Encryptor()}.");
+            _logger.LogInformation($"Попытка авторизаии пользователя с email = {email.Encryptor()}.");
             Lead entity = _leadRepo.GetByEmail(email);
 
             ExceptionsHelper.ThrowIfEmailNotFound(email, entity);
@@ -37,14 +38,14 @@ namespace CRM.BusinessLayer.Services
                 new Claim(ClaimTypes.UserData, entity.Id.ToString()),
                 new Claim(ClaimTypes.Role, entity.Role.ToString())
             };
-            _logger.Info($"Получение токена пользователя с email = {email.Encryptor()}.");
+            _logger.LogInformation($"Получение токена пользователя с email = {email.Encryptor()}.");
             var jwt = new JwtSecurityToken(
                             issuer: AuthOptions.Issuer,
                             audience: AuthOptions.Audience,
                             claims: claims,
                             expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(30)),
                             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            _logger.Info($"Авторизаия пользователя с email = {email.Encryptor()} прошла успешно.");
+            _logger.LogInformation($"Авторизаия пользователя с email = {email.Encryptor()} прошла успешно.");
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
 
