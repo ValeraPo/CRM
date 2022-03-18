@@ -38,8 +38,10 @@ namespace CRM.APILayer.Controllers
             var leadId = this.GetLeadId();
             _logger.Info($"Получен запрос на добавление аккаунта лидом с id = {leadId}.");
             var accountModel = _autoMapper.Map<AccountModel>(accountInsertRequest);
+            accountModel.Lead = new LeadModel();
             accountModel.Lead.Id = leadId;
-            var id = _accountService.AddAccount(this.GetLeadRole(), accountModel);
+            Role role = Enum.Parse<Role>(this.GetLeadRole());
+            var id = _accountService.AddAccount((int)role, accountModel);
             _logger.Info($"Аккаунт с id = {id} успешно добавлен.");
             return StatusCode(StatusCodes.Status201Created, id);
         }
@@ -54,7 +56,9 @@ namespace CRM.APILayer.Controllers
         {
             _logger.Info($"Получен запрос на обновление аккаунта id = {id} лидом с id = {this.GetLeadId()}.");
             var accountModel = _autoMapper.Map<AccountModel>(accountUpdateRequest);
-            _accountService.UpdateAccount(id, accountModel);
+            var leadId = this.GetLeadId();
+            accountModel.Id = id;
+            _accountService.UpdateAccount(leadId, accountModel);
             _logger.Info($"Аккаунт с id = {id} успешно обновлен.");
             return Ok($"Account with id = {id} was updated");
         }

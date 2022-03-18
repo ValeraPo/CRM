@@ -3,11 +3,19 @@
 AS
 BEGIN
 	select
-		[Name], 
-		CurrencyType,
-		LeadId,
-		LockDate,
-		IsBlocked
-	from dbo.[Account]
-	where Id =@Id
+		a.[Name], 
+		a.CurrencyType,
+		a.LeadId,
+		a.LockDate,
+		a.IsBlocked,
+		l.Id,
+		l.[Name], 
+		l.LastName,
+		l.BirthDate,
+		l.Email,
+		l.Phone,
+		l.[Role], 
+		l.IsBanned
+	from dbo.[Account] a inner join dbo.[Lead] l ON a.LeadId = l.Id
+	where a.Id = @Id
 END
