@@ -14,6 +14,7 @@ namespace CRM.DataLayer.Repositories
     public class LeadRepository : BaseRepository, ILeadRepository
     {
         private const string _updateProc = "dbo.Lead_Update";
+        private const string _changeRoleProc = "dbo.Lead_ChangeRole";
         private const string _insertProc = "dbo.Lead_Insert";
         private const string _banProc = "dbo.Lead_Ban";
         private const string _selectById = "dbo.Lead_SelectById";
@@ -65,6 +66,22 @@ namespace CRM.DataLayer.Repositories
                     lead.LastName,
                     lead.BirthDate,
                     lead.Phone,
+                },
+
+                commandType: CommandType.StoredProcedure);
+            _logger.Debug($"Лид с id = {lead.Id} был обновлен.");
+        }
+
+        public void ChangeRoleLead(Lead lead)
+        {
+            _logger.Debug("Попытка подключения к базе данных.");
+            using IDbConnection connection = ProvideConnection();
+            _logger.Debug("Произведено подключение к базе данных.");
+
+            connection.Execute(_changeRoleProc,
+                new
+                {
+                    lead.Id,
                     lead.Role
                 },
 
