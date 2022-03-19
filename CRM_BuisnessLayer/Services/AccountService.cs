@@ -41,11 +41,10 @@ namespace CRM.BusinessLayer.Services
 
         public void UpdateAccount(int leadId, AccountModel accountModel)
         {
-            _logger.LogInformation($"Запрос на обновление аккаунта id = {id}.");
+            _logger.LogInformation($"Запрос на обновление аккаунта id = {accountModel.Id}.");
             var entity = _accountRepository.GetById(accountModel.Id);
-
-            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             ExceptionsHelper.ThrowIfEntityNotFound(accountModel.Id, entity);
+            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
             _accountRepository.UpdateAccountById(mappedAccount);
         }
