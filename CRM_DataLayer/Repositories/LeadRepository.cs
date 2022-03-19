@@ -21,6 +21,7 @@ namespace CRM.DataLayer.Repositories
         private const string _selectById = "dbo.Lead_SelectById";
         private const string _selectByEmail = "dbo.Lead_SelectByEmail";
         private const string _selectAll = "dbo.Lead_SelectAll";
+        private const string _selectAllEmails = "dbo.Lead_SelectAllEmails";
         private const string _changePassword = "dbo.Lead_ChangePassword";
         private readonly ILogger<LeadRepository> _logger;
 
@@ -134,6 +135,21 @@ namespace CRM.DataLayer.Repositories
                 .ToList();
             _logger.LogDebug($"Были возвращены все лиды");
             return leads;
+        }
+
+        public List<string> GetAllEmails()
+        {
+            _logger.LogDebug("Попытка подключения к базе данных.");
+            using IDbConnection connection = ProvideConnection();
+            _logger.LogDebug("Произведено подключение к базе данных.");
+
+            var emails = connection.
+                Query<string>(
+                _selectAllEmails,
+                commandType: CommandType.StoredProcedure)
+                .ToList();
+            _logger.LogDebug($"Были возвращены все email");
+            return emails;
         }
 
         public Lead GetById(int id)
