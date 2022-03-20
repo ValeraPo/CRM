@@ -25,7 +25,7 @@ namespace CRM.APILayer.Controllers
         [HttpPost(UrlTransaction.Deposit)]
         [SwaggerOperation(Summary = "Add deposit")]
         [SwaggerResponse(201, "Deposit added")]
-        public ActionResult AddDeposit([FromBody] TransactionRequestModel transaction)
+        public async Task<ActionResult> AddDeposit([FromBody] TransactionRequestModel transaction)
         {
             _logger.LogInformation($"Получен запрос на добавление депозита в аккаунт id = {transaction.AccountId}.");
             var transactionId = _transactionService.AddDeposit(transaction);
@@ -38,7 +38,7 @@ namespace CRM.APILayer.Controllers
         [HttpPost(UrlTransaction.Transfer)]
         [SwaggerOperation(Summary = "Add transfer")]
         [SwaggerResponse(201, "List transactions by accountId ")]
-        public ActionResult AddTransfer([FromBody] TransferRequestModel transaction)
+        public async Task<ActionResult> AddTransfer([FromBody] TransferRequestModel transaction)
         {
             _logger.LogInformation($"Получен запрос на добавление трансфера с аккаунта id = {transaction.AccountIdFrom} на аккаунт id = {transaction.AccountIdTo}.");
             var transactionId = _transactionService.AddTransfer(transaction);
@@ -50,7 +50,7 @@ namespace CRM.APILayer.Controllers
         [HttpPost(UrlTransaction.Withdraw)]
         [SwaggerOperation(Summary = "Withdraw")]
         [SwaggerResponse(201, "Withdraw successful")]
-        public ActionResult Withdraw([FromBody] TransactionRequestModel transaction)
+        public async Task<ActionResult> Withdraw([FromBody] TransactionRequestModel transaction)
         {
             _logger.LogInformation($"Получен запрос на вывод средств с аккаунта id = {transaction.AccountId}.");
             var transactionId = _transactionService.Withdraw(transaction);

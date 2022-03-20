@@ -123,10 +123,10 @@ namespace CRM.DataLayer.Repositories
                     return account;
                 },
                 new { Id = id },
-            _logger.LogDebug($"Аккаунт с id = {id} был возвращен.");
                 splitOn: "Id",
                 commandType: CommandType.StoredProcedure).FirstOrDefault();
 
+            _logger.LogDebug($"Аккаунт с id = {id} был возвращен.");
             return account;
         }
 
