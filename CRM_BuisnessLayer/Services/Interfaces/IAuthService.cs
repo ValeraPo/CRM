@@ -2,6 +2,6 @@
 {
     public interface IAuthService
     {
-        string GetToken(string email, string pass);
+        Task<string> GetToken(string email, string pass);
     }
 }

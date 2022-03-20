@@ -24,10 +24,10 @@ namespace CRM.BusinessLayer.Services
             _logger = logger;
         }
 
-        public string GetToken(string email, string pass)
+        public async Task<string> GetToken(string email, string pass)
         {
             _logger.LogInformation($"Попытка авторизаии пользователя с email = {email.Encryptor()}.");
-            Lead entity = _leadRepo.GetByEmail(email);
+            Lead entity = await _leadRepo.GetByEmail(email);
 
             ExceptionsHelper.ThrowIfEmailNotFound(email, entity);
             ExceptionsHelper.ThrowIfLeadWasBanned(entity.Id, entity);
