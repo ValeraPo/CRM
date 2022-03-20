@@ -25,7 +25,7 @@ namespace CRM.BusinessLayer.Services
             _logger = logger;
         }
 
-        public int AddAccount(int role, AccountModel accountModel)
+        public async Task<int> AddAccount(int role, AccountModel accountModel)
         {
             _logger.LogInformation("Запрос на добавление аккаунта.");
             CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
@@ -35,14 +35,14 @@ namespace CRM.BusinessLayer.Services
                 throw new AuthorizationException("Лид с такой ролью не может создавать валютные счета кроме долларового");
             }
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
-            var id = _accountRepository.AddAccount(mappedAccount);
+            var id = await _accountRepository.AddAccount(mappedAccount);
             return id;
         }
 
-        public void UpdateAccount(int leadId, AccountModel accountModel)
+        public async void UpdateAccount(int leadId, AccountModel accountModel)
         {
-            _logger.LogInformation($"Запрос на обновление аккаунта id = {id}.");
-            var entity = _accountRepository.GetById(accountModel.Id);
+            _logger.LogInformation($"Запрос на обновление аккаунта id = {accountModel.Id}.");
+            var entity = await _accountRepository.GetById(accountModel.Id);
 
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             ExceptionsHelper.ThrowIfEntityNotFound(accountModel.Id, entity);
@@ -50,7 +50,7 @@ namespace CRM.BusinessLayer.Services
             _accountRepository.UpdateAccountById(mappedAccount);
         }
 
-        public void LockById(int id)
+        public async void LockById(int id)
         {
             _logger.LogInformation($"Запрос на блокировку аккаунта id = {id}.");
             var entity = _accountRepository.GetById(id);
@@ -58,7 +58,7 @@ namespace CRM.BusinessLayer.Services
             _accountRepository.LockById(id);
         }
 
-        public void UnlockById(int id)
+        public async void UnlockById(int id)
         {
             _logger.LogInformation($"Запрос на разблокировку аккаунта id = {id}.");
             var entity = _accountRepository.GetById(id);
@@ -66,7 +66,7 @@ namespace CRM.BusinessLayer.Services
             _accountRepository.UnlockById(id);
         }
 
-        public List<AccountModel> GetByLead(int leadId)
+        public async Task<List<AccountModel>> GetByLead(int leadId)
         {
             _logger.LogInformation($"Запрос на получение всех аккаунтов.");
             var entity = _leadRepository.GetById(leadId);
@@ -75,10 +75,10 @@ namespace CRM.BusinessLayer.Services
             return _autoMapper.Map<List<AccountModel>>(accounts);
         }
 
-        public AccountModel GetById(int id, int leadId)
+        public async Task<AccountModel> GetById(int id, int leadId)
         {
             _logger.LogInformation($"Запрос на получение аккаунта id = {id}.");
-            var entity = _accountRepository.GetById(id);
+            var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             if (entity.Lead.Id != leadId)
             {
@@ -88,13 +88,13 @@ namespace CRM.BusinessLayer.Services
             return _autoMapper.Map<AccountModel>(entity);
         }
 
-        private void CheckDuplicationAccount(int leadId, Currency currency)
+        private async void CheckDuplicationAccount(int leadId, Currency currency)
         {
-            var accounts = _accountRepository.GetByLead(leadId);
+            var accounts = await _accountRepository.GetByLead(leadId);
             var c = accounts.Select(x => x.CurrencyType).ToList();
 
-            if (_accountRepository
-                .GetByLead(leadId)
+            if ((await _accountRepository
+                .GetByLead(leadId))
                 .Select(a => a.CurrencyType)
                 .ToList()
                 .Contains(currency))
