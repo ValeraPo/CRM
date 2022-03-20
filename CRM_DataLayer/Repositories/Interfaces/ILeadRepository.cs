@@ -13,5 +13,6 @@ namespace CRM.DataLayer.Repositories.Interfaces
         List<Lead> GetAll();
         Lead GetById(int id);
         Lead GetByEmail(string email);
+        List<string> GetAllEmails();
     }
 }

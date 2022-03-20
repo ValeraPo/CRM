@@ -29,7 +29,7 @@ namespace CRM.BusinessLayer.Services
         public int AddLead(LeadModel leadModel)
         {
             _logger.LogInformation("Запрос на добавление лида.");
-            ExceptionsHelper.ThrowIfEmailRepeat(_leadRepository.GetAll().Select(e => e.Email).ToList(), leadModel.Email);
+            ExceptionsHelper.ThrowIfEmailRepeat(_leadRepository.GetAllEmails(), leadModel.Email);
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
             var id = _leadRepository.AddLead(mappedLead);
@@ -55,7 +55,7 @@ namespace CRM.BusinessLayer.Services
         public void ChangeRoleLead(int id, int role)
         {
             _logger.LogInformation($"Запрос на обновление роли лида id = {id}.");
-            if (role != 2 || role != 3)
+            if (role != 2 && role != 3)
             {
                 _logger.LogError($"Ошибка изменения роли. Роль можно изменить только на Vip или Regular.");
                 throw new IncorrectRoleException("Роль можно изменить только на Vip или Regular");

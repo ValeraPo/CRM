@@ -46,6 +46,7 @@ namespace CRM.BusinessLayer.Services
 
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             ExceptionsHelper.ThrowIfEntityNotFound(accountModel.Id, entity);
+            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
             _accountRepository.UpdateAccountById(mappedAccount);
         }
