@@ -16,6 +16,36 @@ namespace CRM.BusinessLayer.Tests.TestData
                 IsBlocked = false,
                 LockDate = null,
                 Name = "MyAccount",
+                Lead = new LeadModel
+                {
+                    Id = 1,
+                    Name = "Василий",
+                    LastName = "Иванов",
+                    BirthDate = System.DateTime.Today,
+                    Email = "ivanov@mail.com",
+                    Password = "qert123",
+                    Phone = "+79567436745",
+                    Role = Role.Regular,
+                    Accounts = new List<AccountModel> {
+                        new AccountModel
+                        {
+                            CurrencyType = Currency.RUB
+                        }
+                    }
+                }
+            };
+            return accountModel;
+        }
+
+        public Account GetAccountForTests()
+        {
+            Account account = new Account
+            {
+                Id = 1,
+                CurrencyType = Currency.GBP,
+                IsBlocked = false,
+                LockDate = null,
+                Name = "MyAccount",
                 Lead = new Lead
                 {
                     Id = 1,
@@ -34,7 +64,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                     }
                 }
             };
-            return accountModel;
+            return account;
         }
 
         public AccountModel GetAccountModelVipForTests()
@@ -46,7 +76,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                 IsBlocked = false,
                 LockDate = null,
                 Name = "MyAccount",
-                Lead = new Lead
+                Lead = new LeadModel
                 {
                     Id = 1,
                     Name = "Василий",
@@ -70,7 +100,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                 IsBlocked = false,
                 LockDate = null,
                 Name = "MyAccount",
-                Lead = new Lead
+                Lead = new LeadModel
                 {
                     Id = 1,
                     Name = "Василий",
@@ -80,8 +110,8 @@ namespace CRM.BusinessLayer.Tests.TestData
                     Password = "qert123",
                     Phone = "+79567436745",
                     Role = Role.Admin,
-                    Accounts = new List<Account> {
-                        new Account
+                    Accounts = new List<AccountModel> {
+                        new AccountModel
                         {
                             CurrencyType = Currency.RUB
                         }

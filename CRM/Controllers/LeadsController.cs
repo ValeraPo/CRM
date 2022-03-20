@@ -61,7 +61,7 @@ namespace CRM.APILayer.Controllers
         }
 
         //api/Leads/42/2
-        [HttpPut("{id}/{role}")]
+        [HttpPut("{id}/role/{role}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -138,7 +138,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Change lead password. Roles: All")]
         public ActionResult ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
         {
-            var id = this.GetLeadId();
+            var id = this.GetLeadFromToken().Id;
             _logger.LogInformation($"Получен запрос на изменение пароля лида с id = {id}.");
             _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
             _logger.LogInformation($"Пароль лида с id = {id} успешно изменен.");
