@@ -43,6 +43,7 @@ namespace CRM.BusinessLayer.Tests.TestData
                 Password = "1000:8S83WAEVgLwRh+2W0UjHQzjSP6wMsKbJ:tSKgueB+sLXOYioRB0Ozd6uu/ww=",
                 Phone = "+79567436745",
                 Role = Role.Regular,
+                IsBanned = true,
                 Accounts = new List<Account> {
                         new Account
                         {
@@ -91,6 +92,15 @@ namespace CRM.BusinessLayer.Tests.TestData
                        }
                    }
                }
+            };
+        }
+
+        public List<string> GetListOfEmailsForTests()
+        {
+            return new List<string> {
+                "petrovv@mail.com",
+                "ne-ivanov@mail.com",
+                "petuhov@mm.com"
             };
         }
     }

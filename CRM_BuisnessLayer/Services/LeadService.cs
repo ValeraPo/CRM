@@ -55,7 +55,7 @@ namespace CRM.BusinessLayer.Services
         public async void ChangeRoleLead(int id, int role)
         {
             _logger.LogInformation($"Запрос на обновление роли лида id = {id}.");
-            if (role != 2 || role != 3)
+            if (role != 2 && role != 3)
             {
                 _logger.LogError($"Ошибка изменения роли. Роль можно изменить только на Vip или Regular.");
                 throw new IncorrectRoleException("Роль можно изменить только на Vip или Regular");

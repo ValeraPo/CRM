@@ -125,6 +125,7 @@ namespace CRM.DataLayer.Repositories
                 new { Id = id },
                 splitOn: "Id",
                 commandType: CommandType.StoredProcedure).FirstOrDefault();
+            _logger.LogDebug($"Аккаунт с id = {id} был возвращен.");
 
             _logger.LogDebug($"Аккаунт с id = {id} был возвращен.");
             return account;

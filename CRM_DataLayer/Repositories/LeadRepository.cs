@@ -21,6 +21,7 @@ namespace CRM.DataLayer.Repositories
         private const string _selectById = "dbo.Lead_SelectById";
         private const string _selectByEmail = "dbo.Lead_SelectByEmail";
         private const string _selectAll = "dbo.Lead_SelectAll";
+        private const string _selectAllEmails = "dbo.Lead_SelectAllEmails";
         private const string _changePassword = "dbo.Lead_ChangePassword";
         private readonly ILogger<LeadRepository> _logger;
 
