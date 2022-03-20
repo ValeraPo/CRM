@@ -7,7 +7,7 @@
 	[Email] varchar(30) NOT NULL,
 	[Phone] varchar(20) NULL,
 	[Password] varchar(150) NOT NULL,
-	[Role] INT NOT NULL, 
+	[Role] TINYINT NOT NULL, 
     [IsBanned] BIT NOT NULL DEFAULT 0, 
     [City] VARCHAR(30) NULL, 
     CONSTRAINT AK_Email UNIQUE(Email),

@@ -2,7 +2,7 @@
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name] VARCHAR(20) NOT NULL, 
-    [CurrencyType] INT NOT NULL, 
+    [CurrencyType] TINYINT NOT NULL, 
     [LeadId] INT NOT NULL,
     [LockDate] date NULL,
     [IsBlocked] BIT NOT NULL DEFAULT 0,
