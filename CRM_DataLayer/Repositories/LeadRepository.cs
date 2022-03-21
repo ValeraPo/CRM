@@ -30,7 +30,7 @@ namespace CRM.DataLayer.Repositories
             _logger = logger;
         }
 
-        public async Task<int> AddLead(Lead lead)
+        public int AddLead(Lead lead)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -54,7 +54,7 @@ namespace CRM.DataLayer.Repositories
             return id;
         }
 
-        public async void UpdateLeadById(Lead lead)
+        public void UpdateLeadById(Lead lead)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -74,7 +74,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug($"Лид с id = {lead.Id} был обновлен.");
         }
 
-        public async void ChangeRoleLead(Lead lead)
+        public void ChangeRoleLead(Lead lead)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -91,7 +91,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug($"Лид с id = {lead.Id} был обновлен.");
         }
 
-        public async void DeleteById(int id)
+        public void DeleteById(int id)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -107,7 +107,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug($"Лид с id = {id} был удален.");
         }
 
-        public async void RestoreById(int id)
+        public void RestoreById(int id)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -122,13 +122,13 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug($"Лид с id = {id} был восстановлен.");
         }
 
-        public async Task<List<Lead>> GetAll()
+        public List<Lead> GetAll()
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
             _logger.LogDebug("Произведено подключение к базе данных.");
 
-            var leads =  connection.
+            var leads = connection.
                 Query<Lead>(
                 _selectAll,
                 commandType: CommandType.StoredProcedure)
@@ -137,7 +137,22 @@ namespace CRM.DataLayer.Repositories
             return leads;
         }
 
-        public async Task<Lead> GetById(int id)
+        public List<string> GetAllEmails()
+        {
+            _logger.LogDebug("Попытка подключения к базе данных.");
+            using IDbConnection connection = ProvideConnection();
+            _logger.LogDebug("Произведено подключение к базе данных.");
+
+            var emails = connection.
+                Query<string>(
+                _selectAllEmails,
+                commandType: CommandType.StoredProcedure)
+                .ToList();
+            _logger.LogDebug($"Были возвращены все email");
+            return emails;
+        }
+
+        public Lead GetById(int id)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -160,13 +175,13 @@ namespace CRM.DataLayer.Repositories
             return lead;
         }
 
-        public async Task<Lead> GetByEmail(string email)
+        public Lead GetByEmail(string email)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
             _logger.LogDebug("Произведено подключение к базе данных.");
 
-            var lead =  connection
+            var lead = connection
                 .QueryFirstOrDefault<Lead>(
                 _selectByEmail,
                 new { email },
@@ -175,7 +190,7 @@ namespace CRM.DataLayer.Repositories
             return lead;
         }
 
-        public async void ChangePassword(int id, string hashPassword)
+        public void ChangePassword(int id, string hashPassword)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
