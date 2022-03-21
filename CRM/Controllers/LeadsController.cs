@@ -35,11 +35,11 @@ namespace CRM.APILayer.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [SwaggerOperation("Create lead")]
-        public ActionResult<int> AddLead([FromBody] LeadInsertRequest leadInsertRequest)
+        public async Task<ActionResult<int>> AddLead([FromBody] LeadInsertRequest leadInsertRequest)
         {
             _logger.LogInformation($"Получен запрос на создание лида.");
             var leadModel = _autoMapper.Map<LeadModel>(leadInsertRequest);
-            var id = _leadService.AddLead(leadModel);
+            var id = await _leadService.AddLead(leadModel);
             _logger.LogInformation($"Лид с id = {id} успешно создан.");
             return StatusCode(StatusCodes.Status201Created, id);
         }
@@ -50,7 +50,7 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Update lead by id. Roles: All")]
-        public ActionResult UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
+        public async Task<ActionResult> UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
         {
             _logger.LogInformation($"Получен запрос изменение лида с id = {id}.");
             var leadModel = _autoMapper.Map<LeadModel>(leadUpdateRequest);
@@ -66,7 +66,7 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Change lead's role by id. Roles: All")]
-        public ActionResult ChangeRoleLead(int id, int role)
+        public async Task<ActionResult> ChangeRoleLead(int id, int role)
         {
             _logger.LogInformation($"Получен запрос изменение роли лида с id = {id}.");
             _leadService.ChangeRoleLead(id, role);
@@ -80,7 +80,7 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Delete lead by id. Roles: Admin")]
-        public ActionResult DeleteById(int id)
+        public async Task<ActionResult> DeleteById(int id)
         {
             _logger.LogInformation($"Получен запрос на удаление лида с id = {id}.");
             _leadService.DeleteById(id);
@@ -94,7 +94,7 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Restore lead by id. Roles: Admin")]
-        public ActionResult RestoreById(int id)
+        public async Task<ActionResult> RestoreById(int id)
         {
             _logger.LogInformation($"Получен запрос на восстановление лида с id = {id}.");
             _leadService.RestoreById(id);
@@ -107,7 +107,7 @@ namespace CRM.APILayer.Controllers
         [AuthorizeEnum(Role.Admin)]
         [ProducesResponseType(typeof(List<LeadResponse>), StatusCodes.Status200OK)]
         [SwaggerOperation("Restore all lead. Roles: Admin")]
-        public ActionResult<List<LeadResponse>> GetAll()
+        public async Task<ActionResult<List<LeadResponse>>> GetAll()
         {
             _logger.LogInformation($"Получен запрос на получение всех лидов.");
             var leadModels = _leadService.GetAll();
@@ -122,7 +122,7 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(typeof(LeadResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Get lead by id. Roles: Admin")]
-        public ActionResult<LeadResponse> GetById(int id)
+        public async Task<ActionResult<LeadResponse>> GetById(int id)
         {
             _logger.LogInformation($"Получен запрос на получение лида с id = {id}.");
             var leadModel = _leadService.GetById(id);
@@ -136,7 +136,7 @@ namespace CRM.APILayer.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [SwaggerOperation("Change lead password. Roles: All")]
-        public ActionResult ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
+        public async Task<ActionResult> ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
         {
             var id = this.GetLeadFromToken().Id;
             _logger.LogInformation($"Получен запрос на изменение пароля лида с id = {id}.");
