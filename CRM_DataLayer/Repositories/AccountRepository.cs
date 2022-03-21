@@ -23,7 +23,7 @@ namespace CRM.DataLayer.Repositories
             _logger = logger;
         }
 
-        public int AddAccount(Account account)
+        public async Task<int> AddAccount(Account account)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -43,7 +43,7 @@ namespace CRM.DataLayer.Repositories
             return id;
         }
 
-        public void UpdateAccountById(Account account)
+        public async void UpdateAccountById(Account account)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -61,7 +61,7 @@ namespace CRM.DataLayer.Repositories
 
         }
 
-        public void LockById(int id)
+        public async void LockById(int id)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -76,7 +76,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug($"Аккаунт с id = {id} был заблокирован.");
         }
 
-        public void UnlockById(int id)
+        public async void UnlockById(int id)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -91,7 +91,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug($"Аккаунт с id = {id} был разблокирован.");
         }
 
-        public List<Account> GetByLead(int leadId)
+        public async Task<List<Account>> GetByLead(int leadId)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -108,7 +108,7 @@ namespace CRM.DataLayer.Repositories
             return accounts;
         }
 
-        public Account GetById(int id)
+        public async Task<Account> GetById(int id)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
