@@ -21,19 +21,19 @@ namespace CRM.BusinessLayer.Services
             _requestHelper = requestHelper;
         }
 
-        public Task<RestResponse> AddDeposit(TransactionRequestModel transactionModel)
+        public async Task<RestResponse> AddDeposit(TransactionRequestModel transactionModel)
         {
             _logger.LogInformation($"Попытка транзакии с аккаунта id = {transactionModel.AccountId}.");
             var entity = _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             _logger.LogInformation($"Отправка запроса на транзакию с аккаунта id = {transactionModel.AccountId}.");
-            var response = _requestHelper.SendRequest<TransactionRequestModel>(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
+            var response = await _requestHelper.SendRequest<TransactionRequestModel>(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
             _logger.LogInformation($"Получен ответ на транзакию с аккаунта id = {transactionModel.AccountId}.");
 
             return response;
         }
 
-        public Task<RestResponse> AddTransfer(TransferRequestModel transactionModel)
+        public async Task<RestResponse> AddTransfer(TransferRequestModel transactionModel)
         {
             _logger.LogInformation($"Попытка трансфера с аккаунта id = {transactionModel.AccountIdFrom} на аккаунт id = {transactionModel.AccountIdTo}.");
             var entity = _accountRepository.GetById(transactionModel.AccountIdFrom);
@@ -41,19 +41,19 @@ namespace CRM.BusinessLayer.Services
             var accountTo = _accountRepository.GetById(transactionModel.AccountIdTo);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdTo, accountTo);
             _logger.LogInformation($"Отправка запроса трансфера с аккаунта id = {transactionModel.AccountIdFrom} на аккаунт id = {transactionModel.AccountIdTo}.");
-            var response = _requestHelper.SendRequest<TransferRequestModel>(_url, UrlTransaction.Transfer, Method.Post, transactionModel);
+            var response = await _requestHelper.SendRequest<TransferRequestModel>(_url, UrlTransaction.Transfer, Method.Post, transactionModel);
             _logger.LogInformation($"Получен ответ на трансфер с аккаунта id = {transactionModel.AccountIdFrom} на аккаунт id = {transactionModel.AccountIdTo}.");
 
             return response;
         }
 
-        public Task<RestResponse> Withdraw(TransactionRequestModel transactionModel)
+        public async Task<RestResponse> Withdraw(TransactionRequestModel transactionModel)
         {
             _logger.LogInformation($"Попытка вывода средств с аккаунта id = {transactionModel.AccountId}.");
             var entity = _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             _logger.LogInformation($"Отправка запроса на вывод средств с аккаунта id = {transactionModel.AccountId}.");
-            var response = _requestHelper.SendRequest<TransactionRequestModel>(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
+            var response = await _requestHelper.SendRequest<TransactionRequestModel>(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
             _logger.LogInformation($"Получен ответ на вывод средств с аккаунта id = {transactionModel.AccountId}.");
 
             return response;
