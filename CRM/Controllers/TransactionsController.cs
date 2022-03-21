@@ -28,7 +28,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> AddDeposit([FromBody] TransactionRequestModel transaction)
         {
             _logger.LogInformation($"Получен запрос на добавление депозита в аккаунт id = {transaction.AccountId}.");
-            var transactionId = _transactionService.AddDeposit(transaction);
+            var transactionId = await _transactionService.AddDeposit(transaction);
             _logger.LogInformation($"Депозит с id = {transactionId} успешно добавлен в аккаунт id = {transaction.AccountId}.");
 
             return StatusCode(201, transactionId);
