@@ -43,7 +43,7 @@ namespace CRM.BusinessLayer.Services
             return id;
         }
 
-        public async void UpdateLead(int id, LeadModel leadModel)
+        public async Task UpdateLead(int id, LeadModel leadModel)
         {
             _logger.LogInformation($"Запрос на обновление лида id = {id}.");
             var entity = await _leadRepository.GetById(id);
@@ -52,7 +52,7 @@ namespace CRM.BusinessLayer.Services
             _leadRepository.UpdateLeadById(mappedLead);
         }
 
-        public async void ChangeRoleLead(int id, int role)
+        public async Task ChangeRoleLead(int id, int role)
         {
             _logger.LogInformation($"Запрос на обновление роли лида id = {id}.");
             if (role != 2 && role != 3)
@@ -66,7 +66,7 @@ namespace CRM.BusinessLayer.Services
             _leadRepository.ChangeRoleLead(entity);
         }
 
-        public async void DeleteById(int id)
+        public async Task DeleteById(int id)
         {
             _logger.LogInformation($"Запрос на удаление лида id = {id}.");
             var entity = await _leadRepository.GetById(id);
@@ -81,7 +81,7 @@ namespace CRM.BusinessLayer.Services
             _leadRepository.DeleteById(id);
         }
 
-        public async void RestoreById(int id)
+        public async Task RestoreById(int id)
         {
             _logger.LogInformation($"Запрос на восстановление лида id = {id}.");
             var entity = await _leadRepository.GetById(id);
@@ -111,7 +111,7 @@ namespace CRM.BusinessLayer.Services
             return _autoMapper.Map<LeadModel>(entity);
         }
 
-        public async void ChangePassword(int id, string oldPassword, string newPassword)
+        public async Task ChangePassword(int id, string oldPassword, string newPassword)
         {
             _logger.LogInformation($"Запрос на изменение пароля лида id = {id}.");
             var entity = await _leadRepository.GetById(id);

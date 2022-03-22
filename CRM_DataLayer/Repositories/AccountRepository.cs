@@ -43,7 +43,7 @@ namespace CRM.DataLayer.Repositories
             return id;
         }
 
-        public async void UpdateAccountById(Account account)
+        public async Task UpdateAccountById(Account account)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -61,7 +61,7 @@ namespace CRM.DataLayer.Repositories
 
         }
 
-        public async void LockById(int id)
+        public async Task LockById(int id)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -76,7 +76,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug($"Аккаунт с id = {id} был заблокирован.");
         }
 
-        public async void UnlockById(int id)
+        public async Task UnlockById(int id)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
