@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="41fd8cf8-0062-4718-8c28-d2a0dd8de8e6" ChangeDateTime="03/04/2022 21:42:11">
+    <Property Name="ElementName" Value="[dbo].[Lead].[IsDelete]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Lead]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsBanned" />
+  </Operation>
+</Operations>
