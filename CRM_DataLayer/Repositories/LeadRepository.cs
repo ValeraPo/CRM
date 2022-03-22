@@ -54,7 +54,7 @@ namespace CRM.DataLayer.Repositories
             return id;
         }
 
-        public async void UpdateLeadById(Lead lead)
+        public async Task UpdateLeadById(Lead lead)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -74,7 +74,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug($"Лид с id = {lead.Id} был обновлен.");
         }
 
-        public async void ChangeRoleLead(Lead lead)
+        public async Task ChangeRoleLead(Lead lead)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -91,7 +91,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug($"Лид с id = {lead.Id} был обновлен.");
         }
 
-        public async void DeleteById(int id)
+        public async Task DeleteById(int id)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -107,7 +107,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug($"Лид с id = {id} был удален.");
         }
 
-        public async void RestoreById(int id)
+        public async Task RestoreById(int id)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
@@ -190,7 +190,7 @@ namespace CRM.DataLayer.Repositories
             return lead;
         }
 
-        public async void ChangePassword(int id, string hashPassword)
+        public async Task ChangePassword(int id, string hashPassword)
         {
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();

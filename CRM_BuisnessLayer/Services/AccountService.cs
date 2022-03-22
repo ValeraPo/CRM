@@ -39,7 +39,7 @@ namespace CRM.BusinessLayer.Services
             return id;
         }
 
-        public async void UpdateAccount(int leadId, AccountModel accountModel)
+        public async Task UpdateAccount(int leadId, AccountModel accountModel)
         {
             _logger.LogInformation($"Запрос на обновление аккаунта id = {accountModel.Id}.");
             var entity = await _accountRepository.GetById(accountModel.Id);
@@ -51,7 +51,7 @@ namespace CRM.BusinessLayer.Services
             _accountRepository.UpdateAccountById(mappedAccount);
         }
 
-        public async void LockById(int id)
+        public async Task LockById(int id)
         {
             _logger.LogInformation($"Запрос на блокировку аккаунта id = {id}.");
             var entity = _accountRepository.GetById(id);
@@ -59,7 +59,7 @@ namespace CRM.BusinessLayer.Services
             _accountRepository.LockById(id);
         }
 
-        public async void UnlockById(int id)
+        public async Task UnlockById(int id)
         {
             _logger.LogInformation($"Запрос на разблокировку аккаунта id = {id}.");
             var entity = _accountRepository.GetById(id);
@@ -89,7 +89,7 @@ namespace CRM.BusinessLayer.Services
             return _autoMapper.Map<AccountModel>(entity);
         }
 
-        private async void CheckDuplicationAccount(int leadId, Currency currency)
+        private async Task CheckDuplicationAccount(int leadId, Currency currency)
         {
             var accounts = await _accountRepository.GetByLead(leadId);
             var c = accounts.Select(x => x.CurrencyType).ToList();
