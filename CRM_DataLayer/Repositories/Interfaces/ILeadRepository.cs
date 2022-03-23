@@ -13,6 +13,5 @@ namespace CRM.DataLayer.Repositories.Interfaces
         Task<List<Lead>> GetAll();
         Task<Lead> GetById(int id);
         Task<Lead> GetByEmail(string email);
-        Task<List<string>> GetAllEmails();
     }
 }

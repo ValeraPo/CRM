@@ -28,7 +28,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<int> AddLead(LeadModel leadModel)
         {
-            _logger.LogInformation("Запрос на добавление лида.");
+            _logger.LogInformation("Zapros na dobavlenie leada.");
             ExceptionsHelper.ThrowIfEmailRepeat((await _leadRepository.GetByEmail(leadModel.Email)), leadModel.Email);
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
@@ -45,7 +45,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task UpdateLead(int id, LeadModel leadModel)
         {
-            _logger.LogInformation($"Запрос на обновление лида id = {id}.");
+            _logger.LogInformation($"Zapros na obnovlenie leada id = {id}.");
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
@@ -54,10 +54,10 @@ namespace CRM.BusinessLayer.Services
 
         public async Task ChangeRoleLead(int id, int role)
         {
-            _logger.LogInformation($"Запрос на обновление роли лида id = {id}.");
+            _logger.LogInformation($"Zapros na obnovlenie roli лиleadaда id = {id}.");
             if (role != 2 && role != 3)
             {
-                _logger.LogError($"Ошибка изменения роли. Роль можно изменить только на Vip или Regular.");
+                _logger.LogError($"Oshibka izmenenia roli. Rol' mozhno izmenit' tol'ko na Vip ili Regular.");
                 throw new IncorrectRoleException("Роль можно изменить только на Vip или Regular");
             }
             var entity = await _leadRepository.GetById(id);
@@ -68,13 +68,13 @@ namespace CRM.BusinessLayer.Services
 
         public async Task DeleteById(int id)
         {
-            _logger.LogInformation($"Запрос на удаление лида id = {id}.");
+            _logger.LogInformation($"Zapros na udalenie leada id = {id}.");
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
 
             if (entity.IsBanned)
             {
-                _logger.LogError($"Лид с ID {entity.Id} уже забанен");
+                _logger.LogError($"Lead c ID {entity.Id} uze zabanen");
                 throw new BannedException($"Лид с ID {entity.Id} уже забанен");
             }
 
@@ -83,13 +83,13 @@ namespace CRM.BusinessLayer.Services
 
         public async Task RestoreById(int id)
         {
-            _logger.LogInformation($"Запрос на восстановление лида id = {id}.");
+            _logger.LogInformation($"Zapros na vosstanovlenie leada id = {id}.");
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
 
             if (!entity.IsBanned)
             {
-                _logger.LogError($"Лид с ID {entity.Id} не забанен");
+                _logger.LogError($"Lead c ID {entity.Id} ne zabanen");
                 throw new BannedException($"Лид с ID {entity.Id} не забанен");
             }
 
@@ -98,14 +98,14 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<List<LeadModel>> GetAll()
         {
-            _logger.LogInformation($"Запрос на получение всех лидов.");
+            _logger.LogInformation($"Zapros na poluchenie vseh leadov.");
             var leads = await _leadRepository.GetAll();
             return _autoMapper.Map<List<LeadModel>>(leads);
         }
 
         public async Task<LeadModel> GetById(int id)
         {
-            _logger.LogInformation($"Запрос на получение аккаунта id = {id}.");
+            _logger.LogInformation($"Zapros na poluchenie accounta id = {id}.");
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             return _autoMapper.Map<LeadModel>(entity);
@@ -113,7 +113,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task ChangePassword(int id, string oldPassword, string newPassword)
         {
-            _logger.LogInformation($"Запрос на изменение пароля лида id = {id}.");
+            _logger.LogInformation($"Zapros na izmenenie parolya leada id = {id}.");
             var entity = await _leadRepository.GetById(id);
 
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);

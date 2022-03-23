@@ -37,10 +37,10 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Create lead")]
         public async Task<ActionResult<int>> AddLead([FromBody] LeadInsertRequest leadInsertRequest)
         {
-            _logger.LogInformation($"Получен запрос на создание лида.");
+            _logger.LogInformation($"Poluchen zapros na sozdanie leada.");
             var leadModel = _autoMapper.Map<LeadModel>(leadInsertRequest);
             var id = await _leadService.AddLead(leadModel);
-            _logger.LogInformation($"Лид с id = {id} успешно создан.");
+            _logger.LogInformation($"Лид с id = {id} uspeshno sozdan.");
             return StatusCode(StatusCodes.Status201Created, id);
         }
 
@@ -52,11 +52,11 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Update lead by id. Roles: All")]
         public async Task<ActionResult> UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
         {
-            _logger.LogInformation($"Получен запрос изменение лида с id = {id}.");
+            _logger.LogInformation($"Poluchen zapros na izmenenie leada c id = {id}.");
             var leadModel = _autoMapper.Map<LeadModel>(leadUpdateRequest);
             leadModel.Id = id;
-            _leadService.UpdateLead(id, leadModel);
-            _logger.LogInformation($"Лид с id = {id} успешно обновлен.");
+            await _leadService.UpdateLead(id, leadModel);
+            _logger.LogInformation($"Lead c id = {id} uspeshno obnovlen.");
             return Ok($"Lead with id = {id} was updated");
         }
 
@@ -68,9 +68,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Change lead's role by id. Roles: All")]
         public async Task<ActionResult> ChangeRoleLead(int id, int role)
         {
-            _logger.LogInformation($"Получен запрос изменение роли лида с id = {id}.");
-            _leadService.ChangeRoleLead(id, role);
-            _logger.LogInformation($"Лид с id = {id} успешно обновлен.");
+            _logger.LogInformation($"Poluchen zapros na izmenenie roly leada c id = {id}.");
+            await _leadService.ChangeRoleLead(id, role);
+            _logger.LogInformation($"Lead c id = {id} uspeshno obnovlen.");
             return Ok($"Lead with id = {id} was updated");
         }
 
@@ -82,9 +82,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Delete lead by id. Roles: Admin")]
         public async Task<ActionResult> DeleteById(int id)
         {
-            _logger.LogInformation($"Получен запрос на удаление лида с id = {id}.");
-            _leadService.DeleteById(id);
-            _logger.LogInformation($"Лид с id = {id} успешно удален.");
+            _logger.LogInformation($"Poluchen zapros na udalenie leada c id = {id}.");
+            await _leadService.DeleteById(id);
+            _logger.LogInformation($"Lead c id = {id} uspeshno udalen.");
             return Ok($"Lead with id = {id} was deleted");
         }
 
@@ -96,9 +96,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Restore lead by id. Roles: Admin")]
         public async Task<ActionResult> RestoreById(int id)
         {
-            _logger.LogInformation($"Получен запрос на восстановление лида с id = {id}.");
-            _leadService.RestoreById(id);
-            _logger.LogInformation($"Лид с id = {id} успешно восстановлен.");
+            _logger.LogInformation($"Poluchen zapros na vosstanovlenie leada c id = {id}.");
+            await _leadService.RestoreById(id);
+            _logger.LogInformation($"Lead c id = {id} uspeshno vosstanovlen.");
             return Ok($"Lead with id = {id} was restored");
         }
 
@@ -109,10 +109,10 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Restore all lead. Roles: Admin")]
         public async Task<ActionResult<List<LeadResponse>>> GetAll()
         {
-            _logger.LogInformation($"Получен запрос на получение всех лидов.");
-            var leadModels = _leadService.GetAll();
+            _logger.LogInformation($"Poluchen zapros na poluchenie vseh leadov.");
+            var leadModels = await _leadService.GetAll();
             var outputs = _autoMapper.Map<List<LeadResponse>>(leadModels);
-            _logger.LogInformation($"Все лиды успешно получены.");
+            _logger.LogInformation($"Vse leady uspeshno polucheny.");
             return Ok(outputs);
         }
 
@@ -124,10 +124,10 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Get lead by id. Roles: Admin")]
         public async Task<ActionResult<LeadResponse>> GetById(int id)
         {
-            _logger.LogInformation($"Получен запрос на получение лида с id = {id}.");
-            var leadModel = _leadService.GetById(id);
+            _logger.LogInformation($"Poluchen zapros na poluchenie leada c id = {id}.");
+            var leadModel = await _leadService.GetById(id);
             var output = _autoMapper.Map<LeadResponse>(leadModel);
-            _logger.LogInformation($"Лид с id = {id} успешно получен.");
+            _logger.LogInformation($"Lead c id = {id} uspeshno poluchen.");
             return Ok(output);
         }
 
@@ -139,9 +139,9 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
         {
             var id = this.GetLeadFromToken().Id;
-            _logger.LogInformation($"Получен запрос на изменение пароля лида с id = {id}.");
-            _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
-            _logger.LogInformation($"Пароль лида с id = {id} успешно изменен.");
+            _logger.LogInformation($"Poluchen zapros na izmenenie parolya leada c id = {id}.");
+            await _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
+            _logger.LogInformation($"Parol' leada c id = {id} uspeshno izmenen.");
             return Ok();
         }
 

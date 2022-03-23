@@ -32,9 +32,9 @@ namespace CRM.DataLayer.Repositories
 
         public async Task<int> AddLead(Lead lead)
         {
-            _logger.LogDebug("Попытка подключения к базе данных.");
+            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Произведено подключение к базе данных.");
+            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
             var id = await connection.QueryFirstOrDefaultAsync<int>(
                     _insertProc,
                     new
@@ -50,15 +50,15 @@ namespace CRM.DataLayer.Repositories
                     },
                     commandType: CommandType.StoredProcedure
                 );
-            _logger.LogDebug($"Лид с id = {id} добавлен в базу данных.");
+            _logger.LogDebug($"Lead c id = {id} dobavlen v bazu dannyh.");
             return id;
         }
 
         public async Task UpdateLeadById(Lead lead)
         {
-            _logger.LogDebug("Попытка подключения к базе данных.");
+            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Произведено подключение к базе данных.");
+            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
 
             await connection.ExecuteAsync(_updateProc,
                 new
@@ -71,14 +71,14 @@ namespace CRM.DataLayer.Repositories
                 },
 
                 commandType: CommandType.StoredProcedure);
-            _logger.LogDebug($"Лид с id = {lead.Id} был обновлен.");
+            _logger.LogDebug($"Lead c id = {lead.Id} byl obnovlen.");
         }
 
         public async Task ChangeRoleLead(Lead lead)
         {
-            _logger.LogDebug("Попытка подключения к базе данных.");
+            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Произведено подключение к базе данных.");
+            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
 
             await connection.ExecuteAsync(_changeRoleProc,
                 new
@@ -88,14 +88,14 @@ namespace CRM.DataLayer.Repositories
                 },
 
                 commandType: CommandType.StoredProcedure);
-            _logger.LogDebug($"Лид с id = {lead.Id} был обновлен.");
+            _logger.LogDebug($"Lead c id = {lead.Id} byl obnovlen.");
         }
 
         public async Task DeleteById(int id)
         {
-            _logger.LogDebug("Попытка подключения к базе данных.");
+            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Произведено подключение к базе данных.");
+            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
 
             await connection.ExecuteAsync(_banProc,
                 new
@@ -104,14 +104,14 @@ namespace CRM.DataLayer.Repositories
                     IsBanned = true
                 },
                 commandType: CommandType.StoredProcedure);
-            _logger.LogDebug($"Лид с id = {id} был удален.");
+            _logger.LogDebug($"Lead c id = {id} byl udalen.");
         }
 
         public async Task RestoreById(int id)
         {
-            _logger.LogDebug("Попытка подключения к базе данных.");
+            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Произведено подключение к базе данных.");
+            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
             await connection.ExecuteAsync(_banProc,
                 new
                 {
@@ -119,45 +119,29 @@ namespace CRM.DataLayer.Repositories
                     IsBanned = false
                 },
                 commandType: CommandType.StoredProcedure);
-            _logger.LogDebug($"Лид с id = {id} был восстановлен.");
+            _logger.LogDebug($"Lead c id = {id} byl vosstanovlen.");
         }
 
         public async Task<List<Lead>> GetAll()
         {
-            _logger.LogDebug("Попытка подключения к базе данных.");
+            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Произведено подключение к базе данных.");
+            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
 
             var leads = connection.QueryAsync<Lead>(
                 _selectAll,
                 commandType: CommandType.StoredProcedure)
                 .Result
                 .ToList();
-            _logger.LogDebug($"Были возвращены все лиды");
+            _logger.LogDebug($"Byly vozvracheny vse leady");
             return leads;
         }
-
-        public async Task<List<string>> GetAllEmails()
-        {
-            _logger.LogDebug("Попытка подключения к базе данных.");
-            using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Произведено подключение к базе данных.");
-
-            var emails = connection.
-                QueryAsync<string>(
-                _selectAllEmails,
-                commandType: CommandType.StoredProcedure)
-                .Result
-                .ToList();
-            _logger.LogDebug($"Были возвращены все email");
-            return emails;
-        }
-
+                
         public async Task<Lead> GetById(int id)
         {
-            _logger.LogDebug("Попытка подключения к базе данных.");
+            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Произведено подключение к базе данных.");
+            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
 
             var lead = connection
                 .QueryAsync<Lead, Account, Lead>(
@@ -173,30 +157,30 @@ namespace CRM.DataLayer.Repositories
                 commandType: CommandType.StoredProcedure)
                 .Result
                 .FirstOrDefault();
-            _logger.LogDebug($"Были возвращен лид с id = {id}");
+            _logger.LogDebug($"Byl vozvrachen Lead c id = {id}");
             return lead;
         }
 
         public async Task<Lead> GetByEmail(string email)
         {
-            _logger.LogDebug("Попытка подключения к базе данных.");
+            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Произведено подключение к базе данных.");
+            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
 
             var lead = await connection
                 .QueryFirstOrDefaultAsync<Lead>(
                 _selectByEmail,
                 new { email },
                 commandType: CommandType.StoredProcedure);
-            _logger.LogDebug($"Были возвращен лид с email = {email.Encryptor()}");
+            _logger.LogDebug($"Byl vozvrachen Lead c email = {email.Encryptor()}");
             return lead;
         }
 
         public async Task ChangePassword(int id, string hashPassword)
         {
-            _logger.LogDebug("Попытка подключения к базе данных.");
+            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Произведено подключение к базе данных.");
+            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
 
             await connection.ExecuteAsync(_changePassword,
                 new
@@ -205,7 +189,7 @@ namespace CRM.DataLayer.Repositories
                     hashPassword,
                 },
                 commandType: CommandType.StoredProcedure);
-            _logger.LogDebug($"Был изменен пароль у лида id {id}");
+            _logger.LogDebug($"Byl izmenen parol' u Lead id {id}");
         }
 
     }
