@@ -27,12 +27,12 @@ namespace CRM.APILayer.Controllers
         [HttpPost("login")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [SwaggerOperation("Authentication")]
-        public ActionResult Login([FromBody] AuthRequest auth)
+        public async Task<ActionResult> Login([FromBody] AuthRequest auth)
         {
             _logger.LogInformation($"Получен запрос на аутентификаию лида с email = {auth.Email.Encryptor()}.");
-            var token = _authService.GetToken(auth.Email, auth.Password);
+            var token = await _authService.GetToken(auth.Email, auth.Password);
             _logger.LogInformation($"Аутентификаия лида с email = {auth.Email.Encryptor()} прошла успешно.");
-            return Json(token);
+            return new JsonResult(token);
         }
     }
 }

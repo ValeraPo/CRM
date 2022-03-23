@@ -107,7 +107,7 @@ namespace CRM.APILayer.Extensions
             service.AddLogging(loggingBuilder =>
             {
                 loggingBuilder.ClearProviders();
-                loggingBuilder.SetMinimumLevel(LogLevel.Information);
+                loggingBuilder.SetMinimumLevel(LogLevel.Debug);
                 loggingBuilder.AddNLog(config);
             });
         }

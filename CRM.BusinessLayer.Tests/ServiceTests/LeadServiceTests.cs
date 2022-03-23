@@ -285,7 +285,7 @@
 //        {
 //            //given
 //            var lead = _leadTestData.GetLeadForTests();
-//            _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(lead);
+//            _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
 //            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
 
 //            //when

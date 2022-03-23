@@ -29,7 +29,7 @@ namespace CRM.DataLayer.Repositories
             using IDbConnection connection = ProvideConnection();
             _logger.LogDebug("Произведено подключение к базе данных.");
 
-            var id =  connection.QueryFirstOrDefault<int>(
+            var id = await connection.QueryFirstOrDefaultAsync<int>(
                     _insertProc,
                     new
                     {
@@ -49,7 +49,7 @@ namespace CRM.DataLayer.Repositories
             using IDbConnection connection = ProvideConnection();
             _logger.LogDebug("Произведено подключение к базе данных.");
 
-            connection.Execute(_updateProc,
+            await connection.ExecuteAsync(_updateProc,
                 new
                 {
                     account.Id,
@@ -66,7 +66,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
             _logger.LogDebug("Произведено подключение к базе данных.");
-            connection.Execute(_lockProc,
+            await connection.ExecuteAsync(_lockProc,
                 new
                 {
                     Id = id,
@@ -81,7 +81,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug("Попытка подключения к базе данных.");
             using IDbConnection connection = ProvideConnection();
             _logger.LogDebug("Произведено подключение к базе данных.");
-            connection.Execute(_lockProc,
+            await connection.ExecuteAsync(_lockProc,
                 new
                 {
                     Id = id,
@@ -98,10 +98,11 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug("Произведено подключение к базе данных.");
 
             var accounts =  connection.
-                Query<Account>(
+                QueryAsync<Account>(
                 _selectByLead,
                 new { LeadId = leadId },
                 commandType: CommandType.StoredProcedure)
+                .Result
                 .ToList();
             _logger.LogDebug($"Были возвращены все аккаунты лида с id = {leadId}");
 
@@ -115,7 +116,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogDebug("Произведено подключение к базе данных.");
 
             var account =  connection
-                .Query<Account, Lead, Account>(
+                .QueryAsync<Account, Lead, Account>(
                 _selectById,
                 (account, lead) =>
                 {
@@ -124,7 +125,9 @@ namespace CRM.DataLayer.Repositories
                 },
                 new { Id = id },
                 splitOn: "Id",
-                commandType: CommandType.StoredProcedure).FirstOrDefault();
+                commandType: CommandType.StoredProcedure)
+                .Result
+                .FirstOrDefault();
             _logger.LogDebug($"Аккаунт с id = {id} был возвращен.");
 
             _logger.LogDebug($"Аккаунт с id = {id} был возвращен.");

@@ -28,7 +28,7 @@ namespace CRM.BusinessLayer.Services
         public async Task<int> AddAccount(int role, AccountModel accountModel)
         {
             _logger.LogInformation("Запрос на добавление аккаунта.");
-            CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
+            await CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
             if (role == (int)Role.Regular && accountModel.CurrencyType != Currency.USD)
             {
                 _logger.LogError("Ошибка добавления аккаунта. Лид с такой ролью не может создавать валютные счета кроме долларового.");
@@ -48,31 +48,31 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfEntityNotFound(accountModel.Id, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
-            _accountRepository.UpdateAccountById(mappedAccount);
+            await _accountRepository.UpdateAccountById(mappedAccount);
         }
 
         public async Task LockById(int id)
         {
             _logger.LogInformation($"Запрос на блокировку аккаунта id = {id}.");
-            var entity = _accountRepository.GetById(id);
+            var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
-            _accountRepository.LockById(id);
+            await _accountRepository.LockById(id);
         }
 
         public async Task UnlockById(int id)
         {
             _logger.LogInformation($"Запрос на разблокировку аккаунта id = {id}.");
-            var entity = _accountRepository.GetById(id);
+            var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
-            _accountRepository.UnlockById(id);
+            await _accountRepository.UnlockById(id);
         }
 
         public async Task<List<AccountModel>> GetByLead(int leadId)
         {
             _logger.LogInformation($"Запрос на получение всех аккаунтов.");
-            var entity = _leadRepository.GetById(leadId);
+            var entity = await _leadRepository.GetById(leadId);
             ExceptionsHelper.ThrowIfEntityNotFound(leadId, entity);
-            var accounts = _accountRepository.GetByLead(leadId);
+            var accounts = await _accountRepository.GetByLead(leadId);
             return _autoMapper.Map<List<AccountModel>>(accounts);
         }
 

@@ -34,7 +34,7 @@ namespace CRM.BusinessLayer.Services
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
             var id =  await _leadRepository.AddLead(mappedLead);
             mappedLead.Id = id;
-            _accountRepository.AddAccount(new Account
+            await _accountRepository.AddAccount(new Account
             {
                 Name = "MyAccount",
                 CurrencyType = Currency.RUB,
@@ -49,7 +49,7 @@ namespace CRM.BusinessLayer.Services
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
-            _leadRepository.UpdateLeadById(mappedLead);
+            await _leadRepository.UpdateLeadById(mappedLead);
         }
 
         public async Task ChangeRoleLead(int id, int role)
@@ -63,7 +63,7 @@ namespace CRM.BusinessLayer.Services
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             entity.Role = (Role)role;
-            _leadRepository.ChangeRoleLead(entity);
+            await _leadRepository.ChangeRoleLead(entity);
         }
 
         public async Task DeleteById(int id)
@@ -78,7 +78,7 @@ namespace CRM.BusinessLayer.Services
                 throw new BannedException($"Лид с ID {entity.Id} уже забанен");
             }
 
-            _leadRepository.DeleteById(id);
+            await _leadRepository.DeleteById(id);
         }
 
         public async Task RestoreById(int id)
@@ -93,7 +93,7 @@ namespace CRM.BusinessLayer.Services
                 throw new BannedException($"Лид с ID {entity.Id} не забанен");
             }
 
-            _leadRepository.RestoreById(id);
+            await _leadRepository.RestoreById(id);
         }
 
         public async Task<List<LeadModel>> GetAll()
@@ -120,7 +120,7 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfPasswordIsIncorrected(oldPassword, entity.Password);
 
             string hashPassword = PasswordHash.HashPassword(newPassword);
-            _leadRepository.ChangePassword(entity.Id, hashPassword);
+            await _leadRepository.ChangePassword(entity.Id, hashPassword);
         }
 
     }
