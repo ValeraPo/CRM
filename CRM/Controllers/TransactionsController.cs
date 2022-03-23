@@ -27,9 +27,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerResponse(201, "Deposit added")]
         public async Task<ActionResult> AddDeposit([FromBody] TransactionRequestModel transaction)
         {
-            _logger.LogInformation($"Получен запрос на добавление депозита в аккаунт id = {transaction.AccountId}.");
+            _logger.LogInformation($"Poluchen zapros na dobavlenye depozita v account id = {transaction.AccountId}.");
             var transactionId = await _transactionService.AddDeposit(transaction);
-            _logger.LogInformation($"Депозит с id = {transactionId} успешно добавлен в аккаунт id = {transaction.AccountId}.");
+            _logger.LogInformation($"Depozit c id = {transactionId} uspeshno dobavlen v account id = {transaction.AccountId}.");
 
             return StatusCode(201, transactionId);
         }
@@ -40,9 +40,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerResponse(201, "List transactions by accountId ")]
         public async Task<ActionResult> AddTransfer([FromBody] TransferRequestModel transaction)
         {
-            _logger.LogInformation($"Получен запрос на добавление трансфера с аккаунта id = {transaction.AccountIdFrom} на аккаунт id = {transaction.AccountIdTo}.");
-            var transactionId = _transactionService.AddTransfer(transaction);
-            _logger.LogInformation($"Трансфер с id = {transactionId} с аккаунта id = {transaction.AccountIdFrom} на аккаунт id = {transaction.AccountIdTo} прошел успешно.");
+            _logger.LogInformation($"Poluchen zapros na dobavlenie transfera c accounta id = {transaction.AccountIdFrom} na account id = {transaction.AccountIdTo}.");
+            var transactionId = await _transactionService.AddTransfer(transaction);
+            _logger.LogInformation($"Transfer c id = {transactionId} c accounta id = {transaction.AccountIdFrom} na account id = {transaction.AccountIdTo} proshel uspeshno.");
             return StatusCode(201, transactionId);
         }
 
@@ -52,9 +52,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerResponse(201, "Withdraw successful")]
         public async Task<ActionResult> Withdraw([FromBody] TransactionRequestModel transaction)
         {
-            _logger.LogInformation($"Получен запрос на вывод средств с аккаунта id = {transaction.AccountId}.");
-            var transactionId = _transactionService.Withdraw(transaction);
-            _logger.LogInformation($"Вывод средств с id = {transactionId} с аккаунта id = {transaction.AccountId} прошел успешно.");
+            _logger.LogInformation($"Poluchen zapros na vyvod sredstv c accounta id = {transaction.AccountId}.");
+            var transactionId = await _transactionService.Withdraw(transaction);
+            _logger.LogInformation($"Vyvod sredstv c id = {transactionId} c accounta id = {transaction.AccountId} proshel uspeshno.");
 
             return StatusCode(201, transactionId);
         }

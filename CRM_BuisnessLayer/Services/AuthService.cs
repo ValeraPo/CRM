@@ -26,7 +26,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<string> GetToken(string email, string pass)
         {
-            _logger.LogInformation($"Попытка авторизаии пользователя с email = {email.Encryptor()}.");
+            _logger.LogInformation($"Popytka avtorizacii pol'zovatelya c email = {email.Encryptor()}.");
             Lead entity = await _leadRepo.GetByEmail(email);
 
             ExceptionsHelper.ThrowIfEmailNotFound(email, entity);
@@ -38,14 +38,14 @@ namespace CRM.BusinessLayer.Services
                 new Claim(ClaimTypes.UserData, entity.Id.ToString()),
                 new Claim(ClaimTypes.Role, entity.Role.ToString())
             };
-            _logger.LogInformation($"Получение токена пользователя с email = {email.Encryptor()}.");
+            _logger.LogInformation($"Poluxhenie tokena  pol'zovatelya c email = {email.Encryptor()}.");
             var jwt = new JwtSecurityToken(
                             issuer: AuthOptions.Issuer,
                             audience: AuthOptions.Audience,
                             claims: claims,
                             expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(30)),
                             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            _logger.LogInformation($"Авторизаия пользователя с email = {email.Encryptor()} прошла успешно.");
+            _logger.LogInformation($"Avtorizaciya pol'zovatelya c email = {email.Encryptor()} proshla uspeshno.");
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
 

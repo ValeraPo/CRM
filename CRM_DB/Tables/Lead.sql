@@ -6,7 +6,7 @@
 	[BirthDate] date NOT NULL,
 	[Email] varchar(30) NOT NULL,
 	[Phone] varchar(20) NULL,
-	[Password] varchar(150) NOT NULL,
+	[Password] varchar(70) NOT NULL,
 	[Role] TINYINT NOT NULL, 
     [IsBanned] BIT NOT NULL DEFAULT 0, 
     [City] VARCHAR(30) NULL, 

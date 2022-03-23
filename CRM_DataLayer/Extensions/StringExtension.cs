@@ -11,7 +11,7 @@ namespace CRM.DataLayer.Extensions
         public static string Encryptor(this string str)
         {
             var mas = str.Split();
-            for (int i = 3; i < mas.Length - 3; i++)
+            for (int i = 1; i < mas.Length - 1; i++)
                 mas[i] = "*";
             return String.Join("", mas); 
         }
