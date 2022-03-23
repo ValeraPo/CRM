@@ -43,8 +43,7 @@ namespace CRM.BusinessLayer.Services
         {
             _logger.LogInformation($"Zapros na obnovlenie accounta id = {accountModel.Id}.");
             var entity = await _accountRepository.GetById(accountModel.Id);
-
-            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
+            
             ExceptionsHelper.ThrowIfEntityNotFound(accountModel.Id, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
