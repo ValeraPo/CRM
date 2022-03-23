@@ -29,7 +29,7 @@ namespace CRM.BusinessLayer.Services
         public async Task<int> AddLead(LeadModel leadModel)
         {
             _logger.LogInformation("Запрос на добавление лида.");
-            ExceptionsHelper.ThrowIfEmailRepeat((await _leadRepository.GetAllEmails()), leadModel.Email);
+            ExceptionsHelper.ThrowIfEmailRepeat((await _leadRepository.GetByEmail(leadModel.Email)), leadModel.Email);
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
             var id =  await _leadRepository.AddLead(mappedLead);
