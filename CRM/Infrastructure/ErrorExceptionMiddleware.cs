@@ -1,5 +1,6 @@
 ﻿using CRM.APILayer.Models.Response;
 using CRM.BusinessLayer.Exceptions;
+using NLog;
 using System.Net;
 using System.Text.Json;
 
@@ -9,12 +10,12 @@ namespace CRM.APILayer.Infrastructure
     {
 
         private readonly RequestDelegate _next;
-
+        private readonly Logger _logger;
 
         public ErrorExceptionMiddleware(RequestDelegate next)
         {
             _next = next;
-
+            _logger = LogManager.GetCurrentClassLogger();
         }
 
         public async Task Invoke(HttpContext context)
@@ -27,8 +28,9 @@ namespace CRM.APILayer.Infrastructure
             {
                 await ConstructResponse(context, HttpStatusCode.Forbidden, error.Message);
             }
-            catch (System.Data.SqlClient.SqlException)
+            catch (System.Data.SqlClient.SqlException error)
             {
+                _logger.Error(error);
                 await ConstructResponse(context, HttpStatusCode.ServiceUnavailable, message: "База данных недоступна");
             }
             catch (NotFoundException error)

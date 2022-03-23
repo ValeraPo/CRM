@@ -27,11 +27,11 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<int> AddAccount(int role, AccountModel accountModel)
         {
-            _logger.LogInformation("Запрос на добавление аккаунта.");
-            CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
+            _logger.LogInformation("Zapros na dobavlenie accounta.");
+            await CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
             if (role == (int)Role.Regular && accountModel.CurrencyType != Currency.USD)
             {
-                _logger.LogError("Ошибка добавления аккаунта. Лид с такой ролью не может создавать валютные счета кроме долларового.");
+                _logger.LogError("Oshibka dobavlenia accounta. Lead c takoi rol'yu ne mozhet sozdavat' valutnye cheta krome dollarovogo.");
                 throw new AuthorizationException("Лид с такой ролью не может создавать валютные счета кроме долларового");
             }
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
@@ -41,49 +41,48 @@ namespace CRM.BusinessLayer.Services
 
         public async Task UpdateAccount(int leadId, AccountModel accountModel)
         {
-            _logger.LogInformation($"Запрос на обновление аккаунта id = {accountModel.Id}.");
+            _logger.LogInformation($"Zapros na obnovlenie accounta id = {accountModel.Id}.");
             var entity = await _accountRepository.GetById(accountModel.Id);
-
-            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
+            
             ExceptionsHelper.ThrowIfEntityNotFound(accountModel.Id, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
-            _accountRepository.UpdateAccountById(mappedAccount);
+            await _accountRepository.UpdateAccountById(mappedAccount);
         }
 
         public async Task LockById(int id)
         {
-            _logger.LogInformation($"Запрос на блокировку аккаунта id = {id}.");
-            var entity = _accountRepository.GetById(id);
+            _logger.LogInformation($"Zapros na blokirovku accounta id = {id}.");
+            var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
-            _accountRepository.LockById(id);
+            await _accountRepository.LockById(id);
         }
 
         public async Task UnlockById(int id)
         {
-            _logger.LogInformation($"Запрос на разблокировку аккаунта id = {id}.");
-            var entity = _accountRepository.GetById(id);
+            _logger.LogInformation($"Zapros na razblokirovku accounta id = {id}.");
+            var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
-            _accountRepository.UnlockById(id);
+            await _accountRepository.UnlockById(id);
         }
 
         public async Task<List<AccountModel>> GetByLead(int leadId)
         {
-            _logger.LogInformation($"Запрос на получение всех аккаунтов.");
-            var entity = _leadRepository.GetById(leadId);
+            _logger.LogInformation($"Zapros na poluchenie vseh accountov.");
+            var entity = await _leadRepository.GetById(leadId);
             ExceptionsHelper.ThrowIfEntityNotFound(leadId, entity);
-            var accounts = _accountRepository.GetByLead(leadId);
+            var accounts = await _accountRepository.GetByLead(leadId);
             return _autoMapper.Map<List<AccountModel>>(accounts);
         }
 
         public async Task<AccountModel> GetById(int id, int leadId)
         {
-            _logger.LogInformation($"Запрос на получение аккаунта id = {id}.");
+            _logger.LogInformation($"Zapros na poluchenie accounta id = {id}.");
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             if (entity.Lead.Id != leadId)
             {
-                _logger.LogError($"Ошибка запроса на получение аккаунта id = {id}. Нет доступа к чужому аккаунту.");
+                _logger.LogError($"Oshibka zaprosa na poluchenie accounta id = {id}. Net dostupa k chuzhomu accountu.");
                 throw new AuthorizationException("Нет доступа к чужому аккаунту.");
             }
             return _autoMapper.Map<AccountModel>(entity);
@@ -100,7 +99,7 @@ namespace CRM.BusinessLayer.Services
                 .ToList()
                 .Contains(currency))
             {
-                _logger.LogError("Ошибка добавления аккаунта. Счет с такой валютой уже существует.");
+                _logger.LogError("Oshibka dobavlenia accounta. Chet s takoi valutoi uze suchestvuet.");
                 throw new DuplicationException("Счет с такой валютой уже существует");
             }
         }

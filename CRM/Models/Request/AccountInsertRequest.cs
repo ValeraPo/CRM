@@ -5,6 +5,6 @@ namespace CRM.APILayer.Models
     public class AccountInsertRequest : AccountUpdateRequest
     {
         [Required(ErrorMessage = "Поле CurrencyType не может быть пустым")]
-        public int CurrencyType { get; set; }
+        public byte CurrencyType { get; set; }
     }
 }
