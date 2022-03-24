@@ -1,5 +1,6 @@
 ﻿using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts;
+using Marvelous.Contracts.RequestModels;
 using Microsoft.Extensions.Logging;
 using NLog;
 using RestSharp;

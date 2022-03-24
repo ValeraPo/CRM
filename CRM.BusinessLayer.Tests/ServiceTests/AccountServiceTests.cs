@@ -7,6 +7,7 @@ using CRM.BusinessLayer.Tests.TestData;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts;
+using Marvelous.Contracts.Enums;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;

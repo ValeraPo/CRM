@@ -1,4 +1,5 @@
 ﻿using Marvelous.Contracts;
+using Marvelous.Contracts.Enums;
 
 namespace CRM.DataLayer.Entities
 {

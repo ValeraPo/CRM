@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
-    <PackageReference Include="Marvelous.Contracts" Version="1.1.1" />
+    <PackageReference Include="Marvelous.Contracts" Version="1.1.9" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageReference Include="NLog.Config" Version="4.7.14" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.7.4" />

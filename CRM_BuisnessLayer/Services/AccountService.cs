@@ -5,8 +5,10 @@ using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts;
+using Marvelous.Contracts.Enums;
 using Microsoft.Extensions.Logging;
 using NLog;
+using System.Linq;
 
 namespace CRM.BusinessLayer.Services
 {
@@ -75,17 +77,24 @@ namespace CRM.BusinessLayer.Services
             return _autoMapper.Map<List<AccountModel>>(accounts);
         }
 
-        public async Task<AccountModel> GetById(int id, int leadId)
+        public async Task<AccountModel> GetById(int id)
         {
             _logger.LogInformation($"Zapros na poluchenie accounta id = {id}.");
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
-            if (entity.Lead.Id != leadId)
+           
+            return _autoMapper.Map<AccountModel>(entity);
+        }
+
+        public async Task<AccountModel> GetById(int id, int leadId)
+        {
+            var accountModel = await GetById(id);
+            if (accountModel.Lead.Id != leadId)
             {
                 _logger.LogError($"Oshibka zaprosa na poluchenie accounta id = {id}. Net dostupa k chuzhomu accountu.");
                 throw new AuthorizationException("Нет доступа к чужому аккаунту.");
             }
-            return _autoMapper.Map<AccountModel>(entity);
+            return accountModel;
         }
 
         private async Task CheckDuplicationAccount(int leadId, Currency currency)

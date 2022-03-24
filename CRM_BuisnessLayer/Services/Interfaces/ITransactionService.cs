@@ -1,5 +1,5 @@
-﻿using CRM.BusinessLayer.Models;
-using Marvelous.Contracts;
+﻿using Marvelous.Contracts;
+using Marvelous.Contracts.RequestModels;
 using RestSharp;
 
 namespace CRM.BusinessLayer.Services

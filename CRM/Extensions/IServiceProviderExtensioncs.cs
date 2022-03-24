@@ -6,6 +6,8 @@ using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Repositories;
 using CRM.DataLayer.Repositories.Interfaces;
+using Marvelous.Contracts.ExchangeModels;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -112,6 +114,28 @@ namespace CRM.APILayer.Extensions
             });
         }
 
+        public static void AddMassTransit(this IServiceCollection services)
+        {
+            services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host("rabbitmq://80.78.240.16", hst =>
+                    {
+                        hst.Username("nafanya");
+                        hst.Password("qwe!23");
+                    });
+                    cfg.Publish<ILeadFullExchangeModel>(p =>
+                    {
+                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
+                    });
+                    cfg.Publish<IAccountExchangeModel>(p =>
+                    {
+                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
+                    });
+                });
+            });
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CRM.APILayer.Models;
 using Marvelous.Contracts;
+using Marvelous.Contracts.Enums;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

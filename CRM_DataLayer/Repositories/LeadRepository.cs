@@ -4,6 +4,7 @@ using CRM.DataLayer.Extensions;
 using CRM.DataLayer.Repositories.Interfaces;
 using Dapper;
 using Marvelous.Contracts;
+using Marvelous.Contracts.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NLog;

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CRM.BusinessLayer.Services;
 using Marvelous.Contracts;
+using Marvelous.Contracts.RequestModels;
 using Microsoft.AspNetCore.Mvc;
-using NLog;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CRM.APILayer.Controllers
