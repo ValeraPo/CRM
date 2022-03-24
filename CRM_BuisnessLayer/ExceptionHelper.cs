@@ -13,7 +13,7 @@ namespace CRM.BusinessLayer
         {
             if (entity is null)
             {
-                _logger.Error($"Ошибка поиска. {typeof(T).Name} с id = {id} не найден");
+                _logger.Error($"Oshibka poiska. {typeof(T).Name} c id = {id} ne naiden");
                 throw new NotFoundException($"{typeof(T).Name} с id = {id} не найден");
             }
         }
@@ -22,7 +22,7 @@ namespace CRM.BusinessLayer
         {
             if (lead is null)
             {
-                _logger.Error($"Ошибка поиска. Lead с {email} не найден");
+                _logger.Error($"Oshibka поиска. Lead с {email} не найден");
                 throw new NotFoundException($"Lead с {email} не найден");
             }
         }
@@ -31,7 +31,7 @@ namespace CRM.BusinessLayer
         {
             if (lead is null)
             {
-                _logger.Error($"Ошибка запроса. Lead с id = {id} забанен");
+                _logger.Error($"Oshibka zaprosa. Lead c id = {id} zabanen");
                 throw new BannedException($"Lead с id = {id} забанен");
             }
         }
@@ -40,16 +40,17 @@ namespace CRM.BusinessLayer
         {
             if (!PasswordHash.ValidatePassword(pass, hashPassFromBd))
             {
-                _logger.Error($"Ошибка ввода пароля. Введен неверный пароль.");
+                _logger.Error($"Oshibka vvoda parolya. Vveden nevernyi parol'.");
                 throw new IncorrectPasswordException("Неверный пароль");
             }
         }
 
-        public static void ThrowIfEmailRepeat(List<string> emails, string email)
+        public static void ThrowIfEmailRepeat(Lead lead, string email)
         {
-            if (emails.Contains(email))
+
+            if (lead != null)
             {
-                _logger.Error($"Ошибка добавления лида. Пользователь {email} уже существует.");
+                _logger.Error($"Oshibka dobavleniya leada. Pol'zovatel' {email} uze suchestvuet.");
                 throw new DuplicationException($"Пользователь {email} уже существует.");
             }
         }
@@ -58,7 +59,7 @@ namespace CRM.BusinessLayer
         {
             if (accountLeadId != authorizathionLeadId)
             {
-                _logger.Error($"Ошибка манипуляций с аккаунтом. Пользователь с Id {authorizathionLeadId} не имеет доступа к аккаунту с Id {accountLeadId}.");
+                _logger.Error($"Oshibka manipulyacii c accountom. Pol'zovatel' c id {authorizathionLeadId} ne imeet dostupa k accountu c id {accountLeadId}.");
                 throw new AuthorizationException($"Пользователь с Id {authorizathionLeadId} не имеет доступа к аккаунту с Id {accountLeadId}.");
             }
         }

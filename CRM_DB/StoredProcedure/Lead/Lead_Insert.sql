@@ -17,7 +17,8 @@ BEGIN
 		Phone,
 		[Password],
 		City,
-		[Role])
+		[Role],
+		IsBanned)
 	values
 		(@Name,
 		@LastName,
@@ -26,6 +27,7 @@ BEGIN
 		@Phone,
 		@Password,
 		@City,
-		@Role)
+		@Role,
+		0)
 	select scope_identity()
 END
