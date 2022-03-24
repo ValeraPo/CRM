@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using CRM.BusinessLayer.Exceptions;
+using RestSharp;
 
 namespace CRM.BusinessLayer
 {
@@ -9,8 +10,9 @@ namespace CRM.BusinessLayer
             var client = new RestClient(url);
             var request = new RestRequest($"api/Transactions/{path}/", method);
             request.AddBody(requestModel);
-            //request.AddJsonBody(requestModel);
             var response = await client.ExecuteAsync(request);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK || response.Content == null)
+                throw new BadRequestException(response.ErrorException.Message);
 
             return response;
         }

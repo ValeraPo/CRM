@@ -12,7 +12,7 @@ namespace CRM.BusinessLayer.Services
         private readonly IAccountRepository _accountRepository;
         private readonly IRequestHelper _requestHelper;
         private readonly ILogger<TransactionService> _logger;
-        private const string _url = "hghttps://piter-education.ru:6060";
+        private const string _url = "https://piter-education.ru:6060";
 
         public TransactionService(IAccountRepository accountRepository, IRequestHelper requestHelper, ILogger<TransactionService> logger)
         {

@@ -135,6 +135,7 @@ namespace CRM.APILayer.Controllers
         [HttpPut("password")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Change lead password. Roles: All")]
         public async Task<ActionResult> ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
         {
