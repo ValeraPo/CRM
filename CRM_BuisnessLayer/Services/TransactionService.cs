@@ -58,5 +58,17 @@ namespace CRM.BusinessLayer.Services
 
             return response;
         }
+
+        public async Task<decimal> GetBalance(int id)
+        {
+            _logger.LogInformation($"Popytka poluchenia balansa  accounta id = {id}.");
+            var entity = await _accountRepository.GetById(id);
+            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
+            _logger.LogInformation($"Otpravka zaprosa na poluchenie balansa accounta id = {id}.");
+            var response = await _requestHelper.SendGetRequest(_url, id);
+            _logger.LogInformation($"Poluchen otvet na poluchenie balansa accounta id = {id}.");
+
+            return Convert.ToDecimal(response.Content);
+        }
     }
 }

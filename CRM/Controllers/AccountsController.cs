@@ -3,6 +3,7 @@ using CRM.APILayer.Attribites;
 using CRM.APILayer.Extensions;
 using CRM.APILayer.Models;
 using CRM.BusinessLayer.Models;
+using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using Marvelous.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +19,15 @@ namespace CRM.APILayer.Controllers
         private readonly IAccountService _accountService;
         private readonly IMapper _autoMapper;
         private readonly ILogger<AccountsController> _logger;
+        private readonly ITransactionService _transactionService;
 
-        public AccountsController(IAccountService accountService, IMapper autoMapper, ILogger<AccountsController> logger)
+        public AccountsController(IAccountService accountService, IMapper autoMapper, ILogger<AccountsController> logger, ITransactionService transactionService)
         {
             _accountService = accountService;
             _autoMapper = autoMapper;
             _logger = logger;
+            _transactionService = transactionService;
+
         }
 
         //api/accounts
@@ -119,6 +123,7 @@ namespace CRM.APILayer.Controllers
             var leadId = this.GetLeadFromToken().Id;
             var accountModel = await _accountService.GetById(id, leadId);
             var output = _autoMapper.Map<AccountResponse>(accountModel);
+            output.Balance = await _transactionService.GetBalance(leadId);
             _logger.LogInformation($"Account c id = {id} uspeshno poluchen.");
             return Ok(output);
         }

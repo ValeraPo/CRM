@@ -543,3 +543,79 @@
 
 2022-03-24 14:06:57.2063 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
 
+2022-03-24 20:06:19.5197 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-24 20:06:20.4862 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-24 20:06:20.4862 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-24 20:06:20.4862 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-24 20:08:29.8878 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-24 20:08:30.5531 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-24 20:08:30.5628 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-24 20:08:30.5628 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-24 20:10:21.6762 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-24 20:10:22.8119 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-24 20:10:22.8285 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-24 20:10:22.8285 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-24 20:10:47.7125 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Poluchen zapros na poluchenie accounta c id = 2 leadom c id = 2. 
+
+2022-03-24 20:10:47.7220 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 2. 
+
+2022-03-24 20:10:48.0117 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-24 20:10:48.1083 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-24 20:10:48.9326 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 2 byl vozvrachen. 
+
+2022-03-24 20:10:48.9326 | ERROR | CRM.BusinessLayer.Services.AccountService.GetById Oshibka zaprosa na poluchenie accounta id = 2. Net dostupa k chuzhomu accountu. 
+
+2022-03-24 20:10:49.0079 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 1. 
+
+2022-03-24 20:10:49.0079 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-24 20:10:49.0079 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-24 20:10:49.0330 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 1 byl vozvrachen. 
+
+2022-03-24 20:10:49.0330 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 1. 
+
+2022-03-24 20:20:10.6424 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-24 20:20:11.8348 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-24 20:20:11.8566 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-24 20:20:11.8566 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-24 20:20:30.8881 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Poluchen zapros na poluchenie accounta c id = 2 leadom c id = 2. 
+
+2022-03-24 20:20:45.7557 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 2. 
+
+2022-03-24 20:20:48.7938 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-24 20:20:51.3555 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-24 20:20:54.0848 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 2 byl vozvrachen. 
+
+2022-03-24 20:21:07.3095 | ERROR | CRM.BusinessLayer.Services.AccountService.GetById Oshibka zaprosa na poluchenie accounta id = 2. Net dostupa k chuzhomu accountu. 
+
+2022-03-24 20:21:30.8048 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 1. 
+
+2022-03-24 20:21:32.7134 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-24 20:21:35.4818 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-24 20:21:41.1097 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 1 byl vozvrachen. 
+
+2022-03-24 20:21:59.9177 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 1. 
+
