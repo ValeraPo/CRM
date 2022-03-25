@@ -70,10 +70,10 @@ namespace CRM.APILayer.Controllers
 
         //api/Leads/42/2
         [HttpPut("{id}/role/{role}")]
-        [Authorize]
+        [AuthorizeEnum(Role.Admin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [SwaggerOperation("Change lead's role by id. Roles: All")]
+        [SwaggerOperation("Change lead's role by id. Roles: Admin")]
         public async Task<ActionResult> ChangeRoleLead(int id, int role)
         {
             _logger.LogInformation($"Poluchen zapros na izmenenie roly leada c id = {id}.");

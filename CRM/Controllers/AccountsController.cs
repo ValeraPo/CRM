@@ -46,6 +46,7 @@ namespace CRM.APILayer.Controllers
         {
             var leadIdentity = this.GetLeadFromToken();
             _logger.LogInformation($"Poluchen zapros na dobavlenie accounta leadom c id = {leadIdentity.Id}.");
+
             var accountModel = _autoMapper.Map<AccountModel>(accountInsertRequest);
             accountModel.Lead = new LeadModel();
             accountModel.Lead.Id = leadIdentity.Id;

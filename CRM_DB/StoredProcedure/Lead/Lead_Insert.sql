@@ -6,7 +6,7 @@
 	@Phone varchar(30),
 	@Password varchar(150),
 	@City varchar(30),
-	@Role int,
+	@Role INT,
 	@IsBanned bit
 AS
 BEGIN 

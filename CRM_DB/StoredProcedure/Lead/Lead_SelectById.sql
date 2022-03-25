@@ -11,6 +11,7 @@ BEGIN
 		l.Phone,
 		l.[Role], 
 		l.IsBanned,
+		l.[Password],
 		a.Id,
 		a.[Name],
 		a.CurrencyType

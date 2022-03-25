@@ -1,7 +1,6 @@
 ﻿using CRM.DataLayer.Entities;
-using Marvelous.Contracts;
-
-
+using Marvelous.Contracts.Enums;
+using Marvelous.Contracts.RequestModels;
 
 namespace CRM.BusinessLayer.Tests.TestData
 {
