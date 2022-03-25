@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CRM.APILayer.Extensions;
 using CRM.BusinessLayer.Services;
 using Marvelous.Contracts;
 using Marvelous.Contracts.RequestModels;
@@ -30,6 +31,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> AddDeposit([FromBody] TransactionRequestModel transaction)
         {
             _logger.LogInformation($"Poluchen zapros na dobavlenye depozita v account id = {transaction.AccountId}.");
+            var leadId = this.GetLeadFromToken().Id;
             var response = await _transactionService.AddDeposit(transaction);
             _logger.LogInformation($"Depozit c id = {response.Content} uspeshno dobavlen v account id = {transaction.AccountId}.");
 
@@ -45,6 +47,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> AddTransfer([FromBody] TransferRequestModel transaction)
         {
             _logger.LogInformation($"Poluchen zapros na dobavlenie transfera c accounta id = {transaction.AccountIdFrom} na account id = {transaction.AccountIdTo}.");
+            var leadId = this.GetLeadFromToken().Id;
             var response = await _transactionService.AddTransfer(transaction);
             _logger.LogInformation($"Transfer c id = {response.Content} c accounta id = {transaction.AccountIdFrom} na account id = {transaction.AccountIdTo} proshel uspeshno.");
             return StatusCode(201, response.Content);
@@ -59,6 +62,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> Withdraw([FromBody] TransactionRequestModel transaction)
         {
             _logger.LogInformation($"Poluchen zapros na vyvod sredstv c accounta id = {transaction.AccountId}.");
+            var leadId = this.GetLeadFromToken().Id;
             var response = await _transactionService.Withdraw(transaction);
             _logger.LogInformation($"Vyvod sredstv c id = {response.Content} c accounta id = {transaction.AccountId} proshel uspeshno.");
 
