@@ -121,7 +121,7 @@ namespace CRM.APILayer.Controllers
 
         //api/accounts/42
         [HttpGet("{id}")]
-        //[AuthorizeEnum(Role.Vip, Role.Regular)]
+        [AuthorizeEnum(Role.Vip, Role.Regular)]
         [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -129,8 +129,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult<AccountResponse>> GetById(int id)
         {
             _logger.LogInformation($"Poluchen zapros na poluchenie accounta c id = {id} leadom c id = {id}.");
-            //var leadId = this.GetLeadFromToken().Id;
-            var leadId = 1;
+            var leadId = this.GetLeadFromToken().Id;
             var accountModel = await _accountService.GetById(id, leadId);
             var output = _autoMapper.Map<AccountResponse>(accountModel);
             output.Balance = await _transactionService.GetBalance(leadId);
