@@ -1105,6 +1105,7 @@ CurrencyType
 
 2022-03-25 13:53:51.0985 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Account c id = 1 uspeshno poluchen. 
 
+<<<<<<< Updated upstream
 2022-03-25 14:05:58.9125 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
 
 2022-03-25 14:06:00.5272 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
@@ -2096,4 +2097,211 @@ CurrencyType
 2022-03-25 14:42:31.0121 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 10260446. 
 
 2022-03-25 14:42:32.3507 | ERROR | CRM.BusinessLayer.RequestHelper.SendGetRequest Oshibka na storone Transaction.Store. 
+=======
+2022-03-25 14:18:16.5703 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:18:17.1015 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:18:17.5917 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:18:17.6523 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:18:18.2539 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:18:18.7031 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 56363) 
+
+2022-03-25 14:18:19.1474 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:18:19.1474 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:18:19.1650 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:18:19.2011 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_7y1oyyygryyx63y9bdpyhwjjyb?temporary=true 
+
+2022-03-25 14:18:19.2871 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 1 message-count: 0 
+
+2022-03-25 14:18:19.3437 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:18:19.3623 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:18:19.4248 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:18:19.4980 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:18:19.6113 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-EeMUA1kcvQBDdCBAlCHwbQ 
+
+2022-03-25 14:18:19.6113 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:18:19.6269 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:26:21.9414 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:26:22.5292 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:26:22.8242 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:26:22.8330 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:26:23.0224 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:26:23.2919 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 55662) 
+
+2022-03-25 14:26:23.3105 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:26:23.3164 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:26:23.3164 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:26:23.3779 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_ptjyyyygryyx9pazbdpyhw1knm?temporary=true 
+
+2022-03-25 14:26:23.4296 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-25 14:26:23.4697 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:26:23.4697 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:26:23.5078 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:26:23.5488 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:26:23.7187 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-yyh9GrbsSX8Ym_1OQKX4Gw 
+
+2022-03-25 14:26:23.7187 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:26:23.7363 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:28:22.2480 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = user@example.com. 
+
+2022-03-25 14:28:22.2578 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = user@example.com. 
+
+2022-03-25 14:28:23.2978 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:28:23.4472 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:28:24.0605 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = user@example.com 
+
+2022-03-25 14:28:24.0820 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = user@example.com. 
+
+2022-03-25 14:28:24.0820 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = user@example.com proshla uspeshno. 
+
+2022-03-25 14:28:24.3476 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = user@example.com proshhla uspeshno. 
+
+2022-03-25 14:29:56.8544 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 3. 
+
+2022-03-25 14:30:05.1884 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 3. 
+
+2022-03-25 14:30:06.1123 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:30:06.1123 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:30:06.1738 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 3 byl vozvrachen. 
+
+2022-03-25 14:31:10.4150 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:31:14.7402 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:31:44.4619 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 3 byl vozvrachen. 
+
+2022-03-25 14:32:52.7626 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:32:53.0722 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:32:53.4287 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:32:53.4375 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:32:53.6103 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:32:53.9423 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:32:53.9423 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:32:53.9570 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:32:53.9687 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 56189) 
+
+2022-03-25 14:32:54.0380 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_ttmyyyygryyx9uhybdpyhw3ub8?temporary=true 
+
+2022-03-25 14:32:54.0693 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-25 14:32:54.0898 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:32:54.0957 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:32:54.1250 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:32:54.1621 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:32:54.2480 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-lqNMmL3plKyVW4-HPzVoig 
+
+2022-03-25 14:32:54.2509 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:32:54.2509 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:33:53.3330 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 5. 
+
+2022-03-25 14:34:25.4228 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:34:26.8837 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:34:28.4033 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:34:28.4169 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:34:28.5849 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:34:29.0205 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 58938) 
+
+2022-03-25 14:34:29.1171 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:34:29.1171 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:34:29.1259 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:34:29.2490 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_gbpoyyygryyx9dd4bdpyhw5kgb?temporary=true 
+
+2022-03-25 14:34:29.5732 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-25 14:34:29.5957 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:34:29.6093 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:34:29.6816 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:34:29.7685 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:34:29.9023 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-rfKB3mVrNCDm9e3RA2ZKQg 
+
+2022-03-25 14:34:29.9091 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:34:29.9091 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:35:01.0263 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 5. 
+
+2022-03-25 14:35:11.1376 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 5. 
+
+2022-03-25 14:35:12.4550 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:35:13.2617 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:35:15.0087 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 5 byl vozvrachen. 
+
+2022-03-25 14:35:24.6269 | ERROR | CRM.BusinessLayer.ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount Oshibka manipulyacii c accountom. Pol'zovatel' c id 3 ne imeet dostupa k accountu c id 0. 
+
+2022-03-25 14:35:45.9599 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 5. 
+
+2022-03-25 14:35:50.3388 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 5. 
+
+2022-03-25 14:36:02.6259 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:36:02.6259 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:36:02.8955 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 5 byl vozvrachen. 
+
+2022-03-25 14:36:23.1533 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Otpravka zaprosa na tranzakciu c accounta id = 5. 
+
+2022-03-25 14:36:42.5859 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Poluchen otvet na tranzakciu c accounta id = 5. 
+
+2022-03-25 14:36:47.2578 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Depozit c id = 49224199 uspeshno dobavlen v account id = 5. 
+>>>>>>> Stashed changes
 
