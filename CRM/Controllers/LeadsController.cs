@@ -2,9 +2,11 @@
 using CRM.APILayer.Attribites;
 using CRM.APILayer.Extensions;
 using CRM.APILayer.Models;
+using CRM.APILayer.Producers;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
 using Marvelous.Contracts;
+using Marvelous.Contracts.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
@@ -21,13 +23,18 @@ namespace CRM.APILayer.Controllers
         private readonly ILeadService _leadService;
         private readonly IMapper _autoMapper;
         private readonly ILogger<LeadsController> _logger;
+        private readonly ICRMProducers _crmProducers;
 
 
-        public LeadsController(ILeadService leadService, IMapper autoMapper, ILogger<LeadsController> logger)
+        public LeadsController(ILeadService leadService, 
+            IMapper autoMapper, 
+            ILogger<LeadsController> logger,
+            ICRMProducers crmProducers)
         {
             _leadService = leadService;
             _autoMapper = autoMapper;
             _logger = logger;
+            _crmProducers = crmProducers;
         }
 
         //api/Leads
@@ -40,7 +47,8 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Poluchen zapros na sozdanie leada.");
             var leadModel = _autoMapper.Map<LeadModel>(leadInsertRequest);
             var id = await _leadService.AddLead(leadModel);
-            _logger.LogInformation($"Лид с id = {id} uspeshno sozdan.");
+            _logger.LogInformation($"Lead с id = {id} uspeshno sozdan.");
+            await _crmProducers.NotifyLeadAdded(id);
             return StatusCode(StatusCodes.Status201Created, id);
         }
 
@@ -62,10 +70,10 @@ namespace CRM.APILayer.Controllers
 
         //api/Leads/42/2
         [HttpPut("{id}/role/{role}")]
-        [Authorize]
+        [AuthorizeEnum(Role.Admin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [SwaggerOperation("Change lead's role by id. Roles: All")]
+        [SwaggerOperation("Change lead's role by id. Roles: Admin")]
         public async Task<ActionResult> ChangeRoleLead(int id, int role)
         {
             _logger.LogInformation($"Poluchen zapros na izmenenie roly leada c id = {id}.");
@@ -135,6 +143,7 @@ namespace CRM.APILayer.Controllers
         [HttpPut("password")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Change lead password. Roles: All")]
         public async Task<ActionResult> ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
         {

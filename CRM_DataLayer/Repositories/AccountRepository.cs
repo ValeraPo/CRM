@@ -25,9 +25,9 @@ namespace CRM.DataLayer.Repositories
 
         public async Task<int> AddAccount(Account account)
         {
-            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
 
             var id = await connection.QueryFirstOrDefaultAsync<int>(
                     _insertProc,
@@ -39,15 +39,15 @@ namespace CRM.DataLayer.Repositories
                     },
                     commandType: CommandType.StoredProcedure
                 );
-            _logger.LogDebug($"Account c id = {id} dobavlen v bazu dannyh.");
+            _logger.LogInformation($"Account c id = {id} dobavlen v bazu dannyh.");
             return id;
         }
 
         public async Task UpdateAccountById(Account account)
         {
-            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
 
             await connection.ExecuteAsync(_updateProc,
                 new
@@ -57,15 +57,15 @@ namespace CRM.DataLayer.Repositories
                 },
 
                 commandType: CommandType.StoredProcedure);
-            _logger.LogDebug($"Account c id = {account.Id} obnovlen.");
+            _logger.LogInformation($"Account c id = {account.Id} obnovlen.");
 
         }
 
         public async Task LockById(int id)
         {
-            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
             await connection.ExecuteAsync(_lockProc,
                 new
                 {
@@ -73,14 +73,14 @@ namespace CRM.DataLayer.Repositories
                     IsBlocked = true
                 },
                 commandType: CommandType.StoredProcedure);
-            _logger.LogDebug($"Account c id = {id} byl zablokirovan.");
+            _logger.LogInformation($"Account c id = {id} byl zablokirovan.");
         }
 
         public async Task UnlockById(int id)
         {
-            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
             await connection.ExecuteAsync(_lockProc,
                 new
                 {
@@ -88,14 +88,14 @@ namespace CRM.DataLayer.Repositories
                     IsBlocked = false
                 },
                 commandType: CommandType.StoredProcedure);
-            _logger.LogDebug($"Account c id = {id} byl razblokirovan.");
+            _logger.LogInformation($"Account c id = {id} byl razblokirovan.");
         }
 
         public async Task<List<Account>> GetByLead(int leadId)
         {
-            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
 
             var accounts =  connection.
                 QueryAsync<Account>(
@@ -104,16 +104,16 @@ namespace CRM.DataLayer.Repositories
                 commandType: CommandType.StoredProcedure)
                 .Result
                 .ToList();
-            _logger.LogDebug($"Byli vozvracheny vse accounty leada c id = {leadId}");
+            _logger.LogInformation($"Byli vozvracheny vse accounty leada c id = {leadId}");
 
             return accounts;
         }
 
         public async Task<Account> GetById(int id)
         {
-            _logger.LogDebug("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogDebug("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
 
             var account =  connection
                 .QueryAsync<Account, Lead, Account>(
@@ -128,7 +128,7 @@ namespace CRM.DataLayer.Repositories
                 commandType: CommandType.StoredProcedure)
                 .Result
                 .FirstOrDefault();
-            _logger.LogDebug($"Account c id = {id} byl vozvrachen.");
+            _logger.LogInformation($"Account c id = {id} byl vozvrachen.");
             return account;
         }
 

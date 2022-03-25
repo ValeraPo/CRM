@@ -1,0 +1,32 @@
+2022-03-23 18:13:11.3374 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-23 18:13:12.4473 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-23 18:13:12.5202 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-23 18:13:12.5456 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-23 18:13:43.2021 | INFO | CRM.APILayer.Controllers.LeadsController.AddLead Poluchen zapros na sozdanie leada. 
+
+2022-03-23 18:13:43.2601 | INFO | CRM.BusinessLayer.Services.LeadService.AddLead Zapros na dobavlenie leada. 
+
+2022-03-23 18:13:43.4009 | DEBUG | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-23 18:13:43.5139 | DEBUG | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-23 18:13:44.4538 | DEBUG | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = user@example.com 
+
+2022-03-23 18:13:44.5769 | DEBUG | CRM.DataLayer.Repositories.LeadRepository.AddLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-23 18:13:44.6405 | DEBUG | CRM.DataLayer.Repositories.LeadRepository.AddLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-23 18:13:44.7980 | DEBUG | CRM.DataLayer.Repositories.LeadRepository+<AddLead>d__11.MoveNext Lead c id = 4004006 dobavlen v bazu dannyh. 
+
+2022-03-23 18:13:44.8259 | DEBUG | CRM.DataLayer.Repositories.AccountRepository.AddAccount Popytka podklucheniya k baze dannyh. 
+
+2022-03-23 18:13:44.8578 | DEBUG | CRM.DataLayer.Repositories.AccountRepository.AddAccount Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-23 18:13:44.9213 | DEBUG | CRM.DataLayer.Repositories.AccountRepository+<AddAccount>d__7.MoveNext Account c id = 10260444 dobavlen v bazu dannyh. 
+
+2022-03-23 18:13:44.9476 | INFO | CRM.APILayer.Controllers.LeadsController+<AddLead>d__4.MoveNext Лид с id = 4004006 uspeshno sozdan. 
+

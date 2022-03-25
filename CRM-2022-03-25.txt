@@ -1,0 +1,2307 @@
+2022-03-25 10:22:26.9257 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 10:22:27.9661 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 10:22:28.0250 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 10:22:28.4279 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 10:22:29.6054 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 51869) 
+
+2022-03-25 10:22:29.6624 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 10:22:29.6933 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 10:22:29.7135 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 10:22:29.8097 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_eo9yyyfb5ss8s86kbdpyhcbzbj?temporary=true 
+
+2022-03-25 10:22:29.8198 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 10:23:10.7351 | INFO | CRM.APILayer.Controllers.TransactionsController.AddTransfer Poluchen zapros na dobavlenie transfera c accounta id = 2 na account id = 1. 
+
+2022-03-25 10:23:10.8004 | INFO | CRM.BusinessLayer.Services.TransactionService.AddTransfer Popytka transfera c accounta id = 2 na account id = 1. 
+
+2022-03-25 10:23:10.8367 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 10:23:10.8981 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 10:23:11.3811 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 2 byl vozvrachen. 
+
+2022-03-25 10:23:11.3945 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 10:23:11.4090 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 10:23:11.4507 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 1 byl vozvrachen. 
+
+2022-03-25 10:23:11.4701 | INFO | CRM.BusinessLayer.Services.TransactionService.AddTransfer Otpravka zaprosa transfera c accounta id = 2 na account id = 1. 
+
+2022-03-25 10:23:15.4330 | ERROR | CRM.BusinessLayer.RequestHelper.SendRequest Oshibka na storone Transaction.Store. 
+
+2022-03-25 10:26:29.7921 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 10:26:30.6368 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 10:26:30.6700 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 10:26:31.0826 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 10:26:31.4876 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 10:26:31.4876 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 52162) 
+
+2022-03-25 10:26:31.5222 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 10:26:31.6095 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 10:26:31.6652 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_mo4yyyfb5ss8sbgjbdpyhcgeyn?temporary=true 
+
+2022-03-25 10:26:31.6749 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 10:26:58.2733 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke System.InvalidOperationException: Unable to resolve service for type 'CRM.APILayer.Producers.ICRMProducers' while attempting to activate 'CRM.APILayer.Controllers.AccountsController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method9(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\admin\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25 
+
+2022-03-25 10:28:26.6479 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke System.InvalidOperationException: Unable to resolve service for type 'CRM.APILayer.Producers.ICRMProducers' while attempting to activate 'CRM.APILayer.Controllers.AccountsController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method9(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\admin\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25 
+
+2022-03-25 10:28:29.7300 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke System.InvalidOperationException: Unable to resolve service for type 'CRM.APILayer.Producers.ICRMProducers' while attempting to activate 'CRM.APILayer.Controllers.AccountsController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method9(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\admin\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25 
+
+2022-03-25 10:28:50.2567 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 10:28:50.9488 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 10:28:50.9844 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 10:28:51.1307 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 10:28:51.5049 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 52247) 
+
+2022-03-25 10:28:51.4649 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 10:28:51.5962 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 10:28:51.6251 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 10:28:51.8246 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_cy9yyyfb5ss8sancbdpyhce5fr?temporary=true 
+
+2022-03-25 10:28:51.8518 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 10:29:09.0698 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke System.InvalidOperationException: Unable to resolve service for type 'CRM.APILayer.Producers.ICRMProducers' while attempting to activate 'CRM.APILayer.Controllers.AccountsController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method9(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\admin\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25 
+
+2022-03-25 10:29:17.8442 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke System.InvalidOperationException: Unable to resolve service for type 'CRM.APILayer.Producers.ICRMProducers' while attempting to activate 'CRM.APILayer.Controllers.AccountsController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method9(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\admin\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25 
+
+2022-03-25 10:29:48.3513 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke System.InvalidOperationException: Unable to resolve service for type 'CRM.APILayer.Producers.ICRMProducers' while attempting to activate 'CRM.APILayer.Controllers.AccountsController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method9(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\admin\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25 
+
+2022-03-25 10:30:15.8682 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 10:30:16.5625 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 10:30:16.5995 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 10:30:16.7913 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 10:30:17.1234 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 10:30:17.1598 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 10:30:17.1944 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 10:30:17.2287 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 52286) 
+
+2022-03-25 10:30:17.3674 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_btgoyyfb5ss8zripbdpyhckqfc?temporary=true 
+
+2022-03-25 10:30:17.3832 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 10:30:30.9730 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke System.InvalidOperationException: Unable to resolve service for type 'CRM.APILayer.Producers.ICRMProducers' while attempting to activate 'CRM.APILayer.Controllers.AccountsController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method9(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\admin\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25 
+
+2022-03-25 10:39:05.2333 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 10:39:05.7216 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 10:39:05.7401 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 10:39:05.8688 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 10:39:06.1021 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 52481) 
+
+2022-03-25 10:39:06.1021 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 10:39:06.1360 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 10:39:06.1594 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 10:39:06.2425 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_xbdyyyfb5ss8za8cbdpyhcwkbn?temporary=true 
+
+2022-03-25 10:39:06.2547 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 10:39:22.7273 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Poluchen zapros na poluchenie accounta c id = 2 leadom c id = 2. 
+
+2022-03-25 10:39:28.4090 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 2. 
+
+2022-03-25 10:39:32.7529 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 10:39:36.4002 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 10:39:38.8193 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 2 byl vozvrachen. 
+
+2022-03-25 10:39:57.6640 | ERROR | CRM.BusinessLayer.Services.AccountService.GetById Oshibka zaprosa na poluchenie accounta id = 2. Net dostupa k chuzhomu accountu. 
+
+2022-03-25 10:40:04.4957 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 1. 
+
+2022-03-25 10:40:06.3060 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 10:40:09.0441 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 10:40:10.5235 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 1 byl vozvrachen. 
+
+2022-03-25 10:40:15.6364 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 1. 
+
+2022-03-25 10:40:42.0601 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 1. 
+
+2022-03-25 10:41:03.2310 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Account c id = 2 uspeshno poluchen. 
+
+2022-03-25 10:42:14.7151 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Poluchen zapros na poluchenie accounta c id = 2 leadom c id = 2. 
+
+2022-03-25 10:42:14.7306 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 2. 
+
+2022-03-25 10:42:14.7442 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 10:42:14.7588 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 10:42:14.7888 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 2 byl vozvrachen. 
+
+2022-03-25 10:42:14.7888 | ERROR | CRM.BusinessLayer.Services.AccountService.GetById Oshibka zaprosa na poluchenie accounta id = 2. Net dostupa k chuzhomu accountu. 
+
+2022-03-25 10:42:20.7184 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 1. 
+
+2022-03-25 10:42:22.6029 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 10:42:25.5568 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 10:42:26.9504 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 1 byl vozvrachen. 
+
+2022-03-25 10:42:32.6895 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 1. 
+
+2022-03-25 10:59:38.2242 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 10:59:38.8405 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 10:59:38.8692 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 10:59:39.0248 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 10:59:39.3545 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 52631) 
+
+2022-03-25 10:59:39.3545 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 10:59:39.3899 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 10:59:39.4128 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 10:59:39.4501 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_sogoyyfb5ss8sy7nbdpyhpmjy3?temporary=true 
+
+2022-03-25 10:59:39.4560 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 11:01:59.6312 | INFO | CRM.APILayer.Controllers.LeadsController.AddLead Poluchen zapros na sozdanie leada. 
+
+2022-03-25 11:01:59.7800 | INFO | CRM.BusinessLayer.Services.LeadService.AddLead Zapros na dobavlenie leada. 
+
+2022-03-25 11:01:59.8523 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 11:01:59.9675 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 11:02:00.6423 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = regular@example.com 
+
+2022-03-25 11:02:00.8472 | INFO | CRM.DataLayer.Repositories.LeadRepository.AddLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 11:02:00.9096 | INFO | CRM.DataLayer.Repositories.LeadRepository.AddLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 11:02:01.8059 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware+<Invoke>d__3.MoveNext System.Data.SqlClient.SqlException (0x80131904): Procedure or function 'Lead_Insert' expects parameter '@IsBanned', which was not supplied.
+   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__126_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.QueryRowAsync[T](IDbConnection cnn, Row row, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 473
+   at CRM.DataLayer.Repositories.LeadRepository.AddLead(Lead lead) in C:\Users\admin\source\repos\CRM\CRM_DataLayer\Repositories\LeadRepository.cs:line 39
+   at CRM.BusinessLayer.Services.LeadService.AddLead(LeadModel leadModel) in C:\Users\admin\source\repos\CRM\CRM_BuisnessLayer\Services\LeadService.cs:line 36
+   at CRM.APILayer.Controllers.LeadsController.AddLead(LeadInsertRequest leadInsertRequest) in C:\Users\admin\source\repos\CRM\CRM\Controllers\LeadsController.cs:line 49
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\admin\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25
+ClientConnectionId:e8dbf870-8712-4a69-a12c-0ec5a8b5c59c
+Error Number:201,State:4,Class:16 
+
+2022-03-25 11:02:45.2347 | INFO | CRM.APILayer.Controllers.LeadsController.AddLead Poluchen zapros na sozdanie leada. 
+
+2022-03-25 11:02:45.3773 | INFO | CRM.BusinessLayer.Services.LeadService.AddLead Zapros na dobavlenie leada. 
+
+2022-03-25 11:02:45.4375 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 11:02:45.5065 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 11:02:45.6565 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = regular@example.com 
+
+2022-03-25 11:02:45.7868 | INFO | CRM.DataLayer.Repositories.LeadRepository.AddLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 11:02:45.8574 | INFO | CRM.DataLayer.Repositories.LeadRepository.AddLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 11:02:47.3524 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware+<Invoke>d__3.MoveNext System.Data.SqlClient.SqlException (0x80131904): Procedure or function 'Lead_Insert' expects parameter '@IsBanned', which was not supplied.
+   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__126_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.QueryRowAsync[T](IDbConnection cnn, Row row, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 473
+   at CRM.DataLayer.Repositories.LeadRepository.AddLead(Lead lead) in C:\Users\admin\source\repos\CRM\CRM_DataLayer\Repositories\LeadRepository.cs:line 39
+   at CRM.BusinessLayer.Services.LeadService.AddLead(LeadModel leadModel) in C:\Users\admin\source\repos\CRM\CRM_BuisnessLayer\Services\LeadService.cs:line 36
+   at CRM.APILayer.Controllers.LeadsController.AddLead(LeadInsertRequest leadInsertRequest) in C:\Users\admin\source\repos\CRM\CRM\Controllers\LeadsController.cs:line 49
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\admin\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25
+ClientConnectionId:e8dbf870-8712-4a69-a12c-0ec5a8b5c59c
+Error Number:201,State:4,Class:16 
+
+2022-03-25 11:03:09.9464 | INFO | CRM.APILayer.Controllers.LeadsController.AddLead Poluchen zapros na sozdanie leada. 
+
+2022-03-25 11:03:16.8548 | INFO | CRM.BusinessLayer.Services.LeadService.AddLead Zapros na dobavlenie leada. 
+
+2022-03-25 11:03:20.2463 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 11:03:23.8706 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 11:03:33.2116 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = regular@example.com 
+
+2022-03-25 11:03:52.1243 | INFO | CRM.DataLayer.Repositories.LeadRepository.AddLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 11:04:16.6484 | INFO | CRM.DataLayer.Repositories.LeadRepository.AddLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:03:43.0281 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 12:03:44.1606 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 12:03:44.1892 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 12:03:44.4065 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 12:03:44.8838 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 12:03:44.8838 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 12:03:44.8935 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 12:03:44.8935 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 53526) 
+
+2022-03-25 12:03:45.0162 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_abfoyyfb5ss8suz8bdpyhx1h8o?temporary=true 
+
+2022-03-25 12:03:45.0451 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 12:04:31.5040 | INFO | CRM.APILayer.Controllers.LeadsController.AddLead Poluchen zapros na sozdanie leada. 
+
+2022-03-25 12:04:33.9270 | INFO | CRM.BusinessLayer.Services.LeadService.AddLead Zapros na dobavlenie leada. 
+
+2022-03-25 12:04:33.9850 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:04:34.3813 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:04:35.8187 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = vip9@example.com 
+
+2022-03-25 12:04:36.2954 | INFO | CRM.DataLayer.Repositories.LeadRepository.AddLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:04:36.2954 | INFO | CRM.DataLayer.Repositories.LeadRepository.AddLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:04:36.6012 | INFO | CRM.DataLayer.Repositories.LeadRepository+<AddLead>d__11.MoveNext Lead c id = 4004016 dobavlen v bazu dannyh. 
+
+2022-03-25 12:04:36.6012 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:04:36.6300 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:04:36.6699 | INFO | CRM.DataLayer.Repositories.AccountRepository+<AddAccount>d__7.MoveNext Account c id = 10260454 dobavlen v bazu dannyh. 
+
+2022-03-25 12:04:36.6961 | INFO | CRM.APILayer.Controllers.LeadsController+<AddLead>d__5.MoveNext Lead с id = 4004016 uspeshno sozdan. 
+
+2022-03-25 12:04:54.6841 | INFO | CRM.BusinessLayer.Services.LeadService.GetById Zapros na poluchenie accounta id = 4004016. 
+
+2022-03-25 12:04:57.9065 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:05:07.5443 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:07:02.2134 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Byl vozvrachen Lead c id = 4004016 
+
+2022-03-25 12:07:03.0027 | INFO | CRM.APILayer.Producers.CRMProducer+<NotifyLeadAdded>d__4.MoveNext Lead published 
+
+2022-03-25 12:07:03.0048 | WARN | CRM.APILayer.Producers.CRMProducer+<NotifyLeadAdded>d__4.MoveNext Accoun not published 
+
+2022-03-25 12:07:03.3675 | INFO | CRM.APILayer.Producers.CRMProducer+<NotifyLeadAdded>d__4.MoveNext Lead published 
+
+2022-03-25 12:07:23.6099 | INFO | CRM.APILayer.Controllers.LeadsController.AddLead Poluchen zapros na sozdanie leada. 
+
+2022-03-25 12:07:27.5589 | INFO | CRM.BusinessLayer.Services.LeadService.AddLead Zapros na dobavlenie leada. 
+
+2022-03-25 12:07:27.7350 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:07:27.7444 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:07:27.7776 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = vip10@example.com 
+
+2022-03-25 12:07:27.7850 | INFO | CRM.DataLayer.Repositories.LeadRepository.AddLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:07:27.8416 | INFO | CRM.DataLayer.Repositories.LeadRepository.AddLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:07:27.8734 | INFO | CRM.DataLayer.Repositories.LeadRepository+<AddLead>d__11.MoveNext Lead c id = 4004017 dobavlen v bazu dannyh. 
+
+2022-03-25 12:07:27.8734 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:07:27.8734 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:07:27.9049 | INFO | CRM.DataLayer.Repositories.AccountRepository+<AddAccount>d__7.MoveNext Account c id = 10260455 dobavlen v bazu dannyh. 
+
+2022-03-25 12:07:27.9049 | INFO | CRM.APILayer.Controllers.LeadsController+<AddLead>d__5.MoveNext Lead с id = 4004017 uspeshno sozdan. 
+
+2022-03-25 12:07:44.3913 | INFO | CRM.BusinessLayer.Services.LeadService.GetById Zapros na poluchenie accounta id = 4004017. 
+
+2022-03-25 12:07:45.3433 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:07:45.3433 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:07:46.1221 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Byl vozvrachen Lead c id = 4004017 
+
+2022-03-25 12:07:58.2451 | INFO | CRM.APILayer.Producers.CRMProducer+<NotifyLeadAdded>d__4.MoveNext Lead published 
+
+2022-03-25 12:07:58.2650 | WARN | CRM.APILayer.Producers.CRMProducer+<NotifyLeadAdded>d__4.MoveNext Accoun not published 
+
+2022-03-25 12:07:58.6497 | INFO | CRM.APILayer.Producers.CRMProducer+<NotifyLeadAdded>d__4.MoveNext Lead published 
+
+2022-03-25 12:13:14.2015 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 12:13:15.2078 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 12:13:15.2340 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 12:13:15.4694 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 12:13:16.0707 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 53600) 
+
+2022-03-25 12:13:16.0707 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 12:13:16.0707 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 12:13:16.0707 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 12:13:16.1716 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_7ypoyyfb5ss8st7obdpyhx7tni?temporary=true 
+
+2022-03-25 12:13:16.1910 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 12:13:57.3323 | INFO | CRM.APILayer.Controllers.LeadsController.AddLead Poluchen zapros na sozdanie leada. 
+
+2022-03-25 12:13:59.3261 | INFO | CRM.BusinessLayer.Services.LeadService.AddLead Zapros na dobavlenie leada. 
+
+2022-03-25 12:13:59.5473 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:13:59.7709 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:14:01.8532 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = vip11@example.com 
+
+2022-03-25 12:14:02.1436 | INFO | CRM.DataLayer.Repositories.LeadRepository.AddLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:14:02.1436 | INFO | CRM.DataLayer.Repositories.LeadRepository.AddLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:14:02.3905 | INFO | CRM.DataLayer.Repositories.LeadRepository+<AddLead>d__11.MoveNext Lead c id = 4004018 dobavlen v bazu dannyh. 
+
+2022-03-25 12:14:02.4827 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:14:02.4827 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:14:02.7078 | INFO | CRM.DataLayer.Repositories.AccountRepository+<AddAccount>d__7.MoveNext Account c id = 10260456 dobavlen v bazu dannyh. 
+
+2022-03-25 12:14:02.7355 | INFO | CRM.APILayer.Controllers.LeadsController+<AddLead>d__5.MoveNext Lead с id = 4004018 uspeshno sozdan. 
+
+2022-03-25 12:14:06.1002 | INFO | CRM.BusinessLayer.Services.LeadService.GetById Zapros na poluchenie accounta id = 4004018. 
+
+2022-03-25 12:14:06.1349 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:14:06.1349 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:14:07.3605 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Byl vozvrachen Lead c id = 4004018 
+
+2022-03-25 12:14:09.9311 | INFO | CRM.APILayer.Producers.CRMProducer+<NotifyLeadAdded>d__4.MoveNext Lead published 
+
+2022-03-25 12:14:09.9311 | WARN | CRM.APILayer.Producers.CRMProducer+<NotifyLeadAdded>d__4.MoveNext Accoun not published 
+
+2022-03-25 12:14:10.9007 | INFO | CRM.APILayer.Producers.CRMProducer+<NotifyLeadAdded>d__4.MoveNext Lead published 
+
+2022-03-25 12:14:50.6410 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = vip11@example.com. 
+
+2022-03-25 12:14:50.8515 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = vip11@example.com. 
+
+2022-03-25 12:14:50.8515 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:14:50.8839 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:14:50.9660 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = vip11@example.com 
+
+2022-03-25 12:14:50.9750 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = vip11@example.com. 
+
+2022-03-25 12:14:51.0424 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = vip11@example.com proshla uspeshno. 
+
+2022-03-25 12:14:52.2334 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = vip11@example.com proshhla uspeshno. 
+
+2022-03-25 12:16:45.6929 | INFO | CRM.APILayer.Controllers.AccountsController.AddAccount Poluchen zapros na dobavlenie accounta leadom c id = 4004018. 
+
+2022-03-25 12:16:46.1010 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+AccountInsertRequest -> AccountModel
+CRM.APILayer.Models.AccountInsertRequest -> CRM.BusinessLayer.Models.AccountModel
+
+Type Map configuration:
+AccountInsertRequest -> AccountModel
+CRM.APILayer.Models.AccountInsertRequest -> CRM.BusinessLayer.Models.AccountModel
+
+Destination Member:
+CurrencyType
+
+ ---> AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+Byte -> Currency
+System.Byte -> Marvelous.Contracts.Enums.Currency
+
+Destination Member:
+CurrencyType
+
+   at lambda_method37(Closure , Byte , Currency , ResolutionContext )
+   at lambda_method36(Closure , Object , AccountModel , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method36(Closure , Object , AccountModel , ResolutionContext )
+   at CRM.APILayer.Controllers.AccountsController.AddAccount(AccountInsertRequest accountInsertRequest) in C:\Users\admin\source\repos\CRM\CRM\Controllers\AccountsController.cs:line 49
+   at lambda_method31(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\admin\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25 
+
+2022-03-25 12:17:45.3051 | INFO | CRM.APILayer.Controllers.AccountsController.AddAccount Poluchen zapros na dobavlenie accounta leadom c id = 4004018. 
+
+2022-03-25 12:20:12.7396 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 12:20:13.8108 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 12:20:13.8297 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 12:20:14.0421 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 12:20:14.4870 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 53692) 
+
+2022-03-25 12:20:14.5194 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 12:20:14.5194 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 12:20:14.5194 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 12:20:14.6143 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_sopoyyfb5ss8ssmbbdpyhofkgi?temporary=true 
+
+2022-03-25 12:20:14.6143 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 12:20:52.9818 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = regular@example.com. 
+
+2022-03-25 12:20:52.9884 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = regular@example.com. 
+
+2022-03-25 12:20:53.1367 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:20:53.3111 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:20:55.6422 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = regular@example.com 
+
+2022-03-25 12:20:55.7165 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = regular@example.com. 
+
+2022-03-25 12:20:55.7508 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = regular@example.com proshla uspeshno. 
+
+2022-03-25 12:20:57.6148 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = regular@example.com proshhla uspeshno. 
+
+2022-03-25 12:21:30.2025 | INFO | CRM.APILayer.Controllers.AccountsController.AddAccount Poluchen zapros na dobavlenie accounta leadom c id = 4004007. 
+
+2022-03-25 12:25:07.6667 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 12:25:08.7939 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 12:25:08.8101 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 12:25:08.9845 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 12:25:09.4270 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 12:25:09.4270 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 12:25:09.4270 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 12:25:09.4270 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 53744) 
+
+2022-03-25 12:25:09.6069 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_etfyyyfb5ss8zw1bbdpyhok4f1?temporary=true 
+
+2022-03-25 12:25:09.6296 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 12:25:46.8732 | INFO | CRM.APILayer.Controllers.AccountsController.AddAccount Poluchen zapros na dobavlenie accounta leadom c id = 4004007. 
+
+2022-03-25 12:25:54.7474 | INFO | CRM.BusinessLayer.Services.AccountService.AddAccount Zapros na dobavlenie accounta. 
+
+2022-03-25 12:25:54.8033 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:25:54.9280 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:25:56.9442 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004007 
+
+2022-03-25 12:25:56.9694 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:25:56.9767 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:25:57.7717 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004007 
+
+2022-03-25 12:25:57.9846 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:25:57.9846 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:25:58.1286 | INFO | CRM.DataLayer.Repositories.AccountRepository+<AddAccount>d__7.MoveNext Account c id = 10260457 dobavlen v bazu dannyh. 
+
+2022-03-25 12:25:58.1464 | INFO | CRM.APILayer.Controllers.AccountsController+<AddAccount>d__6.MoveNext Account с id = 10260457 uspeshno dobavlen. 
+
+2022-03-25 12:25:58.7173 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 10260457. 
+
+2022-03-25 12:25:58.7381 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:25:58.7381 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:25:58.8492 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260457 byl vozvrachen. 
+
+2022-03-25 12:26:01.0363 | INFO | CRM.APILayer.Producers.CRMProducer+<NotifyAccountAdded>d__5.MoveNext Account published 
+
+2022-03-25 12:26:01.0670 | WARN | CRM.APILayer.Producers.CRMProducer+<NotifyAccountAdded>d__5.MoveNext Accoun not published 
+
+2022-03-25 12:28:33.5717 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = vip@example.com. 
+
+2022-03-25 12:28:33.5971 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 12:28:33.5971 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:28:33.6123 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:28:33.6588 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = vip@example.com 
+
+2022-03-25 12:28:33.6588 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 12:28:33.6921 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = vip@example.com proshla uspeshno. 
+
+2022-03-25 12:28:33.7724 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = vip@example.com proshhla uspeshno. 
+
+2022-03-25 12:28:58.5332 | INFO | CRM.APILayer.Controllers.AccountsController.AddAccount Poluchen zapros na dobavlenie accounta leadom c id = 4004008. 
+
+2022-03-25 12:28:58.5434 | INFO | CRM.BusinessLayer.Services.AccountService.AddAccount Zapros na dobavlenie accounta. 
+
+2022-03-25 12:28:58.5575 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:28:58.5575 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:28:59.4798 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 12:28:59.4798 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:28:59.4798 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:29:00.3422 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 12:29:00.3422 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:29:00.3467 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:29:00.3773 | INFO | CRM.DataLayer.Repositories.AccountRepository+<AddAccount>d__7.MoveNext Account c id = 10260458 dobavlen v bazu dannyh. 
+
+2022-03-25 12:29:00.3804 | INFO | CRM.APILayer.Controllers.AccountsController+<AddAccount>d__6.MoveNext Account с id = 10260458 uspeshno dobavlen. 
+
+2022-03-25 12:29:00.7863 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 10260458. 
+
+2022-03-25 12:29:00.8279 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:29:00.8616 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:29:01.0060 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260458 byl vozvrachen. 
+
+2022-03-25 12:29:01.1537 | INFO | CRM.APILayer.Producers.CRMProducer+<NotifyAccountAdded>d__5.MoveNext Account published 
+
+2022-03-25 12:29:01.1537 | WARN | CRM.APILayer.Producers.CRMProducer+<NotifyAccountAdded>d__5.MoveNext Accoun not published 
+
+2022-03-25 12:30:16.7108 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = test. 
+
+2022-03-25 12:30:16.7108 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = test. 
+
+2022-03-25 12:30:16.7463 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:30:16.7538 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:30:16.7880 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = test 
+
+2022-03-25 12:30:16.7880 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = test. 
+
+2022-03-25 12:30:16.7880 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = test proshla uspeshno. 
+
+2022-03-25 12:30:16.7880 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = test proshhla uspeshno. 
+
+2022-03-25 12:31:11.4123 | INFO | CRM.APILayer.Controllers.LeadsController.ChangeRoleLead Poluchen zapros na izmenenie roly leada c id = 4004008. 
+
+2022-03-25 12:31:11.4433 | INFO | CRM.BusinessLayer.Services.LeadService.ChangeRoleLead Zapros na obnovlenie roli лиleadaда id = 4004008. 
+
+2022-03-25 12:31:11.4433 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:31:11.4557 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:31:12.0635 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Byl vozvrachen Lead c id = 4004008 
+
+2022-03-25 12:31:12.0674 | INFO | CRM.DataLayer.Repositories.LeadRepository.ChangeRoleLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:31:12.0674 | INFO | CRM.DataLayer.Repositories.LeadRepository.ChangeRoleLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:31:12.1312 | INFO | CRM.DataLayer.Repositories.LeadRepository+<ChangeRoleLead>d__13.MoveNext Lead c id = 4004008 byl obnovlen. 
+
+2022-03-25 12:31:12.1312 | INFO | CRM.APILayer.Controllers.LeadsController+<ChangeRoleLead>d__7.MoveNext Lead c id = 4004008 uspeshno obnovlen. 
+
+2022-03-25 12:31:20.9784 | INFO | CRM.APILayer.Controllers.LeadsController.GetById Poluchen zapros na poluchenie leada c id = 4004008. 
+
+2022-03-25 12:31:21.0266 | INFO | CRM.BusinessLayer.Services.LeadService.GetById Zapros na poluchenie accounta id = 4004008. 
+
+2022-03-25 12:31:21.0266 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:31:21.0457 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:31:21.8274 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Byl vozvrachen Lead c id = 4004008 
+
+2022-03-25 12:31:21.8662 | INFO | CRM.APILayer.Controllers.LeadsController.GetById Lead c id = 4004008 uspeshno poluchen. 
+
+2022-03-25 12:31:29.1879 | INFO | CRM.APILayer.Controllers.LeadsController.GetById Poluchen zapros na poluchenie leada c id = 4004007. 
+
+2022-03-25 12:31:29.1879 | INFO | CRM.BusinessLayer.Services.LeadService.GetById Zapros na poluchenie accounta id = 4004007. 
+
+2022-03-25 12:31:29.1913 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:31:29.1913 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:31:29.9965 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Byl vozvrachen Lead c id = 4004007 
+
+2022-03-25 12:31:29.9965 | INFO | CRM.APILayer.Controllers.LeadsController.GetById Lead c id = 4004007 uspeshno poluchen. 
+
+2022-03-25 12:31:55.9097 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = vip@example.com. 
+
+2022-03-25 12:31:55.9097 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 12:31:55.9097 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:31:55.9285 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:31:55.9548 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = vip@example.com 
+
+2022-03-25 12:31:56.0272 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 12:31:56.0370 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = vip@example.com proshla uspeshno. 
+
+2022-03-25 12:31:56.0370 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = vip@example.com proshhla uspeshno. 
+
+2022-03-25 12:32:37.9728 | INFO | CRM.APILayer.Controllers.AccountsController.AddAccount Poluchen zapros na dobavlenie accounta leadom c id = 4004008. 
+
+2022-03-25 12:32:37.9906 | INFO | CRM.BusinessLayer.Services.AccountService.AddAccount Zapros na dobavlenie accounta. 
+
+2022-03-25 12:32:37.9906 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:32:37.9906 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:32:38.5384 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 12:32:38.5384 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:32:38.5384 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:32:38.9107 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 12:32:38.9107 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:32:38.9107 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:32:38.9623 | INFO | CRM.DataLayer.Repositories.AccountRepository+<AddAccount>d__7.MoveNext Account c id = 10260459 dobavlen v bazu dannyh. 
+
+2022-03-25 12:32:38.9623 | INFO | CRM.APILayer.Controllers.AccountsController+<AddAccount>d__6.MoveNext Account с id = 10260459 uspeshno dobavlen. 
+
+2022-03-25 12:32:39.8348 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 10260459. 
+
+2022-03-25 12:32:39.8348 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:32:39.8794 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:32:39.8996 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260459 byl vozvrachen. 
+
+2022-03-25 12:32:40.4069 | INFO | CRM.APILayer.Producers.CRMProducer+<NotifyAccountAdded>d__5.MoveNext Account published 
+
+2022-03-25 12:32:40.4210 | WARN | CRM.APILayer.Producers.CRMProducer+<NotifyAccountAdded>d__5.MoveNext Accoun not published 
+
+2022-03-25 12:35:39.9370 | INFO | CRM.APILayer.Controllers.AccountsController.AddAccount Poluchen zapros na dobavlenie accounta leadom c id = 4004008. 
+
+2022-03-25 12:35:39.9400 | INFO | CRM.BusinessLayer.Services.AccountService.AddAccount Zapros na dobavlenie accounta. 
+
+2022-03-25 12:35:39.9400 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:35:39.9400 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:35:40.7505 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 12:35:40.7552 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:35:40.7552 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:35:41.4520 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 12:35:41.5958 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:35:41.7260 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:35:41.8116 | INFO | CRM.DataLayer.Repositories.AccountRepository+<AddAccount>d__7.MoveNext Account c id = 10260460 dobavlen v bazu dannyh. 
+
+2022-03-25 12:35:41.8116 | INFO | CRM.APILayer.Controllers.AccountsController+<AddAccount>d__6.MoveNext Account с id = 10260460 uspeshno dobavlen. 
+
+2022-03-25 12:35:42.3358 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 10260460. 
+
+2022-03-25 12:35:42.3474 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:35:42.3474 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:35:42.4160 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260460 byl vozvrachen. 
+
+2022-03-25 12:35:42.4839 | INFO | CRM.APILayer.Producers.CRMProducer+<NotifyAccountAdded>d__5.MoveNext Account published 
+
+2022-03-25 12:35:42.4886 | WARN | CRM.APILayer.Producers.CRMProducer+<NotifyAccountAdded>d__5.MoveNext Accoun not published 
+
+2022-03-25 12:38:01.2883 | INFO | CRM.APILayer.Controllers.AccountsController.AddAccount Poluchen zapros na dobavlenie accounta leadom c id = 4004008. 
+
+2022-03-25 12:38:28.7063 | INFO | CRM.BusinessLayer.Services.AccountService.AddAccount Zapros na dobavlenie accounta. 
+
+2022-03-25 12:38:29.5077 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:38:29.5077 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:38:30.3474 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 12:38:30.3474 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:38:30.3474 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:38:31.1431 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 12:38:33.6207 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:38:33.6207 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:38:33.7324 | INFO | CRM.DataLayer.Repositories.AccountRepository+<AddAccount>d__7.MoveNext Account c id = 10260461 dobavlen v bazu dannyh. 
+
+2022-03-25 12:38:39.0963 | INFO | CRM.APILayer.Controllers.AccountsController+<AddAccount>d__6.MoveNext Account с id = 10260461 uspeshno dobavlen. 
+
+2022-03-25 12:38:57.9604 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 10260461. 
+
+2022-03-25 12:39:03.5346 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:39:09.3594 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:39:20.6656 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 12:40:14.2812 | INFO | CRM.APILayer.Producers.CRMProducer+<NotifyAccountAdded>d__5.MoveNext Account published 
+
+2022-03-25 12:40:53.8736 | WARN | CRM.APILayer.Producers.CRMProducer+<NotifyAccountAdded>d__5.MoveNext Accoun not published 
+
+2022-03-25 12:49:42.4171 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 12:49:43.2723 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 12:49:43.2854 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 12:49:43.4874 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 12:49:43.7815 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 53932) 
+
+2022-03-25 12:49:43.8482 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 12:49:43.8482 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 12:49:43.8482 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 12:49:43.8983 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_sosyyyfb5ss8sjsjbdpyhtgjrk?temporary=true 
+
+2022-03-25 12:49:43.8983 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 12:50:08.4462 | INFO | CRM.APILayer.Controllers.TransactionsController.Withdraw Poluchen zapros na vyvod sredstv c accounta id = 2. 
+
+2022-03-25 12:50:08.4589 | INFO | CRM.BusinessLayer.Services.TransactionService.Withdraw Popytka vyvoda sredstv c accounta id = 2. 
+
+2022-03-25 12:50:08.4804 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:50:08.5655 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:50:09.4698 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 2 byl vozvrachen. 
+
+2022-03-25 12:50:09.4718 | INFO | CRM.BusinessLayer.Services.TransactionService.Withdraw Otpravka zaprosa na vyvod sredstv c accounta id = 2. 
+
+2022-03-25 12:50:17.4185 | ERROR | CRM.BusinessLayer.RequestHelper.SendRequest Oshibka na storone Transaction.Store. 
+
+2022-03-25 12:53:31.1887 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Poluchen zapros na poluchenie accounta c id = 2 leadom c id = 2. 
+
+2022-03-25 12:53:31.2017 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 2. 
+
+2022-03-25 12:53:31.2017 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:53:31.2747 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:53:31.3376 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 2 byl vozvrachen. 
+
+2022-03-25 12:53:31.5138 | ERROR | CRM.BusinessLayer.Services.AccountService.GetById Oshibka zaprosa na poluchenie accounta id = 2. Net dostupa k chuzhomu accountu. 
+
+2022-03-25 12:53:34.9645 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 1. 
+
+2022-03-25 12:53:34.9645 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 12:53:34.9715 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 12:53:35.0021 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 1 byl vozvrachen. 
+
+2022-03-25 12:53:35.0355 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 1. 
+
+2022-03-25 12:53:36.6688 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 1. 
+
+2022-03-25 12:53:36.6688 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Account c id = 2 uspeshno poluchen. 
+
+2022-03-25 13:20:13.9095 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 13:20:14.9810 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 13:20:15.6481 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 13:20:15.6481 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 13:20:16.1166 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 13:20:16.7964 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 54442) 
+
+2022-03-25 13:20:17.0251 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 13:20:17.0251 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 13:20:17.0251 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 13:20:17.0958 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_pyhyyyfb5ss8sizfbdpyh1epd9?temporary=true 
+
+2022-03-25 13:20:17.2282 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-25 13:20:17.2943 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 13:20:17.3247 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 13:20:17.5236 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 13:20:17.5806 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 13:20:18.0315 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-ZDAdOucCipq-4sNoEbsJGg 
+
+2022-03-25 13:20:18.0414 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 13:20:18.0532 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 13:53:07.2004 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 13:53:07.7591 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 13:53:08.1992 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 13:53:08.2096 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 13:53:08.3722 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 13:53:08.8182 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 54566) 
+
+2022-03-25 13:53:08.9139 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 13:53:08.9139 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 13:53:08.9139 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 13:53:08.9139 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_5ogyyyfb5ss8zowqbdpyhupfn3?temporary=true 
+
+2022-03-25 13:53:08.9674 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-25 13:53:09.0079 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 13:53:09.0079 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 13:53:09.0518 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 13:53:09.1077 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 13:53:09.2436 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-1MDHUg-WOwvZSxb8UHZtQQ 
+
+2022-03-25 13:53:09.2436 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 13:53:09.2600 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 13:53:36.2532 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Poluchen zapros na poluchenie accounta c id = 2 leadom c id = 2. 
+
+2022-03-25 13:53:36.2532 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 2. 
+
+2022-03-25 13:53:36.2845 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 13:53:36.3668 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 13:53:36.8603 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 2 byl vozvrachen. 
+
+2022-03-25 13:53:36.9107 | ERROR | CRM.BusinessLayer.Services.AccountService.GetById Oshibka zaprosa na poluchenie accounta id = 2. Net dostupa k chuzhomu accountu. 
+
+2022-03-25 13:53:36.9107 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 2. 
+
+2022-03-25 13:53:36.9107 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 13:53:36.9265 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 13:53:36.9547 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 2 byl vozvrachen. 
+
+2022-03-25 13:53:36.9569 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 2. 
+
+2022-03-25 13:53:39.1552 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 2. 
+
+2022-03-25 13:53:39.1608 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Account c id = 2 uspeshno poluchen. 
+
+2022-03-25 13:53:49.7082 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Poluchen zapros na poluchenie accounta c id = 1 leadom c id = 1. 
+
+2022-03-25 13:53:49.7082 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 1. 
+
+2022-03-25 13:53:49.7082 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 13:53:49.7082 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 13:53:49.7399 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 1 byl vozvrachen. 
+
+2022-03-25 13:53:49.7399 | ERROR | CRM.BusinessLayer.Services.AccountService.GetById Oshibka zaprosa na poluchenie accounta id = 1. Net dostupa k chuzhomu accountu. 
+
+2022-03-25 13:53:49.7399 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 1. 
+
+2022-03-25 13:53:49.7399 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 13:53:49.7399 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 13:53:49.7674 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 1 byl vozvrachen. 
+
+2022-03-25 13:53:49.7674 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 1. 
+
+2022-03-25 13:53:51.0985 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 1. 
+
+2022-03-25 13:53:51.0985 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Account c id = 1 uspeshno poluchen. 
+
+<<<<<<< Updated upstream
+2022-03-25 14:05:58.9125 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:06:00.5272 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:06:01.3880 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:06:01.3987 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:06:02.3888 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:06:03.3277 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 58341) 
+
+2022-03-25 14:06:03.8552 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_ky4yyyfb5ss8zzqwbdpyhu5tgu?temporary=true 
+
+2022-03-25 14:06:03.9720 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:06:03.9720 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:06:03.9720 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:06:04.0692 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-25 14:06:04.2553 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:06:04.2553 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:06:04.5173 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:06:04.6906 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:06:05.0695 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-M4txZoUYL4-VxITrVqt68g 
+
+2022-03-25 14:06:05.0842 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:06:05.1070 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:06:50.8875 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = vip@example.com. 
+
+2022-03-25 14:06:50.9035 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 14:06:50.9825 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:06:51.0857 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:06:52.3553 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = vip@example.com 
+
+2022-03-25 14:06:52.4199 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 14:06:52.4263 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = vip@example.com proshla uspeshno. 
+
+2022-03-25 14:06:52.9975 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = vip@example.com proshhla uspeshno. 
+
+2022-03-25 14:07:29.3533 | INFO | CRM.APILayer.Controllers.AccountsController.GetByLead Poluchen zapros na  poluchenie vseh accountov leadom c id = 4004008. 
+
+2022-03-25 14:07:29.3533 | INFO | CRM.BusinessLayer.Services.AccountService.GetByLead Zapros na poluchenie vseh accountov. 
+
+2022-03-25 14:07:29.3681 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:07:29.3681 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:07:30.7941 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Byl vozvrachen Lead c id = 4004008 
+
+2022-03-25 14:07:30.7941 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:07:30.8017 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:07:31.7343 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 14:07:31.8919 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:07:31.9018 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:07:31.9018 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:07:31.9362 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:07:31.9362 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:07:33.8390 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:07:33.8506 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:07:33.8506 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:07:33.8506 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:07:33.8834 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:07:33.8834 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:07:35.5095 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:07:35.5095 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:07:35.5095 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:07:35.5095 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:07:35.5353 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:07:35.5353 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:07:36.9081 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:07:36.9102 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:07:36.9102 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:07:36.9102 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:07:36.9570 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:07:36.9570 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:07:38.3838 | INFO | CRM.BusinessLayer.Services.TransactionService+<GetBalance>d__8.MoveNext Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:07:38.3838 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:07:38.3838 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:07:38.3838 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:07:38.4194 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:07:38.4194 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:07:39.9310 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:07:39.9310 | INFO | CRM.APILayer.Controllers.AccountsController.GetByLead Vse accounty leada c id = 4004008 uspeshno polucheny. 
+
+2022-03-25 14:08:28.5830 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 10260461. 
+
+2022-03-25 14:08:28.5830 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 10260461. 
+
+2022-03-25 14:08:28.6364 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:08:28.6364 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:08:28.6674 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:08:28.6674 | ERROR | CRM.BusinessLayer.ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount Oshibka manipulyacii c accountom. Pol'zovatel' c id 4004008 ne imeet dostupa k accountu c id 10260461. 
+
+2022-03-25 14:09:11.6705 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Poluchen zapros na poluchenie accounta c id = 10260461 leadom c id = 10260461. 
+
+2022-03-25 14:09:11.6750 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 10260461. 
+
+2022-03-25 14:09:11.6750 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:09:11.6750 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:09:11.7155 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:09:11.7511 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 10260461. 
+
+2022-03-25 14:09:11.7531 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:09:11.7531 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:09:11.7885 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:09:11.7885 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 10260461. 
+
+2022-03-25 14:09:13.2663 | ERROR | CRM.BusinessLayer.RequestHelper.SendGetRequest Oshibka na storone Transaction.Store. 
+
+2022-03-25 14:09:49.7705 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Poluchen zapros na poluchenie accounta c id = 10260461 leadom c id = 10260461. 
+
+2022-03-25 14:10:30.0496 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 10260461. 
+
+2022-03-25 14:10:34.0205 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:10:37.4705 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:10:39.7091 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:11:30.1218 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 10260461. 
+
+2022-03-25 14:11:32.2468 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:11:32.2468 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:11:32.2668 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:11:33.4960 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 10260461. 
+
+2022-03-25 14:11:35.7175 | ERROR | CRM.BusinessLayer.RequestHelper.SendGetRequest Oshibka na storone Transaction.Store. 
+
+2022-03-25 14:11:48.1401 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Poluchen zapros na poluchenie accounta c id = 10260461 leadom c id = 10260461. 
+
+2022-03-25 14:12:00.8796 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 10260461. 
+
+2022-03-25 14:12:01.5342 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:12:01.5342 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:12:01.5650 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:13:32.6782 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 10260461. 
+
+2022-03-25 14:13:36.0259 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:13:40.5220 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:13:44.0043 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:13:54.5681 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 10260461. 
+
+2022-03-25 14:15:57.8212 | ERROR | CRM.BusinessLayer.RequestHelper.SendGetRequest Oshibka na storone Transaction.Store. 
+
+2022-03-25 14:16:31.5249 | INFO | CRM.APILayer.Controllers.AccountsController.AddAccount Poluchen zapros na dobavlenie accounta leadom c id = 4004008. 
+
+2022-03-25 14:16:31.5249 | INFO | CRM.BusinessLayer.Services.AccountService.AddAccount Zapros na dobavlenie accounta. 
+
+2022-03-25 14:16:31.5485 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:16:31.5517 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:16:32.2958 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 14:16:32.3023 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:16:32.3023 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:16:33.0348 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 14:16:33.1035 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:16:33.1035 | INFO | CRM.DataLayer.Repositories.AccountRepository.AddAccount Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:16:33.2102 | INFO | CRM.DataLayer.Repositories.AccountRepository+<AddAccount>d__7.MoveNext Account c id = 10260462 dobavlen v bazu dannyh. 
+
+2022-03-25 14:16:33.2102 | INFO | CRM.APILayer.Controllers.AccountsController+<AddAccount>d__6.MoveNext Account с id = 10260462 uspeshno dobavlen. 
+
+2022-03-25 14:16:33.4209 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 10260462. 
+
+2022-03-25 14:16:33.4209 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:16:33.4272 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:16:33.4522 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260462 byl vozvrachen. 
+
+2022-03-25 14:16:34.5779 | INFO | CRM.APILayer.Producers.CRMProducer+<NotifyAccountAdded>d__5.MoveNext Account published 
+
+2022-03-25 14:16:34.5779 | WARN | CRM.APILayer.Producers.CRMProducer+<NotifyAccountAdded>d__5.MoveNext Accoun not published 
+
+2022-03-25 14:18:51.0502 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 10260461. 
+
+2022-03-25 14:18:51.0502 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 10260461. 
+
+2022-03-25 14:18:51.0714 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:18:51.0714 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:18:51.1663 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:18:51.1663 | ERROR | CRM.BusinessLayer.ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount Oshibka manipulyacii c accountom. Pol'zovatel' c id 4004008 ne imeet dostupa k accountu c id 10260461. 
+
+2022-03-25 14:19:07.4287 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 10260461. 
+
+2022-03-25 14:19:10.0956 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 10260461. 
+
+2022-03-25 14:19:14.3633 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:19:18.3751 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:19:20.9481 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:21:49.2460 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:21:49.7846 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:21:50.1897 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:21:50.2012 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:21:50.3691 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:21:50.7619 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 58772) 
+
+2022-03-25 14:21:50.7619 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:21:50.7766 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:21:50.7766 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:21:50.8542 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_kbgyyyfb5ss8zgy7bdpyhwp8g8?temporary=true 
+
+2022-03-25 14:21:50.8974 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 1 message-count: 0 
+
+2022-03-25 14:21:50.9213 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:21:50.9443 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:21:50.9793 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:21:51.0258 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:21:51.1894 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-c65ndKaBUs5MyY_miFWLDg 
+
+2022-03-25 14:21:51.2054 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:21:51.2178 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:22:21.6571 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = vip@example.com. 
+
+2022-03-25 14:22:21.6746 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 14:22:21.7115 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:22:21.8915 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:22:23.0541 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = vip@example.com 
+
+2022-03-25 14:22:23.0845 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 14:22:23.0987 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = vip@example.com proshla uspeshno. 
+
+2022-03-25 14:22:23.6088 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = vip@example.com proshhla uspeshno. 
+
+2022-03-25 14:22:46.7980 | INFO | CRM.APILayer.Controllers.AccountsController.GetByLead Poluchen zapros na  poluchenie vseh accountov leadom c id = 4004008. 
+
+2022-03-25 14:22:46.8013 | INFO | CRM.BusinessLayer.Services.AccountService.GetByLead Zapros na poluchenie vseh accountov. 
+
+2022-03-25 14:22:46.8013 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:22:46.8013 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:22:47.9294 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Byl vozvrachen Lead c id = 4004008 
+
+2022-03-25 14:22:47.9294 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:22:47.9294 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:22:48.3147 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 14:22:48.3934 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:22:48.3934 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:22:48.4091 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:22:48.4366 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:22:48.4366 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:22:52.6761 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:22:52.6761 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:22:52.6761 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:22:52.6761 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:22:52.6973 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:22:52.6973 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:22:54.8907 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:22:54.8937 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:22:54.8937 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:22:54.8937 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:22:55.0108 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:22:55.0108 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:22:56.5506 | INFO | CRM.BusinessLayer.Services.TransactionService+<GetBalance>d__8.MoveNext Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:22:56.5506 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:22:56.5506 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:22:56.5506 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:22:56.5784 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:22:56.5784 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:22:58.4475 | INFO | CRM.BusinessLayer.Services.TransactionService+<GetBalance>d__8.MoveNext Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:22:58.4475 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:22:58.4475 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:22:58.4475 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:22:58.4738 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:22:58.4738 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:23:00.0142 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:23:00.0142 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:23:00.0189 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:23:00.0189 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:23:00.0482 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:23:00.0503 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:23:01.7640 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:23:01.7640 | INFO | CRM.APILayer.Controllers.AccountsController.GetByLead Vse accounty leada c id = 4004008 uspeshno polucheny. 
+
+2022-03-25 14:23:30.3528 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Poluchen zapros na poluchenie accounta c id = 10260461 leadom c id = 10260461. 
+
+2022-03-25 14:23:30.3528 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 10260461. 
+
+2022-03-25 14:23:30.3623 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:23:30.3623 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:23:30.3831 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:23:30.4103 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 10260461. 
+
+2022-03-25 14:23:30.4103 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:23:30.4103 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:23:30.4480 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:23:30.4480 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 10260461. 
+
+2022-03-25 14:23:32.2541 | ERROR | CRM.BusinessLayer.RequestHelper.SendGetRequest Oshibka na storone Transaction.Store. 
+
+2022-03-25 14:24:00.1425 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 10260461. 
+
+2022-03-25 14:24:00.1503 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 10260461. 
+
+2022-03-25 14:24:00.1503 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:24:00.1503 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:24:00.1733 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:24:00.1846 | ERROR | CRM.BusinessLayer.ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount Oshibka manipulyacii c accountom. Pol'zovatel' c id 4004008 ne imeet dostupa k accountu c id 10260461. 
+
+2022-03-25 14:24:22.7736 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 10260461. 
+
+2022-03-25 14:24:22.7906 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 10260461. 
+
+2022-03-25 14:24:22.7906 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:24:22.7906 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:24:22.9488 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:24:22.9488 | ERROR | CRM.BusinessLayer.ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount Oshibka manipulyacii c accountom. Pol'zovatel' c id 4004008 ne imeet dostupa k accountu c id 10260461. 
+
+2022-03-25 14:24:34.9153 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 10260461. 
+
+2022-03-25 14:24:34.9153 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 10260461. 
+
+2022-03-25 14:24:34.9153 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:24:34.9153 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:24:35.1485 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:24:35.1485 | ERROR | CRM.BusinessLayer.ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount Oshibka manipulyacii c accountom. Pol'zovatel' c id 4004008 ne imeet dostupa k accountu c id 10260461. 
+
+2022-03-25 14:25:12.7610 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 10260461. 
+
+2022-03-25 14:25:44.6307 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 10260461. 
+
+2022-03-25 14:25:49.3055 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:25:49.3055 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:25:49.3497 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:25:49.3710 | ERROR | CRM.BusinessLayer.ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount Oshibka manipulyacii c accountom. Pol'zovatel' c id 4004008 ne imeet dostupa k accountu c id 10260461. 
+
+2022-03-25 14:26:06.5363 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 10260461. 
+
+2022-03-25 14:27:12.6519 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:27:13.2393 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:27:13.6447 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:27:13.6447 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:27:13.7904 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:27:14.1705 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 58829) 
+
+2022-03-25 14:27:14.2587 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:27:14.2587 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:27:14.2587 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:27:14.2947 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_5yboyyfb5ss8s45obdpyhwuero?temporary=true 
+
+2022-03-25 14:27:14.3610 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 1 message-count: 0 
+
+2022-03-25 14:27:14.3990 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:27:14.3990 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:27:14.4544 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:27:14.4914 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:27:14.6134 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-b6ck58WqZwP_Y1pq509R_A 
+
+2022-03-25 14:27:14.6134 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:27:14.6134 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:27:52.0332 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = vip@example.com. 
+
+2022-03-25 14:27:52.0392 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 14:27:52.1162 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:27:52.2951 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:27:53.3738 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = vip@example.com 
+
+2022-03-25 14:27:53.4022 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 14:27:53.4265 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = vip@example.com proshla uspeshno. 
+
+2022-03-25 14:27:54.1923 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = vip@example.com proshhla uspeshno. 
+
+2022-03-25 14:28:10.3555 | INFO | CRM.APILayer.Controllers.AccountsController.GetByLead Poluchen zapros na  poluchenie vseh accountov leadom c id = 4004008. 
+
+2022-03-25 14:28:10.3890 | INFO | CRM.BusinessLayer.Services.AccountService.GetByLead Zapros na poluchenie vseh accountov. 
+
+2022-03-25 14:28:10.4553 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:28:10.4574 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:28:11.4947 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Byl vozvrachen Lead c id = 4004008 
+
+2022-03-25 14:28:11.4947 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:28:11.5031 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:28:12.2926 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 14:28:12.3917 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:28:12.4018 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:28:12.4018 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:28:12.4372 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:28:12.4372 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:28:15.0262 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:28:15.0262 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:28:15.0373 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:28:15.0373 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:28:15.0589 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:28:15.0589 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:28:16.5885 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:28:16.5885 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:28:16.5885 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:28:16.5885 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:28:16.6173 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:28:16.6173 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:28:18.1092 | INFO | CRM.BusinessLayer.Services.TransactionService+<GetBalance>d__8.MoveNext Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:28:18.1092 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:28:18.1132 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:28:18.1132 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:28:18.1382 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:28:18.1382 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:28:19.8360 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:28:19.8360 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:28:19.8360 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:28:19.8360 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:28:19.8622 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:28:19.8622 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:28:21.7407 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:28:21.7407 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:28:21.7407 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:28:21.7407 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:28:21.7653 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:28:21.7653 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:28:23.5031 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:28:23.5031 | INFO | CRM.APILayer.Controllers.AccountsController.GetByLead Vse accounty leada c id = 4004008 uspeshno polucheny. 
+
+2022-03-25 14:29:06.3655 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 10260461. 
+
+2022-03-25 14:35:10.8634 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:35:11.3742 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:35:11.7287 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:35:11.7374 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:35:11.8359 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:35:12.0935 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 58907) 
+
+2022-03-25 14:35:12.0935 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:35:12.0978 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:35:12.0978 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:35:12.1692 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_7owyyyfb5ss8s4kfbdpyhwhfro?temporary=true 
+
+2022-03-25 14:35:12.2049 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 1 message-count: 0 
+
+2022-03-25 14:35:12.2332 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:35:12.2504 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:35:12.3074 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:35:12.3532 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:35:12.4545 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-ZQec8U4XemFew-xjVpicXA 
+
+2022-03-25 14:35:12.4565 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:35:12.4565 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:35:57.7097 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = vip@example.com. 
+
+2022-03-25 14:35:57.7097 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 14:35:57.7306 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:35:57.7745 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:35:58.1521 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = vip@example.com 
+
+2022-03-25 14:35:58.1610 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 14:35:58.1610 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = vip@example.com proshla uspeshno. 
+
+2022-03-25 14:35:58.3399 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = vip@example.com proshhla uspeshno. 
+
+2022-03-25 14:36:18.4349 | INFO | CRM.APILayer.Controllers.AccountsController.GetByLead Poluchen zapros na  poluchenie vseh accountov leadom c id = 4004008. 
+
+2022-03-25 14:36:18.4462 | INFO | CRM.BusinessLayer.Services.AccountService.GetByLead Zapros na poluchenie vseh accountov. 
+
+2022-03-25 14:36:18.4576 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:36:18.4576 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:36:19.0725 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Byl vozvrachen Lead c id = 4004008 
+
+2022-03-25 14:36:19.0725 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:36:19.0725 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:36:19.8051 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 14:36:19.8888 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:36:19.8956 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:36:19.8956 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:36:19.9311 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:36:19.9311 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:36:22.0271 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:36:22.0271 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:36:22.0365 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:36:22.0365 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:36:22.2102 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:36:22.2459 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:36:24.1673 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:36:24.1673 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:36:24.1673 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:36:24.1673 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:36:24.1909 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:36:24.1909 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:36:25.6047 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:36:25.6047 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:36:25.6047 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:36:25.6047 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:36:25.6284 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:36:25.6284 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:36:27.1288 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:36:27.1288 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:36:27.1288 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:36:27.1288 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:36:27.1626 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:36:27.1626 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:36:29.2040 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:36:29.2062 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:36:29.2062 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:36:29.2062 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:36:29.2455 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:36:29.2455 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:36:30.5778 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:36:30.5778 | INFO | CRM.APILayer.Controllers.AccountsController.GetByLead Vse accounty leada c id = 4004008 uspeshno polucheny. 
+
+2022-03-25 14:36:56.4861 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 10260461. 
+
+2022-03-25 14:37:12.6134 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 10260461. 
+
+2022-03-25 14:37:17.2763 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:37:17.2763 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:37:17.2967 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:37:58.1316 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Otpravka zaprosa na tranzakciu c accounta id = 10260461. 
+
+2022-03-25 14:38:15.2978 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Poluchen otvet na tranzakciu c accounta id = 10260461. 
+
+2022-03-25 14:38:28.3120 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Depozit c id = 49224200 uspeshno dobavlen v account id = 10260461. 
+
+2022-03-25 14:39:34.6497 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Poluchen zapros na poluchenie accounta c id = 10260461 leadom c id = 10260461. 
+
+2022-03-25 14:39:34.6642 | INFO | CRM.BusinessLayer.Services.AccountService.GetById Zapros na poluchenie accounta id = 10260461. 
+
+2022-03-25 14:39:34.6642 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:39:34.7060 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:39:34.7224 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:39:34.7514 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 10260461. 
+
+2022-03-25 14:39:34.7532 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:39:34.7532 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:39:34.7704 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260461 byl vozvrachen. 
+
+2022-03-25 14:39:34.7704 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 10260461. 
+
+2022-03-25 14:39:36.4164 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 10260461. 
+
+2022-03-25 14:39:36.4164 | INFO | CRM.APILayer.Controllers.AccountsController.GetById Account c id = 10260461 uspeshno poluchen. 
+
+2022-03-25 14:40:18.1389 | INFO | CRM.APILayer.Controllers.AccountsController.GetByLead Poluchen zapros na  poluchenie vseh accountov leadom c id = 4004008. 
+
+2022-03-25 14:40:18.1389 | INFO | CRM.BusinessLayer.Services.AccountService.GetByLead Zapros na poluchenie vseh accountov. 
+
+2022-03-25 14:40:18.1389 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:40:18.1443 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:40:19.1807 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Byl vozvrachen Lead c id = 4004008 
+
+2022-03-25 14:40:19.1807 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:40:19.2148 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:40:20.0153 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 14:40:20.0562 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:40:20.0562 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:40:20.0562 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:40:20.0820 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:40:20.0820 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:40:22.1182 | INFO | CRM.BusinessLayer.Services.TransactionService+<GetBalance>d__8.MoveNext Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:40:22.1182 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:40:22.1182 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:40:22.1182 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:40:22.1415 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:40:22.1415 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:40:24.0397 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:40:24.0397 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:40:24.0397 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:40:24.0510 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:40:24.0694 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:40:24.0694 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:40:25.8236 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:40:25.8236 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:40:25.8236 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:40:25.8236 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:40:25.8491 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:40:25.8491 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:40:27.3045 | INFO | CRM.BusinessLayer.Services.TransactionService+<GetBalance>d__8.MoveNext Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:40:27.3045 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:40:27.3045 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:40:27.3045 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:40:27.3238 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:40:27.3238 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:40:29.2205 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:40:29.2229 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 4004008. 
+
+2022-03-25 14:40:29.2229 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:40:29.2229 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:40:29.2431 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 4004008 byl vozvrachen. 
+
+2022-03-25 14:40:29.2431 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:40:30.7170 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Poluchen otvet na poluchenie balansa accounta id = 4004008. 
+
+2022-03-25 14:40:30.7241 | INFO | CRM.APILayer.Controllers.AccountsController.GetByLead Vse accounty leada c id = 4004008 uspeshno polucheny. 
+
+2022-03-25 14:41:44.5998 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:41:44.9861 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:41:45.2776 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:41:45.2867 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:41:45.4386 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:41:45.6945 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 58982) 
+
+2022-03-25 14:41:45.7072 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:41:45.7072 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:41:45.7072 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:41:45.7886 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_fo4yyyfb5ss8zhobbdpyhidobt?temporary=true 
+
+2022-03-25 14:41:45.8231 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-25 14:41:45.8572 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:41:45.8631 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:41:45.8979 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:41:45.9447 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:41:46.0695 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-yBrzli8yv-NFUkqHkzoxZw 
+
+2022-03-25 14:41:46.0695 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:41:46.0843 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:42:13.4599 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = vip@example.com. 
+
+2022-03-25 14:42:13.4599 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 14:42:13.4766 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:42:13.5108 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:42:14.0034 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = vip@example.com 
+
+2022-03-25 14:42:14.0034 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 14:42:14.0200 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = vip@example.com proshla uspeshno. 
+
+2022-03-25 14:42:14.1909 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = vip@example.com proshhla uspeshno. 
+
+2022-03-25 14:42:16.2333 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = vip@example.com. 
+
+2022-03-25 14:42:16.2333 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 14:42:16.2372 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:42:16.2703 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:42:16.3039 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = vip@example.com 
+
+2022-03-25 14:42:16.3039 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = vip@example.com. 
+
+2022-03-25 14:42:16.3039 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = vip@example.com proshla uspeshno. 
+
+2022-03-25 14:42:16.3039 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = vip@example.com proshhla uspeshno. 
+
+2022-03-25 14:42:29.3065 | INFO | CRM.APILayer.Controllers.AccountsController.GetByLead Poluchen zapros na  poluchenie vseh accountov leadom c id = 4004008. 
+
+2022-03-25 14:42:29.3065 | INFO | CRM.BusinessLayer.Services.AccountService.GetByLead Zapros na poluchenie vseh accountov. 
+
+2022-03-25 14:42:29.3161 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:42:29.3161 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:42:30.0365 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetById Byl vozvrachen Lead c id = 4004008 
+
+2022-03-25 14:42:30.0365 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:42:30.0365 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:42:30.9445 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetByLead Byli vozvracheny vse accounty leada c id = 4004008 
+
+2022-03-25 14:42:30.9869 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Popytka poluchenia balansa  accounta id = 10260446. 
+
+2022-03-25 14:42:30.9896 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:42:30.9896 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:42:31.0121 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 10260446 byl vozvrachen. 
+
+2022-03-25 14:42:31.0121 | INFO | CRM.BusinessLayer.Services.TransactionService.GetBalance Otpravka zaprosa na poluchenie balansa accounta id = 10260446. 
+
+2022-03-25 14:42:32.3507 | ERROR | CRM.BusinessLayer.RequestHelper.SendGetRequest Oshibka na storone Transaction.Store. 
+=======
+2022-03-25 14:18:16.5703 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:18:17.1015 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:18:17.5917 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:18:17.6523 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:18:18.2539 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:18:18.7031 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 56363) 
+
+2022-03-25 14:18:19.1474 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:18:19.1474 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:18:19.1650 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:18:19.2011 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_7y1oyyygryyx63y9bdpyhwjjyb?temporary=true 
+
+2022-03-25 14:18:19.2871 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 1 message-count: 0 
+
+2022-03-25 14:18:19.3437 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:18:19.3623 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:18:19.4248 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:18:19.4980 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:18:19.6113 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-EeMUA1kcvQBDdCBAlCHwbQ 
+
+2022-03-25 14:18:19.6113 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:18:19.6269 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:26:21.9414 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:26:22.5292 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:26:22.8242 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:26:22.8330 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:26:23.0224 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:26:23.2919 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 55662) 
+
+2022-03-25 14:26:23.3105 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:26:23.3164 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:26:23.3164 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:26:23.3779 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_ptjyyyygryyx9pazbdpyhw1knm?temporary=true 
+
+2022-03-25 14:26:23.4296 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-25 14:26:23.4697 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:26:23.4697 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:26:23.5078 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:26:23.5488 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:26:23.7187 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-yyh9GrbsSX8Ym_1OQKX4Gw 
+
+2022-03-25 14:26:23.7187 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:26:23.7363 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:28:22.2480 | INFO | CRM.APILayer.Controllers.AuthorizationsController.Login Poluchen zapros na authentikaciu leada c email = user@example.com. 
+
+2022-03-25 14:28:22.2578 | INFO | CRM.BusinessLayer.Services.AuthService.GetToken Popytka avtorizacii pol'zovatelya c email = user@example.com. 
+
+2022-03-25 14:28:23.2978 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:28:23.4472 | INFO | CRM.DataLayer.Repositories.LeadRepository.GetByEmail Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:28:24.0605 | INFO | CRM.DataLayer.Repositories.LeadRepository+<GetByEmail>d__18.MoveNext Byl vozvrachen Lead c email = user@example.com 
+
+2022-03-25 14:28:24.0820 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Poluxhenie tokena  pol'zovatelya c email = user@example.com. 
+
+2022-03-25 14:28:24.0820 | INFO | CRM.BusinessLayer.Services.AuthService+<GetToken>d__3.MoveNext Avtorizaciya pol'zovatelya c email = user@example.com proshla uspeshno. 
+
+2022-03-25 14:28:24.3476 | INFO | CRM.APILayer.Controllers.AuthorizationsController+<Login>d__3.MoveNext Authentikacia leada c email = user@example.com proshhla uspeshno. 
+
+2022-03-25 14:29:56.8544 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 3. 
+
+2022-03-25 14:30:05.1884 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 3. 
+
+2022-03-25 14:30:06.1123 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:30:06.1123 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:30:06.1738 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 3 byl vozvrachen. 
+
+2022-03-25 14:31:10.4150 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:31:14.7402 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:31:44.4619 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 3 byl vozvrachen. 
+
+2022-03-25 14:32:52.7626 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:32:53.0722 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:32:53.4287 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:32:53.4375 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:32:53.6103 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:32:53.9423 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:32:53.9423 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:32:53.9570 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:32:53.9687 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 56189) 
+
+2022-03-25 14:32:54.0380 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_ttmyyyygryyx9uhybdpyhw3ub8?temporary=true 
+
+2022-03-25 14:32:54.0693 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-25 14:32:54.0898 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:32:54.0957 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:32:54.1250 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:32:54.1621 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:32:54.2480 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-lqNMmL3plKyVW4-HPzVoig 
+
+2022-03-25 14:32:54.2509 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:32:54.2509 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:33:53.3330 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 5. 
+
+2022-03-25 14:34:25.4228 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 14:34:26.8837 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 14:34:28.4033 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 14:34:28.4169 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:34:28.5849 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 14:34:29.0205 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 58938) 
+
+2022-03-25 14:34:29.1171 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 14:34:29.1171 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 14:34:29.1259 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 14:34:29.2490 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_gbpoyyygryyx9dd4bdpyhw5kgb?temporary=true 
+
+2022-03-25 14:34:29.5732 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-25 14:34:29.5957 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 14:34:29.6093 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 14:34:29.6816 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 14:34:29.7685 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 14:34:29.9023 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-rfKB3mVrNCDm9e3RA2ZKQg 
+
+2022-03-25 14:34:29.9091 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 14:34:29.9091 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 14:35:01.0263 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 5. 
+
+2022-03-25 14:35:11.1376 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 5. 
+
+2022-03-25 14:35:12.4550 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:35:13.2617 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:35:15.0087 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 5 byl vozvrachen. 
+
+2022-03-25 14:35:24.6269 | ERROR | CRM.BusinessLayer.ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount Oshibka manipulyacii c accountom. Pol'zovatel' c id 3 ne imeet dostupa k accountu c id 0. 
+
+2022-03-25 14:35:45.9599 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Poluchen zapros na dobavlenye depozita v account id = 5. 
+
+2022-03-25 14:35:50.3388 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Popytka tranzakcii с аккаунта id = 5. 
+
+2022-03-25 14:36:02.6259 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Popytka podklucheniya k baze dannyh. 
+
+2022-03-25 14:36:02.6259 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Proizvedeno podkluchenie k baze dannyh. 
+
+2022-03-25 14:36:02.8955 | INFO | CRM.DataLayer.Repositories.AccountRepository.GetById Account c id = 5 byl vozvrachen. 
+
+2022-03-25 14:36:23.1533 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Otpravka zaprosa na tranzakciu c accounta id = 5. 
+
+2022-03-25 14:36:42.5859 | INFO | CRM.BusinessLayer.Services.TransactionService.AddDeposit Poluchen otvet na tranzakciu c accounta id = 5. 
+
+2022-03-25 14:36:47.2578 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Depozit c id = 49224199 uspeshno dobavlen v account id = 5. 
+>>>>>>> Stashed changes
+

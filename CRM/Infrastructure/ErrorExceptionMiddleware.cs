@@ -47,6 +47,7 @@ namespace CRM.APILayer.Infrastructure
             }
             catch (Exception ex)
             {
+                _logger.Error(ex);
                 await ConstructResponse(context, HttpStatusCode.BadRequest, ex.Message);
             }
         }
