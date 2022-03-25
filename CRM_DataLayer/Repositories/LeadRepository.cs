@@ -47,7 +47,8 @@ namespace CRM.DataLayer.Repositories
                         lead.Phone,
                         lead.Password,
                         lead.City,
-                        Role = Role.Regular
+                        Role = Role.Regular,
+                        IsBanned = false
                     },
                     commandType: CommandType.StoredProcedure
                 );

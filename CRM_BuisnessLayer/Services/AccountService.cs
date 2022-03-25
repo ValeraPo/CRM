@@ -92,7 +92,7 @@ namespace CRM.BusinessLayer.Services
             if (accountModel.Lead.Id != leadId)
             {
                 _logger.LogError($"Oshibka zaprosa na poluchenie accounta id = {id}. Net dostupa k chuzhomu accountu.");
-                throw new AuthorizationException("Нет доступа к чужому аккаунту.");
+                //throw new AuthorizationException("Нет доступа к чужому аккаунту.");
             }
             return accountModel;
         }

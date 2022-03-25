@@ -2,7 +2,8 @@
 	@Id int
 AS
 BEGIN
-	select
+	SELECT
+		a.Id,
 		a.[Name], 
 		a.CurrencyType,
 		a.LeadId,
