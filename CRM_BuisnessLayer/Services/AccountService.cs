@@ -57,6 +57,11 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Zapros na blokirovku accounta id = {id}.");
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
+            if (entity.CurrencyType == Currency.RUB)
+            {
+                _logger.LogError("Oshibka blokirovki accounta. Rublevai account nel'zya udalit'.");
+                throw new BadRequestException("Рублевый аккаунт нельзя заблокировать");
+            }
             await _accountRepository.LockById(id);
         }
 
