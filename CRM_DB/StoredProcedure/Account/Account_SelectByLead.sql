@@ -3,6 +3,7 @@
 AS
 BEGIN
 	select
+		Id,
 		[Name], 
 		CurrencyType,
 		LeadId,

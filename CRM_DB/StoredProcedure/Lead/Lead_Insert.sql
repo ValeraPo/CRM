@@ -6,7 +6,8 @@
 	@Phone varchar(30),
 	@Password varchar(150),
 	@City varchar(30),
-	@Role int
+	@Role int,
+	@IsBanned bit
 AS
 BEGIN 
 	insert into dbo.[Lead]
@@ -28,6 +29,6 @@ BEGIN
 		@Password,
 		@City,
 		@Role,
-		0)
+		@IsBanned)
 	select scope_identity()
 END

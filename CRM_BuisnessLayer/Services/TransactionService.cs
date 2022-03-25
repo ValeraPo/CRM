@@ -53,7 +53,7 @@ namespace CRM.BusinessLayer.Services
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             _logger.LogInformation($"Otpravka zaprosa na vyvod sredstv c accounta id = {transactionModel.AccountId}.");
-            var response = await _requestHelper.SendRequest<TransactionRequestModel>(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
+            var response = await _requestHelper.SendRequest<TransactionRequestModel>(_url, UrlTransaction.Withdraw, Method.Post, transactionModel);
             _logger.LogInformation($"Poluchen otvet na vyvod sredstv c accounta id = {transactionModel.AccountId}.");
 
             return response;
