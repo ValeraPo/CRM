@@ -28,6 +28,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> AddDeposit([FromBody] TransactionRequestModel transaction)
         {
             _logger.LogInformation($"Poluchen zapros na dobavlenye depozita v account id = {transaction.AccountId}.");
+            var leadId = this.
             var transactionId = await _transactionService.AddDeposit(transaction);
             _logger.LogInformation($"Depozit c id = {transactionId} uspeshno dobavlen v account id = {transaction.AccountId}.");
 
