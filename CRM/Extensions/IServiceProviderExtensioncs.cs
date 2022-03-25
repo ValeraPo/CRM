@@ -1,5 +1,6 @@
 ﻿using BearGoodbyeKolkhozProject.Business.Configuration;
 using CRM.APILayer.Configuration;
+using CRM.APILayer.Consumer;
 using CRM.APILayer.Producers;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Configurations;
@@ -120,12 +121,17 @@ namespace CRM.APILayer.Extensions
         {
             services.AddMassTransit(x =>
             {
+                x.AddConsumer<LeadConsumer>();
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host("rabbitmq://80.78.240.16", hst =>
                     {
                         hst.Username("nafanya");
                         hst.Password("qwe!23");
+                    });
+                    cfg.ReceiveEndpoint("leadCRMQueue", e =>
+                    {
+                        e.ConfigureConsumer<LeadConsumer>(context);
                     });
                     cfg.Publish<ILeadFullExchangeModel>(p =>
                     {
