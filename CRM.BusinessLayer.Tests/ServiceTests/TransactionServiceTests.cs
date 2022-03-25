@@ -20,7 +20,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         private readonly IMapper _autoMapper;
         private readonly Mock<ILogger<TransactionService>> _logger;
         private readonly Mock<ITransactionService> _transactionService;
-        private readonly Mock<IAccountRepository> _accountRepository;
+        private Mock<IAccountRepository> _accountRepository;
         private readonly Mock<IRequestHelper> _requestHelper;
         private readonly TransactionTestData _transactionTestData;
 
@@ -30,13 +30,13 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _autoMapper = new Mapper(
                 new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperToData>()));
             _transactionTestData = new TransactionTestData();
-            _accountRepository = new Mock<IAccountRepository>();
             _requestHelper = new Mock<IRequestHelper>();
         }
 
         [SetUp]
         public void Setup()
         {
+            _accountRepository = new Mock<IAccountRepository>();
         }
 
         [Test]
