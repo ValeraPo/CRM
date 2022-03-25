@@ -1,5 +1,5 @@
-﻿using CRM.BusinessLayer.Models;
-using Marvelous.Contracts;
+﻿using Marvelous.Contracts;
+using Marvelous.Contracts.RequestModels;
 using RestSharp;
 
 namespace CRM.BusinessLayer.Services
@@ -9,5 +9,6 @@ namespace CRM.BusinessLayer.Services
         Task<RestResponse> AddDeposit(TransactionRequestModel transactionModel, int leadId);
         Task<RestResponse> AddTransfer(TransferRequestModel transactionModel, int leadId);
         Task<RestResponse> Withdraw(TransactionRequestModel transactionModel, int leadId);
+        Task<decimal> GetBalance(int id);
     }
 }
