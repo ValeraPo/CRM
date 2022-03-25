@@ -115,6 +115,8 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Poluchen zapros na  poluchenie vseh accountov leadom c id = {id}.");
             var accountModels = await _accountService.GetByLead(id);
             var outputs = _autoMapper.Map<List<AccountResponse>>(accountModels);
+            foreach (var account in outputs)
+                account.Balance = await _transactionService.GetBalance(id);
             _logger.LogInformation($"Vse accounty leada c id = {id} uspeshno polucheny.");
             return Ok(outputs);
         }
@@ -129,10 +131,10 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult<AccountResponse>> GetById(int id)
         {
             _logger.LogInformation($"Poluchen zapros na poluchenie accounta c id = {id} leadom c id = {id}.");
-            var leadId = this.GetLeadFromToken().Id;
+            var leadId =  this.GetLeadFromToken().Id;
             var accountModel = await _accountService.GetById(id, leadId);
             var output = _autoMapper.Map<AccountResponse>(accountModel);
-            output.Balance = await _transactionService.GetBalance(leadId);
+            output.Balance = await _transactionService.GetBalance(id);
             _logger.LogInformation($"Account c id = {id} uspeshno poluchen.");
             return Ok(output);
         }
