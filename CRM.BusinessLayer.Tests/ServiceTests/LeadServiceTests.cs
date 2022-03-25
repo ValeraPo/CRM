@@ -9,7 +9,6 @@ using CRM.DataLayer.Repositories.Interfaces;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CRM.BusinessLayer.Tests.ServiceTests
