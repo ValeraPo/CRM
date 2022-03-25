@@ -2,9 +2,12 @@
 using CRM.APILayer.Attribites;
 using CRM.APILayer.Extensions;
 using CRM.APILayer.Models;
+using CRM.APILayer.Producers;
 using CRM.BusinessLayer.Models;
+using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using Marvelous.Contracts;
+using Marvelous.Contracts.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -18,12 +21,20 @@ namespace CRM.APILayer.Controllers
         private readonly IAccountService _accountService;
         private readonly IMapper _autoMapper;
         private readonly ILogger<AccountsController> _logger;
+        private readonly ITransactionService _transactionService;
+        private readonly ICRMProducers _crmProducers;
 
-        public AccountsController(IAccountService accountService, IMapper autoMapper, ILogger<AccountsController> logger)
+        public AccountsController(IAccountService accountService, 
+            IMapper autoMapper, 
+            ILogger<AccountsController> logger, 
+            ITransactionService transactionService,
+            ICRMProducers crmProducers)
         {
             _accountService = accountService;
             _autoMapper = autoMapper;
             _logger = logger;
+            _transactionService = transactionService;
+            _crmProducers = crmProducers;
         }
 
         //api/accounts
@@ -41,6 +52,7 @@ namespace CRM.APILayer.Controllers
             Role role = leadIdentity.Role;
             var id = await _accountService.AddAccount((int)role, accountModel);
             _logger.LogInformation($"Account с id = {id} uspeshno dobavlen.");
+            await _crmProducers.NotifyAccountAdded(id);
             return StatusCode(StatusCodes.Status201Created, id);
         }
 
@@ -119,6 +131,7 @@ namespace CRM.APILayer.Controllers
             var leadId = this.GetLeadFromToken().Id;
             var accountModel = await _accountService.GetById(id, leadId);
             var output = _autoMapper.Map<AccountResponse>(accountModel);
+            output.Balance = await _transactionService.GetBalance(leadId);
             _logger.LogInformation($"Account c id = {id} uspeshno poluchen.");
             return Ok(output);
         }

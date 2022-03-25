@@ -1,5 +1,6 @@
 ﻿
 using Marvelous.Contracts;
+using Marvelous.Contracts.Enums;
 
 namespace CRM.BusinessLayer.Models
 {

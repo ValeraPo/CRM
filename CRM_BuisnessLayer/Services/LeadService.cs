@@ -8,6 +8,7 @@ using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts;
 using CRM.BusinessLayer.Exceptions;
 using Microsoft.Extensions.Logging;
+using Marvelous.Contracts.Enums;
 
 namespace CRM.BusinessLayer.Services
 {

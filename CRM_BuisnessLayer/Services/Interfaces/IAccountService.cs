@@ -10,5 +10,6 @@ namespace CRM.BusinessLayer.Services.Interfaces
         Task UnlockById(int id);
         Task<List<AccountModel>> GetByLead(int leadId);
         Task<AccountModel> GetById(int id, int leadId);
+        Task<AccountModel> GetById(int id);
     }
 }

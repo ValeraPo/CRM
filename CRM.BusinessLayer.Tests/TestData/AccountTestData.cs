@@ -1,6 +1,7 @@
 ﻿using CRM.BusinessLayer.Models;
 using CRM.DataLayer.Entities;
 using Marvelous.Contracts;
+using Marvelous.Contracts.Enums;
 using System.Collections.Generic;
 
 namespace CRM.BusinessLayer.Tests.TestData

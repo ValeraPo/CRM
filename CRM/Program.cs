@@ -29,6 +29,7 @@ builder.Services.RegisterCRMRepositories();
 builder.Services.RegisterCRMServices();
 builder.Services.RegisterCRMAutomappers();
 builder.Services.RegisterLogger(config);
+builder.Services.AddMassTransit();
 
 var app = builder.Build();
 
