@@ -116,7 +116,7 @@ namespace CRM.APILayer.Controllers
             var accountModels = await _accountService.GetByLead(id);
             var outputs = _autoMapper.Map<List<AccountResponse>>(accountModels);
             foreach (var account in outputs)
-                account.Balance = await _transactionService.GetBalance(id);
+                account.Balance = await _transactionService.GetBalance(account.Id);
             _logger.LogInformation($"Vse accounty leada c id = {id} uspeshno polucheny.");
             return Ok(outputs);
         }

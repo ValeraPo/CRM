@@ -32,7 +32,7 @@ namespace CRM.APILayer.Controllers
         {
             _logger.LogInformation($"Poluchen zapros na dobavlenye depozita v account id = {transaction.AccountId}.");
             var leadId = this.GetLeadFromToken().Id;
-            var response = await _transactionService.AddDeposit(transaction);
+            var response = await _transactionService.AddDeposit(transaction, leadId);
             _logger.LogInformation($"Depozit c id = {response.Content} uspeshno dobavlen v account id = {transaction.AccountId}.");
 
             return StatusCode(201, response.Content);
@@ -48,7 +48,7 @@ namespace CRM.APILayer.Controllers
         {
             _logger.LogInformation($"Poluchen zapros na dobavlenie transfera c accounta id = {transaction.AccountIdFrom} na account id = {transaction.AccountIdTo}.");
             var leadId = this.GetLeadFromToken().Id;
-            var response = await _transactionService.AddTransfer(transaction);
+            var response = await _transactionService.AddTransfer(transaction, leadId);
             _logger.LogInformation($"Transfer c id = {response.Content} c accounta id = {transaction.AccountIdFrom} na account id = {transaction.AccountIdTo} proshel uspeshno.");
             return StatusCode(201, response.Content);
         }
@@ -63,7 +63,7 @@ namespace CRM.APILayer.Controllers
         {
             _logger.LogInformation($"Poluchen zapros na vyvod sredstv c accounta id = {transaction.AccountId}.");
             var leadId = this.GetLeadFromToken().Id;
-            var response = await _transactionService.Withdraw(transaction);
+            var response = await _transactionService.Withdraw(transaction, leadId);
             _logger.LogInformation($"Vyvod sredstv c id = {response.Content} c accounta id = {transaction.AccountId} proshel uspeshno.");
 
             return StatusCode(201, response.Content);

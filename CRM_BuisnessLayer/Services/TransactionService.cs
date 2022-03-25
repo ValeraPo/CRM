@@ -27,7 +27,7 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Popytka tranzakcii с аккаунта id = {transactionModel.AccountId}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
-            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Id, leadId);
+            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             _logger.LogInformation($"Otpravka zaprosa na tranzakciu c accounta id = {transactionModel.AccountId}.");
             var response = await _requestHelper.SendRequest<TransactionRequestModel>(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
             _logger.LogInformation($"Poluchen otvet na tranzakciu c accounta id = {transactionModel.AccountId}.");
@@ -40,7 +40,7 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Popytka transfera c accounta id = {transactionModel.AccountIdFrom} na account id = {transactionModel.AccountIdTo}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountIdFrom);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdFrom, entity);
-            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Id, leadId);
+            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             var accountTo = await _accountRepository.GetById(transactionModel.AccountIdTo);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdTo, accountTo);
             _logger.LogInformation($"Otpravka zaprosa transfera c accounta id = {transactionModel.AccountIdFrom} na account id = {transactionModel.AccountIdTo}.");
@@ -55,7 +55,7 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Popytka vyvoda sredstv c accounta id = {transactionModel.AccountId}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
-            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Id, leadId);
+            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             _logger.LogInformation($"Otpravka zaprosa na vyvod sredstv c accounta id = {transactionModel.AccountId}.");
             var response = await _requestHelper.SendRequest<TransactionRequestModel>(_url, UrlTransaction.Withdraw, Method.Post, transactionModel);
             _logger.LogInformation($"Poluchen otvet na vyvod sredstv c accounta id = {transactionModel.AccountId}.");

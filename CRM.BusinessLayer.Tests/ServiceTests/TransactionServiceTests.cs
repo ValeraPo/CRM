@@ -51,7 +51,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
-            sut.AddDeposit(transactionRequestModel);
+            sut.AddDeposit(transactionRequestModel, (It.IsAny<int>()));
 
             //then
             _accountRepository.Verify(m => m.GetById(1), Times.Once());
@@ -71,7 +71,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //when
 
             //then
-            Assert.ThrowsAsync<NotFoundException>(async () => await sut.AddDeposit(transactionRequestModel));
+            Assert.ThrowsAsync<NotFoundException>(async () => await sut.AddDeposit(transactionRequestModel, (It.IsAny<int>())));
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
-            sut.AddTransfer(transferRequestModel);
+            sut.AddTransfer(transferRequestModel, (It.IsAny<int>()));
 
             //then
             _accountRepository.Verify(m => m.GetById(It.IsAny<int>()), Times.Exactly(2));
@@ -106,10 +106,10 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
-            sut.AddTransfer(transferRequestModel);
+            sut.AddTransfer(transferRequestModel, (It.IsAny<int>()));
 
             //then
-            Assert.ThrowsAsync<NotFoundException>(async () => await sut.AddTransfer(transferRequestModel));
+            Assert.ThrowsAsync<NotFoundException>(async () => await sut.AddTransfer(transferRequestModel, (It.IsAny<int>())));
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
-            sut.Withdraw(transactionRequestModel);
+            sut.Withdraw(transactionRequestModel, (It.IsAny<int>()));
 
             //then
             _accountRepository.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
@@ -143,7 +143,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //when
 
             //then
-            Assert.ThrowsAsync<NotFoundException>(async () => await sut.Withdraw(transactionRequestModel));
+            Assert.ThrowsAsync<NotFoundException>(async () => await sut.Withdraw(transactionRequestModel, (It.IsAny<int>())));
         }
 
         [Test]
