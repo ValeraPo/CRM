@@ -32,7 +32,11 @@ namespace CRM.BusinessLayer.Tests.TestData
         {
             return new Account()
             {
-                Id = 1
+                Id = 1,
+                Lead = new()
+                {
+                    Id = 1,
+                }
             };
         }
     }

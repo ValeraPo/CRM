@@ -51,7 +51,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
-            sut.AddDeposit(transactionRequestModel, (It.IsAny<int>()));
+            sut.AddDeposit(transactionRequestModel, 1);
 
             //then
             _accountRepository.Verify(m => m.GetById(1), Times.Once());
@@ -88,7 +88,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
-            sut.AddTransfer(transferRequestModel, (It.IsAny<int>()));
+            sut.AddTransfer(transferRequestModel, 1);
 
             //then
             _accountRepository.Verify(m => m.GetById(It.IsAny<int>()), Times.Exactly(2));
@@ -123,7 +123,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
-            sut.Withdraw(transactionRequestModel, (It.IsAny<int>()));
+            sut.Withdraw(transactionRequestModel, 1);
 
             //then
             _accountRepository.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
