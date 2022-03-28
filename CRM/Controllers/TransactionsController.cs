@@ -72,19 +72,6 @@ namespace CRM.APILayer.Controllers
             return StatusCode(201, response.Content);
         }
 
-        //api/transaction/42
-        //[AuthorizeEnum(Role.Vip, Role.Regular)]
-        [HttpGet("transaction/{accountId}")]
-        [SwaggerOperation(Summary = "Get transactions by accountId")]
-        //[SwaggerResponse(StatusCodes.Status200OK, "Successful", typeof(ArrayList))]
-        public async Task<ActionResult<ArrayList>> GetTransactionsByAccountId(int accountId)
-        {
-            //_logger.LogInformation($"Poluchen zapros na poluchenie transakcii c accounta id = {accountId}");
-
-            var transactionModel = await _transactionService.GetTransactionsByAccountId(accountId);
-            //_logger.LogInformation($"Poluchenie transakcii c accounta id = {accountId} proshel uspeshno");
-            
-            return Ok(transactionModel.Content);
-        }
+        
     }
 }

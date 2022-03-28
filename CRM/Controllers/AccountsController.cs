@@ -10,6 +10,7 @@ using Marvelous.Contracts;
 using Marvelous.Contracts.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Collections;
 
 namespace CRM.APILayer.Controllers
 {
@@ -139,6 +140,21 @@ namespace CRM.APILayer.Controllers
             return Ok(output);
         }
 
+        //api/transaction/42
+        //[AuthorizeEnum(Role.Vip, Role.Regular)]
+        [HttpGet("transaction/{accountId}")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Successful", typeof(ArrayList))]
+        [SwaggerOperation("Get transactions by accountId. Roles: Vip, Regular")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ArrayList>> GetTransactionsByAccountId(int accountId)
+        {
+            _logger.LogInformation($"Poluchen zapros na poluchenie transakcii c accounta id = {accountId}");
+            var leadId = this.GetLeadFromToken().Id;
+            var transactionModel = await _transactionService.GetTransactionsByAccountId(accountId, leadId);
+            _logger.LogInformation($"Poluchenie transakcii c accounta id = {accountId} proshel uspeshno");
 
+            return Ok(transactionModel.Content);
+        }
     }
 }

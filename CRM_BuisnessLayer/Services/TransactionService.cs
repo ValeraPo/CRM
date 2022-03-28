@@ -75,11 +75,12 @@ namespace CRM.BusinessLayer.Services
             return Convert.ToDecimal(response.Content);
         }
 
-        public async Task<RestResponse> GetTransactionsByAccountId(int id)
+        public async Task<RestResponse> GetTransactionsByAccountId(int id, int leadId)
         {
             _logger.LogInformation($"Popytka polucheniia transakcii accounta id = {id}.");
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
+            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             _logger.LogInformation($"Otpravka zaprosa na poluchenie transakcii accounta id = {id}.");
             var response = await _requestHelper.SendGetRequest(_url, "transaction/", id);
             _logger.LogInformation($"Poluchen otvet na poluchenie transakcii accounta id = {id}.");

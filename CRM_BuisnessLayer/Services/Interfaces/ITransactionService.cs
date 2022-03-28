@@ -11,7 +11,7 @@ namespace CRM.BusinessLayer.Services
         Task<RestResponse> AddTransfer(TransferRequestModel transactionModel, int leadId);
         Task<RestResponse> Withdraw(TransactionRequestModel transactionModel, int leadId);
         Task<decimal> GetBalance(int id);
-        Task<RestResponse> GetTransactionsByAccountId(int id);
+        Task<RestResponse> GetTransactionsByAccountId(int id, int leadId);
     }
     
 }
