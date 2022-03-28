@@ -35,9 +35,20 @@ namespace CRM.BusinessLayer
             if (response.StatusCode == System.Net.HttpStatusCode.RequestTimeout)
             {
                 _logger.Error("408 Request Timeout");
-                throw new BadRequestException(response.ErrorException.Message);
+                throw new RequestTimeoutException(response.ErrorException.Message);
+            } 
+            else if(response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
+            {
+                _logger.Error("503 Service Unavailable");
+                throw new ServiceUnavailableException(response.ErrorException.Message);
             }
-            else if (response.StatusCode != System.Net.HttpStatusCode.OK || response.Content == null)
+            else if (response.Content == null)
+            {
+                _logger.Error("Transaction content equal's null");
+                throw new BadGatewayException(response.ErrorException.Message);
+
+            }
+            else if (response.StatusCode != System.Net.HttpStatusCode.OK )
             {
                 _logger.Error($"Oshibka na storone Transaction.Store.");
                 throw new BadRequestException(response.ErrorException.Message);
