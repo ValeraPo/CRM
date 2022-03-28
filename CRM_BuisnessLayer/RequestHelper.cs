@@ -15,7 +15,7 @@ namespace CRM.BusinessLayer
             return await GenerateRequest(request, url); 
         }
 
-        public async Task<RestResponse> SendGetRequest(string url, int id)
+        public async Task<RestResponse> SendGetRequest(string url, string path, int id)
         {
             var request = new RestRequest($"api/Transactions/balanse-by-{id}/", Method.Get);
             request.AddParameter("id", id);            
