@@ -10,32 +10,38 @@ namespace CRM.BusinessLayer
 
         public async Task<RestResponse> SendRequest<T>(string url, string path, Method method, T requestModel)
         {
-            var client = new RestClient(url);
             var request = new RestRequest($"api/Transactions/{path}/", method);
             request.AddBody(requestModel);
-            var response = await client.ExecuteAsync(request);
-            if (response.StatusCode != System.Net.HttpStatusCode.OK || response.Content == null)
-            {
-                _logger.Error($"Oshibka na storone Transaction.Store.");
-                throw new BadRequestException(response.ErrorException.Message);
-            }
-
-            return response;
+            return await GenerateRequest(request, url); 
         }
 
         public async Task<RestResponse> SendGetRequest(string url, int id)
         {
-            var client = new RestClient(url);
             var request = new RestRequest($"api/Transactions/balanse-by-{id}/", Method.Get);
-            request.AddParameter("id", id);
+            request.AddParameter("id", id);            
+            return await GenerateRequest(request, url);
+        }
+
+        public async Task<RestResponse> GenerateRequest(RestRequest request, string url)
+        {
+            var client = new RestClient(url);
             var response = await client.ExecuteAsync(request);
-            if (response.StatusCode != System.Net.HttpStatusCode.OK || response.Content == null)
+            CheckTransactionError(response);
+            return response;
+        }
+
+        void CheckTransactionError(RestResponse response)
+        {
+            if (response.StatusCode == System.Net.HttpStatusCode.RequestTimeout)
+            {
+                _logger.Error("408 Request Timeout");
+                throw new BadRequestException(response.ErrorException.Message);
+            }
+            else if (response.StatusCode != System.Net.HttpStatusCode.OK || response.Content == null)
             {
                 _logger.Error($"Oshibka na storone Transaction.Store.");
                 throw new BadRequestException(response.ErrorException.Message);
             }
-
-            return response;
         }
     }
 }
