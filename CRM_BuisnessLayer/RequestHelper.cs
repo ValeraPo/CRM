@@ -23,10 +23,10 @@ namespace CRM.BusinessLayer
             return response;
         }
 
-        public async Task<RestResponse> SendGetRequest(string url, int id)
+        public async Task<RestResponse> SendGetRequest(string url, string path, int id)
         {
             var client = new RestClient(url);
-            var request = new RestRequest($"api/Transactions/balanse-by-{id}/", Method.Get);
+            var request = new RestRequest($"api/Transactions/{path}{id}/", Method.Get);
             request.AddParameter("id", id);
             var response = await client.ExecuteAsync(request);
             if (response.StatusCode != System.Net.HttpStatusCode.OK || response.Content == null)

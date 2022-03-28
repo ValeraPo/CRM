@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using CRM.APILayer.Attribites;
 using CRM.APILayer.Extensions;
 using CRM.BusinessLayer.Services;
 using Marvelous.Contracts;
+using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Collections;
 
 namespace CRM.APILayer.Controllers
 {
@@ -67,6 +70,21 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Vyvod sredstv c id = {response.Content} c accounta id = {transaction.AccountId} proshel uspeshno.");
 
             return StatusCode(201, response.Content);
+        }
+
+        //api/transaction/42
+        //[AuthorizeEnum(Role.Vip, Role.Regular)]
+        [HttpGet("transaction/{accountId}")]
+        [SwaggerOperation(Summary = "Get transactions by accountId")]
+        //[SwaggerResponse(StatusCodes.Status200OK, "Successful", typeof(ArrayList))]
+        public async Task<ActionResult<ArrayList>> GetTransactionsByAccountId(int accountId)
+        {
+            //_logger.LogInformation($"Poluchen zapros na poluchenie transakcii c accounta id = {accountId}");
+
+            var transactionModel = await _transactionService.GetTransactionsByAccountId(accountId);
+            //_logger.LogInformation($"Poluchenie transakcii c accounta id = {accountId} proshel uspeshno");
+            
+            return Ok(transactionModel.Content);
         }
     }
 }

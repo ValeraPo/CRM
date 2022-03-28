@@ -2305,3 +2305,69 @@ CurrencyType
 2022-03-25 14:36:47.2578 | INFO | CRM.APILayer.Controllers.TransactionsController.AddDeposit Depozit c id = 49224199 uspeshno dobavlen v account id = 5. 
 >>>>>>> Stashed changes
 
+2022-03-25 17:48:52.5257 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-25 17:48:53.0836 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-25 17:48:53.4852 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-25 17:48:53.4852 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-25 17:48:53.6666 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-25 17:48:53.9504 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 51376) 
+
+2022-03-25 17:48:54.0434 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-25 17:48:54.0434 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/DESKTOPJG0VTNI_CRMAPILayer_bus_fojyyyf5rusxjzi3bdpyh5wwfy?temporary=true 
+
+2022-03-25 17:48:54.0481 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-25 17:48:54.0481 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-25 17:48:54.0759 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 1 message-count: 0 
+
+2022-03-25 17:48:54.0997 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-25 17:48:54.0997 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, type: fanout, durable 
+
+2022-03-25 17:48:54.1367 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-25 17:48:54.1884 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-25 17:48:54.2895 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-Fj-8Fwa5763OJFc6OdT02A 
+
+2022-03-25 17:48:54.2895 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-25 17:48:54.2960 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-25 17:53:48.4545 | INFO | CRM.APILayer.Consumer.LeadConsumer.Consume Getting lead 3 
+
+2022-03-25 17:53:48.7152 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: MassTransit:Fault--Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel--, type: fanout, durable 
+
+2022-03-25 17:53:48.7176 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: MassTransit:Fault, type: fanout, durable 
+
+2022-03-25 17:53:48.7453 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: MassTransit:Fault--Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel--, destination: MassTransit:Fault 
+
+2022-03-25 17:53:48.8638 | DEBUG | MassTransit.LogContext+<>c__DisplayClass27_0`3.<DefineMessage>g__Log|0 SEND rabbitmq://80.78.240.16/MassTransit:Fault--Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel-- 2c120000-bb24-ecf4-0c7d-08da0e6f44fa MassTransit.Fault<Marvelous.Contracts.ExchangeModels.ILeadShortExchangeModel> 
+
+2022-03-25 17:53:48.8751 | ERROR | MassTransit.LogContext+<>c__DisplayClass30_0`5.<Define>g__Log|0 R-FAULT rabbitmq://80.78.240.16/leadCRMQueue 10560000-a605-9828-3578-08da0e6f2737 Marvelous.Contracts.ExchangeModels.ILeadShortExchangeModel CRM.APILayer.Consumer.LeadConsumer(00:00:00.2820789) 
+
+2022-03-25 17:53:48.9054 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue_error, durable, consumer-count: 0 message-count: 3 
+
+2022-03-25 17:53:48.9310 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue_error, type: fanout, durable 
+
+2022-03-25 17:53:48.9467 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue_error, destination: leadCRMQueue_error 
+
+2022-03-25 17:57:34.3452 | INFO | CRM.APILayer.Consumer.LeadConsumer.Consume Getting lead 3 
+
+2022-03-25 17:57:34.4274 | DEBUG | MassTransit.LogContext+<>c__DisplayClass27_0`3.<DefineMessage>g__Log|0 SEND rabbitmq://80.78.240.16/MassTransit:Fault--Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel-- 2c120000-bb24-ecf4-7a76-08da0e6fcb77 MassTransit.Fault<Marvelous.Contracts.ExchangeModels.ILeadShortExchangeModel> 
+
+2022-03-25 17:57:34.4274 | ERROR | MassTransit.LogContext+<>c__DisplayClass30_0`5.<Define>g__Log|0 R-FAULT rabbitmq://80.78.240.16/leadCRMQueue c4400000-a605-9828-076f-08da0e6fae30 Marvelous.Contracts.ExchangeModels.ILeadShortExchangeModel CRM.APILayer.Consumer.LeadConsumer(00:00:00.0649971) 
+
+2022-03-25 17:58:15.7149 | INFO | CRM.APILayer.Consumer.LeadConsumer.Consume Getting lead 3 
+
+2022-03-25 17:58:15.7926 | DEBUG | MassTransit.LogContext+<>c__DisplayClass27_0`3.<DefineMessage>g__Log|0 SEND rabbitmq://80.78.240.16/MassTransit:Fault--Marvelous.Contracts.ExchangeModels:ILeadShortExchangeModel-- 2c120000-bb24-ecf4-42b0-08da0e6fe41e MassTransit.Fault<Marvelous.Contracts.ExchangeModels.ILeadShortExchangeModel> 
+
+2022-03-25 17:58:15.7926 | ERROR | MassTransit.LogContext+<>c__DisplayClass30_0`5.<Define>g__Log|0 R-FAULT rabbitmq://80.78.240.16/leadCRMQueue c4400000-a605-9828-812b-08da0e6fc6fc Marvelous.Contracts.ExchangeModels.ILeadShortExchangeModel CRM.APILayer.Consumer.LeadConsumer(00:00:00.0581132) 
+
