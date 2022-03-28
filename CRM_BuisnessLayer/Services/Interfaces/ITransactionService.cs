@@ -1,7 +1,5 @@
-﻿using Marvelous.Contracts;
-using Marvelous.Contracts.RequestModels;
+﻿using Marvelous.Contracts.RequestModels;
 using RestSharp;
-using System.Collections;
 
 namespace CRM.BusinessLayer.Services
 {
@@ -13,5 +11,5 @@ namespace CRM.BusinessLayer.Services
         Task<decimal> GetBalance(int id);
         Task<RestResponse> GetTransactionsByAccountId(int id, int leadId);
     }
-    
+
 }

@@ -3,11 +3,9 @@ using CRM.DataLayer.Entities;
 using CRM.DataLayer.Extensions;
 using CRM.DataLayer.Repositories.Interfaces;
 using Dapper;
-using Marvelous.Contracts;
 using Marvelous.Contracts.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using NLog;
 using System.Data;
 
 
@@ -138,7 +136,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogInformation($"Byly vozvracheny vse leady");
             return leads;
         }
-                
+
         public async Task<Lead> GetById(int id)
         {
             _logger.LogInformation("Popytka podklucheniya k baze dannyh.");

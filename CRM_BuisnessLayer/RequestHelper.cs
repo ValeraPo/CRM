@@ -10,32 +10,49 @@ namespace CRM.BusinessLayer
 
         public async Task<RestResponse> SendRequest<T>(string url, string path, Method method, T requestModel)
         {
-            var client = new RestClient(url);
             var request = new RestRequest($"api/Transactions/{path}/", method);
             request.AddBody(requestModel);
-            var response = await client.ExecuteAsync(request);
-            if (response.StatusCode != System.Net.HttpStatusCode.OK || response.Content == null)
-            {
-                _logger.Error($"Oshibka na storone Transaction.Store.");
-                throw new BadRequestException(response.ErrorException.Message);
-            }
-
-            return response;
+            return await GenerateRequest(request, url);
         }
 
         public async Task<RestResponse> SendGetRequest(string url, string path, int id)
         {
-            var client = new RestClient(url);
             var request = new RestRequest($"api/Transactions/{path}{id}/", Method.Get);
             request.AddParameter("id", id);
+            return await GenerateRequest(request, url);
+        }
+
+        public async Task<RestResponse> GenerateRequest(RestRequest request, string url)
+        {
+            var client = new RestClient(url);
             var response = await client.ExecuteAsync(request);
-            if (response.StatusCode != System.Net.HttpStatusCode.OK || response.Content == null)
+            CheckTransactionError(response);
+            return response;
+        }
+
+        void CheckTransactionError(RestResponse response)
+        {
+            if (response.StatusCode == System.Net.HttpStatusCode.RequestTimeout)
+            {
+                _logger.Error("408 Request Timeout");
+                throw new RequestTimeoutException(response.ErrorException.Message);
+            } 
+            else if(response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
+            {
+                _logger.Error("503 Service Unavailable");
+                throw new ServiceUnavailableException(response.ErrorException.Message);
+            }
+            else if (response.Content == null)
+            {
+                _logger.Error("Transaction content equal's null");
+                throw new BadGatewayException(response.ErrorException.Message);
+
+            }
+            else if (response.StatusCode != System.Net.HttpStatusCode.OK )
             {
                 _logger.Error($"Oshibka na storone Transaction.Store.");
                 throw new BadRequestException(response.ErrorException.Message);
             }
-
-            return response;
         }
     }
 }

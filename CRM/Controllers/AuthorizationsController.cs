@@ -3,9 +3,7 @@ using CRM.BusinessLayer.Services;
 using CRM.DataLayer.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NLog;
 using Swashbuckle.AspNetCore.Annotations;
-using System.ComponentModel;
 
 namespace CRM.APILayer.Controllers
 {

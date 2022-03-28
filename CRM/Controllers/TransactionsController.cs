@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using CRM.APILayer.Attribites;
 using CRM.APILayer.Extensions;
 using CRM.BusinessLayer.Services;
 using Marvelous.Contracts;
-using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Collections;
 
 namespace CRM.APILayer.Controllers
 {
@@ -72,6 +69,6 @@ namespace CRM.APILayer.Controllers
             return StatusCode(201, response.Content);
         }
 
-        
+
     }
 }

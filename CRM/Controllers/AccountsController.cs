@@ -6,7 +6,6 @@ using CRM.APILayer.Producers;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
-using Marvelous.Contracts;
 using Marvelous.Contracts.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -25,9 +24,9 @@ namespace CRM.APILayer.Controllers
         private readonly ITransactionService _transactionService;
         private readonly ICRMProducers _crmProducers;
 
-        public AccountsController(IAccountService accountService, 
-            IMapper autoMapper, 
-            ILogger<AccountsController> logger, 
+        public AccountsController(IAccountService accountService,
+            IMapper autoMapper,
+            ILogger<AccountsController> logger,
             ITransactionService transactionService,
             ICRMProducers crmProducers)
         {
@@ -132,7 +131,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult<AccountResponse>> GetById(int id)
         {
             _logger.LogInformation($"Poluchen zapros na poluchenie accounta c id = {id} leadom c id = {id}.");
-            var leadId =  this.GetLeadFromToken().Id;
+            var leadId = this.GetLeadFromToken().Id;
             var accountModel = await _accountService.GetById(id, leadId);
             var output = _autoMapper.Map<AccountResponse>(accountModel);
             output.Balance = await _transactionService.GetBalance(id);

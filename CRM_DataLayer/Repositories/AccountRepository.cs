@@ -4,7 +4,6 @@ using CRM.DataLayer.Repositories.Interfaces;
 using Dapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using NLog;
 using System.Data;
 
 namespace CRM.DataLayer.Repositories
@@ -97,7 +96,7 @@ namespace CRM.DataLayer.Repositories
             using IDbConnection connection = ProvideConnection();
             _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
 
-            var accounts =  connection.
+            var accounts = connection.
                 QueryAsync<Account>(
                 _selectByLead,
                 new { LeadId = leadId },
@@ -115,7 +114,7 @@ namespace CRM.DataLayer.Repositories
             using IDbConnection connection = ProvideConnection();
             _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
 
-            var account =  connection
+            var account = connection
                 .QueryAsync<Account, Lead, Account>(
                 _selectById,
                 (account, lead) =>

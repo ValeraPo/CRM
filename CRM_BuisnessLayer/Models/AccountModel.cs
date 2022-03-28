@@ -1,10 +1,8 @@
-﻿
-using Marvelous.Contracts;
-using Marvelous.Contracts.Enums;
+﻿using Marvelous.Contracts.Enums;
 
 namespace CRM.BusinessLayer.Models
 {
-    public class AccountModel 
+    public class AccountModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
