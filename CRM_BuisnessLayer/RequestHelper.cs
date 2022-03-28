@@ -17,7 +17,7 @@ namespace CRM.BusinessLayer
 
         public async Task<RestResponse> SendGetRequest(string url, string path, int id)
         {
-            var request = new RestRequest($"api/Transactions/balanse-by-{id}/", Method.Get);
+            var request = new RestRequest($"api/Transactions/{path}{id}/", Method.Get);
             request.AddParameter("id", id);            
             return await GenerateRequest(request, url);
         }
