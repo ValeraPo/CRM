@@ -2,9 +2,7 @@
 using Marvelous.Contracts;
 using Marvelous.Contracts.RequestModels;
 using Microsoft.Extensions.Logging;
-using NLog;
 using RestSharp;
-using System.Collections;
 
 namespace CRM.BusinessLayer.Services
 {

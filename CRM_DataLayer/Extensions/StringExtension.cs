@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CRM.DataLayer.Extensions
+﻿namespace CRM.DataLayer.Extensions
 {
     public static class StringExtension
     {
@@ -13,7 +7,7 @@ namespace CRM.DataLayer.Extensions
             var mas = str.Split();
             for (int i = 1; i < mas.Length - 1; i++)
                 mas[i] = "*";
-            return String.Join("", mas); 
+            return String.Join("", mas);
         }
     }
 }

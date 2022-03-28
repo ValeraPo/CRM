@@ -5,13 +5,10 @@ using CRM.APILayer.Models;
 using CRM.APILayer.Producers;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
-using Marvelous.Contracts;
 using Marvelous.Contracts.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NLog;
 using Swashbuckle.AspNetCore.Annotations;
-using System.ComponentModel;
 
 namespace CRM.APILayer.Controllers
 {
@@ -26,8 +23,8 @@ namespace CRM.APILayer.Controllers
         private readonly ICRMProducers _crmProducers;
 
 
-        public LeadsController(ILeadService leadService, 
-            IMapper autoMapper, 
+        public LeadsController(ILeadService leadService,
+            IMapper autoMapper,
             ILogger<LeadsController> logger,
             ICRMProducers crmProducers)
         {

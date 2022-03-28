@@ -1,7 +1,4 @@
-﻿using Marvelous.Contracts;
-using System.ComponentModel.DataAnnotations;
-
-namespace CRM.APILayer.Models
+﻿namespace CRM.APILayer.Models
 {
     public class LeadUpdateRequest : LeadRequest
     {

@@ -1,16 +1,14 @@
-﻿using Moq;
-using NUnit.Framework;
-using AutoMapper;
-using CRM.BusinessLayer.Services;
-using Microsoft.Extensions.Logging;
+﻿using AutoMapper;
 using CRM.BusinessLayer.Configurations;
-using System.Threading.Tasks;
+using CRM.BusinessLayer.Exceptions;
+using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Tests.TestData;
 using CRM.DataLayer.Repositories.Interfaces;
-using CRM.DataLayer.Entities;
+using Microsoft.Extensions.Logging;
+using Moq;
+using NUnit.Framework;
 using RestSharp;
-using CRM.BusinessLayer.Exceptions;
-using Marvelous.Contracts;
+using System.Threading.Tasks;
 
 namespace CRM.BusinessLayer.Tests.ServiceTests
 {
@@ -57,7 +55,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepository.Verify(m => m.GetById(1), Times.Once());
             _requestHelper.Verify(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transactionRequestModel), Times.Once());
         }
-        
+
         [Test]
         public async Task AddDepositNegativeTests()
         {
@@ -94,7 +92,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepository.Verify(m => m.GetById(It.IsAny<int>()), Times.Exactly(2));
             _requestHelper.Verify(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transferRequestModel), Times.Once());
         }
-        
+
         [Test]
         public async Task AddTransferNegativeTests()
         {
@@ -129,7 +127,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepository.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
             _requestHelper.Verify(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transactionRequestModel), Times.Once());
         }
-        
+
         [Test]
         public async Task WithdrawNegativeTest()
         {
@@ -162,7 +160,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepository.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
             _requestHelper.Verify(m => m.SendGetRequest(It.IsAny<string>(), 1), Times.Once());
         }
-        
+
         [Test]
         public async Task GetBalanceNegativeTests()
         {

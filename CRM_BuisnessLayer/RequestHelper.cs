@@ -12,13 +12,13 @@ namespace CRM.BusinessLayer
         {
             var request = new RestRequest($"api/Transactions/{path}/", method);
             request.AddBody(requestModel);
-            return await GenerateRequest(request, url); 
+            return await GenerateRequest(request, url);
         }
 
         public async Task<RestResponse> SendGetRequest(string url, string path, int id)
         {
             var request = new RestRequest($"api/Transactions/{path}{id}/", Method.Get);
-            request.AddParameter("id", id);            
+            request.AddParameter("id", id);
             return await GenerateRequest(request, url);
         }
 
