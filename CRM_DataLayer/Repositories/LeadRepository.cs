@@ -227,16 +227,19 @@ namespace CRM.DataLayer.Repositories
                 }
             };
 
-            DapperPlusManager.Entity<Lead>().Table("Lead").Identity(x => x.Id).Ignore(x => 
-            new {x.Accounts, 
-                x.BirthDate, 
-                x.City, 
-                x.Email, 
-                x.IsBanned, 
-                x.Phone, 
-                x.Name, 
-                x.LastName, 
-                x.Password});
+            DapperPlusManager.Entity<Lead>().Table("Lead")
+                .Identity(x => x.Id)
+                .Ignore(
+                x => new {x.Accounts, 
+                        x.BirthDate, 
+                        x.City, 
+                        x.Email, 
+                        x.IsBanned, 
+                        x.Phone, 
+                        x.Name, 
+                        x.LastName, 
+                        x.Password}
+                    );
 
             connection.BulkUpdate(leads);
 
