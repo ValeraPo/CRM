@@ -72,6 +72,7 @@ namespace CRM.APILayer.Controllers
             accountModel.Id = id;
             await _accountService.UpdateAccount(leadId, accountModel);
             _logger.LogInformation($"Account c id = {id} uspeshno obnovlen.");
+            await _crmProducers.NotifyAccountAdded(id);
             return Ok($"Account with id = {id} was updated");
         }
 
@@ -86,6 +87,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Poluchen zapros na blokirovku accounta id = {id} leadom c id = {this.GetLeadFromToken().Id}.");
             await _accountService.LockById(id);
             _logger.LogInformation($"Account с id = {id} uspeshno zablokirovan.");
+            await _crmProducers.NotifyAccountAdded(id);
             return Ok($"Account with id = {id} was locked");
         }
 
@@ -100,6 +102,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Poluchen zapros na  razblokirovku accounta id = {id} leadom c id = {this.GetLeadFromToken().Id}.");
             await _accountService.UnlockById(id);
             _logger.LogInformation($"Account c id = {id} uspeshno razblokirovan.");
+            await _crmProducers.NotifyAccountAdded(id);
             return Ok($"Account with id = {id} was unlocked");
         }
 

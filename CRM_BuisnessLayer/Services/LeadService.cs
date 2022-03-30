@@ -6,6 +6,7 @@ using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts.Enums;
+using Marvelous.Contracts.ExchangeModels;
 using Microsoft.Extensions.Logging;
 
 namespace CRM.BusinessLayer.Services
@@ -102,6 +103,12 @@ namespace CRM.BusinessLayer.Services
             return _autoMapper.Map<List<LeadModel>>(leads);
         }
 
+        public async Task<List<LeadAuthExchangeModel>> GetAllToAuth()
+        {
+            _logger.LogInformation($"Zapros na poluchenie vseh leadov.");
+            var leads = await _leadRepository.GetAllToAuth();
+            return leads;
+        }
         public async Task<LeadModel> GetById(int id)
         {
             _logger.LogInformation($"Zapros na poluchenie accounta id = {id}.");

@@ -13,10 +13,10 @@ namespace CRM.APILayer.Controllers
     public class AuthorizationsController : Controller
     {
         private readonly IAuthService _authService;
-        private readonly ILogger<AccountsController> _logger;
+        private readonly ILogger<AuthorizationsController> _logger;
 
 
-        public AuthorizationsController(IAuthService authService, ILogger<AccountsController> logger)
+        public AuthorizationsController(IAuthService authService, ILogger<AuthorizationsController> logger)
         {
             _authService = authService;
             _logger = logger;
