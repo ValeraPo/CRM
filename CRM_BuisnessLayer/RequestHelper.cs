@@ -1,4 +1,5 @@
 ﻿using CRM.BusinessLayer.Exceptions;
+using Marvelous.Contracts;
 using NLog;
 using RestSharp;
 
@@ -10,14 +11,14 @@ namespace CRM.BusinessLayer
 
         public async Task<RestResponse> SendRequest<T>(string url, string path, Method method, T requestModel)
         {
-            var request = new RestRequest($"api/Transactions/{path}/", method);
+            var request = new RestRequest($"{TransactionUrls.Api}{path}/", method);
             request.AddBody(requestModel);
             return await GenerateRequest(request, url);
         }
 
         public async Task<RestResponse> SendGetRequest(string url, string path, int id)
         {
-            var request = new RestRequest($"api/Transactions/{path}{id}/", Method.Get);
+            var request = new RestRequest($"{TransactionUrls.Api}{path}{id}/", Method.Get);
             request.AddParameter("id", id);
             return await GenerateRequest(request, url);
         }
