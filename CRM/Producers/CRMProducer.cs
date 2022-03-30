@@ -9,98 +9,64 @@ namespace CRM.APILayer.Producers
         private readonly ILeadService _leadService;
         private readonly IAccountService _accountService;
         private readonly ILogger<CRMProducer> _logger;
+        private readonly IBus _bus;
 
         public CRMProducer(ILeadService leadService, IAccountService accountService,
-            ILogger<CRMProducer> logger)
+            ILogger<CRMProducer> logger, IBus bus)
         {
             _leadService = leadService;
             _accountService = accountService;
             _logger = logger;
+            _bus = bus;
         }
 
         public async Task NotifyLeadAdded(int id)
         {
-            var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
-            {
-                cfg.Host("rabbitmq://80.78.240.16", hst =>
-                {
-                    hst.Username("nafanya");
-                    hst.Password("qwe!23");
 
-                });
-
-            });
             var source = new CancellationTokenSource(TimeSpan.FromSeconds(10));
 
-            await busControl.StartAsync(source.Token);
-            try
-            {
-                var lead = await _leadService.GetById(id);
+            _logger.LogInformation("Try publish lead");
+            var lead = await _leadService.GetById(id);
 
-                await busControl.Publish<LeadFullExchangeModel>(new
-                {
-                    Id = lead.Id,
-                    Name = lead.Name,
-                    LastName = lead.LastName,
-                    BirthDate = lead.BirthDate,
-                    Email = lead.Email,
-                    Phone = lead.Phone,
-                    Password = lead.Password,
-                    City = lead.City,
-                    Role = lead.Role,
-                    IsBanned = lead.IsBanned
-                });
-                _logger.LogInformation("Lead published");
-            }
-            finally
+            await _bus.Publish<LeadFullExchangeModel>(new
             {
-                _logger.LogWarning("Account not published");
-                await busControl.StopAsync();
-            }
-
+                lead.Id,
+                lead.Name,
+                lead.LastName,
+                lead.BirthDate,
+                lead.Email,
+                lead.Phone,
+                lead.Password,
+                lead.City,
+                lead.Role,
+                lead.IsBanned
+            },
+            source.Token);
             _logger.LogInformation("Lead published");
         }
 
         public async Task NotifyAccountAdded(int id)
         {
-            var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
-            {
-                cfg.Host("rabbitmq://80.78.240.16", hst =>
-                {
-                    hst.Username("nafanya");
-                    hst.Password("qwe!23");
-
-                });
-
-            });
 
             var source = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            _logger.LogInformation("Try publish account");
 
-            await busControl.StartAsync(source.Token);
-            try
+            var lead = await _accountService.GetById(id);
+
+            await _bus.Publish<AccountExchangeModel>(new
             {
-                var lead = await _accountService.GetById(id);
+                lead.Id,
+                lead.Name,
+                lead.CurrencyType,
+                LeadId = lead.Lead.Id,
+                lead.IsBlocked,
+                lead.LockDate
 
-                await busControl.Publish<AccountExchangeModel>(new
-                {
-                    Id = lead.Id,
-                    Name = lead.Name,
-                    CurrencyType = lead.CurrencyType,
-                    LeadId = lead.Lead.Id,
-                    IsBlocked = lead.IsBlocked,
-                    LockDate = lead.LockDate
-
-                });
-                _logger.LogInformation("Account published");
-
-            }
-            finally
-            {
-                _logger.LogWarning("Accoun not published");
-                await busControl.StopAsync();
-            }
-
+            },
+            source.Token);
+            _logger.LogInformation("Account published");
         }
+
     }
 }
 

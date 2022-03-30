@@ -4,6 +4,7 @@ using CRM.DataLayer.Extensions;
 using CRM.DataLayer.Repositories.Interfaces;
 using Dapper;
 using Marvelous.Contracts.Enums;
+using Marvelous.Contracts.ExchangeModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Data;
@@ -20,7 +21,7 @@ namespace CRM.DataLayer.Repositories
         private const string _selectById = "dbo.Lead_SelectById";
         private const string _selectByEmail = "dbo.Lead_SelectByEmail";
         private const string _selectAll = "dbo.Lead_SelectAll";
-        private const string _selectAllEmails = "dbo.Lead_SelectAllEmails";
+        private const string _selectAllToAuth = "dbo.Lead_SelectAllToAuth";
         private const string _changePassword = "dbo.Lead_ChangePassword";
         private readonly ILogger<LeadRepository> _logger;
 
@@ -130,6 +131,21 @@ namespace CRM.DataLayer.Repositories
 
             var leads = connection.QueryAsync<Lead>(
                 _selectAll,
+                commandType: CommandType.StoredProcedure)
+                .Result
+                .ToList();
+            _logger.LogInformation($"Byly vozvracheny vse leady");
+            return leads;
+        }
+
+        public async Task<List<LeadAuthExchangeModel>> GetAllToAuth()
+        {
+            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
+            using IDbConnection connection = ProvideConnection();
+            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
+
+            var leads = connection.QueryAsync<LeadAuthExchangeModel>(
+                _selectAllToAuth,
                 commandType: CommandType.StoredProcedure)
                 .Result
                 .ToList();
