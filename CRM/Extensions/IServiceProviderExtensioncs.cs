@@ -133,11 +133,11 @@ namespace CRM.APILayer.Extensions
                     {
                         e.ConfigureConsumer<LeadConsumer>(context);
                     });
-                    cfg.Publish<ILeadFullExchangeModel>(p =>
+                    cfg.Publish<LeadFullExchangeModel>(p =>
                     {
                         p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
                     });
-                    cfg.Publish<IAccountExchangeModel>(p =>
+                    cfg.Publish<AccountExchangeModel>(p =>
                     {
                         p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
                     });

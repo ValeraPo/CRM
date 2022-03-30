@@ -140,7 +140,7 @@ namespace CRM.APILayer.Controllers
         }
 
         //api/transaction/42
-        //[AuthorizeEnum(Role.Vip, Role.Regular)]
+        [AuthorizeEnum(Role.Vip, Role.Regular)]
         [HttpGet("transaction/{accountId}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Successful", typeof(ArrayList))]
         [SwaggerOperation("Get transactions by accountId. Roles: Vip, Regular")]
@@ -149,7 +149,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult<ArrayList>> GetTransactionsByAccountId(int accountId)
         {
             _logger.LogInformation($"Poluchen zapros na poluchenie transakcii c accounta id = {accountId}");
-            var leadId = this.GetLeadFromToken().Id;
+            var leadId =  this.GetLeadFromToken().Id;
             var transactionModel = await _transactionService.GetTransactionsByAccountId(accountId, leadId);
             _logger.LogInformation($"Poluchenie transakcii c accounta id = {accountId} proshel uspeshno");
 

@@ -37,7 +37,7 @@ namespace CRM.APILayer.Producers
             {
                 var lead = await _leadService.GetById(id);
 
-                await busControl.Publish<ILeadFullExchangeModel>(new
+                await busControl.Publish<LeadFullExchangeModel>(new
                 {
                     Id = lead.Id,
                     Name = lead.Name,
@@ -81,7 +81,7 @@ namespace CRM.APILayer.Producers
             {
                 var lead = await _accountService.GetById(id);
 
-                await busControl.Publish<IAccountExchangeModel>(new
+                await busControl.Publish<AccountExchangeModel>(new
                 {
                     Id = lead.Id,
                     Name = lead.Name,

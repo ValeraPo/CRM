@@ -34,24 +34,29 @@ namespace CRM.BusinessLayer
         {
             if (response.StatusCode == System.Net.HttpStatusCode.RequestTimeout)
             {
-                _logger.Error("408 Request Timeout");
+                _logger.Error($"Request Timeout {response.ErrorException.Message}");
                 throw new RequestTimeoutException(response.ErrorException.Message);
             } 
-            else if(response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
+            if(response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
             {
-                _logger.Error("503 Service Unavailable");
+                _logger.Error($"Service Unavailable {response.ErrorException.Message}");
                 throw new ServiceUnavailableException(response.ErrorException.Message);
             }
-            else if (response.Content == null)
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
-                _logger.Error("Transaction content equal's null");
+                _logger.Error($"Bad Gatеway {response.ErrorException.Message}");
+                throw new BadGatewayException(response.ErrorException.Message);
+            }
+            if (response.Content == null)
+            {
+                _logger.Error($"Transaction content equal's null {response.ErrorException.Message}");
                 throw new BadGatewayException(response.ErrorException.Message);
 
             }
-            else if (response.StatusCode != System.Net.HttpStatusCode.OK )
+            if (response.StatusCode != System.Net.HttpStatusCode.OK )
             {
-                _logger.Error($"Oshibka na storone Transaction.Store.");
-                throw new BadRequestException(response.ErrorException.Message);
+                _logger.Error($"Oshibka na storone Transaction.Store. {response.ErrorException.Message}");
+                throw new InternalServerError(response.ErrorException.Message);
             }
         }
     }
