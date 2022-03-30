@@ -5,18 +5,17 @@ using CRM.APILayer.Models;
 using CRM.APILayer.Producers;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
-using Marvelous.Contracts;
 using Marvelous.Contracts.Enums;
+using Marvelous.Contracts.ExchangeModels;
+using Marvelous.Contracts.Urls;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NLog;
 using Swashbuckle.AspNetCore.Annotations;
-using System.ComponentModel;
 
 namespace CRM.APILayer.Controllers
 {
     [ApiController]
-    [Route("api/leads")]
+    [Route(CrmUrls.Api)]
 
     public class LeadsController : Controller
     {
@@ -26,8 +25,8 @@ namespace CRM.APILayer.Controllers
         private readonly ICRMProducers _crmProducers;
 
 
-        public LeadsController(ILeadService leadService, 
-            IMapper autoMapper, 
+        public LeadsController(ILeadService leadService,
+            IMapper autoMapper,
             ILogger<LeadsController> logger,
             ICRMProducers crmProducers)
         {
@@ -65,6 +64,7 @@ namespace CRM.APILayer.Controllers
             leadModel.Id = id;
             await _leadService.UpdateLead(id, leadModel);
             _logger.LogInformation($"Lead c id = {id} uspeshno obnovlen.");
+            await _crmProducers.NotifyLeadAdded(id);
             return Ok($"Lead with id = {id} was updated");
         }
 
@@ -79,6 +79,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Poluchen zapros na izmenenie roly leada c id = {id}.");
             await _leadService.ChangeRoleLead(id, role);
             _logger.LogInformation($"Lead c id = {id} uspeshno obnovlen.");
+            await _crmProducers.NotifyLeadAdded(id);
             return Ok($"Lead with id = {id} was updated");
         }
 
@@ -93,6 +94,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Poluchen zapros na udalenie leada c id = {id}.");
             await _leadService.DeleteById(id);
             _logger.LogInformation($"Lead c id = {id} uspeshno udalen.");
+            await _crmProducers.NotifyLeadAdded(id);
             return Ok($"Lead with id = {id} was deleted");
         }
 
@@ -107,6 +109,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Poluchen zapros na vosstanovlenie leada c id = {id}.");
             await _leadService.RestoreById(id);
             _logger.LogInformation($"Lead c id = {id} uspeshno vosstanovlen.");
+            await _crmProducers.NotifyLeadAdded(id);
             return Ok($"Lead with id = {id} was restored");
         }
 
@@ -122,6 +125,18 @@ namespace CRM.APILayer.Controllers
             var outputs = _autoMapper.Map<List<LeadResponse>>(leadModels);
             _logger.LogInformation($"Vse leady uspeshno polucheny.");
             return Ok(outputs);
+        }
+
+        //api/Leads/auth
+        [HttpGet(CrmUrls.Auth)]
+        [ProducesResponseType(typeof(List<LeadResponse>), StatusCodes.Status200OK)]
+        [SwaggerOperation("Restore all lead. Roles: Admin")]
+        public async Task<ActionResult<List<LeadAuthExchangeModel>>> GetAllToAuth()
+        {
+            _logger.LogInformation($"Poluchen zapros na poluchenie vseh leadov.");
+            var leadModels = await _leadService.GetAllToAuth();
+            _logger.LogInformation($"Vse leady uspeshno polucheny.");
+            return Ok(leadModels);
         }
 
         //api/Leads/42
@@ -151,6 +166,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Poluchen zapros na izmenenie parolya leada c id = {id}.");
             await _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
             _logger.LogInformation($"Parol' leada c id = {id} uspeshno izmenen.");
+            await _crmProducers.NotifyLeadAdded(id);
             return Ok();
         }
 

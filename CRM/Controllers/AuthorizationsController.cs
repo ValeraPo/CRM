@@ -3,9 +3,7 @@ using CRM.BusinessLayer.Services;
 using CRM.DataLayer.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NLog;
 using Swashbuckle.AspNetCore.Annotations;
-using System.ComponentModel;
 
 namespace CRM.APILayer.Controllers
 {
@@ -15,10 +13,10 @@ namespace CRM.APILayer.Controllers
     public class AuthorizationsController : Controller
     {
         private readonly IAuthService _authService;
-        private readonly ILogger<AccountsController> _logger;
+        private readonly ILogger<AuthorizationsController> _logger;
 
 
-        public AuthorizationsController(IAuthService authService, ILogger<AccountsController> logger)
+        public AuthorizationsController(IAuthService authService, ILogger<AuthorizationsController> logger)
         {
             _authService = authService;
             _logger = logger;

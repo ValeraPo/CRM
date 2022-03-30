@@ -6,10 +6,10 @@ using CRM.APILayer.Producers;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
-using Marvelous.Contracts;
 using Marvelous.Contracts.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Collections;
 
 namespace CRM.APILayer.Controllers
 {
@@ -24,9 +24,9 @@ namespace CRM.APILayer.Controllers
         private readonly ITransactionService _transactionService;
         private readonly ICRMProducers _crmProducers;
 
-        public AccountsController(IAccountService accountService, 
-            IMapper autoMapper, 
-            ILogger<AccountsController> logger, 
+        public AccountsController(IAccountService accountService,
+            IMapper autoMapper,
+            ILogger<AccountsController> logger,
             ITransactionService transactionService,
             ICRMProducers crmProducers)
         {
@@ -72,6 +72,7 @@ namespace CRM.APILayer.Controllers
             accountModel.Id = id;
             await _accountService.UpdateAccount(leadId, accountModel);
             _logger.LogInformation($"Account c id = {id} uspeshno obnovlen.");
+            await _crmProducers.NotifyAccountAdded(id);
             return Ok($"Account with id = {id} was updated");
         }
 
@@ -86,6 +87,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Poluchen zapros na blokirovku accounta id = {id} leadom c id = {this.GetLeadFromToken().Id}.");
             await _accountService.LockById(id);
             _logger.LogInformation($"Account с id = {id} uspeshno zablokirovan.");
+            await _crmProducers.NotifyAccountAdded(id);
             return Ok($"Account with id = {id} was locked");
         }
 
@@ -100,6 +102,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Poluchen zapros na  razblokirovku accounta id = {id} leadom c id = {this.GetLeadFromToken().Id}.");
             await _accountService.UnlockById(id);
             _logger.LogInformation($"Account c id = {id} uspeshno razblokirovan.");
+            await _crmProducers.NotifyAccountAdded(id);
             return Ok($"Account with id = {id} was unlocked");
         }
 
@@ -131,7 +134,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult<AccountResponse>> GetById(int id)
         {
             _logger.LogInformation($"Poluchen zapros na poluchenie accounta c id = {id} leadom c id = {id}.");
-            var leadId =  this.GetLeadFromToken().Id;
+            var leadId = this.GetLeadFromToken().Id;
             var accountModel = await _accountService.GetById(id, leadId);
             var output = _autoMapper.Map<AccountResponse>(accountModel);
             output.Balance = await _transactionService.GetBalance(id);
@@ -139,6 +142,21 @@ namespace CRM.APILayer.Controllers
             return Ok(output);
         }
 
+        //api/transaction/42
+        [AuthorizeEnum(Role.Vip, Role.Regular)]
+        [HttpGet("transaction/{accountId}")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Successful", typeof(ArrayList))]
+        [SwaggerOperation("Get transactions by accountId. Roles: Vip, Regular")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ArrayList>> GetTransactionsByAccountId(int accountId)
+        {
+            _logger.LogInformation($"Poluchen zapros na poluchenie transakcii c accounta id = {accountId}");
+            var leadId =  this.GetLeadFromToken().Id;
+            var transactionModel = await _transactionService.GetTransactionsByAccountId(accountId, leadId);
+            _logger.LogInformation($"Poluchenie transakcii c accounta id = {accountId} proshel uspeshno");
 
+            return Ok(transactionModel.Content);
+        }
     }
 }

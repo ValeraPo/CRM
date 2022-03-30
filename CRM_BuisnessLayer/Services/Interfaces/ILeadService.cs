@@ -1,4 +1,5 @@
 ﻿using CRM.BusinessLayer.Models;
+using Marvelous.Contracts.ExchangeModels;
 
 namespace CRM.BusinessLayer.Services.Interfaces
 {
@@ -12,5 +13,6 @@ namespace CRM.BusinessLayer.Services.Interfaces
         Task ChangePassword(int id, string oldPassword, string newPassword);
         Task<List<LeadModel>> GetAll();
         Task<LeadModel> GetById(int id);
+        Task<List<LeadAuthExchangeModel>> GetAllToAuth();
     }
 }

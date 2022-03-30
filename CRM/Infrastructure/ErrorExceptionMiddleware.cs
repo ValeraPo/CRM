@@ -45,6 +45,22 @@ namespace CRM.APILayer.Infrastructure
             {
                 await ConstructResponse(context, HttpStatusCode.Conflict, error.Message);
             }
+            catch (RequestTimeoutException error)
+            {
+                await ConstructResponse(context, HttpStatusCode.GatewayTimeout, error.Message);
+            }
+            catch (ServiceUnavailableException error)
+            {
+                await ConstructResponse(context, HttpStatusCode.ServiceUnavailable, error.Message);
+            }
+            catch (BadGatewayException error)
+            {
+                await ConstructResponse(context, HttpStatusCode.BadGateway, error.Message);
+            }
+            catch (InternalServerError error)
+            {
+                await ConstructResponse(context, HttpStatusCode.InternalServerError, error.Message);
+            }
             catch (Exception ex)
             {
                 _logger.Error(ex);
