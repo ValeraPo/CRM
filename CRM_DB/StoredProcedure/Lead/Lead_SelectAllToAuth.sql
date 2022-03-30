@@ -4,7 +4,7 @@ BEGIN
 	select
 		Id,
 		Email,
-		[Password],
+		[Password] as HashPassword,
 		[Role]
 	from dbo.[Lead]
 	where IsBanned = 0
