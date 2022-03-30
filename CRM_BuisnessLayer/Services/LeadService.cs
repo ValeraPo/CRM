@@ -128,6 +128,13 @@ namespace CRM.BusinessLayer.Services
             string hashPassword = PasswordHash.HashPassword(newPassword);
             await _leadRepository.ChangePassword(entity.Id, hashPassword);
         }
+        
+        public async Task ChangeRoleTemp()
+        {
+
+
+            await _leadRepository.ChangeRoleTemp();
+        }
 
     }
 }

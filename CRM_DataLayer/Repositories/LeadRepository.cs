@@ -8,7 +8,8 @@ using Marvelous.Contracts.ExchangeModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Data;
-
+using System.Data.SqlClient;
+using Z.Dapper.Plus;
 
 namespace CRM.DataLayer.Repositories
 {
@@ -206,7 +207,43 @@ namespace CRM.DataLayer.Repositories
                 },
                 commandType: CommandType.StoredProcedure);
             _logger.LogInformation($"Byl izmenen parol' u Lead id {id}");
+        } 
+        
+        public async Task ChangeRoleTemp()
+        {
+            using IDbConnection connection = ProvideConnection();
+
+            List<Lead> leads = new()
+            {
+                new()
+                {
+                    Id = 3,
+                    Role = Role.Vip
+                },
+                new()
+                {
+                    Id = 5,
+                    Role = Role.Vip
+                }
+            };
+
+            DapperPlusManager.Entity<Lead>().Table("Lead").Identity(x => x.Id).Ignore(x => 
+            new {x.Accounts, 
+                x.BirthDate, 
+                x.City, 
+                x.Email, 
+                x.IsBanned, 
+                x.Phone, 
+                x.Name, 
+                x.LastName, 
+                x.Password});
+
+            connection.BulkUpdate(leads);
+
         }
+
+
+
 
     }
 }

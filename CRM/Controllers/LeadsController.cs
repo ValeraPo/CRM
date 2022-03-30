@@ -169,6 +169,14 @@ namespace CRM.APILayer.Controllers
             await _crmProducers.NotifyLeadAdded(id);
             return Ok();
         }
+        
+        [HttpPut]
+        [SwaggerOperation("Change lead password. Roles: All")]
+        public async Task<ActionResult> ChangeRoleTemp()
+        {
+            await _leadService.ChangeRoleTemp();
+            return Ok();
+        }
 
     }
 }
