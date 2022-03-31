@@ -26,7 +26,7 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             _logger.LogInformation($"Send request.");
-            var response = await _requestHelper.SendRequest<TransactionRequestModel>(_url, UrlTransaction.Deposit, Method.Post, transactionModel);
+            var response = await _requestHelper.SendRequest<TransactionRequestModel>(TransactionUrls.Url, TransactionUrls.Deposit, Method.Post, transactionModel);
             _logger.LogInformation($"Request successful.");
 
             return response;
@@ -41,7 +41,7 @@ namespace CRM.BusinessLayer.Services
             var accountTo = await _accountRepository.GetById(transactionModel.AccountIdTo);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdTo, accountTo);
             _logger.LogInformation($"Send request.");
-            var response = await _requestHelper.SendRequest<TransferRequestModel>(_url, UrlTransaction.Transfer, Method.Post, transactionModel);
+            var response = await _requestHelper.SendRequest<TransferRequestModel>(TransactionUrls.Url, TransactionUrls.Transfer, Method.Post, transactionModel);
             _logger.LogInformation($"Request successful.");
 
             return response;
@@ -54,7 +54,7 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             _logger.LogInformation($"Send request.");
-            var response = await _requestHelper.SendRequest<TransactionRequestModel>(_url, UrlTransaction.Withdraw, Method.Post, transactionModel);
+            var response = await _requestHelper.SendRequest<TransactionRequestModel>(TransactionUrls.Url, TransactionUrls.Withdraw, Method.Post, transactionModel);
             _logger.LogInformation($"Request successful.");
 
             return response;
@@ -66,7 +66,7 @@ namespace CRM.BusinessLayer.Services
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             _logger.LogInformation($"Send request.");
-            var response = await _requestHelper.SendGetRequest(_url, id);
+            var response = await _requestHelper.SendGetRequest(TransactionUrls.Url, TransactionUrls.GetBalance, id);
             _logger.LogInformation($"Request successful.");
 
             return Convert.ToDecimal(response.Content);
