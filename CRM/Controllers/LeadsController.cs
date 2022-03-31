@@ -7,6 +7,7 @@ using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ExchangeModels;
+using Marvelous.Contracts.RequestModels;
 using Marvelous.Contracts.Urls;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -175,7 +176,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> ChangeRoleTemp([FromBody] List<LeadChangeRoleRequest> leadChangeRoleRequests)
         {
             var models = _autoMapper.Map<List<LeadModel>>(leadChangeRoleRequests);
-            await _leadService.ChangeRoleMass();
+            await _leadService.ChangeRoleListLead(models);
             return Ok();
         }
 
