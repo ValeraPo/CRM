@@ -5,18 +5,17 @@ using CRM.APILayer.Models;
 using CRM.APILayer.Producers;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
-using Marvelous.Contracts;
 using Marvelous.Contracts.Enums;
+using Marvelous.Contracts.ExchangeModels;
+using Marvelous.Contracts.Urls;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NLog;
 using Swashbuckle.AspNetCore.Annotations;
-using System.ComponentModel;
 
 namespace CRM.APILayer.Controllers
 {
     [ApiController]
-    [Route("api/leads")]
+    [Route(CrmUrls.Api)]
 
     public class LeadsController : Controller
     {
@@ -26,8 +25,8 @@ namespace CRM.APILayer.Controllers
         private readonly ICRMProducers _crmProducers;
 
 
-        public LeadsController(ILeadService leadService, 
-            IMapper autoMapper, 
+        public LeadsController(ILeadService leadService,
+            IMapper autoMapper,
             ILogger<LeadsController> logger,
             ICRMProducers crmProducers)
         {
@@ -122,6 +121,18 @@ namespace CRM.APILayer.Controllers
             var outputs = _autoMapper.Map<List<LeadResponse>>(leadModels);
             _logger.LogInformation($"All leads have been successfully received.");
             return Ok(outputs);
+        }
+
+        //api/Leads/auth
+        [HttpGet(CrmUrls.Auth)]
+        [ProducesResponseType(typeof(List<LeadResponse>), StatusCodes.Status200OK)]
+        [SwaggerOperation("Restore all lead. Roles: Admin")]
+        public async Task<ActionResult<List<LeadAuthExchangeModel>>> GetAllToAuth()
+        {
+            _logger.LogInformation($"Poluchen zapros na poluchenie vseh leadov.");
+            var leadModels = await _leadService.GetAllToAuth();
+            _logger.LogInformation($"Vse leady uspeshno polucheny.");
+            return Ok(leadModels);
         }
 
         //api/Leads/42

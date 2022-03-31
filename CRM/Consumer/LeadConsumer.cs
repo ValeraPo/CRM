@@ -6,7 +6,7 @@ using MassTransit;
 
 namespace CRM.APILayer.Consumer
 {
-    public class LeadConsumer : IConsumer<ILeadShortExchangeModel>
+    public class LeadConsumer : IConsumer<LeadShortExchangeModel>
     {
         private readonly IMapper _mapper;
         private readonly ILogger<LeadConsumer> _logger;
@@ -19,7 +19,7 @@ namespace CRM.APILayer.Consumer
             _leadService = leadService;
         }
 
-        public async Task Consume(ConsumeContext<ILeadShortExchangeModel> context)
+        public async Task Consume(ConsumeContext<LeadShortExchangeModel> context)
         {
             _logger.LogInformation($"Getting lead {context.Message.Id}");
             var model = _mapper.Map<LeadModel>(context.Message);

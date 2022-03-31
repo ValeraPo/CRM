@@ -1,4 +1,5 @@
 ﻿using CRM.BusinessLayer.Exceptions;
+using Marvelous.Contracts;
 using NLog;
 using RestSharp;
 
@@ -10,15 +11,15 @@ namespace CRM.BusinessLayer
 
         public async Task<RestResponse> SendRequest<T>(string url, string path, Method method, T requestModel)
         {
-            var request = new RestRequest($"api/Transactions/{path}/", method);
+            var request = new RestRequest($"{TransactionUrls.Api}{path}/", method);
             request.AddBody(requestModel);
-            return await GenerateRequest(request, url); 
+            return await GenerateRequest(request, url);
         }
 
-        public async Task<RestResponse> SendGetRequest(string url, int id)
+        public async Task<RestResponse> SendGetRequest(string url, string path, int id)
         {
-            var request = new RestRequest($"api/Transactions/balanse-by-{id}/", Method.Get);
-            request.AddParameter("id", id);            
+            var request = new RestRequest($"{TransactionUrls.Api}{path}{id}/", Method.Get);
+            request.AddParameter("id", id);
             return await GenerateRequest(request, url);
         }
 
@@ -34,13 +35,29 @@ namespace CRM.BusinessLayer
         {
             if (response.StatusCode == System.Net.HttpStatusCode.RequestTimeout)
             {
-                _logger.Error("408 Request Timeout");
-                throw new BadRequestException(response.ErrorException.Message);
+                _logger.Error($"Request Timeout {response.ErrorException.Message}");
+                throw new RequestTimeoutException(response.ErrorException.Message);
+            } 
+            if(response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
+            {
+                _logger.Error($"Service Unavailable {response.ErrorException.Message}");
+                throw new ServiceUnavailableException(response.ErrorException.Message);
             }
-            else if (response.StatusCode != System.Net.HttpStatusCode.OK || response.Content == null)
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
                 _logger.Error($"Transaction.Store not available.");
                 throw new BadRequestException(response.ErrorException.Message);
+            }
+            if (response.Content == null)
+            {
+                _logger.Error($"Transaction content equal's null {response.ErrorException.Message}");
+                throw new BadGatewayException(response.ErrorException.Message);
+
+            }
+            if (response.StatusCode != System.Net.HttpStatusCode.OK )
+            {
+                _logger.Error($"Oshibka na storone Transaction.Store. {response.ErrorException.Message}");
+                throw new InternalServerError(response.ErrorException.Message);
             }
         }
     }

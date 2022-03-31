@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
+using CRM.BusinessLayer.Exceptions;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Security;
 using CRM.BusinessLayer.Services.Interfaces;
-using NLog;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
-using Marvelous.Contracts;
-using CRM.BusinessLayer.Exceptions;
-using Microsoft.Extensions.Logging;
 using Marvelous.Contracts.Enums;
+using Marvelous.Contracts.ExchangeModels;
+using Microsoft.Extensions.Logging;
 
 namespace CRM.BusinessLayer.Services
 {
@@ -33,7 +32,7 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfEmailRepeat((await _leadRepository.GetByEmail(leadModel.Email)), leadModel.Email);
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
-            var id =  await _leadRepository.AddLead(mappedLead);
+            var id = await _leadRepository.AddLead(mappedLead);
             mappedLead.Id = id;
             await _accountRepository.AddAccount(new Account
             {
@@ -104,6 +103,12 @@ namespace CRM.BusinessLayer.Services
             return _autoMapper.Map<List<LeadModel>>(leads);
         }
 
+        public async Task<List<LeadAuthExchangeModel>> GetAllToAuth()
+        {
+            _logger.LogInformation($"Zapros na poluchenie vseh leadov.");
+            var leads = await _leadRepository.GetAllToAuth();
+            return leads;
+        }
         public async Task<LeadModel> GetById(int id)
         {
             _logger.LogInformation($"Received to get an lead with an ID {id}.");

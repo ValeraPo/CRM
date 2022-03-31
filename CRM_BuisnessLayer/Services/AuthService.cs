@@ -4,9 +4,6 @@ using CRM.DataLayer.Extensions;
 using CRM.DataLayer.Repositories.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using NLog;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 

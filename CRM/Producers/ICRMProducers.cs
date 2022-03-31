@@ -1,6 +1,4 @@
-﻿using MassTransit;
-
-namespace CRM.APILayer.Producers
+﻿namespace CRM.APILayer.Producers
 {
     public interface ICRMProducers
     {

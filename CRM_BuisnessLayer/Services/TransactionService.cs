@@ -2,9 +2,7 @@
 using Marvelous.Contracts;
 using Marvelous.Contracts.RequestModels;
 using Microsoft.Extensions.Logging;
-using NLog;
 using RestSharp;
-
 
 namespace CRM.BusinessLayer.Services
 {
@@ -13,7 +11,6 @@ namespace CRM.BusinessLayer.Services
         private readonly IAccountRepository _accountRepository;
         private readonly IRequestHelper _requestHelper;
         private readonly ILogger<TransactionService> _logger;
-        private const string _url = "https://piter-education.ru:6060";
 
         public TransactionService(IAccountRepository accountRepository, IRequestHelper requestHelper, ILogger<TransactionService> logger)
         {
@@ -73,6 +70,19 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Request successful.");
 
             return Convert.ToDecimal(response.Content);
+        }
+
+        public async Task<RestResponse> GetTransactionsByAccountId(int id, int leadId)
+        {
+            _logger.LogInformation($"Popytka polucheniia transakcii accounta id = {id}.");
+            var entity = await _accountRepository.GetById(id);
+            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
+            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
+            _logger.LogInformation($"Otpravka zaprosa na poluchenie transakcii accounta id = {id}.");
+            var response = await _requestHelper.SendGetRequest(TransactionUrls.Url, TransactionUrls.GetTransactions, id);
+            _logger.LogInformation($"Poluchen otvet na poluchenie transakcii accounta id = {id}.");
+
+            return response;
         }
     }
 }
