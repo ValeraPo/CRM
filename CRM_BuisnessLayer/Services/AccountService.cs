@@ -29,12 +29,12 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<int> AddAccount(int role, AccountModel accountModel)
         {
-            _logger.LogInformation("Zapros na dobavlenie accounta.");
+            _logger.LogInformation("A request was received to add an account.");
             await CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
             if (role == (int)Role.Regular && accountModel.CurrencyType != Currency.USD)
             {
-                _logger.LogError("Oshibka dobavlenia accounta. Lead c takoi rol'yu ne mozhet sozdavat' valutnye cheta krome dollarovogo.");
-                throw new AuthorizationException("Лид с такой ролью не может создавать валютные счета кроме долларового");
+                _logger.LogError("Authorisation error. The lead role does not allow you to create accounts other than dollar.");
+                throw new AuthorizationException("Authorization error. The lead role does not allow you to create accounts other than dollar.");
             }
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
             var id = await _accountRepository.AddAccount(mappedAccount);
@@ -43,7 +43,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task UpdateAccount(int leadId, AccountModel accountModel)
         {
-            _logger.LogInformation($"Zapros na obnovlenie accounta id = {accountModel.Id}.");
+            _logger.LogInformation($"A request was received to update an account ID = {accountModel.Id}.");
             var entity = await _accountRepository.GetById(accountModel.Id);
             
             ExceptionsHelper.ThrowIfEntityNotFound(accountModel.Id, entity);
@@ -54,20 +54,20 @@ namespace CRM.BusinessLayer.Services
 
         public async Task LockById(int id)
         {
-            _logger.LogInformation($"Zapros na blokirovku accounta id = {id}.");
+            _logger.LogInformation($"A request was received to lock an account ID =  {id}.");
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             if (entity.CurrencyType == Currency.RUB)
             {
-                _logger.LogError("Oshibka blokirovki accounta. Rublevai account nel'zya udalit'.");
-                throw new BadRequestException("Рублевый аккаунт нельзя заблокировать");
+                _logger.LogError("Error: it is forbidden to block ruble accounts.");
+                throw new BadRequestException("Error: it is forbidden to block ruble accounts.");
             }
             await _accountRepository.LockById(id);
         }
 
         public async Task UnlockById(int id)
         {
-            _logger.LogInformation($"Zapros na razblokirovku accounta id = {id}.");
+            _logger.LogInformation($"A request was received to unlock an account ID =  {id}.");
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             await _accountRepository.UnlockById(id);
@@ -75,7 +75,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<List<AccountModel>> GetByLead(int leadId)
         {
-            _logger.LogInformation($"Zapros na poluchenie vseh accountov.");
+            _logger.LogInformation($"Request to get all accounts.");
             var entity = await _leadRepository.GetById(leadId);
             ExceptionsHelper.ThrowIfEntityNotFound(leadId, entity);
             var accounts = await _accountRepository.GetByLead(leadId);
@@ -84,7 +84,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<AccountModel> GetById(int id)
         {
-            _logger.LogInformation($"Zapros na poluchenie accounta id = {id}.");
+            _logger.LogInformation($"Request for an account with an ID = {id}.");
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
            
@@ -93,11 +93,12 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<AccountModel> GetById(int id, int leadId)
         {
+            _logger.LogInformation($"Request for an account with an ID {id} lead with an ID {leadId}.");
             var accountModel = await GetById(id);
             if (accountModel.Lead.Id != leadId)
             {
-                _logger.LogError($"Oshibka zaprosa na poluchenie accounta id = {id}. Net dostupa k chuzhomu accountu.");
-                throw new AuthorizationException("Нет доступа к чужому аккаунту.");
+                _logger.LogError($"Authorisation Error. No access to someone else's account.");
+                throw new AuthorizationException("Authorisation Error. No access to someone else's account.");
             }
             return accountModel;
         }
@@ -113,8 +114,8 @@ namespace CRM.BusinessLayer.Services
                 .ToList()
                 .Contains(currency))
             {
-                _logger.LogError("Oshibka dobavlenia accounta. Chet s takoi valutoi uze suchestvuet.");
-                throw new DuplicationException("Счет с такой валютой уже существует");
+                _logger.LogError("Error: an account with this currency already exists.");
+                throw new DuplicationException("Error: an account with this currency already exists.");
             }
         }
     }

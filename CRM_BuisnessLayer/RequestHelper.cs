@@ -39,7 +39,7 @@ namespace CRM.BusinessLayer
             }
             else if (response.StatusCode != System.Net.HttpStatusCode.OK || response.Content == null)
             {
-                _logger.Error($"Oshibka na storone Transaction.Store.");
+                _logger.Error($"Transaction.Store not available.");
                 throw new BadRequestException(response.ErrorException.Message);
             }
         }

@@ -1,0 +1,425 @@
+2022-03-30 21:37:41.2675 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-30 21:37:41.6894 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-30 21:37:42.0810 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-30 21:37:42.0810 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-30 21:37:42.2265 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-30 21:37:42.6162 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-30 21:37:42.6162 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-30 21:37:42.6250 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-30 21:37:42.8496 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 63089) 
+
+2022-03-30 21:37:43.1025 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_9o5oyyygryyx6tqibdpbr9n9r4?temporary=true 
+
+2022-03-30 21:37:43.3115 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 1 message-count: 0 
+
+2022-03-30 21:37:43.3408 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-30 21:37:43.3496 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, type: fanout, durable 
+
+2022-03-30 21:37:43.5507 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-30 21:37:43.6865 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-30 21:37:44.1005 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-Sq7kXHVRyotZ2-oNYt1JVg 
+
+2022-03-30 21:37:44.1005 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-30 21:37:44.1132 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-30 21:40:05.0263 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-30 21:40:05.4628 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-30 21:40:05.7822 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-30 21:40:05.8544 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-30 21:40:06.2001 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-30 21:40:06.4902 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-30 21:40:06.5009 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-30 21:40:06.5009 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-30 21:40:06.7890 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 52583) 
+
+2022-03-30 21:40:07.1132 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_ky9yyyygryyx6h8nbdpbr9fin8?temporary=true 
+
+2022-03-30 21:40:07.1630 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 1 message-count: 0 
+
+2022-03-30 21:40:07.2060 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-30 21:40:07.2265 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, type: fanout, durable 
+
+2022-03-30 21:40:07.4306 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-30 21:40:07.5595 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-30 21:40:08.0224 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-J8aOb6QXuEs_McW-uB1FqQ 
+
+2022-03-30 21:40:08.0224 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-30 21:40:08.0400 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-30 21:46:05.3769 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-30 21:46:05.8515 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-30 21:46:06.1708 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-30 21:46:06.1806 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-30 21:46:06.3291 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-30 21:46:06.6923 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-30 21:46:06.7031 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-30 21:46:06.7031 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-30 21:46:06.9746 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 52962) 
+
+2022-03-30 21:46:07.2998 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_5otoyyygryyx65uebdpbr9ccyz?temporary=true 
+
+2022-03-30 21:46:07.3281 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 1 message-count: 0 
+
+2022-03-30 21:46:07.3476 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-30 21:46:07.3476 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, type: fanout, durable 
+
+2022-03-30 21:46:07.5498 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-30 21:46:07.8320 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-30 21:46:08.3261 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-ZAhBd95nnz0xtaJAz6Zv4A 
+
+2022-03-30 21:46:08.3369 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-30 21:46:08.5605 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-30 21:46:28.3691 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke System.Data.SqlClient.SqlException (0x80131904): Could not find stored procedure 'dbo.Lead_ChangeRole'.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite, String methodName)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command) in /_/Dapper/SqlMapper.cs:line 563
+   at Dapper.SqlMapper.Execute(IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in /_/Dapper/SqlMapper.cs:line 452
+   at CRM.DataLayer.Repositories.LeadRepository.ChangeRoleTemp() in C:\Users\mikha\source\repos\CRM\CRM_DataLayer\Repositories\LeadRepository.cs:line 229
+   at CRM.BusinessLayer.Services.LeadService.ChangeRoleTemp() in C:\Users\mikha\source\repos\CRM\CRM_BuisnessLayer\Services\LeadService.cs:line 136
+   at CRM.APILayer.Controllers.LeadsController.ChangeRoleTemp() in C:\Users\mikha\source\repos\CRM\CRM\Controllers\LeadsController.cs:line 177
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\mikha\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25
+ClientConnectionId:2b2591a5-d518-4951-bb80-9f7584b20567
+Error Number:2812,State:62,Class:16 
+
+2022-03-30 21:47:11.8925 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-30 21:47:12.6943 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-30 21:47:13.0380 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-30 21:47:13.0468 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-30 21:47:13.1494 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-30 21:47:13.4326 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-30 21:47:13.4394 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-30 21:47:13.4394 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-30 21:47:13.7265 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 52307) 
+
+2022-03-30 21:47:14.0332 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_8bnyyyygryyx91ifbdpbr9pugq?temporary=true 
+
+2022-03-30 21:47:14.2597 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 1 message-count: 0 
+
+2022-03-30 21:47:14.3417 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-30 21:47:14.3486 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, type: fanout, durable 
+
+2022-03-30 21:47:14.5478 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-30 21:47:14.7636 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-30 21:47:15.3574 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-OjCcXCjlj3tbXfQ00EvHtw 
+
+2022-03-30 21:47:15.3691 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-30 21:47:15.3798 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-30 21:51:56.8388 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-30 21:51:57.4082 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-30 21:51:58.4570 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-30 21:51:58.4570 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-30 21:51:58.7011 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-30 21:51:58.9628 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-30 21:51:58.9716 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-30 21:51:58.9716 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-30 21:51:59.2568 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 50340) 
+
+2022-03-30 21:52:02.0605 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_3ocoyyygryyx611pbdpbr917r9?temporary=true 
+
+2022-03-30 21:52:02.2558 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-30 21:52:02.2773 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-30 21:52:02.3037 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, type: fanout, durable 
+
+2022-03-30 21:52:02.4892 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-30 21:52:02.5996 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-30 21:52:02.9150 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-KP15R0Asqcygc-Km3Twdvg 
+
+2022-03-30 21:52:02.9218 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-30 21:52:02.9384 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-30 21:52:22.9042 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke System.Data.SqlClient.SqlException (0x80131904): Procedure or function 'Lead_ChangeRole' expects parameter '@Id', which was not supplied.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite, String methodName)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command) in /_/Dapper/SqlMapper.cs:line 563
+   at Dapper.SqlMapper.Execute(IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in /_/Dapper/SqlMapper.cs:line 452
+   at CRM.DataLayer.Repositories.LeadRepository.ChangeRoleTemp() in C:\Users\mikha\source\repos\CRM\CRM_DataLayer\Repositories\LeadRepository.cs:line 229
+   at CRM.BusinessLayer.Services.LeadService.ChangeRoleTemp() in C:\Users\mikha\source\repos\CRM\CRM_BuisnessLayer\Services\LeadService.cs:line 136
+   at CRM.APILayer.Controllers.LeadsController.ChangeRoleTemp() in C:\Users\mikha\source\repos\CRM\CRM\Controllers\LeadsController.cs:line 177
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\mikha\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25
+ClientConnectionId:88edf952-9b95-421f-8754-7ef3fc579332
+Error Number:201,State:4,Class:16 
+
+2022-03-30 23:07:02.3095 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-30 23:07:03.0468 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-30 23:07:03.3964 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-30 23:07:03.4101 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-30 23:07:03.6562 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-30 23:07:04.0029 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-30 23:07:04.0029 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-30 23:07:04.0029 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-30 23:07:04.2597 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 51415) 
+
+2022-03-30 23:07:04.7812 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_uyhyyyygryyx6uykbdpbfng5bo?temporary=true 
+
+2022-03-30 23:07:04.8183 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-30 23:07:04.8828 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-30 23:07:04.9208 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, type: fanout, durable 
+
+2022-03-30 23:07:05.1259 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-30 23:07:05.3134 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-30 23:07:05.7978 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-bhAzRxCKb1YP07OM7Wq_mQ 
+
+2022-03-30 23:07:05.7978 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-30 23:07:05.8251 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-30 23:08:02.9013 | ERROR | CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke System.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'Name', table 'TestCRMDbByIl.dbo.Lead'; column does not allow nulls. UPDATE fails.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite, String method)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite, String methodName)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at .(DbCommand , BulkOperation , Int32 )
+   at .(DbCommand , BulkOperation , Int32 )
+   at .( , DbCommand )
+   at .Execute(List`1 actions)
+   at .(List`1 )
+   at Z.BulkOperations.BulkOperation.Execute()
+   at Z.BulkOperations.BulkOperation.BulkUpdate()
+   at Z.Dapper.Plus.DapperPlusAction.Execute()
+   at Z.Dapper.Plus.DapperPlusActionSet`1.AddAction(String mapperKey, DapperPlusActionKind actionKind, TEntity item)
+   at Z.Dapper.Plus.DapperPlusActionSet`1.DapperPlusActionSetBuilder(DapperPlusContext context, IDbConnection connection, IDbTransaction transaction, String mapperKey, DapperPlusActionKind actionKind, TEntity item, Func`2[] selectors)
+   at Z.Dapper.Plus.DapperPlusActionSet`1..ctor(DapperPlusContext context, IDbConnection connection, String mapperKey, DapperPlusActionKind actionKind, TEntity item, Func`2[] selectors)
+   at Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate[T](IDbConnection connection, String mapperKey, T item, Func`2[] selectors)
+   at Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate[T](IDbConnection connection, T item, Func`2[] selectors)
+   at CRM.DataLayer.Repositories.LeadRepository.ChangeRoleTemp() in C:\Users\mikha\source\repos\CRM\CRM_DataLayer\Repositories\LeadRepository.cs:line 232
+   at CRM.BusinessLayer.Services.LeadService.ChangeRoleTemp() in C:\Users\mikha\source\repos\CRM\CRM_BuisnessLayer\Services\LeadService.cs:line 136
+   at CRM.APILayer.Controllers.LeadsController.ChangeRoleTemp() in C:\Users\mikha\source\repos\CRM\CRM\Controllers\LeadsController.cs:line 177
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CRM.APILayer.Infrastructure.ErrorExceptionMiddleware.Invoke(HttpContext context) in C:\Users\mikha\source\repos\CRM\CRM\Infrastructure\ErrorExceptionMiddleware.cs:line 25
+ClientConnectionId:90a988c1-b464-4742-b584-3fe5eea5afe2
+Error Number:515,State:2,Class:16 
+
+2022-03-30 23:11:10.6250 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-30 23:11:11.2744 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-30 23:11:12.0078 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-30 23:11:12.1074 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-30 23:11:12.2363 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-30 23:11:12.4902 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-30 23:11:12.5000 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-30 23:11:12.5000 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-30 23:11:13.0244 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 56967) 
+
+2022-03-30 23:11:13.6162 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_rtryyyygryyx6bwfbdpbfnmxbd?temporary=true 
+
+2022-03-30 23:11:13.6474 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-30 23:11:13.6826 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-30 23:11:13.6923 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, type: fanout, durable 
+
+2022-03-30 23:11:13.9042 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-30 23:11:14.0537 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-30 23:11:14.4599 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-Ea_QhIZLrtm45OC5TIxxBQ 
+
+2022-03-30 23:11:14.9638 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-30 23:11:14.9746 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-30 23:12:11.9785 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-30 23:12:12.8759 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-30 23:12:13.1767 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-30 23:12:13.1875 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-30 23:12:13.4248 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-30 23:12:13.7753 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-30 23:12:13.7832 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-30 23:12:13.7832 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-30 23:12:14.0429 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 61848) 
+
+2022-03-30 23:12:15.5019 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_kofyyyygryyx9z7rbdpbfncu8n?temporary=true 
+
+2022-03-30 23:12:15.5595 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-30 23:12:15.6015 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-30 23:12:15.6386 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, type: fanout, durable 
+
+2022-03-30 23:12:15.8916 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-30 23:12:16.0283 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-30 23:12:16.5283 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-bTpBYOqoW5Y_fI4oTKc9Tw 
+
+2022-03-30 23:12:16.5468 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-30 23:12:16.5468 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+
+2022-03-30 23:13:49.6240 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Starting Hosting starting 
+
+2022-03-30 23:13:50.1582 | INFO | MassTransit.DependencyInjection.Registration.ConsumerRegistration`1.MassTransit.Configuration.IConsumerRegistration.Configure Configured endpoint leadCRMQueue, Consumer: CRM.APILayer.Consumer.LeadConsumer 
+
+2022-03-30 23:13:50.4794 | DEBUG | MassTransit.Transports.BusDepot.Start Starting bus instances: IBus 
+
+2022-03-30 23:13:50.4882 | DEBUG | MassTransit.Logging.EnabledLogger.Log Starting bus: rabbitmq://80.78.240.16/ 
+
+2022-03-30 23:13:50.6455 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Connect: nafanya@80.78.240.16:5672/ 
+
+2022-03-30 23:13:50.9648 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: https://localhost:7294 
+
+2022-03-30 23:13:50.9707 | INFO | Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync Now listening on: http://localhost:5294 
+
+2022-03-30 23:13:50.9707 | DEBUG | Microsoft.Extensions.Hosting.Internal.HostingLoggerExtensions.Started Hosting started 
+
+2022-03-30 23:13:51.2802 | DEBUG | MassTransit.Logging.EnabledLogger.Log Connected: nafanya@80.78.240.16:5672/ (address: amqp://80.78.240.16:5672, local: 54257) 
+
+2022-03-30 23:13:52.7978 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/WIN4PTG0MGAJ62_CRMAPILayer_bus_abdyyyygryyx915ebdpbfnqp8b?temporary=true 
+
+2022-03-30 23:13:52.9707 | DEBUG | MassTransit.LogContext+<>c__DisplayClass26_0`3.<Define>g__Log|0 Declare queue: name: leadCRMQueue, durable, consumer-count: 0 message-count: 0 
+
+2022-03-30 23:13:53.0058 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: leadCRMQueue, type: fanout, durable 
+
+2022-03-30 23:13:53.0058 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Declare exchange: name: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, type: fanout, durable 
+
+2022-03-30 23:13:53.2275 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind queue: source: leadCRMQueue, destination: leadCRMQueue 
+
+2022-03-30 23:13:53.4755 | DEBUG | MassTransit.LogContext+<>c__DisplayClass23_0`1.<Define>g__Log|0 Bind exchange: source: Marvelous.Contracts.ExchangeModels:LeadShortExchangeModel, destination: leadCRMQueue 
+
+2022-03-30 23:13:53.9501 | DEBUG | MassTransit.Logging.EnabledLogger.Log Consumer Ok: rabbitmq://80.78.240.16/leadCRMQueue - amq.ctag-q52NVc-FlVGnz5u0GP1v9w 
+
+2022-03-30 23:13:54.0283 | DEBUG | MassTransit.Logging.EnabledLogger.Log Endpoint Ready: rabbitmq://80.78.240.16/leadCRMQueue 
+
+2022-03-30 23:13:54.0830 | INFO | MassTransit.Logging.EnabledLogger.Log Bus started: rabbitmq://80.78.240.16/ 
+

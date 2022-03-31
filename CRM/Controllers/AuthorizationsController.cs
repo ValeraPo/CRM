@@ -29,9 +29,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Authentication")]
         public async Task<ActionResult> Login([FromBody] AuthRequest auth)
         {
-            _logger.LogInformation($"Poluchen zapros na authentikaciu leada c email = {auth.Email.Encryptor()}.");
+            _logger.LogInformation($"Lead with email {auth.Email.Encryptor()} tries to log in.");
             var token = await _authService.GetToken(auth.Email, auth.Password);
-            _logger.LogInformation($"Authentikacia leada c email = {auth.Email.Encryptor()} proshhla uspeshno.");
+            _logger.LogInformation($"Lead with email {auth.Email.Encryptor()} successfully logged in.");
             return new JsonResult(token);
         }
     }

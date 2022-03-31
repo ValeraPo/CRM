@@ -30,10 +30,10 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddDeposit([FromBody] TransactionRequestModel transaction)
         {
-            _logger.LogInformation($"Poluchen zapros na dobavlenye depozita v account id = {transaction.AccountId}.");
+            _logger.LogInformation($"Received a request to add a deposit to an account with ID = {transaction.AccountId}.");
             var leadId = this.GetLeadFromToken().Id;
             var response = await _transactionService.AddDeposit(transaction, leadId);
-            _logger.LogInformation($"Depozit c id = {response.Content} uspeshno dobavlen v account id = {transaction.AccountId}.");
+            _logger.LogInformation($"Successfully added deposit to account with ID = {transaction.AccountId}. Deposit ID = {response.Content}.");
 
             return StatusCode(201, response.Content);
         }
@@ -46,10 +46,10 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddTransfer([FromBody] TransferRequestModel transaction)
         {
-            _logger.LogInformation($"Poluchen zapros na dobavlenie transfera c accounta id = {transaction.AccountIdFrom} na account id = {transaction.AccountIdTo}.");
+            _logger.LogInformation($"Transfer request received from account with ID {transaction.AccountIdFrom} to account with ID {transaction.AccountIdTo}.");
             var leadId = this.GetLeadFromToken().Id;
             var response = await _transactionService.AddTransfer(transaction, leadId);
-            _logger.LogInformation($"Transfer c id = {response.Content} c accounta id = {transaction.AccountIdFrom} na account id = {transaction.AccountIdTo} proshel uspeshno.");
+            _logger.LogInformation($"Successfully added transfer from account with ID {transaction.AccountIdFrom} to account with ID {transaction.AccountIdTo}. Transfer ID = {response.Content}.");
             return StatusCode(201, response.Content);
         }
 
@@ -61,10 +61,10 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Withdraw([FromBody] TransactionRequestModel transaction)
         {
-            _logger.LogInformation($"Poluchen zapros na vyvod sredstv c accounta id = {transaction.AccountId}.");
+            _logger.LogInformation($"Received withdrawal request from account with ID = {transaction.AccountId}.");
             var leadId = this.GetLeadFromToken().Id;
             var response = await _transactionService.Withdraw(transaction, leadId);
-            _logger.LogInformation($"Vyvod sredstv c id = {response.Content} c accounta id = {transaction.AccountId} proshel uspeshno.");
+            _logger.LogInformation($"Successfully passed the request for withdrawal of funds from the account with the ID {transaction.AccountId}. Withdraw ID = {response.Content}.");
 
             return StatusCode(201, response.Content);
         }

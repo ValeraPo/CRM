@@ -96,7 +96,7 @@ namespace CRM.APILayer.Producers
             }
             finally
             {
-                _logger.LogWarning("Accoun not published");
+                _logger.LogWarning("Account not published");
                 await busControl.StopAsync();
             }
 

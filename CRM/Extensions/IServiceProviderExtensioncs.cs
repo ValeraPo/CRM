@@ -21,11 +21,8 @@ namespace CRM.APILayer.Extensions
     {
         public static void RegisterCRMRepositories(this IServiceCollection services)
         {
-
-
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ILeadRepository, LeadRepository>();
-
         }
 
         public static void RegisterCRMServices(this IServiceCollection services)
@@ -102,7 +99,6 @@ namespace CRM.APILayer.Extensions
                     }
                 });
 
-                //config.EnableAnnotations();
             });
         }
 
@@ -132,14 +128,6 @@ namespace CRM.APILayer.Extensions
                     cfg.ReceiveEndpoint("leadCRMQueue", e =>
                     {
                         e.ConfigureConsumer<LeadConsumer>(context);
-                    });
-                    cfg.Publish<ILeadFullExchangeModel>(p =>
-                    {
-                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
-                    });
-                    cfg.Publish<IAccountExchangeModel>(p =>
-                    {
-                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
                     });
                 });
             });
