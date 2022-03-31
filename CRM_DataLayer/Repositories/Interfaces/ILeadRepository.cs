@@ -15,5 +15,6 @@ namespace CRM.DataLayer.Repositories.Interfaces
         Task<Lead> GetById(int id);
         Task<Lead> GetByEmail(string email);
         Task<List<LeadAuthExchangeModel>> GetAllToAuth();
+        Task ChangeRoleListLead(List<Lead> entities);
     }
 }

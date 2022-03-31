@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CRM.APILayer.Models;
 using CRM.BusinessLayer.Models;
+using Marvelous.Contracts.RequestModels;
 
 namespace CRM.APILayer.Configuration
 {
@@ -10,6 +11,7 @@ namespace CRM.APILayer.Configuration
         {
             CreateMap<LeadInsertRequest, LeadModel>();
             CreateMap<LeadUpdateRequest, LeadModel>();
+            CreateMap<LeadChangeRoleRequest, LeadModel>();
             CreateMap<AccountInsertRequest, AccountModel>();
             CreateMap<AccountModel, AccountInsertRequest>();
 
