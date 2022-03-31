@@ -209,7 +209,7 @@ namespace CRM.DataLayer.Repositories
             _logger.LogInformation($"Byl izmenen parol' u Lead id {id}");
         } 
         
-        public async Task ChangeRoleListLead(List<Lead> entities)
+        public async Task ChangeRoleListLead(List<LeadShortExchangeModel> models)
         {
             using IDbConnection connection = ProvideConnection();
            
@@ -227,7 +227,7 @@ namespace CRM.DataLayer.Repositories
                         x.Password}
                     );
 
-            connection.BulkUpdate(entities);
+            connection.BulkUpdate(models);
 
         }
 

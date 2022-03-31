@@ -78,7 +78,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> ChangeRoleLead(int id, int role)
         {
             _logger.LogInformation($"Poluchen zapros na izmenenie roly leada c id = {id}.");
-            await _leadService.ChangeRoleLead(id, role);
+            await _leadService.ChangeRoleLead(id, (Role)role);
             _logger.LogInformation($"Lead c id = {id} uspeshno obnovlen.");
             await _crmProducers.NotifyLeadAdded(id);
             return Ok($"Lead with id = {id} was updated");
@@ -173,10 +173,9 @@ namespace CRM.APILayer.Controllers
         
         [HttpPut]
         [SwaggerOperation("Change lead password. Roles: All")]
-        public async Task<ActionResult> ChangeRoleTemp([FromBody] List<LeadChangeRoleRequest> leadChangeRoleRequests)
+        public async Task<ActionResult> ChangeRoleTemp([FromBody] List<LeadShortExchangeModel> leadChangeRoleRequests)
         {
-            var models = _autoMapper.Map<List<LeadModel>>(leadChangeRoleRequests);
-            await _leadService.ChangeRoleListLead(models);
+            await _leadService.ChangeRoleListLead(leadChangeRoleRequests);
             return Ok();
         }
 
