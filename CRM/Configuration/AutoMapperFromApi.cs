@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CRM.APILayer.Models;
 using CRM.BusinessLayer.Models;
+using Marvelous.Contracts.RequestModels;
 
 namespace CRM.APILayer.Configuration
 {
