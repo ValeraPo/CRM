@@ -129,11 +129,11 @@ namespace CRM.BusinessLayer.Services
             await _leadRepository.ChangePassword(entity.Id, hashPassword);
         }
         
-        public async Task ChangeRoleTemp()
+        public async Task ChangeRoleListLead(List<LeadModel> models)
         {
+            var entities = _autoMapper.Map<List<Lead>>(models);
 
-
-            await _leadRepository.ChangeRoleTemp();
+            await _leadRepository.ChangeRoleListLead(entities);
         }
 
     }

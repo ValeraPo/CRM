@@ -14,6 +14,6 @@ namespace CRM.BusinessLayer.Services.Interfaces
         Task<List<LeadModel>> GetAll();
         Task<LeadModel> GetById(int id);
         Task<List<LeadAuthExchangeModel>> GetAllToAuth();
-        Task ChangeRoleTemp();
+        Task ChangeRoleListLead(List<LeadModel> models);
     }
 }

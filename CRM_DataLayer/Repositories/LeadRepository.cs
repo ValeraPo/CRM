@@ -209,24 +209,10 @@ namespace CRM.DataLayer.Repositories
             _logger.LogInformation($"Byl izmenen parol' u Lead id {id}");
         } 
         
-        public async Task ChangeRoleTemp()
+        public async Task ChangeRoleListLead(List<Lead> entities)
         {
             using IDbConnection connection = ProvideConnection();
-
-            List<Lead> leads = new()
-            {
-                new()
-                {
-                    Id = 3,
-                    Role = Role.Vip
-                },
-                new()
-                {
-                    Id = 5,
-                    Role = Role.Vip
-                }
-            };
-
+           
             DapperPlusManager.Entity<Lead>().Table("Lead")
                 .Identity(x => x.Id)
                 .Ignore(
@@ -241,7 +227,7 @@ namespace CRM.DataLayer.Repositories
                         x.Password}
                     );
 
-            connection.BulkUpdate(leads);
+            connection.BulkUpdate(entities);
 
         }
 

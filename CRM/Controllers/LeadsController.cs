@@ -172,9 +172,10 @@ namespace CRM.APILayer.Controllers
         
         [HttpPut]
         [SwaggerOperation("Change lead password. Roles: All")]
-        public async Task<ActionResult> ChangeRoleTemp()
+        public async Task<ActionResult> ChangeRoleTemp([FromBody] List<LeadChangeRoleRequest> leadChangeRoleRequests)
         {
-            await _leadService.ChangeRoleTemp();
+            var models = _autoMapper.Map<List<LeadModel>>(leadChangeRoleRequests);
+            await _leadService.ChangeRoleMass();
             return Ok();
         }
 
