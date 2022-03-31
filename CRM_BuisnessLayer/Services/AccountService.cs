@@ -29,7 +29,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<int> AddAccount(int role, AccountModel accountModel)
         {
-            _logger.LogInformation("A request was received to add an account.");
+            _logger.LogInformation("Request was received to add an account.");
             await CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
             if (role == (int)Role.Regular && accountModel.CurrencyType != Currency.USD)
             {
@@ -43,7 +43,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task UpdateAccount(int leadId, AccountModel accountModel)
         {
-            _logger.LogInformation($"A request was received to update an account ID = {accountModel.Id}.");
+            _logger.LogInformation($"Request was received to update an account ID = {accountModel.Id}.");
             var entity = await _accountRepository.GetById(accountModel.Id);
             
             ExceptionsHelper.ThrowIfEntityNotFound(accountModel.Id, entity);
@@ -54,7 +54,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task LockById(int id)
         {
-            _logger.LogInformation($"A request was received to lock an account ID =  {id}.");
+            _logger.LogInformation($"Request was received to lock an account ID =  {id}.");
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             if (entity.CurrencyType == Currency.RUB)
@@ -67,7 +67,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task UnlockById(int id)
         {
-            _logger.LogInformation($"A request was received to unlock an account ID =  {id}.");
+            _logger.LogInformation($"Request was received to unlock an account ID =  {id}.");
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             await _accountRepository.UnlockById(id);

@@ -52,7 +52,7 @@ namespace CRM.APILayer.Controllers
             accountModel.Lead.Id = leadIdentity.Id;
             Role role = leadIdentity.Role;
             var id = await _accountService.AddAccount((int)role, accountModel);
-            _logger.LogInformation($"Account ID {id} successfully added");
+            _logger.LogInformation($"Account with ID {id} successfully added");
             await _crmProducers.NotifyAccountAdded(id);
             return StatusCode(StatusCodes.Status201Created, id);
         }
