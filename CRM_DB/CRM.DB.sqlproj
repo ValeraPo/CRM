@@ -84,4 +84,9 @@
   <ItemGroup>
     <RefactorLog Include="CRM_DB.refactorlog" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
 </Project>

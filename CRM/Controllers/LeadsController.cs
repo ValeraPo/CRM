@@ -7,6 +7,7 @@ using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ExchangeModels;
+using Marvelous.Contracts.RequestModels;
 using Marvelous.Contracts.Urls;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -162,6 +163,14 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Received a request to change the password of a lead with an ID = {id}.");
             await _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
             _logger.LogInformation($"Successfully changed the password of the lead with ID = {id}.");
+            return Ok();
+        }
+        
+        [HttpPut]
+        [SwaggerOperation("Change lead password. Roles: All")]
+        public async Task<ActionResult> ChangeRoleTemp([FromBody] List<LeadShortExchangeModel> leadChangeRoleRequests)
+        {
+            await _leadService.ChangeRoleListLead(leadChangeRoleRequests);
             return Ok();
         }
 

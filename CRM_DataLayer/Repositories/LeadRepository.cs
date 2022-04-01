@@ -8,7 +8,8 @@ using Marvelous.Contracts.ExchangeModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Data;
-
+using System.Data.SqlClient;
+using Z.Dapper.Plus;
 
 namespace CRM.DataLayer.Repositories
 {
@@ -205,8 +206,33 @@ namespace CRM.DataLayer.Repositories
                     Password = hashPassword,
                 },
                 commandType: CommandType.StoredProcedure);
-            _logger.LogInformation($"Lead with ID = {id} changed password");
+            _logger.LogInformation($"Byl izmenen parol' u Lead id {id}");
+        } 
+        
+        public async Task ChangeRoleListLead(List<LeadShortExchangeModel> models)
+        {
+            using IDbConnection connection = ProvideConnection();
+           
+            DapperPlusManager.Entity<Lead>().Table("Lead")
+                .Identity(x => x.Id)
+                .Ignore(
+                x => new {x.Accounts, 
+                        x.BirthDate, 
+                        x.City, 
+                        x.Email, 
+                        x.IsBanned, 
+                        x.Phone, 
+                        x.Name, 
+                        x.LastName, 
+                        x.Password}
+                    );
+
+            connection.BulkUpdate(models);
+
         }
+
+
+
 
     }
 }

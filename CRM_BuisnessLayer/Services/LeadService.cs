@@ -52,7 +52,7 @@ namespace CRM.BusinessLayer.Services
             await _leadRepository.UpdateLeadById(mappedLead);
         }
 
-        public async Task ChangeRoleLead(int id, int role)
+        public async Task ChangeRoleLead(int id, Role role)
         {
             _logger.LogInformation($"Received a request to update the role of the lead with ID = {id}.");
             if (role != 2 && role != 3)
@@ -127,6 +127,12 @@ namespace CRM.BusinessLayer.Services
 
             string hashPassword = PasswordHash.HashPassword(newPassword);
             await _leadRepository.ChangePassword(entity.Id, hashPassword);
+        }
+        
+        public async Task ChangeRoleListLead(List<LeadShortExchangeModel> models)
+        {
+
+            await _leadRepository.ChangeRoleListLead(models);
         }
 
     }
