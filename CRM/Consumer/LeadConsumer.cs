@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
+using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ExchangeModels;
 using MassTransit;
 
 namespace CRM.APILayer.Consumer
 {
-    public class LeadConsumer : IConsumer<LeadShortExchangeModel>
+    public class LeadConsumer : IConsumer<List<LeadShortExchangeModel>>
     {
         private readonly IMapper _mapper;
         private readonly ILogger<LeadConsumer> _logger;
@@ -19,16 +20,11 @@ namespace CRM.APILayer.Consumer
             _leadService = leadService;
         }
 
-        public async Task Consume(ConsumeContext<LeadShortExchangeModel> context)
+        public async Task Consume(ConsumeContext<List<LeadShortExchangeModel>> context)
         {
-            _logger.LogInformation($"Getting lead {context.Message.Id}");
-            var model = _mapper.Map<LeadModel>(context.Message);
-            foreach (var item in model.GetType().GetProperties())
-            {
-                _logger.LogInformation($"{item.Name}: {item.GetValue(model)}");
-            }
-            _logger.LogInformation($"");
-            await _leadService.ChangeRoleLead(context.Message.Id, (int)context.Message.Role);
+            _logger.LogInformation($"Getting list of lead  ");
+             await _leadService.ChangeRoleListLead(context.Message);
+            _logger.LogInformation($"All roles was changed ");
         }
     }
 }

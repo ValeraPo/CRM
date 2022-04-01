@@ -52,10 +52,10 @@ namespace CRM.BusinessLayer.Services
             await _leadRepository.UpdateLeadById(mappedLead);
         }
 
-        public async Task ChangeRoleLead(int id, int role)
+        public async Task ChangeRoleLead(int id, Role role)
         {
             _logger.LogInformation($"Zapros na obnovlenie roli лиleadaда id = {id}.");
-            if (role != 2 && role != 3)
+            if (role != Role.Vip && role != Role.Regular)
             {
                 _logger.LogError($"Oshibka izmenenia roli. Rol' mozhno izmenit' tol'ko na Vip ili Regular.");
                 throw new IncorrectRoleException("Роль можно изменить только на Vip или Regular");
@@ -129,11 +129,10 @@ namespace CRM.BusinessLayer.Services
             await _leadRepository.ChangePassword(entity.Id, hashPassword);
         }
         
-        public async Task ChangeRoleListLead(List<LeadModel> models)
+        public async Task ChangeRoleListLead(List<LeadShortExchangeModel> models)
         {
-            var entities = _autoMapper.Map<List<Lead>>(models);
 
-            await _leadRepository.ChangeRoleListLead(entities);
+            await _leadRepository.ChangeRoleListLead(models);
         }
 
     }
