@@ -48,7 +48,8 @@ namespace CRM.APILayer.Controllers
             var leadModel = _autoMapper.Map<LeadModel>(leadInsertRequest);
             var id = await _leadService.AddLead(leadModel);
             _logger.LogInformation($"Lead с id = {id} uspeshno sozdan.");
-            await _crmProducers.NotifyLeadAdded(id);
+            leadModel.Id = id;
+            await _crmProducers.NotifyLeadAdded(leadModel);
             return StatusCode(StatusCodes.Status201Created, id);
         }
 
@@ -118,7 +119,7 @@ namespace CRM.APILayer.Controllers
         [HttpGet()]
         [AuthorizeEnum(Role.Admin)]
         [ProducesResponseType(typeof(List<LeadResponse>), StatusCodes.Status200OK)]
-        [SwaggerOperation("Restore all lead. Roles: Admin")]
+        [SwaggerOperation("Get all lead. Roles: Admin")]
         public async Task<ActionResult<List<LeadResponse>>> GetAll()
         {
             _logger.LogInformation($"Poluchen zapros na poluchenie vseh leadov.");
@@ -131,7 +132,7 @@ namespace CRM.APILayer.Controllers
         //api/Leads/auth
         [HttpGet(CrmUrls.Auth)]
         [ProducesResponseType(typeof(List<LeadResponse>), StatusCodes.Status200OK)]
-        [SwaggerOperation("Restore all lead. Roles: Admin")]
+        [SwaggerOperation("Get all lead. Roles: all")]
         public async Task<ActionResult<List<LeadAuthExchangeModel>>> GetAllToAuth()
         {
             _logger.LogInformation($"Poluchen zapros na poluchenie vseh leadov.");

@@ -53,7 +53,8 @@ namespace CRM.APILayer.Controllers
             Role role = leadIdentity.Role;
             var id = await _accountService.AddAccount((int)role, accountModel);
             _logger.LogInformation($"Account с id = {id} uspeshno dobavlen.");
-            await _crmProducers.NotifyAccountAdded(id);
+            accountModel.Id = id;
+            await _crmProducers.NotifyAccountAdded(accountModel);
             return StatusCode(StatusCodes.Status201Created, id);
         }
 
