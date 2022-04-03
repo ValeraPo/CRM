@@ -15,5 +15,8 @@ namespace CRM.APILayer.Models
 
         [Phone(ErrorMessage = "Телефон введен некорректно.")]
         public string Phone { get; set; }
+        
+        public string City { get; set; }
+
     }
 }
