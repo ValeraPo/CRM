@@ -6,10 +6,10 @@ using CRM.APILayer.Producers;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
-using Marvelous.Contracts;
 using Marvelous.Contracts.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Collections;
 
 namespace CRM.APILayer.Controllers
 {
@@ -24,9 +24,9 @@ namespace CRM.APILayer.Controllers
         private readonly ITransactionService _transactionService;
         private readonly ICRMProducers _crmProducers;
 
-        public AccountsController(IAccountService accountService, 
-            IMapper autoMapper, 
-            ILogger<AccountsController> logger, 
+        public AccountsController(IAccountService accountService,
+            IMapper autoMapper,
+            ILogger<AccountsController> logger,
             ITransactionService transactionService,
             ICRMProducers crmProducers)
         {
@@ -72,6 +72,7 @@ namespace CRM.APILayer.Controllers
             accountModel.Id = id;
             await _accountService.UpdateAccount(leadId, accountModel);
             _logger.LogInformation($"Account with ID {id} successfully updated.");
+            await _crmProducers.NotifyAccountAdded(id);
             return Ok($"Account with id = {id} successfully updated.");
         }
 
@@ -86,6 +87,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"A request was received to lock an account with ID {id} as a lead with ID = {this.GetLeadFromToken().Id}.");
             await _accountService.LockById(id);
             _logger.LogInformation($"Account with ID {id} successfully locked.");
+            await _crmProducers.NotifyAccountAdded(id);
             return Ok($"Account with ID {id} successfully updated.");
         }
 
@@ -100,6 +102,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"A request was received to unlock an account with ID {id} as a lead with ID = {this.GetLeadFromToken().Id}.");
             await _accountService.UnlockById(id);
             _logger.LogInformation($"Account with ID {id} successfully unlocked.");
+            await _crmProducers.NotifyAccountAdded(id);
             return Ok($"Account with ID {id} successfully unlocked.");
         }
 
@@ -139,6 +142,21 @@ namespace CRM.APILayer.Controllers
             return Ok(output);
         }
 
+        //api/transaction/42
+        [AuthorizeEnum(Role.Vip, Role.Regular)]
+        [HttpGet("transaction/{accountId}")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Successful", typeof(ArrayList))]
+        [SwaggerOperation("Get transactions by accountId. Roles: Vip, Regular")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ArrayList>> GetTransactionsByAccountId(int accountId)
+        {
+            _logger.LogInformation($"Poluchen zapros na poluchenie transakcii c accounta id = {accountId}");
+            var leadId =  this.GetLeadFromToken().Id;
+            var transactionModel = await _transactionService.GetTransactionsByAccountId(accountId, leadId);
+            _logger.LogInformation($"Poluchenie transakcii c accounta id = {accountId} proshel uspeshno");
 
+            return Ok(transactionModel.Content);
+        }
     }
 }

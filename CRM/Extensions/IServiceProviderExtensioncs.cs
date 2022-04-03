@@ -47,10 +47,8 @@ namespace CRM.APILayer.Extensions
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuer = true,
-                        ValidIssuer = AuthOptions.Issuer,
-                        ValidateAudience = true,
-                        ValidAudience = AuthOptions.Audience,
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
                         ValidateLifetime = true,
                         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                         ValidateIssuerSigningKey = true
@@ -128,6 +126,14 @@ namespace CRM.APILayer.Extensions
                     cfg.ReceiveEndpoint("leadCRMQueue", e =>
                     {
                         e.ConfigureConsumer<LeadConsumer>(context);
+                    });
+                    cfg.Publish<LeadFullExchangeModel>(p =>
+                    {
+                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
+                    });
+                    cfg.Publish<AccountExchangeModel>(p =>
+                    {
+                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
                     });
                 });
             });

@@ -5,18 +5,18 @@ using CRM.APILayer.Models;
 using CRM.APILayer.Producers;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
-using Marvelous.Contracts;
 using Marvelous.Contracts.Enums;
+using Marvelous.Contracts.ExchangeModels;
+using Marvelous.Contracts.RequestModels;
+using Marvelous.Contracts.Urls;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NLog;
 using Swashbuckle.AspNetCore.Annotations;
-using System.ComponentModel;
 
 namespace CRM.APILayer.Controllers
 {
     [ApiController]
-    [Route("api/leads")]
+    [Route(CrmUrls.Api)]
 
     public class LeadsController : Controller
     {
@@ -26,8 +26,8 @@ namespace CRM.APILayer.Controllers
         private readonly ICRMProducers _crmProducers;
 
 
-        public LeadsController(ILeadService leadService, 
-            IMapper autoMapper, 
+        public LeadsController(ILeadService leadService,
+            IMapper autoMapper,
             ILogger<LeadsController> logger,
             ICRMProducers crmProducers)
         {
@@ -65,6 +65,7 @@ namespace CRM.APILayer.Controllers
             leadModel.Id = id;
             await _leadService.UpdateLead(id, leadModel);
             _logger.LogInformation($"Lead successfully updated with ID = {id}.");
+            await _crmProducers.NotifyLeadAdded(id);
             return Ok($"Lead successfully updated with ID = {id}.");
         }
 
@@ -77,8 +78,9 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> ChangeRoleLead(int id, int role)
         {
             _logger.LogInformation($"Received a request to update the role of the lead with ID = {id}.");
-            await _leadService.ChangeRoleLead(id, role);
+            await _leadService.ChangeRoleLead(id, (Role)role);
             _logger.LogInformation($"Successfully updated lead role with ID = {id}.");
+            await _crmProducers.NotifyLeadAdded(id);
             return Ok($"Successfully updated lead role with ID = {id}.");
         }
 
@@ -93,6 +95,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Received a request to delete lead with ID = {id}.");
             await _leadService.DeleteById(id);
             _logger.LogInformation($"Lead successfully deleted with ID = {id}.");
+            await _crmProducers.NotifyLeadAdded(id);
             return Ok($"Lead successfully deleted with ID = {id}.");
         }
 
@@ -107,6 +110,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Received a request to restore lead with ID = {id}.");
             await _leadService.RestoreById(id);
             _logger.LogInformation($"Lead successfully deleted with ID = {id}.");
+            await _crmProducers.NotifyLeadAdded(id);
             return Ok($"Lead successfully deleted with ID = {id}.");
         }
 
@@ -122,6 +126,18 @@ namespace CRM.APILayer.Controllers
             var outputs = _autoMapper.Map<List<LeadResponse>>(leadModels);
             _logger.LogInformation($"All leads have been successfully received.");
             return Ok(outputs);
+        }
+
+        //api/Leads/auth
+        [HttpGet(CrmUrls.Auth)]
+        [ProducesResponseType(typeof(List<LeadResponse>), StatusCodes.Status200OK)]
+        [SwaggerOperation("Restore all lead. Roles: Admin")]
+        public async Task<ActionResult<List<LeadAuthExchangeModel>>> GetAllToAuth()
+        {
+            _logger.LogInformation($"Poluchen zapros na poluchenie vseh leadov.");
+            var leadModels = await _leadService.GetAllToAuth();
+            _logger.LogInformation($"Vse leady uspeshno polucheny.");
+            return Ok(leadModels);
         }
 
         //api/Leads/42
@@ -151,6 +167,15 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Received a request to change the password of a lead with an ID = {id}.");
             await _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
             _logger.LogInformation($"Successfully changed the password of the lead with ID = {id}.");
+            await _crmProducers.NotifyLeadAdded(id);
+            return Ok();
+        }
+        
+        [HttpPut]
+        [SwaggerOperation("Change lead password. Roles: All")]
+        public async Task<ActionResult> ChangeRoleTemp([FromBody] List<LeadShortExchangeModel> leadChangeRoleRequests)
+        {
+            await _leadService.ChangeRoleListLead(leadChangeRoleRequests);
             return Ok();
         }
 

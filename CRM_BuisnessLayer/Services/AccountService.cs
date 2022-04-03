@@ -4,11 +4,8 @@ using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
-using Marvelous.Contracts;
 using Marvelous.Contracts.Enums;
 using Microsoft.Extensions.Logging;
-using NLog;
-using System.Linq;
 
 namespace CRM.BusinessLayer.Services
 {
@@ -45,7 +42,7 @@ namespace CRM.BusinessLayer.Services
         {
             _logger.LogInformation($"Request was received to update an account ID = {accountModel.Id}.");
             var entity = await _accountRepository.GetById(accountModel.Id);
-            
+
             ExceptionsHelper.ThrowIfEntityNotFound(accountModel.Id, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
@@ -87,7 +84,7 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Request for an account with an ID = {id}.");
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
-           
+
             return _autoMapper.Map<AccountModel>(entity);
         }
 

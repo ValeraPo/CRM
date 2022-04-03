@@ -79,8 +79,14 @@
     <Build Include="StoredProcedure\Lead\Lead_SelectByEmail.sql" />
     <Build Include="StoredProcedure\Account\Account_SelectAll.sql" />
     <Build Include="StoredProcedure\Lead\Lead_ChangeRole.sql" />
+    <Build Include="StoredProcedure\Lead\Lead_SelectAllToAuth.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CRM_DB.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
 </Project>

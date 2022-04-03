@@ -1,4 +1,5 @@
 ﻿using CRM.DataLayer.Entities;
+using Marvelous.Contracts.ExchangeModels;
 
 namespace CRM.DataLayer.Repositories.Interfaces
 {
@@ -13,5 +14,7 @@ namespace CRM.DataLayer.Repositories.Interfaces
         Task<List<Lead>> GetAll();
         Task<Lead> GetById(int id);
         Task<Lead> GetByEmail(string email);
+        Task<List<LeadAuthExchangeModel>> GetAllToAuth();
+        Task ChangeRoleListLead(List<LeadShortExchangeModel> entities);
     }
 }

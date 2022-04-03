@@ -23,7 +23,7 @@ namespace CRM.APILayer.Controllers
         }
 
         // api/deposit/
-        [HttpPost(UrlTransaction.Deposit)]
+        [HttpPost(TransactionUrls.Deposit)]
         [SwaggerOperation(Summary = "Add deposit")]
         [SwaggerResponse(201, "Deposit added")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -39,7 +39,7 @@ namespace CRM.APILayer.Controllers
         }
 
         // api/trsnsfer/
-        [HttpPost(UrlTransaction.Transfer)]
+        [HttpPost(TransactionUrls.Transfer)]
         [SwaggerOperation(Summary = "Add transfer")]
         [SwaggerResponse(201, "List transactions by accountId ")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -54,7 +54,7 @@ namespace CRM.APILayer.Controllers
         }
 
         // api/withdraw/
-        [HttpPost(UrlTransaction.Withdraw)]
+        [HttpPost(TransactionUrls.Withdraw)]
         [SwaggerOperation(Summary = "Withdraw")]
         [SwaggerResponse(201, "Withdraw successful")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -68,5 +68,7 @@ namespace CRM.APILayer.Controllers
 
             return StatusCode(201, response.Content);
         }
+
+
     }
 }
