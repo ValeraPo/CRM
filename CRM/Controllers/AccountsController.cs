@@ -45,15 +45,14 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult<int>> AddAccount([FromBody] AccountInsertRequest accountInsertRequest)
         {
             var leadIdentity = this.GetLeadFromToken();
-            _logger.LogInformation($"Poluchen zapros na dobavlenie accounta leadom c id = {leadIdentity.Id}.");
+            _logger.LogInformation($"A request was received to add an account as a lead with ID = {leadIdentity.Id}.");
 
             var accountModel = _autoMapper.Map<AccountModel>(accountInsertRequest);
             accountModel.Lead = new LeadModel();
             accountModel.Lead.Id = leadIdentity.Id;
             Role role = leadIdentity.Role;
             var id = await _accountService.AddAccount((int)role, accountModel);
-            _logger.LogInformation($"Account с id = {id} uspeshno dobavlen.");
-            accountModel.Id = id;
+            _logger.LogInformation($"Account with ID {id} successfully added");
             await _crmProducers.NotifyAccountAdded(accountModel);
             return StatusCode(StatusCodes.Status201Created, id);
         }
@@ -67,14 +66,14 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> UpdateAccount(int id, [FromBody] AccountUpdateRequest accountUpdateRequest)
         {
             var leadIdentity = this.GetLeadFromToken();
-            _logger.LogInformation($"Poluchen zapros na obnovlenie accounta id = {id} leadom c id = {leadIdentity.Id}.");
+            _logger.LogInformation($"A request was received to update an account with ID {id} as a lead with ID = {leadIdentity.Id}.");
             var accountModel = _autoMapper.Map<AccountModel>(accountUpdateRequest);
             var leadId = leadIdentity.Id;
             accountModel.Id = id;
             await _accountService.UpdateAccount(leadId, accountModel);
-            _logger.LogInformation($"Account c id = {id} uspeshno obnovlen.");
+            _logger.LogInformation($"Account with ID {id} successfully updated.");
             await _crmProducers.NotifyAccountAdded(id);
-            return Ok($"Account with id = {id} was updated");
+            return Ok($"Account with id = {id} successfully updated.");
         }
 
         //api/accounts/42
@@ -85,11 +84,11 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Lock account by id. Roles: Admin")]
         public async Task<ActionResult> LockById(int id)
         {
-            _logger.LogInformation($"Poluchen zapros na blokirovku accounta id = {id} leadom c id = {this.GetLeadFromToken().Id}.");
+            _logger.LogInformation($"A request was received to lock an account with ID {id} as a lead with ID = {this.GetLeadFromToken().Id}.");
             await _accountService.LockById(id);
-            _logger.LogInformation($"Account с id = {id} uspeshno zablokirovan.");
+            _logger.LogInformation($"Account with ID {id} successfully locked.");
             await _crmProducers.NotifyAccountAdded(id);
-            return Ok($"Account with id = {id} was locked");
+            return Ok($"Account with ID {id} successfully updated.");
         }
 
         //api/accounts/42
@@ -100,11 +99,11 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Unlock account by id. Roles: Admin")]
         public async Task<ActionResult> UnlockById(int id)
         {
-            _logger.LogInformation($"Poluchen zapros na  razblokirovku accounta id = {id} leadom c id = {this.GetLeadFromToken().Id}.");
+            _logger.LogInformation($"A request was received to unlock an account with ID {id} as a lead with ID = {this.GetLeadFromToken().Id}.");
             await _accountService.UnlockById(id);
-            _logger.LogInformation($"Account c id = {id} uspeshno razblokirovan.");
+            _logger.LogInformation($"Account with ID {id} successfully unlocked.");
             await _crmProducers.NotifyAccountAdded(id);
-            return Ok($"Account with id = {id} was unlocked");
+            return Ok($"Account with ID {id} successfully unlocked.");
         }
 
         //api/accounts
@@ -116,12 +115,12 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult<List<AccountResponse>>> GetByLead()
         {
             var id = this.GetLeadFromToken().Id;
-            _logger.LogInformation($"Poluchen zapros na  poluchenie vseh accountov leadom c id = {id}.");
+            _logger.LogInformation($"Request received to get all accounts by lead with ID = {id}");
             var accountModels = await _accountService.GetByLead(id);
             var outputs = _autoMapper.Map<List<AccountResponse>>(accountModels);
             foreach (var account in outputs)
                 account.Balance = await _transactionService.GetBalance(account.Id);
-            _logger.LogInformation($"Vse accounty leada c id = {id} uspeshno polucheny.");
+            _logger.LogInformation($"All lead accounts with ID {id} have been successfully received");
             return Ok(outputs);
         }
 
@@ -134,12 +133,12 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Get account by id. Roles: Vip, Regular")]
         public async Task<ActionResult<AccountResponse>> GetById(int id)
         {
-            _logger.LogInformation($"Poluchen zapros na poluchenie accounta c id = {id} leadom c id = {id}.");
-            var leadId = this.GetLeadFromToken().Id;
+            _logger.LogInformation($"A request was received to get an account with an ID {id} lead with an ID {this.GetLeadFromToken().Id}");
+            var leadId =  this.GetLeadFromToken().Id;
             var accountModel = await _accountService.GetById(id, leadId);
             var output = _autoMapper.Map<AccountResponse>(accountModel);
             output.Balance = await _transactionService.GetBalance(id);
-            _logger.LogInformation($"Account c id = {id} uspeshno poluchen.");
+            _logger.LogInformation($"Account with ID = {id} successfully received");
             return Ok(output);
         }
 

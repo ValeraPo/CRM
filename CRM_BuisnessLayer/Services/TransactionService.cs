@@ -21,53 +21,53 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<RestResponse> AddDeposit(TransactionRequestModel transactionModel, int leadId)
         {
-            _logger.LogInformation($"Popytka tranzakcii с аккаунта id = {transactionModel.AccountId}.");
+            _logger.LogInformation($"Received a request to add a deposit to an account with ID =  {transactionModel.AccountId}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
-            _logger.LogInformation($"Otpravka zaprosa na tranzakciu c accounta id = {transactionModel.AccountId}.");
+            _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendRequest(TransactionUrls.Url, TransactionUrls.Deposit, Method.Post, transactionModel);
-            _logger.LogInformation($"Poluchen otvet na tranzakciu c accounta id = {transactionModel.AccountId}.");
+            _logger.LogInformation($"Request successful.");
 
             return response;
         }
 
         public async Task<RestResponse> AddTransfer(TransferRequestModel transactionModel, int leadId)
         {
-            _logger.LogInformation($"Popytka transfera c accounta id = {transactionModel.AccountIdFrom} na account id = {transactionModel.AccountIdTo}.");
+            _logger.LogInformation($"Transfer request received from account with ID {transactionModel.AccountIdFrom} to account with ID {transactionModel.AccountIdTo}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountIdFrom);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdFrom, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             var accountTo = await _accountRepository.GetById(transactionModel.AccountIdTo);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdTo, accountTo);
-            _logger.LogInformation($"Otpravka zaprosa transfera c accounta id = {transactionModel.AccountIdFrom} na account id = {transactionModel.AccountIdTo}.");
+            _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendRequest(TransactionUrls.Url, TransactionUrls.Transfer, Method.Post, transactionModel);
-            _logger.LogInformation($"Poluchen otvet na transfer c accounta id = {transactionModel.AccountIdFrom} na account id = {transactionModel.AccountIdTo}.");
+            _logger.LogInformation($"Request successful.");
 
             return response;
         }
 
         public async Task<RestResponse> Withdraw(TransactionRequestModel transactionModel, int leadId)
         {
-            _logger.LogInformation($"Popytka vyvoda sredstv c accounta id = {transactionModel.AccountId}.");
+            _logger.LogInformation($"Received withdrawal request from account with ID = {transactionModel.AccountId}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
-            _logger.LogInformation($"Otpravka zaprosa na vyvod sredstv c accounta id = {transactionModel.AccountId}.");
+            _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendRequest(TransactionUrls.Url, TransactionUrls.Withdraw, Method.Post, transactionModel);
-            _logger.LogInformation($"Poluchen otvet na vyvod sredstv c accounta id = {transactionModel.AccountId}.");
+            _logger.LogInformation($"Request successful.");
 
             return response;
         }
 
         public async Task<decimal> GetBalance(int id)
         {
-            _logger.LogInformation($"Popytka poluchenia balansa  accounta id = {id}.");
+            _logger.LogInformation($"Received get balance request from account with ID = {id}.");
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
-            _logger.LogInformation($"Otpravka zaprosa na poluchenie balansa accounta id = {id}.");
+            _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendGetRequest(TransactionUrls.Url, TransactionUrls.GetBalance, id);
-            _logger.LogInformation($"Poluchen otvet na poluchenie balansa accounta id = {id}.");
+            _logger.LogInformation($"Request successful.");
 
             return Convert.ToDecimal(response.Content);
         }

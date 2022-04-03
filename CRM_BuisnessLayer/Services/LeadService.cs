@@ -28,7 +28,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<int> AddLead(LeadModel leadModel)
         {
-            _logger.LogInformation("Zapros na dobavlenie leada.");
+            _logger.LogInformation("Received a request to create a new lead.");
             ExceptionsHelper.ThrowIfEmailRepeat((await _leadRepository.GetByEmail(leadModel.Email)), leadModel.Email);
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
@@ -45,7 +45,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task UpdateLead(int id, LeadModel leadModel)
         {
-            _logger.LogInformation($"Zapros na obnovlenie leada id = {id}.");
+            _logger.LogInformation($"Received a request to update lead with ID = {id}.");
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
@@ -54,11 +54,11 @@ namespace CRM.BusinessLayer.Services
 
         public async Task ChangeRoleLead(int id, Role role)
         {
-            _logger.LogInformation($"Zapros na obnovlenie roli лиleadaда id = {id}.");
+            _logger.LogInformation($"Received a request to update the role of the lead with ID = {id}.");
             if (role != Role.Vip && role != Role.Regular)
             {
-                _logger.LogError($"Oshibka izmenenia roli. Rol' mozhno izmenit' tol'ko na Vip ili Regular.");
-                throw new IncorrectRoleException("Роль можно изменить только на Vip или Regular");
+                _logger.LogError($"Authorisation error. The role can be changed to Regular or VIP.");
+                throw new IncorrectRoleException("Authorisation error. The role can be changed to Regular or VIP.");
             }
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
@@ -68,14 +68,14 @@ namespace CRM.BusinessLayer.Services
 
         public async Task DeleteById(int id)
         {
-            _logger.LogInformation($"Zapros na udalenie leada id = {id}.");
+            _logger.LogInformation($"Received a request to delete lead with ID =  {id}.");
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
 
             if (entity.IsBanned)
             {
-                _logger.LogError($"Lead c ID {entity.Id} uze zabanen");
-                throw new BannedException($"Лид с ID {entity.Id} уже забанен");
+                _logger.LogError($"Lead witd ID {entity.Id} is already banned.");
+                throw new BannedException($"Lead witd ID {entity.Id} is already banned.");
             }
 
             await _leadRepository.DeleteById(id);
@@ -83,14 +83,14 @@ namespace CRM.BusinessLayer.Services
 
         public async Task RestoreById(int id)
         {
-            _logger.LogInformation($"Zapros na vosstanovlenie leada id = {id}.");
+            _logger.LogInformation($"Received a request to restore lead with ID =  {id}.");
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
 
             if (!entity.IsBanned)
             {
-                _logger.LogError($"Lead c ID {entity.Id} ne zabanen");
-                throw new BannedException($"Лид с ID {entity.Id} не забанен");
+                _logger.LogError($"Lead with ID {entity.Id} is not banned.");
+                throw new BannedException($"Lead with ID {entity.Id} is not banned.");
             }
 
             await _leadRepository.RestoreById(id);
@@ -98,7 +98,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<List<LeadModel>> GetAll()
         {
-            _logger.LogInformation($"Zapros na poluchenie vseh leadov.");
+            _logger.LogInformation($"Received a request to receive all leads.");
             var leads = await _leadRepository.GetAll();
             return _autoMapper.Map<List<LeadModel>>(leads);
         }
@@ -111,7 +111,7 @@ namespace CRM.BusinessLayer.Services
         }
         public async Task<LeadModel> GetById(int id)
         {
-            _logger.LogInformation($"Zapros na poluchenie accounta id = {id}.");
+            _logger.LogInformation($"Received to get an lead with an ID {id}.");
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             return _autoMapper.Map<LeadModel>(entity);
@@ -119,7 +119,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task ChangePassword(int id, string oldPassword, string newPassword)
         {
-            _logger.LogInformation($"Zapros na izmenenie parolya leada id = {id}.");
+            _logger.LogInformation($"Received a request to change the password of a lead with an ID = {id}.");
             var entity = await _leadRepository.GetById(id);
 
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);

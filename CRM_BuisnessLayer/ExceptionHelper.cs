@@ -13,8 +13,8 @@ namespace CRM.BusinessLayer
         {
             if (entity is null)
             {
-                _logger.Error($"Oshibka poiska. {typeof(T).Name} c id = {id} ne naiden");
-                throw new NotFoundException($"{typeof(T).Name} с id = {id} не найден");
+                _logger.Error($"{typeof(T).Name} entity with ID = {id} not found");
+                throw new NotFoundException($"{typeof(T).Name} entiy with ID = {id} not found");
             }
         }
 
@@ -22,8 +22,8 @@ namespace CRM.BusinessLayer
         {
             if (lead is null)
             {
-                _logger.Error($"Oshibka поиска. Lead с {email} не найден");
-                throw new NotFoundException($"Lead с {email} не найден");
+                _logger.Error($"Entity with e-mail = {email} not foun");
+                throw new NotFoundException($"Entity with e-mail = {email} not found");
             }
         }
 
@@ -31,8 +31,8 @@ namespace CRM.BusinessLayer
         {
             if (lead is null)
             {
-                _logger.Error($"Oshibka zaprosa. Lead c id = {id} zabanen");
-                throw new BannedException($"Lead с id = {id} забанен");
+                _logger.Error($"Lead with ID = {id} is banned");
+                throw new BannedException($"Lead with ID = {id} is banned");
             }
         }
 
@@ -40,8 +40,8 @@ namespace CRM.BusinessLayer
         {
             if (!PasswordHash.ValidatePassword(pass, hashPassFromBd))
             {
-                _logger.Error($"Oshibka vvoda parolya. Vveden nevernyi parol'.");
-                throw new IncorrectPasswordException("Неверный пароль");
+                _logger.Error($"Try to login. Incorrected password.");
+                throw new IncorrectPasswordException("Try to login. Incorrected password.");
             }
         }
 
@@ -50,8 +50,8 @@ namespace CRM.BusinessLayer
 
             if (lead != null)
             {
-                _logger.Error($"Oshibka dobavleniya leada. Pol'zovatel' {email} uze suchestvuet.");
-                throw new DuplicationException($"Пользователь {email} уже существует.");
+                _logger.Error($"Try to singup. Email {email} is already exists.");
+                throw new DuplicationException($"Try to singup. Email {email} is already exists.");
             }
         }
 
@@ -59,8 +59,8 @@ namespace CRM.BusinessLayer
         {
             if (accountLeadId != authorizathionLeadId)
             {
-                _logger.Error($"Oshibka manipulyacii c accountom. Pol'zovatel' c id {authorizathionLeadId} ne imeet dostupa k accountu c id {accountLeadId}.");
-                throw new AuthorizationException($"Пользователь с Id {authorizathionLeadId} не имеет доступа к аккаунту с Id {accountLeadId}.");
+                _logger.Error($"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn with ID {accountLeadId}.");
+                throw new AuthorizationException($"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn with ID {accountLeadId}.");
             }
         }
 
