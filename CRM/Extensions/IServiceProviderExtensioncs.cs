@@ -21,11 +21,8 @@ namespace CRM.APILayer.Extensions
     {
         public static void RegisterCRMRepositories(this IServiceCollection services)
         {
-
-
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ILeadRepository, LeadRepository>();
-
         }
 
         public static void RegisterCRMServices(this IServiceCollection services)
@@ -100,7 +97,6 @@ namespace CRM.APILayer.Extensions
                     }
                 });
 
-                //config.EnableAnnotations();
             });
         }
 
