@@ -1,4 +1,5 @@
-﻿using CRM.BusinessLayer.Services.Interfaces;
+﻿using CRM.BusinessLayer.Models;
+using CRM.BusinessLayer.Services.Interfaces;
 using Marvelous.Contracts.ExchangeModels;
 using MassTransit;
 
@@ -20,13 +21,13 @@ namespace CRM.APILayer.Producers
             _bus = bus;
         }
 
-        public async Task NotifyLeadAdded(int id)
+        public async Task NotifyLeadAdded(LeadModel lead)
         {
 
             var source = new CancellationTokenSource(TimeSpan.FromSeconds(10));
 
             _logger.LogInformation("Try publish lead");
-            var lead = await _leadService.GetById(id);
+            //var lead = await _leadService.GetById(id);
 
             await _bus.Publish<LeadFullExchangeModel>(new
             {
@@ -45,22 +46,22 @@ namespace CRM.APILayer.Producers
             _logger.LogInformation("Lead published");
         }
 
-        public async Task NotifyAccountAdded(int id)
+        public async Task NotifyAccountAdded(AccountModel account)
         {
 
             var source = new CancellationTokenSource(TimeSpan.FromSeconds(10));
             _logger.LogInformation("Try publish account");
 
-            var lead = await _accountService.GetById(id);
+            //var account = await _accountService.GetById(id);
 
             await _bus.Publish<AccountExchangeModel>(new
             {
-                lead.Id,
-                lead.Name,
-                lead.CurrencyType,
-                LeadId = lead.Lead.Id,
-                lead.IsBlocked,
-                lead.LockDate
+                account.Id,
+                account.Name,
+                account.CurrencyType,
+                LeadId = account.Lead.Id,
+                account.IsBlocked,
+                account.LockDate
 
             },
             source.Token);

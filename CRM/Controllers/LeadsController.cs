@@ -171,13 +171,13 @@ namespace CRM.APILayer.Controllers
             return Ok();
         }
         
-        [HttpPut]
-        [SwaggerOperation("Change lead password. Roles: All")]
-        public async Task<ActionResult> ChangeRoleTemp([FromBody] List<LeadShortExchangeModel> leadChangeRoleRequests)
-        {
-            await _leadService.ChangeRoleListLead(leadChangeRoleRequests);
-            return Ok();
-        }
+        //[HttpPut]
+        //[SwaggerOperation("Change lead password. Roles: All")]
+        //public async Task<ActionResult> ChangeRoleTemp([FromBody] List<LeadShortExchangeModel> leadChangeRoleRequests)
+        //{
+        //    await _leadService.ChangeRoleListLead(leadChangeRoleRequests);
+        //    return Ok();
+        //}
 
     }
 }

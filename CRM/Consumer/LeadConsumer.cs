@@ -7,7 +7,7 @@ using MassTransit;
 
 namespace CRM.APILayer.Consumer
 {
-    public class LeadConsumer : IConsumer<List<LeadShortExchangeModel>>
+    public class LeadConsumer : IConsumer<LeadShortExchangeModel[]>
     {
         private readonly IMapper _mapper;
         private readonly ILogger<LeadConsumer> _logger;
@@ -20,7 +20,7 @@ namespace CRM.APILayer.Consumer
             _leadService = leadService;
         }
 
-        public async Task Consume(ConsumeContext<List<LeadShortExchangeModel>> context)
+        public async Task Consume(ConsumeContext<LeadShortExchangeModel[]> context)
         {
             _logger.LogInformation($"Getting list of lead  ");
              await _leadService.ChangeRoleListLead(context.Message);

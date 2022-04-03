@@ -1,8 +1,10 @@
-﻿namespace CRM.APILayer.Producers
+﻿using CRM.BusinessLayer.Models;
+
+namespace CRM.APILayer.Producers
 {
     public interface ICRMProducers
     {
-        Task NotifyAccountAdded(int id);
-        Task NotifyLeadAdded(int id);
+        Task NotifyLeadAdded(LeadModel lead);
+        Task NotifyAccountAdded(AccountModel account);
     }
 }
