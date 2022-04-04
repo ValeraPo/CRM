@@ -7,7 +7,6 @@ using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ExchangeModels;
-using Marvelous.Contracts.RequestModels;
 using Marvelous.Contracts.Urls;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

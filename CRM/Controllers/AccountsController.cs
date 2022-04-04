@@ -160,17 +160,17 @@ namespace CRM.APILayer.Controllers
         }
 
         //api/accounts/42
-        [HttpGet("balance")]
+        [HttpGet("balance/{CurrencyType}")]
         [AuthorizeEnum(Role.Vip, Role.Regular)]
         [SwaggerResponse(StatusCodes.Status200OK, "Successful", typeof(decimal))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Get balance. Roles: Vip, Regular")]
-        public async Task<ActionResult> GetBalance([FromBody] BalanceRequest balanceRequest)
+        public async Task<ActionResult> GetBalance(int CurrencyType)
         {
             var leadIdentity = this.GetLeadFromToken();
             var leadId = leadIdentity.Id;
             _logger.LogInformation($"Poluchen zapros na polucheniie balance leada c id = {leadId}");
-            var balance = await _accountService.GetBalance(leadId, balanceRequest.CurrencyType);
+            var balance = await _accountService.GetBalance(leadId, (Currency)CurrencyType);
             _logger.LogInformation($"Balance dlya leada c id = {leadId} uspeshno poluchen.");
             return Ok(balance);
         }

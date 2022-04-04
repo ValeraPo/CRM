@@ -66,11 +66,12 @@ namespace CRM.BusinessLayer.Services
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             _logger.LogInformation($"Send request.");
-            var response = await _requestHelper.SendGetRequest(TransactionUrls.Url, TransactionUrls.GetBalance, id);
+            var response = await _requestHelper.SendGetRequest(TransactionUrls.Url, "balanse-by-", id);
             _logger.LogInformation($"Request successful.");
 
             return Convert.ToDecimal(response.Content);
         }
+
         public async Task<decimal> GetBalance(List<int> ids)
         {
             _logger.LogInformation($"Popytka poluchenia balansa  accounta.");
