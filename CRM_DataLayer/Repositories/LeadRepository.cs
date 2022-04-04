@@ -8,7 +8,8 @@ using Marvelous.Contracts.ExchangeModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Data;
-
+using System.Data.SqlClient;
+using Z.Dapper.Plus;
 
 namespace CRM.DataLayer.Repositories
 {
@@ -32,9 +33,9 @@ namespace CRM.DataLayer.Repositories
 
         public async Task<int> AddLead(Lead lead)
         {
-            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Try to connection DB");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("DB connection established successfully.");
             var id = await connection.QueryFirstOrDefaultAsync<int>(
                     _insertProc,
                     new
@@ -51,15 +52,15 @@ namespace CRM.DataLayer.Repositories
                     },
                     commandType: CommandType.StoredProcedure
                 );
-            _logger.LogInformation($"Lead c id = {id} dobavlen v bazu dannyh.");
+            _logger.LogInformation($"Lead with ID = {id} added to DB.");
             return id;
         }
 
         public async Task UpdateLeadById(Lead lead)
         {
-            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Try to connection DB");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("DB connection established successfully.");
 
             await connection.ExecuteAsync(_updateProc,
                 new
@@ -72,14 +73,14 @@ namespace CRM.DataLayer.Repositories
                 },
 
                 commandType: CommandType.StoredProcedure);
-            _logger.LogInformation($"Lead c id = {lead.Id} byl obnovlen.");
+            _logger.LogInformation($"Lead with ID = {lead.Id} updated.");
         }
 
         public async Task ChangeRoleLead(Lead lead)
         {
-            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Try to connection DB.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("DB connection established successfully.");
 
             await connection.ExecuteAsync(_changeRoleProc,
                 new
@@ -89,14 +90,14 @@ namespace CRM.DataLayer.Repositories
                 },
 
                 commandType: CommandType.StoredProcedure);
-            _logger.LogInformation($"Lead c id = {lead.Id} byl obnovlen.");
+            _logger.LogInformation($"Lead role with id = {lead.Id} updated.");
         }
 
         public async Task DeleteById(int id)
         {
-            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Try to connection DB.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("DB connection established successfully.");
 
             await connection.ExecuteAsync(_banProc,
                 new
@@ -105,14 +106,14 @@ namespace CRM.DataLayer.Repositories
                     IsBanned = true
                 },
                 commandType: CommandType.StoredProcedure);
-            _logger.LogInformation($"Lead c id = {id} byl udalen.");
+            _logger.LogInformation($"Lead with ID = {id} deleted.");
         }
 
         public async Task RestoreById(int id)
         {
-            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Try to connection DB.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("DB connection established successfully.");
             await connection.ExecuteAsync(_banProc,
                 new
                 {
@@ -120,21 +121,21 @@ namespace CRM.DataLayer.Repositories
                     IsBanned = false
                 },
                 commandType: CommandType.StoredProcedure);
-            _logger.LogInformation($"Lead c id = {id} byl vosstanovlen.");
+            _logger.LogInformation($"Lead with ID = {id} restored.");
         }
 
         public async Task<List<Lead>> GetAll()
         {
-            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Try to connection DB.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("DB connection established successfully.");
 
             var leads = connection.QueryAsync<Lead>(
                 _selectAll,
                 commandType: CommandType.StoredProcedure)
                 .Result
                 .ToList();
-            _logger.LogInformation($"Byly vozvracheny vse leady");
+            _logger.LogInformation($"All leads returned.");
             return leads;
         }
 
@@ -155,9 +156,9 @@ namespace CRM.DataLayer.Repositories
 
         public async Task<Lead> GetById(int id)
         {
-            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Try to connection DB.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("DB connection established successfully.");
 
             var lead = connection
                 .QueryAsync<Lead, Account, Lead>(
@@ -173,40 +174,65 @@ namespace CRM.DataLayer.Repositories
                 commandType: CommandType.StoredProcedure)
                 .Result
                 .FirstOrDefault();
-            _logger.LogInformation($"Byl vozvrachen Lead c id = {id}");
+            _logger.LogInformation($"Lead with ID = {id} get returned.");
             return lead;
         }
 
         public async Task<Lead> GetByEmail(string email)
         {
-            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Try to connection DB.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("DB connection established successfully.");
 
             var lead = await connection
                 .QueryFirstOrDefaultAsync<Lead>(
                 _selectByEmail,
                 new { email },
                 commandType: CommandType.StoredProcedure);
-            _logger.LogInformation($"Byl vozvrachen Lead c email = {email.Encryptor()}");
+            _logger.LogInformation($"Lead with Email = {email.Encryptor()} get returned.");
             return lead;
         }
 
         public async Task ChangePassword(int id, string hashPassword)
         {
-            _logger.LogInformation("Popytka podklucheniya k baze dannyh.");
+            _logger.LogInformation("Try to connection DB.");
             using IDbConnection connection = ProvideConnection();
-            _logger.LogInformation("Proizvedeno podkluchenie k baze dannyh.");
+            _logger.LogInformation("DB connection established successfully.");
 
             await connection.ExecuteAsync(_changePassword,
                 new
                 {
                     id,
-                    hashPassword,
+                    Password = hashPassword,
                 },
                 commandType: CommandType.StoredProcedure);
-            _logger.LogInformation($"Byl izmenen parol' u Lead id {id}");
+            _logger.LogInformation($"Lead with ID = {id} changed password");
+        } 
+        
+        public async Task ChangeRoleListLead(List<LeadShortExchangeModel> models)
+        {
+            using IDbConnection connection = ProvideConnection();
+           
+            DapperPlusManager.Entity<Lead>().Table("Lead")
+                .Identity(x => x.Id)
+                .Ignore(
+                x => new {x.Accounts, 
+                        x.BirthDate, 
+                        x.City, 
+                        x.Email, 
+                        x.IsBanned, 
+                        x.Phone, 
+                        x.Name, 
+                        x.LastName, 
+                        x.Password}
+                    );
+
+            connection.BulkUpdate(models);
+
         }
+
+
+
 
     }
 }

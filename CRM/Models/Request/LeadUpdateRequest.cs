@@ -2,7 +2,6 @@
 {
     public class LeadUpdateRequest : LeadRequest
     {
-        public int Id { get; set; }
 
     }
 }

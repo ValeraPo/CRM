@@ -1,4 +1,5 @@
 ﻿using CRM.BusinessLayer.Models;
+using Marvelous.Contracts.Enums;
 
 namespace CRM.BusinessLayer.Services.Interfaces
 {
@@ -11,5 +12,6 @@ namespace CRM.BusinessLayer.Services.Interfaces
         Task<List<AccountModel>> GetByLead(int leadId);
         Task<AccountModel> GetById(int id, int leadId);
         Task<AccountModel> GetById(int id);
+        Task<decimal> GetBalance(int leadId, Currency currencyType);
     }
 }

@@ -21,11 +21,8 @@ namespace CRM.APILayer.Extensions
     {
         public static void RegisterCRMRepositories(this IServiceCollection services)
         {
-
-
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ILeadRepository, LeadRepository>();
-
         }
 
         public static void RegisterCRMServices(this IServiceCollection services)
@@ -50,10 +47,8 @@ namespace CRM.APILayer.Extensions
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuer = true,
-                        ValidIssuer = AuthOptions.Issuer,
-                        ValidateAudience = true,
-                        ValidAudience = AuthOptions.Audience,
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
                         ValidateLifetime = true,
                         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                         ValidateIssuerSigningKey = true
@@ -102,7 +97,6 @@ namespace CRM.APILayer.Extensions
                     }
                 });
 
-                //config.EnableAnnotations();
             });
         }
 

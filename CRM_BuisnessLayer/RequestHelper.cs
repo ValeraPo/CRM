@@ -23,6 +23,16 @@ namespace CRM.BusinessLayer
             return await GenerateRequest(request, url);
         }
 
+        public async Task<RestResponse> SendGetRequest(string url, string path, List<int> accountIds)
+        {
+            var request = new RestRequest($"{TransactionUrls.Api}{path}/", Method.Get);
+            foreach (var id in accountIds)
+            {
+                request.AddParameter("accountIds", id);
+            }
+            return await GenerateRequest(request, url);
+        }
+
         public async Task<RestResponse> GenerateRequest(RestRequest request, string url)
         {
             var client = new RestClient(url);

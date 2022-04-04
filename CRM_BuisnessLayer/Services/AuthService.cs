@@ -23,7 +23,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<string> GetToken(string email, string pass)
         {
-            _logger.LogInformation($"Popytka avtorizacii pol'zovatelya c email = {email.Encryptor()}.");
+            _logger.LogInformation($"Authorization attempt with email {email.Encryptor()}.");
             Lead entity = await _leadRepo.GetByEmail(email);
 
             ExceptionsHelper.ThrowIfEmailNotFound(email, entity);
@@ -35,14 +35,14 @@ namespace CRM.BusinessLayer.Services
                 new Claim(ClaimTypes.UserData, entity.Id.ToString()),
                 new Claim(ClaimTypes.Role, entity.Role.ToString())
             };
-            _logger.LogInformation($"Poluxhenie tokena  pol'zovatelya c email = {email.Encryptor()}.");
+            _logger.LogInformation($"Received a token for a lead with email {email.Encryptor()}.");
             var jwt = new JwtSecurityToken(
                             issuer: AuthOptions.Issuer,
                             audience: AuthOptions.Audience,
                             claims: claims,
                             expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(30)),
                             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            _logger.LogInformation($"Avtorizaciya pol'zovatelya c email = {email.Encryptor()} proshla uspeshno.");
+            _logger.LogInformation($"Authorization of lead with email {email.Encryptor()} was successful.");
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
 
