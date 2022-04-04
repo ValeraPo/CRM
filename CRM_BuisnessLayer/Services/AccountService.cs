@@ -15,13 +15,19 @@ namespace CRM.BusinessLayer.Services
         private readonly ILeadRepository _leadRepository;
         private readonly IMapper _autoMapper;
         private readonly ILogger<AccountService> _logger;
+        private readonly ITransactionService _transactionService;
 
-        public AccountService(IMapper mapper, IAccountRepository accountRepository, ILeadRepository leadRepository, ILogger<AccountService> logger)
+        public AccountService(IMapper mapper, 
+            IAccountRepository accountRepository, 
+            ILeadRepository leadRepository, 
+            ILogger<AccountService> logger,
+            ITransactionService transactionService)
         {
             _accountRepository = accountRepository;
             _leadRepository = leadRepository;
             _autoMapper = mapper;
             _logger = logger;
+            _transactionService = transactionService;
         }
 
         public async Task<int> AddAccount(int role, AccountModel accountModel)
@@ -98,6 +104,20 @@ namespace CRM.BusinessLayer.Services
                 throw new AuthorizationException("Authorisation Error. No access to someone else's account.");
             }
             return accountModel;
+        }
+
+        public async Task<decimal> GetBalance(int leadId,  Currency currencyType)
+        {
+            var accounts = await GetByLead(leadId);
+            if (!accounts.Select(a => a.CurrencyType).Contains(currencyType))
+            {
+                _logger.LogError("Balance receipt error. Currency type should be among accounts.");
+                throw new BadRequestException("Currency type should be among accounts.");
+            }
+            var accountIds = accounts.Select(a => a.Id).ToList();
+            var balance = await _transactionService.GetBalance(accountIds);
+            _logger.LogInformation("Balance was received.");
+            return balance;
         }
 
         private async Task CheckDuplicationAccount(int leadId, Currency currency)

@@ -53,7 +53,7 @@ namespace CRM.APILayer.Controllers
             Role role = leadIdentity.Role;
             var id = await _accountService.AddAccount((int)role, accountModel);
             _logger.LogInformation($"Account with ID {id} successfully added");
-            await _crmProducers.NotifyAccountAdded(id);
+            await _crmProducers.NotifyAccountAdded(accountModel);
             return StatusCode(StatusCodes.Status201Created, id);
         }
 
@@ -157,6 +157,22 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Poluchenie transakcii c accounta id = {accountId} proshel uspeshno");
 
             return Ok(transactionModel.Content);
+        }
+
+        //api/accounts/42
+        [HttpGet("balance")]
+        [AuthorizeEnum(Role.Vip, Role.Regular)]
+        [SwaggerResponse(StatusCodes.Status200OK, "Successful", typeof(decimal))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation("Get balance. Roles: Vip, Regular")]
+        public async Task<ActionResult> GetBalance([FromBody] BalanceRequest balanceRequest)
+        {
+            var leadIdentity = this.GetLeadFromToken();
+            var leadId = leadIdentity.Id;
+            _logger.LogInformation($"Poluchen zapros na polucheniie balance leada c id = {leadId}");
+            var balance = await _accountService.GetBalance(leadId, balanceRequest.CurrencyType);
+            _logger.LogInformation($"Balance dlya leada c id = {leadId} uspeshno poluchen.");
+            return Ok(balance);
         }
     }
 }

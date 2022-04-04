@@ -71,6 +71,15 @@ namespace CRM.BusinessLayer.Services
 
             return Convert.ToDecimal(response.Content);
         }
+        public async Task<decimal> GetBalance(List<int> ids)
+        {
+            _logger.LogInformation($"Popytka poluchenia balansa  accounta.");
+            _logger.LogInformation($"Otpravka zaprosa na poluchenie balansa accounta id = .");
+            var response = await _requestHelper.SendGetRequest(TransactionUrls.Url, "balanse-by-accountIds", ids);
+            _logger.LogInformation($"Poluchen otvet na poluchenie balansa accounta id = .");
+
+            return Convert.ToDecimal(response.Content);
+        }
 
         public async Task<RestResponse> GetTransactionsByAccountId(int id, int leadId)
         {
