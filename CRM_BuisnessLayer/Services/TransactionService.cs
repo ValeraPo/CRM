@@ -1,6 +1,8 @@
 ﻿using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts;
+using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.RequestModels;
+using Marvelous.Contracts.Urls;
 using Microsoft.Extensions.Logging;
 using RestSharp;
 
@@ -60,27 +62,21 @@ namespace CRM.BusinessLayer.Services
             return response;
         }
 
-        public async Task<decimal> GetBalance(int id)
+        public async Task<decimal> GetBalance(List<int> ids, Currency currency)
         {
-            _logger.LogInformation($"Received get balance request from account with ID = {id}.");
-            var entity = await _accountRepository.GetById(id);
-            ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
+            _logger.LogInformation($"Received get balance request from account with ID = {String.Join(", ", ids.ToArray())}.");
+            foreach (var id in ids)
+            {
+                var entity = await _accountRepository.GetById(id);
+                ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
+            }
             _logger.LogInformation($"Send request.");
-            var response = await _requestHelper.SendGetRequest(TransactionUrls.Url, "balanse-by-", id);
+            var response = await _requestHelper.GetBalance(TransactionUrls.Url, ids, currency);
             _logger.LogInformation($"Request successful.");
 
             return Convert.ToDecimal(response.Content);
         }
 
-        public async Task<decimal> GetBalance(List<int> ids)
-        {
-            _logger.LogInformation($"Popytka poluchenia balansa  accounta.");
-            _logger.LogInformation($"Otpravka zaprosa na poluchenie balansa accounta id = .");
-            var response = await _requestHelper.SendGetRequest(TransactionUrls.Url, "balanse-by-accountIds", ids);
-            _logger.LogInformation($"Poluchen otvet na poluchenie balansa accounta id = .");
-
-            return Convert.ToDecimal(response.Content);
-        }
 
         public async Task<RestResponse> GetTransactionsByAccountId(int id, int leadId)
         {
@@ -89,7 +85,7 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             _logger.LogInformation($"Otpravka zaprosa na poluchenie transakcii accounta id = {id}.");
-            var response = await _requestHelper.SendGetRequest(TransactionUrls.Url, TransactionUrls.GetTransactions, id);
+            var response = await _requestHelper.GetTransactions(TransactionUrls.Url, "by-accountIds", id);
             _logger.LogInformation($"Poluchen otvet na poluchenie transakcii accounta id = {id}.");
 
             return response;
