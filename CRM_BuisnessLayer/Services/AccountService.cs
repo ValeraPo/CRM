@@ -82,7 +82,12 @@ namespace CRM.BusinessLayer.Services
             var entity = await _leadRepository.GetById(leadId);
             ExceptionsHelper.ThrowIfEntityNotFound(leadId, entity);
             var accounts = await _accountRepository.GetByLead(leadId);
-            return _autoMapper.Map<List<AccountModel>>(accounts);
+            var accountModels = _autoMapper.Map<List<AccountModel>>(accounts);
+            foreach (var account in accountModels)
+            {
+                account.Balance = await _transactionService.GetBalance(new List<int> { account.Id}, account.CurrencyType);
+            }
+            return accountModels;
         }
 
         public async Task<AccountModel> GetById(int id)
@@ -103,6 +108,7 @@ namespace CRM.BusinessLayer.Services
                 _logger.LogError($"Authorisation Error. No access to someone else's account.");
                 throw new AuthorizationException("Authorisation Error. No access to someone else's account.");
             }
+            accountModel.Balance = await _transactionService.GetBalance(new List<int> { accountModel.Id }, accountModel.CurrencyType);
             return accountModel;
         }
 
@@ -115,10 +121,11 @@ namespace CRM.BusinessLayer.Services
                 throw new BadRequestException("Currency type should be among accounts.");
             }
             var accountIds = accounts.Select(a => a.Id).ToList();
-            var balance = await _transactionService.GetBalance(accountIds);
+            var balance = await _transactionService.GetBalance(accountIds, currencyType);
             _logger.LogInformation("Balance was received.");
             return balance;
         }
+
 
         private async Task CheckDuplicationAccount(int leadId, Currency currency)
         {

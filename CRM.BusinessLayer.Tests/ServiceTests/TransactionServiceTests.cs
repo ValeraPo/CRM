@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using RestSharp;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CRM.BusinessLayer.Tests.ServiceTests
@@ -150,15 +151,15 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var account = _transactionTestData.GetAccount();
             _accountRepository.Setup(m => m.GetById(1)).ReturnsAsync(account);
-            _requestHelper.Setup(m => m.SendGetRequest(It.IsAny<string>(), 1)).ReturnsAsync((RestResponse)null);
+            _requestHelper.Setup(m => m.SendGetRequest(It.IsAny<string>(), It.IsAny<string>(), 1)).ReturnsAsync((RestResponse)null);
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
-            var balance = sut.GetBalance(1);
+            var balance = sut.GetBalance(new List<int> { 1 }, Marvelous.Contracts.Enums.Currency.AFN);
 
             //then
             _accountRepository.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
-            _requestHelper.Verify(m => m.SendGetRequest(It.IsAny<string>(), 1), Times.Once());
+            _requestHelper.Verify(m => m.GetBalance(It.IsAny<string>(), new List<int> { 1 }, Marvelous.Contracts.Enums.Currency.AFN), Times.Once());
         }
 
         [Test]
@@ -167,13 +168,13 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var account = _transactionTestData.GetAccount();
             _accountRepository.Setup(m => m.GetById(1));
-            _requestHelper.Setup(m => m.SendGetRequest(It.IsAny<string>(), 1)).ReturnsAsync((RestResponse)null);
+            _requestHelper.Setup(m => m.SendGetRequest(It.IsAny<string>(), It.IsAny<string>(), 1)).ReturnsAsync((RestResponse)null);
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
 
             //then
-            Assert.ThrowsAsync<NotFoundException>(async () => await sut.GetBalance(1));
+            Assert.ThrowsAsync<NotFoundException>(async () => await sut.GetBalance(new List<int> { 1 }, Marvelous.Contracts.Enums.Currency.AFN));
         }
 
     }

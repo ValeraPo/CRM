@@ -102,7 +102,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
 
             //when
-            sut.ChangeRoleLead(It.IsAny<int>(), 3);
+            sut.ChangeRoleLead(It.IsAny<int>(), Marvelous.Contracts.Enums.Role.Regular);
 
             //then
             _leadRepositoryMock.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
@@ -117,7 +117,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
 
             //then
-            Assert.ThrowsAsync<NotFoundException>(async () => await sut.ChangeRoleLead(It.IsAny<int>(), 3));
+            Assert.ThrowsAsync<NotFoundException>(async () => await sut.ChangeRoleLead(It.IsAny<int>(), Marvelous.Contracts.Enums.Role.Regular));
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
 
             //then
-            Assert.ThrowsAsync<IncorrectRoleException>(async () => await sut.ChangeRoleLead(It.IsAny<int>(), 4));
+            Assert.ThrowsAsync<IncorrectRoleException>(async () => await sut.ChangeRoleLead(It.IsAny<int>(), Marvelous.Contracts.Enums.Role.Admin));
         }
 
         [Test]

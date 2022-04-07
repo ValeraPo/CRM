@@ -15,7 +15,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace CRM.APILayer.Controllers
 {
     [ApiController]
-    [Route(CrmUrls.Api)]
+    [Route(CrmUrls.LeadApi)]
 
     public class LeadsController : Controller
     {

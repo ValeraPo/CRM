@@ -1,4 +1,5 @@
-﻿using Marvelous.Contracts.RequestModels;
+﻿using Marvelous.Contracts.Enums;
+using Marvelous.Contracts.RequestModels;
 using RestSharp;
 
 namespace CRM.BusinessLayer.Services
@@ -8,9 +9,8 @@ namespace CRM.BusinessLayer.Services
         Task<RestResponse> AddDeposit(TransactionRequestModel transactionModel, int leadId);
         Task<RestResponse> AddTransfer(TransferRequestModel transactionModel, int leadId);
         Task<RestResponse> Withdraw(TransactionRequestModel transactionModel, int leadId);
-        Task<decimal> GetBalance(int id);
         Task<RestResponse> GetTransactionsByAccountId(int id, int leadId);
-        Task<decimal> GetBalance(List<int> ids);
+        Task<decimal> GetBalance(List<int> ids, Currency currency);
     }
 
 }

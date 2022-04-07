@@ -118,8 +118,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Request received to get all accounts by lead with ID = {id}");
             var accountModels = await _accountService.GetByLead(id);
             var outputs = _autoMapper.Map<List<AccountResponse>>(accountModels);
-            foreach (var account in outputs)
-                account.Balance = await _transactionService.GetBalance(account.Id);
+            
             _logger.LogInformation($"All lead accounts with ID {id} have been successfully received");
             return Ok(outputs);
         }
@@ -137,7 +136,7 @@ namespace CRM.APILayer.Controllers
             var leadId =  this.GetLeadFromToken().Id;
             var accountModel = await _accountService.GetById(id, leadId);
             var output = _autoMapper.Map<AccountResponse>(accountModel);
-            output.Balance = await _transactionService.GetBalance(id);
+            
             _logger.LogInformation($"Account with ID = {id} successfully received");
             return Ok(output);
         }

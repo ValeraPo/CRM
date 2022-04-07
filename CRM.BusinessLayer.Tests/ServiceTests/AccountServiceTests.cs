@@ -22,6 +22,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         private readonly AccountTestData _accountTestData;
         private readonly IMapper _autoMapper;
         private readonly Mock<ILogger<AccountService>> _logger;
+        private readonly Mock<ITransactionService> _transactionServiceMock;
 
         public AccountServiceTests()
         {
@@ -31,6 +32,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _autoMapper = new Mapper(
                 new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperToData>()));
             _logger = new Mock<ILogger<AccountService>>();
+            _transactionServiceMock = new Mock<ITransactionService>();
 
         }
 
@@ -47,7 +49,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var accountModel = _accountTestData.GetAccountModelVipForTests();
             var accounts = new List<Account>();
             _accountRepositoryMock.Setup(m => m.GetByLead(It.IsAny<int>())).ReturnsAsync(accounts);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper, 
+                _accountRepositoryMock.Object, 
+                _leadRepositoryMock.Object, 
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //when
             sut.AddAccount((int)Role.Vip, accountModel);
@@ -63,7 +69,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var accountModel = _accountTestData.GetAccountModelRegularForTests();
             var accounts = _accountTestData.GetListOfAccountsForTests();
             _accountRepositoryMock.Setup(m => m.GetByLead(It.IsAny<int>())).ReturnsAsync(accounts);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper, 
+                _accountRepositoryMock.Object, 
+                _leadRepositoryMock.Object, 
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //then
             Assert.ThrowsAsync<DuplicationException>(async () => await sut.AddAccount(It.IsAny<int>(), accountModel));
@@ -76,7 +86,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var accountModel = _accountTestData.GetAccountModelForTests();
             var accounts = new List<Account>();
             _accountRepositoryMock.Setup(m => m.GetByLead(It.IsAny<int>())).ReturnsAsync(accounts);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper, 
+                _accountRepositoryMock.Object, 
+                _leadRepositoryMock.Object, 
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //then
             Assert.ThrowsAsync<AuthorizationException>(async () => await sut.AddAccount((int)Role.Regular, accountModel));
@@ -88,7 +102,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var account = _accountTestData.GetAccountForTests();
             _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(account);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper, 
+                _accountRepositoryMock.Object, 
+                _leadRepositoryMock.Object, 
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //when
             sut.UpdateAccount(1, new AccountModel());
@@ -103,7 +121,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Account)null);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper, 
+                _accountRepositoryMock.Object, 
+                _leadRepositoryMock.Object, 
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //then
             Assert.ThrowsAsync<NotFoundException>(async () => await sut.UpdateAccount(It.IsAny<int>(), new AccountModel()));
@@ -115,7 +137,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var account = _accountTestData.GetAccountForTests();
             _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(account);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper, 
+                _accountRepositoryMock.Object, 
+                _leadRepositoryMock.Object, 
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //then
             Assert.ThrowsAsync<AuthorizationException>(async () => await sut.UpdateAccount(42, new AccountModel()));
@@ -127,7 +153,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var account = new Account();
             _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(account);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //when
             sut.LockById(It.IsAny<int>());
@@ -142,7 +172,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Account)null);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //then
             Assert.ThrowsAsync<NotFoundException>(async () => await sut.LockById(It.IsAny<int>()));
@@ -154,7 +188,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var account = new Account();
             _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(account);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //when
             sut.UnlockById(It.IsAny<int>());
@@ -169,7 +207,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Account)null);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //then
             Assert.ThrowsAsync<NotFoundException>(async () => await sut.UnlockById(It.IsAny<int>()));
@@ -183,7 +225,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var lead = new Lead();
             _accountRepositoryMock.Setup(m => m.GetByLead(It.IsAny<int>())).ReturnsAsync(accounts);
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //when
             var actual = sut.GetByLead(It.IsAny<int>()).Result;
@@ -206,7 +252,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Lead)null);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //then
             Assert.ThrowsAsync<NotFoundException>(async () => await sut.GetByLead(It.IsAny<int>()));
@@ -218,7 +268,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var account = _accountTestData.GetAccountForTests();
             _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(account);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //when
             var actual = sut.GetById(1, 1).Result;
@@ -237,7 +291,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var accounts = _accountTestData.GetAccountForTests();
             _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(accounts);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //then
             Assert.ThrowsAsync<AuthorizationException>(async () => await sut.GetById(100, 100));
@@ -248,7 +306,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Account)null);
-            var sut = new AccountService(_autoMapper, _accountRepositoryMock.Object, _leadRepositoryMock.Object, _logger.Object);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
 
             //then
             Assert.ThrowsAsync<NotFoundException>(async () => await sut.GetById(It.IsAny<int>(), It.IsAny<int>()));
