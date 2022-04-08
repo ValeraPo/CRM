@@ -37,6 +37,17 @@ namespace CRM.APILayer.Controllers
             _crmProducers = crmProducers;
         }
 
+        [HttpGet]
+        [SwaggerOperation("Get Port")]
+        public async Task<ActionResult<int>> GetPort([FromBody] AccountInsertRequest accountInsertRequest)
+        {
+
+            var accountModel = _autoMapper.Map<AccountModel>(accountInsertRequest);
+            accountModel.Lead = new LeadModel();
+            var id = await _transactionService.GetPort();
+            return Ok(id);
+        }
+
         //api/accounts
         [HttpPost]
         [AuthorizeEnum(Role.Vip, Role.Regular)]
