@@ -18,13 +18,6 @@ namespace CRM.BusinessLayer
             return await GenerateRequest(request, url);
         }
 
-        public async Task<RestResponse> GetPort()
-        {
-            var request = new RestRequest("api/auth/check-address", Method.Get);
-            return await GenerateRequest(request, "https://piter-education.ru:6042");
-
-        }
-
         public async Task<RestResponse> GetBalance(string url, List<int> accountIds, Currency currency)
         {
             var request = new RestRequest("api/balance", Method.Get);

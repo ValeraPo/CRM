@@ -26,7 +26,7 @@ namespace CRM.BusinessLayer.Services
             _logger = logger;
         }
 
-        public async Task<int> AddLead(LeadModel leadModel)
+        public async Task<(int, int)> AddLead(LeadModel leadModel)
         {
             _logger.LogInformation("Received a request to create a new lead.");
             ExceptionsHelper.ThrowIfEmailRepeat((await _leadRepository.GetByEmail(leadModel.Email)), leadModel.Email);
@@ -34,13 +34,14 @@ namespace CRM.BusinessLayer.Services
             mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
             var id = await _leadRepository.AddLead(mappedLead);
             mappedLead.Id = id;
-            await _accountRepository.AddAccount(new Account
+            var accountId = await _accountRepository.AddAccount(new Account
             {
                 Name = "MyAccount",
                 CurrencyType = Currency.RUB,
                 Lead = mappedLead
             });
-            return id;
+            
+            return (id, accountId);
         }
 
         public async Task UpdateLead(int id, LeadModel leadModel)
