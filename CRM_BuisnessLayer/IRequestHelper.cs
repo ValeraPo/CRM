@@ -1,4 +1,5 @@
 ﻿using Marvelous.Contracts.Enums;
+using Marvelous.Contracts.RequestModels;
 using RestSharp;
 
 namespace CRM.BusinessLayer
@@ -10,5 +11,8 @@ namespace CRM.BusinessLayer
         Task<RestResponse> GenerateRequest(RestRequest request, string url);
         Task<RestResponse> SendGetRequest(string url, string path, int id);
         Task<RestResponse> GetTransactions(string url, string path, int id);
+        Task<RestResponse> GetToken(AuthRequestModel auth);
+        Task<bool> CheckToken(string token);
+        Task<bool> CheckTokenMicroservice(string token);
     }
 }
