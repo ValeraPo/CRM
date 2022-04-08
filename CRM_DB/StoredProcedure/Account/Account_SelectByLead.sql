@@ -6,9 +6,7 @@ BEGIN
 		Id,
 		[Name], 
 		CurrencyType,
-		LeadId,
-		LockDate,
-		IsBlocked
+		LeadId
 	from dbo.[Account]
 	where LeadId = @LeadId
 END
