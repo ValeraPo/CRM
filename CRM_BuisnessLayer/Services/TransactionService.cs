@@ -21,6 +21,13 @@ namespace CRM.BusinessLayer.Services
             _requestHelper = requestHelper;
         }
 
+        public async Task<string> GetPort()
+        {
+            var response = await _requestHelper.GetPort();
+
+            return Convert.ToString(response.Content);
+        }
+
         public async Task<RestResponse> AddDeposit(TransactionRequestModel transactionModel, int leadId)
         {
             _logger.LogInformation($"Received a request to add a deposit to an account with ID =  {transactionModel.AccountId}.");

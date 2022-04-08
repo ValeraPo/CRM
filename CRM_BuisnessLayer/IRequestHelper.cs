@@ -10,5 +10,6 @@ namespace CRM.BusinessLayer
         Task<RestResponse> GenerateRequest(RestRequest request, string url);
         Task<RestResponse> SendGetRequest(string url, string path, int id);
         Task<RestResponse> GetTransactions(string url, string path, int id);
+        Task<RestResponse>  GetPort();
     }
 }
