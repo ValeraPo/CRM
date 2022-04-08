@@ -49,9 +49,7 @@ namespace CRM.APILayer.Extensions
                     {
                         ValidateIssuer = false,
                         ValidateAudience = false,
-                        ValidateLifetime = true,
-                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                        ValidateIssuerSigningKey = true
+                        ValidateLifetime = false
                     };
                 });
             services.AddAuthorization();

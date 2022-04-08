@@ -3,6 +3,7 @@ using CRM.APILayer.Attribites;
 using CRM.APILayer.Extensions;
 using CRM.APILayer.Models;
 using CRM.APILayer.Producers;
+using CRM.BusinessLayer;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
@@ -23,18 +24,21 @@ namespace CRM.APILayer.Controllers
         private readonly ILogger<AccountsController> _logger;
         private readonly ITransactionService _transactionService;
         private readonly ICRMProducers _crmProducers;
+        private readonly IRequestHelper _requestHelper;
 
         public AccountsController(IAccountService accountService,
             IMapper autoMapper,
             ILogger<AccountsController> logger,
             ITransactionService transactionService,
-            ICRMProducers crmProducers)
+            ICRMProducers crmProducers,
+            IRequestHelper requestHelper)
         {
             _accountService = accountService;
             _autoMapper = autoMapper;
             _logger = logger;
             _transactionService = transactionService;
             _crmProducers = crmProducers;
+            _requestHelper = requestHelper;
         }
 
         //api/accounts
@@ -44,6 +48,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Add new account. Roles: Vip, Regular")]
         public async Task<ActionResult<int>> AddAccount([FromBody] AccountInsertRequest accountInsertRequest)
         {
+            this.CheckToken(_requestHelper);
             var leadIdentity = this.GetLeadFromToken();
             _logger.LogInformation($"A request was received to add an account as a lead with ID = {leadIdentity.Id}.");
 
@@ -66,6 +71,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Update account by id. Roles: Vip, Regular")]
         public async Task<ActionResult> UpdateAccount(int id, [FromBody] AccountUpdateRequest accountUpdateRequest)
         {
+            this.CheckToken(_requestHelper);
             var leadIdentity = this.GetLeadFromToken();
             _logger.LogInformation($"A request was received to update an account with ID {id} as a lead with ID = {leadIdentity.Id}.");
             var accountModel = _autoMapper.Map<AccountModel>(accountUpdateRequest);
@@ -85,6 +91,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Lock account by id. Roles: Admin")]
         public async Task<ActionResult> LockById(int id)
         {
+            this.CheckToken(_requestHelper);
             _logger.LogInformation($"A request was received to lock an account with ID {id} as a lead with ID = {this.GetLeadFromToken().Id}.");
             await _accountService.LockById(id);
             _logger.LogInformation($"Account with ID {id} successfully locked.");
@@ -100,6 +107,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Unlock account by id. Roles: Admin")]
         public async Task<ActionResult> UnlockById(int id)
         {
+            this.CheckToken(_requestHelper);
             _logger.LogInformation($"A request was received to unlock an account with ID {id} as a lead with ID = {this.GetLeadFromToken().Id}.");
             await _accountService.UnlockById(id);
             _logger.LogInformation($"Account with ID {id} successfully unlocked.");
@@ -115,6 +123,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Get accounts by lead. Roles: Vip, Regular")]
         public async Task<ActionResult<List<AccountResponse>>> GetByLead()
         {
+            this.CheckToken(_requestHelper);
             var id = this.GetLeadFromToken().Id;
             _logger.LogInformation($"Request received to get all accounts by lead with ID = {id}");
             var accountModels = await _accountService.GetByLead(id);
@@ -133,6 +142,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Get account by id. Roles: Vip, Regular")]
         public async Task<ActionResult<AccountResponse>> GetById(int id)
         {
+            this.CheckToken(_requestHelper);
             _logger.LogInformation($"A request was received to get an account with an ID {id} lead with an ID {this.GetLeadFromToken().Id}");
             var leadId =  this.GetLeadFromToken().Id;
             var accountModel = await _accountService.GetById(id, leadId);
@@ -151,6 +161,7 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ArrayList>> GetTransactionsByAccountId(int accountId)
         {
+            this.CheckToken(_requestHelper);
             _logger.LogInformation($"Poluchen zapros na poluchenie transakcii c accounta id = {accountId}");
             var leadId =  this.GetLeadFromToken().Id;
             var transactionModel = await _transactionService.GetTransactionsByAccountId(accountId, leadId);
@@ -167,6 +178,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Get balance. Roles: Vip, Regular")]
         public async Task<ActionResult> GetBalance(int CurrencyType)
         {
+            this.CheckToken(_requestHelper);
             var leadIdentity = this.GetLeadFromToken();
             var leadId = leadIdentity.Id;
             _logger.LogInformation($"Poluchen zapros na polucheniie balance leada c id = {leadId}");

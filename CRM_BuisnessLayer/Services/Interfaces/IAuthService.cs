@@ -1,7 +1,9 @@
-﻿namespace CRM.BusinessLayer.Services
+﻿using Marvelous.Contracts.RequestModels;
+
+namespace CRM.BusinessLayer.Services
 {
     public interface IAuthService
     {
-        Task<string> GetToken(string email, string pass);
+        Task<string> GetToken(AuthRequestModel auth);
     }
 }

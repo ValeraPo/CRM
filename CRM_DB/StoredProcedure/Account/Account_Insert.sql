@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[Account_Insert]
 	@Name varchar(20),
-	@CurrencyType varchar(30),
+	@CurrencyType tinyint,
 	@LeadId int
 	
 AS

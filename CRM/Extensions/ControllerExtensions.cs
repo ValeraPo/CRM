@@ -1,4 +1,6 @@
 ﻿using CRM.APILayer.Models;
+using CRM.BusinessLayer;
+using CRM.BusinessLayer.Exceptions;
 using Marvelous.Contracts.Enums;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -21,6 +23,14 @@ namespace CRM.APILayer.Extensions
                 .Select(c => c.Value)
                 .SingleOrDefault());
             return leadIdentity;
+        }
+
+        
+        public static void CheckToken(this Controller controller, IRequestHelper requestHelper)
+        {
+            var token = controller.HttpContext.Request.Headers.Authorization[0];
+            if (!requestHelper.CheckToken(token).Result || !requestHelper.CheckTokenMicroservice(token).Result)
+                throw new ForbiddenException("Invalid token.");
         }
     }
 }
