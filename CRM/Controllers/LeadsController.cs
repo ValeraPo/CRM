@@ -45,10 +45,14 @@ namespace CRM.APILayer.Controllers
         {
             _logger.LogInformation($"Received a request to create a new lead.");
             var leadModel = _autoMapper.Map<LeadModel>(leadInsertRequest);
-            var id = await _leadService.AddLead(leadModel);
-            _logger.LogInformation($"Lead successfully created. Received ID = {id}");
+            var ids = await _leadService.AddLead(leadModel);
+            var leadId = ids.Item1;
+            var accountId = ids.Item2;
+            leadModel.Id = leadId;
+            _logger.LogInformation($"Lead successfully created. Received ID = {leadId}");
             await _crmProducers.NotifyLeadAdded(leadModel);
-            return StatusCode(StatusCodes.Status201Created, id);
+            await _crmProducers.NotifyAccountAdded(accountId);
+            return StatusCode(StatusCodes.Status201Created, leadId);
         }
 
         //api/Leads/42

@@ -6,7 +6,7 @@ namespace CRM.BusinessLayer.Services.Interfaces
 {
     public interface ILeadService
     {
-        Task<int> AddLead(LeadModel leadModel);
+        Task<(int, int)> AddLead(LeadModel leadModel);
         Task UpdateLead(int id, LeadModel leadModel);
         Task ChangeRoleLead(int id, Role role);
         Task DeleteById(int id);
