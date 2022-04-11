@@ -33,6 +33,7 @@ namespace CRM.APILayer.Extensions
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IRequestHelper, RequestHelper>();
             services.AddScoped<ICRMProducers, CRMProducer>();
+            services.AddTransient<IInitializationHelper, InitializationHelper>();
         }
 
         public static void RegisterCRMAutomappers(this IServiceCollection services)
@@ -48,8 +49,12 @@ namespace CRM.APILayer.Extensions
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = false,
+                        //ValidIssuer = AuthOptions.Issuer,
                         ValidateAudience = false,
-                        ValidateLifetime = false
+                        //ValidAudience = AuthOptions.Audience,
+                        ValidateLifetime = false,
+                        //IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        //ValidateIssuerSigningKey = true
                     };
                 });
             services.AddAuthorization();

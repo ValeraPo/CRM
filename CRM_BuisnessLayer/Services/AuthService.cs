@@ -1,9 +1,12 @@
-﻿using CRM.DataLayer.Entities;
+﻿using BearGoodbyeKolkhozProject.Business.Configuration;
+using CRM.DataLayer.Entities;
 using CRM.DataLayer.Extensions;
 using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts.RequestModels;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace CRM.BusinessLayer.Services
 {
@@ -25,28 +28,27 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Authorization attempt with email {auth.Email.Encryptor()}.");
             Lead entity = await _leadRepo.GetByEmail(auth.Email);
 
-            ExceptionsHelper.ThrowIfEmailNotFound(auth.Email, entity);
-            ExceptionsHelper.ThrowIfLeadWasBanned(entity.Id, entity);
-            var token = await _requestHelper.GetToken(auth);
+            
+            //var token = await _requestHelper.GetToken(auth);
 
 
             //ExceptionsHelper.ThrowIfPasswordIsIncorrected(pass, entity.Password);
 
-            //List<Claim> claims = new List<Claim> {
-            //    new Claim(ClaimTypes.Email, entity.Email),
-            //    new Claim(ClaimTypes.UserData, entity.Id.ToString()),
-            //    new Claim(ClaimTypes.Role, entity.Role.ToString())
-            //};
-            //_logger.LogInformation($"Received a token for a lead with email {email.Encryptor()}.");
-            //var jwt = new JwtSecurityToken(
-            //                issuer: AuthOptions.Issuer,
-            //                audience: AuthOptions.Audience,
-            //                claims: claims,
-            //                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(30)),
-            //                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            //_logger.LogInformation($"Authorization of lead with email {email.Encryptor()} was successful.");
+            List<Claim> claims = new List<Claim> {
+                new Claim(ClaimTypes.Email, entity.Email),
+                new Claim(ClaimTypes.UserData, entity.Id.ToString()),
+                new Claim(ClaimTypes.Role, entity.Role.ToString())
+            };
+            _logger.LogInformation($"Received a token for a lead with email .");
+            var jwt = new JwtSecurityToken(
+                            issuer: AuthOptions.Issuer,
+                            audience: AuthOptions.Audience,
+                            claims: claims,
+                            expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(30)),
+                            signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            _logger.LogInformation($"Authorization of lead with email  was successful.");
 
-            return token.Content;
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
 
         }
     }

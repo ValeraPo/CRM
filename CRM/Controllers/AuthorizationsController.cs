@@ -1,4 +1,5 @@
 ﻿using CRM.APILayer.Models;
+using CRM.BusinessLayer;
 using CRM.BusinessLayer.Services;
 using CRM.DataLayer.Extensions;
 using Marvelous.Contracts.RequestModels;
@@ -15,25 +16,27 @@ namespace CRM.APILayer.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ILogger<AuthorizationsController> _logger;
-        private readonly IConfiguration _config;
+        private readonly IRequestHelper _requestHelper;
 
-        public AuthorizationsController(IAuthService authService, ILogger<AuthorizationsController> logger, IConfiguration config)
+        public AuthorizationsController(IAuthService authService, 
+            ILogger<AuthorizationsController> logger,
+            IRequestHelper requestHelper)
         {
             _authService = authService;
             _logger = logger;
-            _config = config;
+            _requestHelper = requestHelper;
         }
 
         [HttpPost("login")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [SwaggerOperation("Authentication")]
-        public async Task<ActionResult> Login([FromBody] AuthRequestModel auth)
+        public async Task<ActionResult<string>> Login([FromBody] AuthRequestModel auth)
         {
             _logger.LogInformation($"Lead with email {auth.Email.Encryptor()} tries to log in.");
-            var token = await _authService.GetToken(auth);
+            var token = await _requestHelper.GetToken(auth);
             //var token = await _authService.GetToken(auth.Email, auth.Password);
             _logger.LogInformation($"Lead with email {auth.Email.Encryptor()} successfully logged in.");
-            return new JsonResult(token);
+            return Ok(token.Content);
         }
     }
 }
