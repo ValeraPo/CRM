@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
-    <PackageReference Include="Marvelous.Contracts" Version="1.1.26" />
+    <PackageReference Include="Marvelous.Contracts" Version="1.1.29" />
     <PackageReference Include="MassTransit" Version="8.0.0" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.0" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.7.4" />

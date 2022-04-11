@@ -30,11 +30,11 @@ namespace CRM.BusinessLayer.Services
             _transactionService = transactionService;
         }
 
-        public async Task<int> AddAccount(int role, AccountModel accountModel)
+        public async Task<int> AddAccount(Role role, AccountModel accountModel)
         {
             _logger.LogInformation("Request was received to add an account.");
             await CheckDuplicationAccount(accountModel.Lead.Id, accountModel.CurrencyType);
-            if (role == (int)Role.Regular && accountModel.CurrencyType != Currency.USD)
+            if (role == Role.Regular && accountModel.CurrencyType != Currency.USD)
             {
                 _logger.LogError("Authorisation error. The lead role does not allow you to create accounts other than dollar.");
                 throw new AuthorizationException("Authorization error. The lead role does not allow you to create accounts other than dollar.");
