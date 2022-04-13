@@ -35,7 +35,7 @@ namespace CRM.APILayer.Extensions
             services.AddScoped<ILeadService, LeadService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITransactionService, TransactionService>();
-            services.AddScoped<IAuthService, AuthService>();
+            //services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IRequestHelper, RequestHelper>();
             services.AddScoped<ICRMProducers, CRMProducer>();
             services.AddTransient<IInitializationHelper, InitializationHelper>();

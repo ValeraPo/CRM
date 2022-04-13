@@ -11,7 +11,6 @@ using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ResponseModels;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Collections;
 
 namespace CRM.APILayer.Controllers
 {

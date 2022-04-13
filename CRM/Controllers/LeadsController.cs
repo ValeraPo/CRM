@@ -133,7 +133,7 @@ namespace CRM.APILayer.Controllers
             await _leadService.RestoreById(id);
             _logger.LogInformation($"Lead successfully deleted with ID = {id}.");
             await _crmProducers.NotifyLeadAdded(id);
-            return Ok($"Lead successfully deleted with ID = {id}.");
+            return Ok($"Lead successfully restored with ID = {id}.");
         }
 
         //api/Leads/
