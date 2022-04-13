@@ -2,7 +2,7 @@
 
 namespace CRM.APILayer.Models
 {
-    public class LeadInsertRequest : LeadRequest
+    public class LeadInsertRequest : LeadUpdateRequest
     {
 
         [EmailAddress(ErrorMessage = "Email введен некорректно.")]

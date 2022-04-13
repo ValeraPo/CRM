@@ -5,9 +5,11 @@ using CRM.APILayer.Producers;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
+using FluentValidation;
 using Marvelous.Contracts.Endpoints;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ExchangeModels;
+using Marvelous.Contracts.ResponseModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -24,30 +26,41 @@ namespace CRM.APILayer.Controllers
         private readonly IMapper _autoMapper;
         private readonly ILogger<LeadsController> _logger;
         private readonly ICRMProducers _crmProducers;
-        private readonly IRequestHelper _requestHelper;
-
+        private readonly IValidator<LeadInsertRequest> _validatorLeadInsertRequest;
+        private readonly IValidator<LeadUpdateRequest> _validatorLeadUpdateRequest;
+        private readonly IValidator<LeadChangePasswordRequest> _validatorLeadChangePasswordRequest;
 
         public LeadsController(ILeadService leadService,
             IMapper autoMapper,
             ILogger<LeadsController> logger,
             ICRMProducers crmProducers,
             IRequestHelper requestHelper,
-            IConfiguration configuration) : base(configuration, requestHelper)
+            IConfiguration configuration,
+            IValidator<LeadInsertRequest> validatorLeadInsertRequest,
+            IValidator<LeadUpdateRequest> validatorLeadUpdateRequest,
+            IValidator<LeadChangePasswordRequest> validatorLeadChangePasswordRequest) : base(configuration, requestHelper, logger)
         {
             _leadService = leadService;
             _autoMapper = autoMapper;
             _logger = logger;
             _crmProducers = crmProducers;
-            _requestHelper = requestHelper;
+            _validatorLeadInsertRequest = validatorLeadInsertRequest;
+            _validatorLeadUpdateRequest = validatorLeadUpdateRequest;
+            _validatorLeadChangePasswordRequest = validatorLeadChangePasswordRequest;
+
         }
+
 
         //api/Leads
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerOperation("Create lead")]
         public async Task<ActionResult<int>> AddLead([FromBody] LeadInsertRequest leadInsertRequest)
         {
+            Validation(leadInsertRequest, _validatorLeadInsertRequest);
             _logger.LogInformation($"Received a request to create a new lead.");
             var leadModel = _autoMapper.Map<LeadModel>(leadInsertRequest);
             var ids = await _leadService.AddLead(leadModel);
@@ -64,10 +77,13 @@ namespace CRM.APILayer.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerOperation("Update lead by id. Roles: All")]
         public async Task<ActionResult> UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
         {
             await CheckRole(Role.Admin, Role.Vip, Role.Regular);
+            Validation(leadUpdateRequest, _validatorLeadUpdateRequest);
             _logger.LogInformation($"Received a request to update lead with ID = {id}.");
             var leadModel = _autoMapper.Map<LeadModel>(leadUpdateRequest);
             leadModel.Id = id;
@@ -169,10 +185,13 @@ namespace CRM.APILayer.Controllers
         [HttpPut("password")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerOperation("Change lead password. Roles: All")]
         public async Task<ActionResult> ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
         {
             await CheckRole(Role.Admin, Role.Vip, Role.Regular);
+            Validation(changePasswordRequest, _validatorLeadChangePasswordRequest);
             var id = (int)(await GetIdentity()).Id;
             _logger.LogInformation($"Received a request to change the password of a lead with an ID = {id}.");
             await _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);

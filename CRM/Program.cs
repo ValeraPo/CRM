@@ -7,12 +7,14 @@ using Marvelous.Contracts.Enums;
 var builder = WebApplication.CreateBuilder(args);
 string _logDirectoryVariableName = "LOG_DIRECTORY";
 string _connectionStringVariableName = "CRM_CONNECTION_STRING";
-//string _identityUrlVariableName = "IDENTITY_SERVICE_URL";
+string _identityUrlVariableName = "IDENTITY_SERVICE_URL";
+string _configsUrlVariableName = "CONFIGS_SERVICE_URL";
 string connString = builder.Configuration.GetValue<string>(_connectionStringVariableName);
 string logDirectory = builder.Configuration.GetValue<string>(_logDirectoryVariableName);
-//string identityUrl = builder.Configuration.GetValue<string>(_identityUrlVariableName);
-var configs = "https://piter-education.ru:6040";
-var auth = "https://piter-education.ru:6042";
+string auth = builder.Configuration.GetValue<string>(_identityUrlVariableName);
+var configs = builder.Configuration.GetValue<string>(_configsUrlVariableName);
+//var configs = "https://piter-education.ru:6040";
+//var auth = "https://piter-education.ru:6042";
 
 builder.Services.Configure<DbConfiguration>(opt =>
 {
@@ -38,6 +40,7 @@ builder.Services.RegisterCRMServices();
 builder.Services.RegisterCRMAutomappers();
 builder.Services.RegisterLogger(config);
 builder.Services.AddMassTransit();
+builder.Services.AddFluentValidation();
 
 var app = builder.Build();
 

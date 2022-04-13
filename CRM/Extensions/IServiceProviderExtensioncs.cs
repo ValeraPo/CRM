@@ -1,19 +1,24 @@
-﻿using BearGoodbyeKolkhozProject.Business.Configuration;
-using CRM.APILayer.Configuration;
+﻿using CRM.APILayer.Configuration;
 using CRM.APILayer.Consumer;
 using CRM.APILayer.Producers;
+using CRM.APILayer.Validation;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Configurations;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Repositories;
 using CRM.DataLayer.Repositories.Interfaces;
+using FluentValidation.AspNetCore;
 using Marvelous.Contracts.ExchangeModels;
 using MassTransit;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
+//using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+
 
 namespace CRM.APILayer.Extensions
 {
@@ -34,6 +39,20 @@ namespace CRM.APILayer.Extensions
             services.AddScoped<IRequestHelper, RequestHelper>();
             services.AddScoped<ICRMProducers, CRMProducer>();
             services.AddTransient<IInitializationHelper, InitializationHelper>();
+        }
+
+        public static void AddFluentValidation(this IServiceCollection services)
+        {
+            //Добавление FluentValidation
+            services.AddFluentValidation(fv =>
+            {
+                //Регистрация валидаторов по сборке с временем жизни = Singleton
+                fv.RegisterValidatorsFromAssemblyContaining<LeadInsertRequestValidation>(lifetime: ServiceLifetime.Singleton);
+                //Отключение валидации с помощью DataAnnotations
+                fv.DisableDataAnnotationsValidation = true;
+            });
+            //Отключение стандартного валидатора
+            services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
         }
 
         public static void RegisterCRMAutomappers(this IServiceCollection services)
@@ -99,8 +118,9 @@ namespace CRM.APILayer.Extensions
                          new string[] {}
                     }
                 });
-
             });
+            services.AddFluentValidationRulesToSwagger();
+
         }
 
         public static void RegisterLogger(this IServiceCollection service, IConfiguration config)

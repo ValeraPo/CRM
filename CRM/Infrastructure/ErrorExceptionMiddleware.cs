@@ -3,6 +3,7 @@ using CRM.BusinessLayer.Exceptions;
 using NLog;
 using System.Net;
 using System.Text.Json;
+using FluentValidation;
 
 namespace CRM.APILayer.Infrastructure
 {
@@ -60,6 +61,10 @@ namespace CRM.APILayer.Infrastructure
             catch (InternalServerError error)
             {
                 await ConstructResponse(context, HttpStatusCode.InternalServerError, error.Message);
+            }
+            catch (ValidationException ex)
+            {
+                await ConstructResponse(context, HttpStatusCode.UnprocessableEntity, ex.Message);
             }
             catch (Exception ex)
             {

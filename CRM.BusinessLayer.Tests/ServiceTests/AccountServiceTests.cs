@@ -10,6 +10,7 @@ using Marvelous.Contracts.Enums;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -56,7 +57,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 _transactionServiceMock.Object);
 
             //when
-            sut.AddAccount((int)Role.Vip, accountModel);
+            sut.AddAccount(Role.Vip, accountModel);
 
             //then
             _accountRepositoryMock.Verify(m => m.AddAccount(It.IsAny<Account>()), Times.Once());
@@ -76,7 +77,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 _transactionServiceMock.Object);
 
             //then
-            Assert.ThrowsAsync<DuplicationException>(async () => await sut.AddAccount(It.IsAny<int>(), accountModel));
+            Assert.ThrowsAsync<DuplicationException>(async () => await sut.AddAccount(It.IsAny<Role>(), accountModel));
         }
 
         [Test]
@@ -93,7 +94,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 _transactionServiceMock.Object);
 
             //then
-            Assert.ThrowsAsync<AuthorizationException>(async () => await sut.AddAccount((int)Role.Regular, accountModel));
+            Assert.ThrowsAsync<AuthorizationException>(async () => await sut.AddAccount(Role.Regular, accountModel));
         }
 
         [Test]
@@ -180,6 +181,30 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
             //then
             Assert.ThrowsAsync<NotFoundException>(async () => await sut.LockById(It.IsAny<int>()));
+        }
+
+        [Test]
+        public async Task LockById_BlaBla()
+        {
+            //given
+            var accountId = 42;
+            _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync(new Account { Id = accountId,
+            CurrencyType = Currency.RUB});
+
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
+
+            //then
+            Assert.ThrowsAsync<BadRequestException>(async () => await sut.LockById(accountId));
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once);
+            _logger.Verify(x => x.Log(LogLevel.Error,
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((o, t) => string.Equals("Error: it is forbidden to block ruble accounts.", o.ToString(), StringComparison.InvariantCultureIgnoreCase)),
+                    It.IsAny<Exception>(),
+                    It.IsAny<Func<It.IsAnyType, Exception, string>>()), Times.Once);
         }
 
         [Test]

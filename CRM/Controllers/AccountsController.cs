@@ -6,7 +6,9 @@ using CRM.BusinessLayer;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
+using FluentValidation;
 using Marvelous.Contracts.Enums;
+using Marvelous.Contracts.ResponseModels;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections;
@@ -23,8 +25,8 @@ namespace CRM.APILayer.Controllers
         private readonly ILogger<AccountsController> _logger;
         private readonly ITransactionService _transactionService;
         private readonly ICRMProducers _crmProducers;
-        private readonly IRequestHelper _requestHelper;
-        private readonly IConfiguration _config;
+        private readonly IValidator<AccountInsertRequest> _validatorAccountInsertRequest;
+        private readonly IValidator<AccountUpdateRequest> _validatorAccountUpdateRequest;
 
         public AccountsController(IAccountService accountService,
             IMapper autoMapper,
@@ -32,23 +34,29 @@ namespace CRM.APILayer.Controllers
             ITransactionService transactionService,
             ICRMProducers crmProducers,
             IRequestHelper requestHelper,
-            IConfiguration configuration) : base(configuration, requestHelper)
+            IConfiguration configuration,
+            IValidator<AccountInsertRequest> validatorAccountInsertRequest,
+            IValidator<AccountUpdateRequest> validatorAccountUpdateRequest) : base(configuration, requestHelper, logger)
         {
             _accountService = accountService;
             _autoMapper = autoMapper;
             _logger = logger;
             _transactionService = transactionService;
             _crmProducers = crmProducers;
-            _requestHelper = requestHelper;
+            _validatorAccountInsertRequest = validatorAccountInsertRequest;
+            _validatorAccountUpdateRequest = validatorAccountUpdateRequest;
         }
 
         //api/accounts
         [HttpPost]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerOperation("Add new account. Roles: Vip, Regular")]
         public async Task<ActionResult<int>> AddAccount([FromBody] AccountInsertRequest accountInsertRequest)
         {
             await CheckRole(Role.Vip, Role.Regular);
+            Validation(accountInsertRequest, _validatorAccountInsertRequest);
             var leadIdentity = await GetIdentity();
             _logger.LogInformation($"A request was received to add an account as a lead with ID = {leadIdentity.Id}.");
 
@@ -67,10 +75,13 @@ namespace CRM.APILayer.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerOperation("Update account by id. Roles: Vip, Regular")]
         public async Task<ActionResult> UpdateAccount(int id, [FromBody] AccountUpdateRequest accountUpdateRequest)
         {
             await CheckRole(Role.Vip, Role.Regular);
+            Validation(accountUpdateRequest, _validatorAccountUpdateRequest);
             var leadIdentity = await GetIdentity();
             _logger.LogInformation($"A request was received to update an account with ID {id} as a lead with ID = {leadIdentity.Id}.");
             var accountModel = _autoMapper.Map<AccountModel>(accountUpdateRequest);
@@ -148,34 +159,18 @@ namespace CRM.APILayer.Controllers
             return Ok(output);
         }
 
-        //api/transaction/42
-        [HttpGet("transaction/{accountId}")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Successful", typeof(ArrayList))]
-        [SwaggerOperation("Get transactions by accountId. Roles: Vip, Regular")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ArrayList>> GetTransactionsByAccountId(int accountId)
-        {
-            await CheckRole(Role.Vip, Role.Regular);
-            _logger.LogInformation($"Poluchen zapros na poluchenie transakcii c accounta id = {accountId}");
-            var leadId = (int)(await GetIdentity()).Id;
-            var transactionModel = await _transactionService.GetTransactionsByAccountId(accountId, leadId);
-            _logger.LogInformation($"Poluchenie transakcii c accounta id = {accountId} proshel uspeshno");
-
-            return Ok(transactionModel.Content);
-        }
 
         //api/accounts/42
         [HttpGet("balance/{CurrencyType}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Successful", typeof(decimal))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Get balance. Roles: Vip, Regular")]
-        public async Task<ActionResult> GetBalance(int CurrencyType)
+        public async Task<ActionResult> GetBalance(Currency currencyType)
         {
             await CheckRole(Role.Vip, Role.Regular);
             var leadId = (int)(await GetIdentity()).Id;
             _logger.LogInformation($"Poluchen zapros na polucheniie balance leada c id = {leadId}");
-            var balance = await _accountService.GetBalance(leadId, (Currency)CurrencyType);
+            var balance = await _accountService.GetBalance(leadId, currencyType);
             _logger.LogInformation($"Balance dlya leada c id = {leadId} uspeshno poluchen.");
             return Ok(balance);
         }
