@@ -32,7 +32,7 @@ namespace CRM.APILayer.Controllers
 
         // api/deposit/
         [HttpPost("deposit")]
-        [SwaggerOperation("Add deposit Roles: Vip, Regular")]
+        [SwaggerOperation("Created invoice on paypal to make deposit. Returns link on paypal site. Roles: Vip, Regular")]
         [SwaggerResponse(201, "Deposit added")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -41,13 +41,13 @@ namespace CRM.APILayer.Controllers
             await CheckRole(Role.Vip, Role.Regular);
             _logger.LogInformation($"Received a request to add a deposit to an account with ID = {transaction.AccountId}.");
             var leadId = (int)(await GetIdentity()).Id;
-            var response = await _transactionService.AddDeposit(transaction, leadId);
-            _logger.LogInformation($"Successfully added deposit to account with ID = {transaction.AccountId}. Deposit ID = {response.Content}.");
+            var linkToPay = await _transactionService.AddDeposit(transaction, leadId);
+            _logger.LogInformation($"Successfully created invoice on paypal to deposit on account with ID = {transaction.AccountId}. Link to make payment = {linkToPay}");
 
-            return StatusCode(201, response.Content);
+            return StatusCode(201, linkToPay);
         }
 
-        // api/trsnsfer/
+        // api/transfer/
         [HttpPost("transfer")]
         [SwaggerOperation("Add transfer Roles: Vip, Regular")]
         [SwaggerResponse(201, "List transactions by accountId ")]

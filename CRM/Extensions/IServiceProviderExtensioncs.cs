@@ -4,6 +4,7 @@ using CRM.APILayer.Consumer;
 using CRM.APILayer.Producers;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Configurations;
+using CRM.BusinessLayer.Helpers;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Repositories;
@@ -34,6 +35,7 @@ namespace CRM.APILayer.Extensions
             services.AddScoped<IRequestHelper, RequestHelper>();
             services.AddScoped<ICRMProducers, CRMProducer>();
             services.AddTransient<IInitializationHelper, InitializationHelper>();
+            services.AddScoped<IPaypalRequestHelper, PaypalRequestHelper>();
         }
 
         public static void RegisterCRMAutomappers(this IServiceCollection services)

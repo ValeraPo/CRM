@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CRM.BusinessLayer.Configurations;
 using CRM.BusinessLayer.Exceptions;
+using CRM.BusinessLayer.Helpers;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Tests.TestData;
 using CRM.DataLayer.Repositories.Interfaces;
@@ -22,6 +23,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         private Mock<IAccountRepository> _accountRepository;
         private readonly Mock<IRequestHelper> _requestHelper;
         private readonly TransactionTestData _transactionTestData;
+        private readonly Mock<IPaypalRequestHelper> _paypalRequestHelper;
 
         public TransactionServiceTests()
         {
@@ -30,6 +32,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperToData>()));
             _transactionTestData = new TransactionTestData();
             _requestHelper = new Mock<IRequestHelper>();
+            _paypalRequestHelper = new Mock<IPaypalRequestHelper>();
         }
 
         [SetUp]
@@ -47,7 +50,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var account = _transactionTestData.GetAccount();
             _accountRepository.Setup(m => m.GetById(1)).ReturnsAsync(account);
             _requestHelper.Setup(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transactionRequestModel)).ReturnsAsync((RestResponse)null);
-            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
+            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object, _paypalRequestHelper.Object);
 
             //when
             sut.AddDeposit(transactionRequestModel, 1);
@@ -65,7 +68,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var account = _transactionTestData.GetAccount();
             _accountRepository.Setup(m => m.GetById(2));
             _requestHelper.Setup(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transactionRequestModel)).ReturnsAsync((RestResponse)null);
-            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
+            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object, _paypalRequestHelper.Object);
 
             //when
 
@@ -84,7 +87,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepository.Setup(m => m.GetById(1)).ReturnsAsync(accountFrom);
             _accountRepository.Setup(m => m.GetById(2)).ReturnsAsync(accontTo);
             _requestHelper.Setup(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transferRequestModel)).ReturnsAsync((RestResponse)null);
-            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
+            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object, _paypalRequestHelper.Object);
 
             //when
             sut.AddTransfer(transferRequestModel, 1);
@@ -102,7 +105,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var transferRequestModel = _transactionTestData.GetTransferRequestModel();
             _accountRepository.Setup(m => m.GetById(1));
             _requestHelper.Setup(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transferRequestModel)).ReturnsAsync((RestResponse)null);
-            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
+            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object, _paypalRequestHelper.Object);
 
             //when
             sut.AddTransfer(transferRequestModel, (It.IsAny<int>()));
@@ -119,7 +122,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var transactionRequestModel = _transactionTestData.GetTransactionRequestModel();
             _accountRepository.Setup(m => m.GetById(1)).ReturnsAsync(account);
             _requestHelper.Setup(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transactionRequestModel)).ReturnsAsync((RestResponse)null);
-            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
+            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object, _paypalRequestHelper.Object);
 
             //when
             sut.Withdraw(transactionRequestModel, 1);
@@ -137,7 +140,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var transactionRequestModel = _transactionTestData.GetTransactionRequestModel();
             _accountRepository.Setup(m => m.GetById(1));
             _requestHelper.Setup(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transactionRequestModel)).ReturnsAsync((RestResponse)null);
-            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
+            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object, _paypalRequestHelper.Object);
 
             //when
 
@@ -152,7 +155,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var account = _transactionTestData.GetAccount();
             _accountRepository.Setup(m => m.GetById(1)).ReturnsAsync(account);
             _requestHelper.Setup(m => m.SendGetRequest(It.IsAny<string>(), It.IsAny<string>(), 1)).ReturnsAsync((RestResponse)null);
-            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
+            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object, _paypalRequestHelper.Object);
 
             //when
             var balance = sut.GetBalance(new List<int> { 1 }, Marvelous.Contracts.Enums.Currency.AFN);
@@ -169,7 +172,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var account = _transactionTestData.GetAccount();
             _accountRepository.Setup(m => m.GetById(1));
             _requestHelper.Setup(m => m.SendGetRequest(It.IsAny<string>(), It.IsAny<string>(), 1)).ReturnsAsync((RestResponse)null);
-            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
+            var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object, _paypalRequestHelper.Object);
 
             //when
 

@@ -56,7 +56,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 _transactionServiceMock.Object);
 
             //when
-            sut.AddAccount((int)Role.Vip, accountModel);
+            sut.AddAccount(Role.Vip, accountModel);
 
             //then
             _accountRepositoryMock.Verify(m => m.AddAccount(It.IsAny<Account>()), Times.Once());
@@ -76,7 +76,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 _transactionServiceMock.Object);
 
             //then
-            Assert.ThrowsAsync<DuplicationException>(async () => await sut.AddAccount(It.IsAny<int>(), accountModel));
+            Assert.ThrowsAsync<DuplicationException>(async () => await sut.AddAccount(It.IsAny<Role>(), accountModel));
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 _transactionServiceMock.Object);
 
             //then
-            Assert.ThrowsAsync<AuthorizationException>(async () => await sut.AddAccount((int)Role.Regular, accountModel));
+            Assert.ThrowsAsync<AuthorizationException>(async () => await sut.AddAccount(Role.Regular, accountModel));
         }
 
         [Test]
