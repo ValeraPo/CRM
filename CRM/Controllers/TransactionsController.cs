@@ -76,12 +76,25 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> Withdraw([FromBody] TransactionRequestModel transaction)
         {
             await CheckRole(Role.Vip, Role.Regular);
-            _logger.LogInformation($"Received withdrawal request from account with ID = {transaction.AccountId}.");
-            var leadId = (int)(await GetIdentity()).Id;
-            var response = await _transactionService.Withdraw(transaction, leadId);
-            _logger.LogInformation($"Successfully passed the request for withdrawal of funds from the account with the ID {transaction.AccountId}. Withdraw ID = {response.Content}.");
+            //_logger.LogInformation($"Received withdrawal request from account with ID = {transaction.AccountId}.");
+            //var leadId = (int)(await GetIdentity()).Id;
+            //var response = await _transactionService.Withdraw(transaction, leadId);
+            //_logger.LogInformation($"Successfully passed the request for withdrawal of funds from the account with the ID {transaction.AccountId}. Withdraw ID = {response.Content}.");
+            return RedirectToAction("WithdrawApprove");
+            //return StatusCode(201, response.Content);
+        }
 
-            return StatusCode(201, response.Content);
+        // api/transactions/withdraw/
+        [HttpPost("/transactions/approve")]
+        [SwaggerOperation("Withdraw Roles: Vip, Regular")]
+        [SwaggerResponse(201, "Withdraw successful")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> WithdrawApprove([FromBody] TransactionRequestModel transaction)
+        {
+            
+
+            return StatusCode(201);
         }
 
         //api/transactions/42

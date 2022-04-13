@@ -1,4 +1,5 @@
-﻿using CRM.DataLayer.Repositories.Interfaces;
+﻿using CRM.BusinessLayer.Models;
+using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts.Endpoints;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.RequestModels;
@@ -12,6 +13,7 @@ namespace CRM.BusinessLayer.Services
         private readonly IAccountRepository _accountRepository;
         private readonly IRequestHelper _requestHelper;
         private readonly ILogger<TransactionService> _logger;
+        private readonly ILeadRepository _leadRepository;
 
         public TransactionService(IAccountRepository accountRepository, IRequestHelper requestHelper, ILogger<TransactionService> logger)
         {
@@ -88,6 +90,13 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Poluchen otvet na poluchenie transakcii accounta id = {id}.");
 
             return response;
+        }
+
+        public async Task<bool> CheckPin2FA(int pin, int leadId)
+        {
+            var entity = await _leadRepository.GetById(leadId);
+            ExceptionsHelper.ThrowIfPin2FAIsIncorrected(pin, leadId, entity.Password);
+            return true;
         }
     }
 }

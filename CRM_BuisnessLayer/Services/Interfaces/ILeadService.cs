@@ -16,5 +16,6 @@ namespace CRM.BusinessLayer.Services.Interfaces
         Task<LeadModel> GetById(int id);
         Task<List<LeadAuthExchangeModel>> GetAllToAuth();
         Task ChangeRoleListLead(LeadShortExchangeModel[] models);
+        Task<Data2FAModel> GetData2FA(LeadModel lead);
     }
 }

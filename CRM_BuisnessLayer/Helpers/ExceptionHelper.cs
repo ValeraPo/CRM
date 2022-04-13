@@ -1,6 +1,7 @@
 ﻿using CRM.BusinessLayer.Exceptions;
 using CRM.BusinessLayer.Security;
 using CRM.DataLayer.Entities;
+using Google.Authenticator;
 using NLog;
 
 namespace CRM.BusinessLayer
@@ -61,6 +62,15 @@ namespace CRM.BusinessLayer
             {
                 _logger.Error($"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn with ID {accountLeadId}.");
                 throw new AuthorizationException($"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn with ID {accountLeadId}.");
+            }
+        }
+
+        public static void ThrowIfPin2FAIsIncorrected(int pin, int leadId, string password)
+        {
+            TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
+            if (tfa.ValidateTwoFactorPIN(Convert.ToString(leadId), password))
+            {
+                throw new IncorrectPin2FAException("Try to WithDraw. Incorrected pin 2FA.");
             }
         }
 
