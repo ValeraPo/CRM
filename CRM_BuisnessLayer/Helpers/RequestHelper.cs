@@ -22,14 +22,14 @@ namespace CRM.BusinessLayer
             _config = config;
         }
 
-        public async Task<RestResponse> SendRequest<T>(string url, string path, Method method, T requestModel)
+        public async Task<RestResponse> SendTransactionPostRequest<T>(string path, T requestModel)
         {
-            var request = new RestRequest($"{TransactionEndpoints.ApiTransactions}{path}", method);
+            var request = new RestRequest($"{TransactionEndpoints.ApiTransactions}{path}", Method.Post);
             request.AddBody(requestModel!);
-            return await GenerateRequest(request, url);
+            return await GenerateRequest(request);
         }
 
-        public async Task<RestResponse> GetBalance(string url, List<int> accountIds, Currency currency)
+        public async Task<RestResponse> GetBalance(List<int> accountIds, Currency currency)
         {
             var request = new RestRequest($"{TransactionEndpoints.ApiBalance}", Method.Get);
             foreach (var id in accountIds)
@@ -38,53 +38,58 @@ namespace CRM.BusinessLayer
             }
             request.AddParameter("currency", (int)currency);
 
-            return await GenerateRequest(request, url);
+            return await GenerateRequest(request);
         }
 
-        public async Task<RestResponse> GenerateRequest(RestRequest request, string url)
+        public async Task<RestResponse> GenerateRequest(RestRequest request)
         {
-            var client = new RestClient(url);
+            var client = new RestClient(_config[Microservice.MarvelousTransactionStore.ToString()]);
             var response = await client.ExecuteAsync(request);
             CheckTransactionError(response);
             return response;
         }
 
-        public async Task<RestResponse> SendGetRequest(string url, string path, int id)
+        public async Task<RestResponse> GetTransactions(int id)
         {
-            var request = new RestRequest($"{TransactionEndpoints.ApiTransactions}{path}{id}", Method.Get);
-            request.AddParameter("id", id);
-            return await GenerateRequest(request, url);
-        }
-
-        public async Task<RestResponse> GetTransactions(string url, string path, int id)
-        {
-            var request = new RestRequest($"{TransactionEndpoints.ApiTransactions}{path}", Method.Get);
+            var request = new RestRequest($"{TransactionEndpoints.ApiTransactions}by-accountIds", Method.Get);
             request.AddParameter("accountIds", id);
-            return await GenerateRequest(request, url);
+            return await GenerateRequest(request);
         }
 
-        public async Task<RestResponse> GetToken(AuthRequestModel auth)
+        public async Task<RestResponse<string>> GetToken(AuthRequestModel auth)
         {
             var client = new RestClient(_config[Microservice.MarvelousAuth.ToString()]);
             client.AddDefaultHeader(nameof(Microservice), Microservice.MarvelousCrm.ToString());
             var request = new RestRequest($"{AuthEndpoints.ApiAuth}{AuthEndpoints.Login}", Method.Post);
             request.AddBody(auth);
-            var response = await client.ExecuteAsync(request);
+            var response = await client.ExecuteAsync<string>(request);
             CheckTransactionError(response);
             _logger.LogWarning(response.Content);
             return response;
         }
 
-        public async Task<RestResponse<IdentityResponseModel>> GetLeadIdentityByToken(string url, string path, string token)
+        public async Task<RestResponse<IdentityResponseModel>> GetLeadIdentityByToken(string token)
         {
             _logger.LogInformation($"Send token {token}");
-            var client = new RestClient(url);
+            var client = new RestClient(_config[Microservice.MarvelousAuth.ToString()]);
             client.Authenticator = new MarvelousAuthenticator(token);
             client.AddDefaultHeader(nameof(Microservice), Microservice.MarvelousCrm.ToString());
-            var request = new RestRequest($"{AuthEndpoints.ApiAuth}{path}");
+            var request = new RestRequest($"{AuthEndpoints.ApiAuth}{AuthEndpoints.DoubleValidation}");
             var response = await client.ExecuteAsync<IdentityResponseModel>(request);
             CheckTransactionError(response);
             return response;
+        }
+
+        public async Task<string> HashPassword(string password)
+        {
+            _logger.LogInformation($"Send password");
+            var client = new RestClient(_config[Microservice.MarvelousAuth.ToString()]);
+            client.AddDefaultHeader(nameof(Microservice), Microservice.MarvelousCrm.ToString());
+            var request = new RestRequest($"{AuthEndpoints.ApiAuth}{AuthEndpoints.Hash}", Method.Post);
+            request.AddBody(password);
+            var response = await client.ExecuteAsync<string>(request);
+            CheckTransactionError(response);
+            return response.Data;
         }
 
         public async Task<RestResponse<T>> SendRequestForConfigs<T>(string url, string path, string jwtToken = "null")
@@ -119,6 +124,11 @@ namespace CRM.BusinessLayer
                 _logger.LogError($"Bad Gatеway {response.ErrorException.Message}");
                 throw new BadGatewayException(response.ErrorException.Message);
             }
+            if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                _logger.LogError($"Try to login. Incorrected password.");
+                throw new IncorrectPasswordException("Try to login. Incorrected password.");
+            }
             if (response.Content == null)
             {
                 _logger.LogError($"Transaction content equal's null {response.ErrorException.Message}");
@@ -134,13 +144,5 @@ namespace CRM.BusinessLayer
             throw new InternalServerError(response.ErrorException.Message);
         }
 
-        //bool CheckTransactionErrorForToken(RestResponse response)
-        //{
-        //    if (response.StatusCode == System.Net.HttpStatusCode.OK)
-        //        return true;
-            
-        //    _logger.LogError($"Validation failed {response.ErrorException.Message}");
-        //    return false;
-        //}
     }
 }

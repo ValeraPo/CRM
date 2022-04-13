@@ -60,8 +60,7 @@ namespace CRM.APILayer.Extensions
                 _logger.LogError(ex, ex.Message);
                 throw ex;
             }
-            var identity = await _requestHelper.GetLeadIdentityByToken(_configuration[Microservice.MarvelousAuth.ToString()],
-                "check-double-validate-token/", token);
+            var identity = await _requestHelper.GetLeadIdentityByToken(token);
             return identity.Data;
         }
 

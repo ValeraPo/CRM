@@ -46,7 +46,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var transactionRequestModel = _transactionTestData.GetTransactionRequestModel();
             var account = _transactionTestData.GetAccount();
             _accountRepository.Setup(m => m.GetById(1)).ReturnsAsync(account);
-            _requestHelper.Setup(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transactionRequestModel)).ReturnsAsync((RestResponse)null);
+            _requestHelper.Setup(m => m.SendTransactionPostRequest(It.IsAny<string>(),  transactionRequestModel)).ReturnsAsync((RestResponse)null);
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
@@ -54,7 +54,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
             //then
             _accountRepository.Verify(m => m.GetById(1), Times.Once());
-            _requestHelper.Verify(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transactionRequestModel), Times.Once());
+            _requestHelper.Verify(m => m.SendTransactionPostRequest(It.IsAny<string>(),  transactionRequestModel), Times.Once());
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var transactionRequestModel = _transactionTestData.GetTransactionRequestModel();
             var account = _transactionTestData.GetAccount();
             _accountRepository.Setup(m => m.GetById(2));
-            _requestHelper.Setup(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transactionRequestModel)).ReturnsAsync((RestResponse)null);
+            _requestHelper.Setup(m => m.SendTransactionPostRequest(It.IsAny<string>(),  transactionRequestModel)).ReturnsAsync((RestResponse)null);
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
@@ -83,7 +83,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var transferRequestModel = _transactionTestData.GetTransferRequestModel();
             _accountRepository.Setup(m => m.GetById(1)).ReturnsAsync(accountFrom);
             _accountRepository.Setup(m => m.GetById(2)).ReturnsAsync(accontTo);
-            _requestHelper.Setup(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transferRequestModel)).ReturnsAsync((RestResponse)null);
+            _requestHelper.Setup(m => m.SendTransactionPostRequest(It.IsAny<string>(),  transferRequestModel)).ReturnsAsync((RestResponse)null);
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
@@ -91,7 +91,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
             //then
             _accountRepository.Verify(m => m.GetById(It.IsAny<int>()), Times.Exactly(2));
-            _requestHelper.Verify(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transferRequestModel), Times.Once());
+            _requestHelper.Verify(m => m.SendTransactionPostRequest(It.IsAny<string>(),  transferRequestModel), Times.Once());
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var accountFrom = _transactionTestData.GetAccount();
             var transferRequestModel = _transactionTestData.GetTransferRequestModel();
             _accountRepository.Setup(m => m.GetById(1));
-            _requestHelper.Setup(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transferRequestModel)).ReturnsAsync((RestResponse)null);
+            _requestHelper.Setup(m => m.SendTransactionPostRequest(It.IsAny<string>(),  transferRequestModel)).ReturnsAsync((RestResponse)null);
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
@@ -118,7 +118,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var account = _transactionTestData.GetAccount();
             var transactionRequestModel = _transactionTestData.GetTransactionRequestModel();
             _accountRepository.Setup(m => m.GetById(1)).ReturnsAsync(account);
-            _requestHelper.Setup(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transactionRequestModel)).ReturnsAsync((RestResponse)null);
+            _requestHelper.Setup(m => m.SendTransactionPostRequest(It.IsAny<string>(),  transactionRequestModel)).ReturnsAsync((RestResponse)null);
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
@@ -126,7 +126,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
             //then
             _accountRepository.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
-            _requestHelper.Verify(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transactionRequestModel), Times.Once());
+            _requestHelper.Verify(m => m.SendTransactionPostRequest(It.IsAny<string>(),  transactionRequestModel), Times.Once());
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var account = _transactionTestData.GetAccount();
             var transactionRequestModel = _transactionTestData.GetTransactionRequestModel();
             _accountRepository.Setup(m => m.GetById(1));
-            _requestHelper.Setup(m => m.SendRequest(It.IsAny<string>(), It.IsAny<string>(), RestSharp.Method.Post, transactionRequestModel)).ReturnsAsync((RestResponse)null);
+            _requestHelper.Setup(m => m.SendTransactionPostRequest(It.IsAny<string>(),  transactionRequestModel)).ReturnsAsync((RestResponse)null);
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
@@ -151,7 +151,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var account = _transactionTestData.GetAccount();
             _accountRepository.Setup(m => m.GetById(1)).ReturnsAsync(account);
-            _requestHelper.Setup(m => m.SendGetRequest(It.IsAny<string>(), It.IsAny<string>(), 1)).ReturnsAsync((RestResponse)null);
+            //_requestHelper.Setup(m => m.SendGetRequest(It.IsAny<string>(), It.IsAny<string>(), 1)).ReturnsAsync((RestResponse)null);
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when
@@ -159,7 +159,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
             //then
             _accountRepository.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
-            _requestHelper.Verify(m => m.GetBalance(It.IsAny<string>(), new List<int> { 1 }, Marvelous.Contracts.Enums.Currency.AFN), Times.Once());
+            _requestHelper.Verify(m => m.GetBalance(new List<int> { 1 }, Marvelous.Contracts.Enums.Currency.AFN), Times.Once());
         }
 
         [Test]
@@ -168,7 +168,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var account = _transactionTestData.GetAccount();
             _accountRepository.Setup(m => m.GetById(1));
-            _requestHelper.Setup(m => m.SendGetRequest(It.IsAny<string>(), It.IsAny<string>(), 1)).ReturnsAsync((RestResponse)null);
+            //_requestHelper.Setup(m => m.SendGetRequest(It.IsAny<string>(), It.IsAny<string>(), 1)).ReturnsAsync((RestResponse)null);
             var sut = new TransactionService(_accountRepository.Object, _requestHelper.Object, _logger.Object);
 
             //when

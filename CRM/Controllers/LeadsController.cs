@@ -17,7 +17,6 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace CRM.APILayer.Controllers
 {
     [ApiController]
-    //[Route(CrmUrls.LeadApi)]
     [Route(CrmEndpoints.LeadApi)]
 
     public class LeadsController : AdvancedController
@@ -49,7 +48,6 @@ namespace CRM.APILayer.Controllers
             _validatorLeadChangePasswordRequest = validatorLeadChangePasswordRequest;
 
         }
-
 
         //api/Leads
         [HttpPost]

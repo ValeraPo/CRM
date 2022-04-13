@@ -27,7 +27,7 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             _logger.LogInformation($"Send request.");
-            var response = await _requestHelper.SendRequest(TransactionEndpoints.Url, TransactionEndpoints.Deposit, Method.Post, transactionModel);
+            var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Deposit, transactionModel);
             _logger.LogInformation($"Request successful.");
 
             return response;
@@ -42,7 +42,7 @@ namespace CRM.BusinessLayer.Services
             var accountTo = await _accountRepository.GetById(transactionModel.AccountIdTo);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdTo, accountTo);
             _logger.LogInformation($"Send request.");
-            var response = await _requestHelper.SendRequest(TransactionEndpoints.Url, TransactionEndpoints.Transfer, Method.Post, transactionModel);
+            var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Transfer, transactionModel);
             _logger.LogInformation($"Request successful.");
 
             return response;
@@ -55,7 +55,7 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             _logger.LogInformation($"Send request.");
-            var response = await _requestHelper.SendRequest(TransactionEndpoints.Url, TransactionEndpoints.Withdraw, Method.Post, transactionModel);
+            var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Withdraw,  transactionModel);
             _logger.LogInformation($"Request successful.");
 
             return response;
@@ -70,7 +70,7 @@ namespace CRM.BusinessLayer.Services
                 ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             }
             _logger.LogInformation($"Send request.");
-            var response = await _requestHelper.GetBalance(TransactionEndpoints.Url, ids, currency);
+            var response = await _requestHelper.GetBalance(ids, currency);
             _logger.LogInformation($"Request successful.");
 
             return Convert.ToDecimal(response.Content);
@@ -84,7 +84,7 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             _logger.LogInformation($"Otpravka zaprosa na poluchenie transakcii accounta id = {id}.");
-            var response = await _requestHelper.GetTransactions(TransactionEndpoints.Url, "by-accountIds", id);
+            var response = await _requestHelper.GetTransactions(id);
             _logger.LogInformation($"Poluchen otvet na poluchenie transakcii accounta id = {id}.");
 
             return response;

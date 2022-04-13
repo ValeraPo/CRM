@@ -20,6 +20,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         private readonly LeadTestData _leadTestData;
         private readonly IMapper _autoMapper;
         private readonly Mock<ILogger<LeadService>> _logger;
+        private readonly Mock<RequestHelper> _requestHelper;
 
         public LeadServiceTests()
         {
@@ -29,6 +30,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _autoMapper = new Mapper(
                 new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperToData>()));
             _logger = new Mock<ILogger<LeadService>>();
+            _requestHelper = new Mock<RequestHelper>();
         }
 
         [SetUp]
@@ -44,7 +46,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var leadModel = _leadTestData.GetLeadModelForTests();
             var emails = _leadTestData.GetListOfEmailsForTests();
             _leadRepositoryMock.Setup(m => m.GetByEmail(It.IsAny<string>())).ReturnsAsync((Lead)null);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //when
             sut.AddLead(leadModel);
@@ -60,7 +62,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var leadModel = _leadTestData.GetLeadModelForTests();
             var lead = new Lead();
             _leadRepositoryMock.Setup(m => m.GetByEmail(It.IsAny<string>())).ReturnsAsync(lead);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //then
             Assert.ThrowsAsync<DuplicationException>(async () => await sut.AddLead(leadModel));
@@ -72,7 +74,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var lead = new Lead();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //when
             sut.UpdateLead(It.IsAny<int>(), new LeadModel());
@@ -87,7 +89,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Lead)null);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //then
             Assert.ThrowsAsync<NotFoundException>(async () => await sut.UpdateLead(It.IsAny<int>(), new LeadModel()));
@@ -99,7 +101,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var lead = new Lead();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //when
             sut.ChangeRoleLead(It.IsAny<int>(), Marvelous.Contracts.Enums.Role.Regular);
@@ -114,7 +116,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Lead)null);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //then
             Assert.ThrowsAsync<NotFoundException>(async () => await sut.ChangeRoleLead(It.IsAny<int>(), Marvelous.Contracts.Enums.Role.Regular));
@@ -126,7 +128,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var lead = new Lead();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //then
             Assert.ThrowsAsync<IncorrectRoleException>(async () => await sut.ChangeRoleLead(It.IsAny<int>(), Marvelous.Contracts.Enums.Role.Admin));
@@ -138,7 +140,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var lead = new Lead();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //when
             sut.DeleteById(It.IsAny<int>());
@@ -153,7 +155,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Lead)null);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //then
             Assert.ThrowsAsync<NotFoundException>(async () => await sut.DeleteById(It.IsAny<int>()));
@@ -166,7 +168,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var lead = _leadTestData.GetLeadForTests();
             lead.IsBanned = true;
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //then
             Assert.ThrowsAsync<BannedException>(async () => await sut.DeleteById(It.IsAny<int>()));
@@ -178,7 +180,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var lead = _leadTestData.GetLeadForTests();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //when
             sut.RestoreById(It.IsAny<int>());
@@ -193,7 +195,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Lead)null);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //then
             Assert.ThrowsAsync<NotFoundException>(async () => await sut.RestoreById(It.IsAny<int>()));
@@ -206,7 +208,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var lead = _leadTestData.GetLeadForTests();
             lead.IsBanned = false;
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //then
             Assert.ThrowsAsync<BannedException>(async () => await sut.RestoreById(It.IsAny<int>()));
@@ -218,7 +220,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var leads = _leadTestData.GetListOfLeadsForTests();
             _leadRepositoryMock.Setup(m => m.GetAll()).ReturnsAsync(leads);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //when
             var actual = sut.GetAll().Result;
@@ -248,7 +250,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var lead = _leadTestData.GetLeadForTests();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //when
             var actual = sut.GetById(It.IsAny<int>()).Result;
@@ -272,7 +274,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Lead)null);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //then
             Assert.ThrowsAsync<NotFoundException>(async () => await sut.GetById(It.IsAny<int>()));
@@ -284,7 +286,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var lead = _leadTestData.GetLeadForTests();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //when
             sut.ChangePassword(It.IsAny<int>(), "qert123", "1234567");
@@ -299,7 +301,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             //given
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Lead)null);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //then
             Assert.ThrowsAsync<NotFoundException>(async () => await sut.ChangePassword(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()));
@@ -311,7 +313,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var lead = _leadTestData.GetLeadForTests();
             _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
-            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object);
+            var sut = new LeadService(_autoMapper, _leadRepositoryMock.Object, _accountRepositoryMock.Object, _logger.Object, _requestHelper.Object);
 
             //then
             Assert.ThrowsAsync<IncorrectPasswordException>(async () => await sut.ChangePassword(It.IsAny<int>(), "neverny", It.IsAny<string>()));
