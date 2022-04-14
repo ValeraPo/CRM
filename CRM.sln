@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.BusinessLayer", "CRM_Bu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.DataLayer", "CRM_DataLayer\CRM.DataLayer.csproj", "{0AD56EAE-CB39-4D74-84AC-BD80BF34A2E7}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CRM.DB", "CRM_DB\CRM.Db.sqlproj", "{A53EBB80-CC2D-4C7F-BB60-040FDE611E44}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CRM.Db", "CRM_DB\CRM.Db.sqlproj", "{A53EBB80-CC2D-4C7F-BB60-040FDE611E44}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.BusinessLayer.Tests", "CRM.BusinessLayer.Tests\CRM.BusinessLayer.Tests.csproj", "{9EB99E46-0AB1-4182-A2B9-720E503C34F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.ApiLayer.Tests", "CRM.ApiLayer.Tests\CRM.ApiLayer.Tests.csproj", "{9B481BC5-7343-4841-BBE8-D8933E73E95C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{9EB99E46-0AB1-4182-A2B9-720E503C34F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EB99E46-0AB1-4182-A2B9-720E503C34F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EB99E46-0AB1-4182-A2B9-720E503C34F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B481BC5-7343-4841-BBE8-D8933E73E95C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B481BC5-7343-4841-BBE8-D8933E73E95C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B481BC5-7343-4841-BBE8-D8933E73E95C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B481BC5-7343-4841-BBE8-D8933E73E95C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

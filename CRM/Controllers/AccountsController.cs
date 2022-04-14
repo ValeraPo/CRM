@@ -4,7 +4,6 @@ using CRM.APILayer.Models;
 using CRM.APILayer.Producers;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Models;
-using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using FluentValidation;
 using Marvelous.Contracts.Enums;
@@ -22,7 +21,6 @@ namespace CRM.APILayer.Controllers
         private readonly IAccountService _accountService;
         private readonly IMapper _autoMapper;
         private readonly ILogger<AccountsController> _logger;
-        private readonly ITransactionService _transactionService;
         private readonly ICRMProducers _crmProducers;
         private readonly IValidator<AccountInsertRequest> _validatorAccountInsertRequest;
         private readonly IValidator<AccountUpdateRequest> _validatorAccountUpdateRequest;
@@ -30,7 +28,6 @@ namespace CRM.APILayer.Controllers
         public AccountsController(IAccountService accountService,
             IMapper autoMapper,
             ILogger<AccountsController> logger,
-            ITransactionService transactionService,
             ICRMProducers crmProducers,
             IRequestHelper requestHelper,
             IConfiguration configuration,
@@ -40,7 +37,6 @@ namespace CRM.APILayer.Controllers
             _accountService = accountService;
             _autoMapper = autoMapper;
             _logger = logger;
-            _transactionService = transactionService;
             _crmProducers = crmProducers;
             _validatorAccountInsertRequest = validatorAccountInsertRequest;
             _validatorAccountUpdateRequest = validatorAccountUpdateRequest;
@@ -54,8 +50,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Add new account. Roles: Vip, Regular")]
         public async Task<ActionResult<int>> AddAccount([FromBody] AccountInsertRequest accountInsertRequest)
         {
-            await CheckRole(Role.Vip, Role.Regular);
-            Validation(accountInsertRequest, _validatorAccountInsertRequest);
+            Validate(accountInsertRequest, _validatorAccountInsertRequest);
             var leadIdentity = await GetIdentity();
             _logger.LogInformation($"A request was received to add an account as a lead with ID = {leadIdentity.Id}.");
 
@@ -80,7 +75,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> UpdateAccount(int id, [FromBody] AccountUpdateRequest accountUpdateRequest)
         {
             await CheckRole(Role.Vip, Role.Regular);
-            Validation(accountUpdateRequest, _validatorAccountUpdateRequest);
+            Validate(accountUpdateRequest, _validatorAccountUpdateRequest);
             var leadIdentity = await GetIdentity();
             _logger.LogInformation($"A request was received to update an account with ID {id} as a lead with ID = {leadIdentity.Id}.");
             var accountModel = _autoMapper.Map<AccountModel>(accountUpdateRequest);
@@ -125,7 +120,7 @@ namespace CRM.APILayer.Controllers
 
         //api/accounts
         [HttpGet()]
-        [ProducesResponseType(typeof(List<AccountResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<AccountShortResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Get accounts by lead. Roles: Vip, Regular")]
         public async Task<ActionResult<List<AccountResponse>>> GetByLead()
@@ -134,7 +129,7 @@ namespace CRM.APILayer.Controllers
             var id = (int)(await GetIdentity()).Id;
             _logger.LogInformation($"Request received to get all accounts by lead with ID = {id}");
             var accountModels = await _accountService.GetByLead(id);
-            var outputs = _autoMapper.Map<List<AccountResponse>>(accountModels);
+            var outputs = _autoMapper.Map<List<AccountShortResponse>>(accountModels);
             
             _logger.LogInformation($"All lead accounts with ID {id} have been successfully received");
             return Ok(outputs);

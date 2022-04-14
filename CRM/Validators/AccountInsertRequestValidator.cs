@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace CRM.APILayer.Validation
 {
-    public class AccountInsertRequestValidation : AbstractValidator<AccountInsertRequest>
+    public class AccountInsertRequestValidator : AbstractValidator<AccountInsertRequest>
     {
-        public AccountInsertRequestValidation()
+        public AccountInsertRequestValidator()
         {
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Name).MaximumLength(20);

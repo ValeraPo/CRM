@@ -1,5 +1,5 @@
 ﻿using CRM.BusinessLayer.Exceptions;
-using CRM.DataLayer.Entities;
+using Microsoft.Extensions.Logging;
 using NLog;
 
 namespace CRM.BusinessLayer
@@ -7,7 +7,7 @@ namespace CRM.BusinessLayer
     public static class ExceptionsHelper
     {
         private static Logger _logger = LogManager.GetCurrentClassLogger();
-
+       
         public static void ThrowIfEntityNotFound<T>(int id, T entity)
         {
             if (entity is null)
@@ -21,8 +21,8 @@ namespace CRM.BusinessLayer
         {
             if (accountLeadId != authorizathionLeadId)
             {
-                _logger.Error($"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn with ID {accountLeadId}.");
-                throw new AuthorizationException($"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn with ID {accountLeadId}.");
+                _logger.Error($"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.");
+                throw new AuthorizationException($"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.");
             }
         }
 

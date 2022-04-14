@@ -10,7 +10,6 @@ using Marvelous.Contracts.Enums;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,16 +19,14 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
     {
         private Mock<IAccountRepository> _accountRepositoryMock;
         private Mock<ILeadRepository> _leadRepositoryMock;
-        private readonly AccountTestData _accountTestData;
+        private Mock<ILogger<AccountService>> _logger;
         private readonly IMapper _autoMapper;
-        private readonly Mock<ILogger<AccountService>> _logger;
         private readonly Mock<ITransactionService> _transactionServiceMock;
 
         public AccountServiceTests()
         {
             _accountRepositoryMock = new Mock<IAccountRepository>();
             _leadRepositoryMock = new Mock<ILeadRepository>();
-            _accountTestData = new AccountTestData();
             _autoMapper = new Mapper(
                 new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperToData>()));
             _logger = new Mock<ILogger<AccountService>>();
@@ -41,119 +38,171 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         public async Task Setup()
         {
             _accountRepositoryMock = new Mock<IAccountRepository>();
+            _leadRepositoryMock = new Mock<ILeadRepository>();
+            _logger = new Mock<ILogger<AccountService>>();
+
         }
 
         [Test]
-        public async Task AddAccountTest()
+        public async Task AddAccountTest_ShouldAddedAccount()
         {
             //given
-            var accountModel = _accountTestData.GetAccountModelVipForTests();
-            var accounts = new List<Account>();
-            _accountRepositoryMock.Setup(m => m.GetByLead(It.IsAny<int>())).ReturnsAsync(accounts);
-            var sut = new AccountService(_autoMapper, 
-                _accountRepositoryMock.Object, 
-                _leadRepositoryMock.Object, 
+            var leadId = 42;
+            var accountModel = new AccountModel { CurrencyType = Currency.USD, Lead = new LeadModel() };
+            accountModel.Lead.Id = leadId;
+            var accounts = new List<Account> { new Account { CurrencyType = Currency.RUB } };
+            _accountRepositoryMock.Setup(m => m.GetByLead(leadId)).ReturnsAsync(accounts);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
                 _logger.Object,
                 _transactionServiceMock.Object);
 
             //when
-            sut.AddAccount(Role.Vip, accountModel);
+            await sut.AddAccount(Role.Vip, accountModel);
 
             //then
             _accountRepositoryMock.Verify(m => m.AddAccount(It.IsAny<Account>()), Times.Once());
+            _accountRepositoryMock.Verify(m => m.GetByLead(leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Request was received to add an account.");
         }
 
         [Test]
-        public async Task AddAccountNegativeTest_DuplicationException()
+        public void AddAccount_AccountHasDuplication_ShouldThrowException()
         {
             //given
-            var accountModel = _accountTestData.GetAccountModelRegularForTests();
-            var accounts = _accountTestData.GetListOfAccountsForTests();
-            _accountRepositoryMock.Setup(m => m.GetByLead(It.IsAny<int>())).ReturnsAsync(accounts);
-            var sut = new AccountService(_autoMapper, 
-                _accountRepositoryMock.Object, 
-                _leadRepositoryMock.Object, 
+            var leadId = 42;
+            var accountModel = new AccountModel { CurrencyType = Currency.RUB, Lead = new LeadModel() };
+            accountModel.Lead.Id = leadId;
+            var accounts = new List<Account> { new Account { CurrencyType = Currency.RUB } };
+            _accountRepositoryMock.Setup(m => m.GetByLead(leadId)).ReturnsAsync(accounts);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
                 _logger.Object,
                 _transactionServiceMock.Object);
+            var expected = "Error: an account with this currency already exists.";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<DuplicationException>(async () => await sut.AddAccount(It.IsAny<Role>(), accountModel))!
+                .Message;
 
             //then
-            Assert.ThrowsAsync<DuplicationException>(async () => await sut.AddAccount(It.IsAny<Role>(), accountModel));
+            Assert.AreEqual(expected, actual);
+            _accountRepositoryMock.Verify(m => m.GetByLead(leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, "Error: an account with this currency already exists.");
         }
 
         [Test]
-        public async Task AddAccountNegativeTest_AuthorizationExceptionRegular()
+        public void AddAccount_RoleIsRegularAndCurrensyIsNotUsd_ShouldThrowException()
         {
             //given
-            var accountModel = _accountTestData.GetAccountModelForTests();
-            var accounts = new List<Account>();
-            _accountRepositoryMock.Setup(m => m.GetByLead(It.IsAny<int>())).ReturnsAsync(accounts);
-            var sut = new AccountService(_autoMapper, 
-                _accountRepositoryMock.Object, 
-                _leadRepositoryMock.Object, 
+            var leadId = 42;
+            var accountModel = new AccountModel { CurrencyType = Currency.RUB, Lead = new LeadModel() };
+            accountModel.Lead.Id = leadId;
+            var accounts = new List<Account> { new Account { CurrencyType = Currency.TRL } };
+            _accountRepositoryMock.Setup(m => m.GetByLead(leadId)).ReturnsAsync(accounts);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
                 _logger.Object,
                 _transactionServiceMock.Object);
+            var expected = "Authorization error. The lead role does not allow you to create accounts other than dollar.";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<AuthorizationException>(async () => await sut.AddAccount(Role.Regular, accountModel))!
+                .Message;
 
             //then
-            Assert.ThrowsAsync<AuthorizationException>(async () => await sut.AddAccount(Role.Regular, accountModel));
+            Assert.AreEqual(expected, actual);
+            _accountRepositoryMock.Verify(m => m.GetByLead(leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, "Authorisation error. The lead role does not allow you to create accounts other than dollar.");
         }
 
         [Test]
-        public async Task UpdateAccountTest()
+        public async Task UpdateAccountTest_ShouldUpdatedAccount()
         {
             //given
-            var account = _accountTestData.GetAccountForTests();
-            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(account);
-            var sut = new AccountService(_autoMapper, 
-                _accountRepositoryMock.Object, 
-                _leadRepositoryMock.Object, 
+            var leadId = 42;
+            var accountId = 21;
+            var account = new Account { Id = accountId, Name = "Ne vazno", Lead = new Lead() };
+            account.Lead.Id = leadId;
+            _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync(account);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
                 _logger.Object,
                 _transactionServiceMock.Object);
 
             //when
-            sut.UpdateAccount(1, new AccountModel());
+            await sut.UpdateAccount(leadId, new AccountModel { Id = accountId });
 
             //then
-            _accountRepositoryMock.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
             _accountRepositoryMock.Verify(m => m.UpdateAccountById(It.IsAny<Account>()), Times.Once());
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Request was received to update an account ID = {accountId}.");
         }
 
         [Test]
-        public async Task UpdateAccountNegativeTest_NotFoundException()
+        public void UpdateAccount_AccountNotFound_ShouldThrowNotFoundException()
         {
             //given
-            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Account)null);
-            var sut = new AccountService(_autoMapper, 
-                _accountRepositoryMock.Object, 
-                _leadRepositoryMock.Object, 
+            var leadId = 42;
+            var accountId = 21;
+            _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync((Account)null);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
                 _logger.Object,
                 _transactionServiceMock.Object);
+            var expected = $"Account entiy with ID = {accountId} not found";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await sut.UpdateAccount(leadId, new AccountModel { Id = accountId }))!
+                .Message;
 
             //then
-            Assert.ThrowsAsync<NotFoundException>(async () => await sut.UpdateAccount(It.IsAny<int>(), new AccountModel()));
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once());
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public async Task UpdateAccountNegativeTest_AuthorizationException()
+        public void UpdateAccount_LeadDontHaveAccesToAccount_ShouldThrowAuthorizationException()
         {
             //given
-            var account = _accountTestData.GetAccountForTests();
-            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(account);
-            var sut = new AccountService(_autoMapper, 
-                _accountRepositoryMock.Object, 
-                _leadRepositoryMock.Object, 
+            var leadId = 42;
+            var accountId = 21;
+            var authorizathionLeadId = 1;
+            var account = new Account { Id = accountId, Name = "Ne vazno", Lead = new Lead() };
+            account.Lead.Id = leadId;
+            _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync(account);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
                 _logger.Object,
                 _transactionServiceMock.Object);
+            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<AuthorizationException>(async () => await sut.UpdateAccount(authorizathionLeadId, new AccountModel { Id = accountId }))!
+                .Message;
 
             //then
-            Assert.ThrowsAsync<AuthorizationException>(async () => await sut.UpdateAccount(42, new AccountModel()));
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once());
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public async Task LockByIdTest()
+        public async Task LockByIdTest_ShouldLockAccount()
         {
             //given
-            var account = new Account();
-            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(account);
+            var accountId = 21;
+            var account = new Account { Id = accountId };
+            _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync(account);
             var sut = new AccountService(_autoMapper,
                 _accountRepositoryMock.Object,
                 _leadRepositoryMock.Object,
@@ -161,58 +210,72 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 _transactionServiceMock.Object);
 
             //when
-            sut.LockById(It.IsAny<int>());
+            await sut.LockById(accountId);
 
             //then
-            _accountRepositoryMock.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
-            _accountRepositoryMock.Verify(m => m.LockById(It.IsAny<int>()), Times.Once());
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once());
+            _accountRepositoryMock.Verify(m => m.LockById(accountId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Request was received to lock an account ID =  {accountId}.");
         }
 
         [Test]
-        public async Task LockByIdNegativeTest()
+        public void LockById_AccountNotFound_ShouldThrowNotFoundException()
         {
             //given
-            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Account)null);
+            var accountId = 21;
+            _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync((Account)null);
             var sut = new AccountService(_autoMapper,
                 _accountRepositoryMock.Object,
                 _leadRepositoryMock.Object,
                 _logger.Object,
                 _transactionServiceMock.Object);
+            var expected = $"Account entiy with ID = {accountId} not found";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await sut.LockById(accountId))!
+                .Message;
 
             //then
-            Assert.ThrowsAsync<NotFoundException>(async () => await sut.LockById(It.IsAny<int>()));
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once());
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public async Task LockById_BlaBla()
+        public void LockById_CurrencyIsRub_ShouldThrowBadRequestException()
         {
             //given
             var accountId = 42;
-            _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync(new Account { Id = accountId,
-            CurrencyType = Currency.RUB});
+            _accountRepositoryMock
+                .Setup(m => m.GetById(accountId))
+                .ReturnsAsync(new Account { Id = accountId, CurrencyType = Currency.RUB });
 
             var sut = new AccountService(_autoMapper,
                 _accountRepositoryMock.Object,
                 _leadRepositoryMock.Object,
                 _logger.Object,
                 _transactionServiceMock.Object);
+            var expected = "Error: it is forbidden to block ruble accounts.";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<BadRequestException>(async () => await sut.LockById(accountId))!
+                .Message;
 
             //then
-            Assert.ThrowsAsync<BadRequestException>(async () => await sut.LockById(accountId));
+            Assert.AreEqual(expected, actual);
             _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once);
-            _logger.Verify(x => x.Log(LogLevel.Error,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((o, t) => string.Equals("Error: it is forbidden to block ruble accounts.", o.ToString(), StringComparison.InvariantCultureIgnoreCase)),
-                    It.IsAny<Exception>(),
-                    It.IsAny<Func<It.IsAnyType, Exception, string>>()), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, "Error: it is forbidden to block ruble accounts.");
         }
 
         [Test]
-        public async Task UnlockByIdTest()
+        public async Task UnlockByIdTest_ShouldUnlockAccount()
         {
             //given
-            var account = new Account();
-            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(account);
+            var accountId = 21;
+            _accountRepositoryMock
+                .Setup(m => m.GetById(accountId))
+                .ReturnsAsync(new Account { Id = accountId });
             var sut = new AccountService(_autoMapper,
                 _accountRepositoryMock.Object,
                 _leadRepositoryMock.Object,
@@ -220,36 +283,47 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 _transactionServiceMock.Object);
 
             //when
-            sut.UnlockById(It.IsAny<int>());
+            await sut.UnlockById(accountId);
 
             //then
-            _accountRepositoryMock.Verify(m => m.GetById(It.IsAny<int>()), Times.Once());
-            _accountRepositoryMock.Verify(m => m.UnlockById(It.IsAny<int>()), Times.Once());
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once());
+            _accountRepositoryMock.Verify(m => m.UnlockById(accountId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Request was received to unlock an account ID =  {accountId}.");
         }
 
         [Test]
-        public async Task UnlockByIdNegativeTest()
+        public void UnlockById_AccountNotFound_ShouldThrowNotFoundException()
         {
             //given
-            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Account)null);
+            var accountId = 21;
+            _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync((Account)null);
             var sut = new AccountService(_autoMapper,
                 _accountRepositoryMock.Object,
                 _leadRepositoryMock.Object,
                 _logger.Object,
                 _transactionServiceMock.Object);
+            var expected = $"Account entiy with ID = {accountId} not found";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await sut.UnlockById(accountId))!
+                .Message;
 
             //then
-            Assert.ThrowsAsync<NotFoundException>(async () => await sut.UnlockById(It.IsAny<int>()));
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once());
+            Assert.AreEqual(expected, actual);
         }
 
+
         [Test]
-        public async Task GetByLeadTest()
+        public async Task GetByLeadTest_ShouldReturnListOfAccounts()
         {
             //given
-            var accounts = _accountTestData.GetListOfAccountsForTests();
-            var lead = new Lead();
-            _accountRepositoryMock.Setup(m => m.GetByLead(It.IsAny<int>())).ReturnsAsync(accounts);
-            _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(lead);
+            var leadId = 24;
+            _accountRepositoryMock
+                .Setup(m => m.GetByLead(leadId))
+                .ReturnsAsync(new List<Account> { new Account() });
+            _leadRepositoryMock.Setup(m => m.GetById(leadId)).ReturnsAsync(new Lead());
             var sut = new AccountService(_autoMapper,
                 _accountRepositoryMock.Object,
                 _leadRepositoryMock.Object,
@@ -257,42 +331,47 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 _transactionServiceMock.Object);
 
             //when
-            var actual = sut.GetByLead(It.IsAny<int>()).Result;
+            var actual = sut.GetByLead(leadId).Result;
+
 
             //then
-            Assert.IsNotNull(actual);
-            Assert.IsTrue(actual.Count > 0);
-
-            for (int i = 0; i < actual.Count; i++)
-            {
-                Assert.IsNotNull(actual[i].Id);
-                Assert.IsNotNull(actual[i].Name);
-                Assert.IsNotNull(actual[i].CurrencyType);
-                Assert.IsNotNull(actual[i].Lead);
-            }
+            _accountRepositoryMock.Verify(m => m.GetByLead(leadId), Times.Once);
+            _leadRepositoryMock.Verify(m => m.GetById(leadId), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Request to get all accounts.");
         }
 
         [Test]
-        public async Task GetByLeadNegativeTest_()
+        public async Task GetByLead_LeadNotFound_ShouldThrowNotFoundException()
         {
             //given
-            _leadRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Lead)null);
+            var leadId = 24;
+            _leadRepositoryMock.Setup(m => m.GetById(leadId)).ReturnsAsync((Lead)null);
             var sut = new AccountService(_autoMapper,
                 _accountRepositoryMock.Object,
                 _leadRepositoryMock.Object,
                 _logger.Object,
                 _transactionServiceMock.Object);
+            var expected = $"Lead entiy with ID = {leadId} not found";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await sut.GetByLead(leadId))!
+                .Message;
 
             //then
-            Assert.ThrowsAsync<NotFoundException>(async () => await sut.GetByLead(It.IsAny<int>()));
+            _leadRepositoryMock.Verify(m => m.GetById(leadId), Times.Once);
+            Assert.AreEqual(expected, actual);
         }
 
+
         [Test]
-        public async Task GetByIdTest()
+        public async Task GetByIdTest_ShouldReturnAccount()
         {
             //given
-            var account = _accountTestData.GetAccountForTests();
-            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(account);
+            var accountId = 24;
+            _accountRepositoryMock
+                .Setup(m => m.GetById(accountId))
+                .ReturnsAsync(new Account());
             var sut = new AccountService(_autoMapper,
                 _accountRepositoryMock.Object,
                 _leadRepositoryMock.Object,
@@ -300,45 +379,197 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 _transactionServiceMock.Object);
 
             //when
-            var actual = sut.GetById(1, 1).Result;
+            var actual = sut.GetById(accountId).Result;
 
             //then
-            Assert.IsNotNull(actual);
-            Assert.IsNotNull(actual.Id);
-            Assert.IsNotNull(actual.Name);
-            Assert.IsNotNull(actual.CurrencyType);
-            Assert.IsNotNull(actual.Lead);
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Request for an account with an ID = {accountId}.");
         }
 
         [Test]
-        public async Task GetByIdNegativeTest_AuthorizationException()
+        public async Task GetById_AccountNotFound_ShouldThrowNotFoundException()
         {
             //given
-            var accounts = _accountTestData.GetAccountForTests();
-            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync(accounts);
+            var accountId = 24;
+            _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync((Account)null);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
+            var expected = $"Account entiy with ID = {accountId} not found";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await sut.GetById(accountId))!
+                .Message;
+
+            //then
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public async Task GetByIdTest_WithLeadId_ShouldReturnAccount()
+        {
+            //given
+            var accountId = 24;
+            var leadId = 42;
+            _accountRepositoryMock
+                .Setup(m => m.GetById(accountId))
+                .ReturnsAsync(new Account
+                {
+                    Lead = new Lead { Id = leadId },
+                });
             var sut = new AccountService(_autoMapper,
                 _accountRepositoryMock.Object,
                 _leadRepositoryMock.Object,
                 _logger.Object,
                 _transactionServiceMock.Object);
 
+            //when
+            var actual = sut.GetById(accountId, leadId).Result;
+
             //then
-            Assert.ThrowsAsync<AuthorizationException>(async () => await sut.GetById(100, 100));
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Request for an account with an ID {accountId} lead with an ID {leadId}.");
         }
 
         [Test]
-        public async Task GetByIdNegativeTest_NotFoundException()
+        public async Task GetById_WithLeadId_AccountNotFound_ShouldThrowNotFoundException()
         {
             //given
-            _accountRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).ReturnsAsync((Account)null);
+            var accountId = 24;
+            var leadId = 42;
+            _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync((Account)null);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
+            var expected = $"Account entiy with ID = {accountId} not found";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await sut.GetById(accountId, leadId))!
+                .Message;
+
+            //then
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public async Task GetById_WithLeadId_LeadHasNoAccess_ShouldThrowAuthorizationException()
+        {
+            //given
+            var accountId = 24;
+            var leadId = 42;
+            var leadAutorizationId = 1;
+            _accountRepositoryMock
+                .Setup(m => m.GetById(accountId))
+                .ReturnsAsync(new Account { Lead = new Lead { Id = leadId } });
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
+            var expected = "Authorisation Error. No access to someone else's account.";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<AuthorizationException>(async () => await sut.GetById(accountId, leadAutorizationId))!
+                .Message;
+
+            //then
+            _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once);
+            Assert.AreEqual(expected, actual);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Authorisation Error. No access to someone else's account.");
+        }
+
+        [Test]
+        public async Task GetBalanceTest_ShouldReturnBalance()
+        {
+            //given
+            var accountId = 24;
+            var leadId = 42;
+            var currency = Currency.RUB;
+            _accountRepositoryMock
+                .Setup(m => m.GetByLead(leadId))
+                .ReturnsAsync(new List<Account> { new Account { Id = accountId, CurrencyType = currency } });
+            _leadRepositoryMock
+                .Setup(m => m.GetById(leadId))
+                .ReturnsAsync(new Lead());
             var sut = new AccountService(_autoMapper,
                 _accountRepositoryMock.Object,
                 _leadRepositoryMock.Object,
                 _logger.Object,
                 _transactionServiceMock.Object);
 
+            //when
+            var actual = sut.GetBalance(leadId, currency).Result;
+
             //then
-            Assert.ThrowsAsync<NotFoundException>(async () => await sut.GetById(It.IsAny<int>(), It.IsAny<int>()));
+            _accountRepositoryMock.Verify(m => m.GetByLead(leadId), Times.Once);
+            _leadRepositoryMock.Verify(m => m.GetById(leadId), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Balance was received.");
+        }
+
+        [Test]
+        public async Task GetBalance_LeadNotFound_ShouldThrowNotFoundException()
+        {
+            //given
+            var leadId = 24;
+            _leadRepositoryMock.Setup(m => m.GetById(leadId)).ReturnsAsync((Lead)null);
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
+            var expected = $"Lead entiy with ID = {leadId} not found";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await sut.GetBalance(leadId, It.IsAny<Currency>()))!
+                .Message;
+
+            //then
+            _leadRepositoryMock.Verify(m => m.GetById(leadId), Times.Once);
+            Assert.AreEqual(expected, actual);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Request to get all accounts.");
+        }
+
+        [Test]
+        public async Task GetBalance_CurrencyIsNotAmongAccounts_ShouldThrowBadRequestException()
+        {
+            //given
+            var accountId = 24;
+            var leadId = 42;
+            var currency = Currency.RUB;
+            _accountRepositoryMock
+                .Setup(m => m.GetByLead(leadId))
+                .ReturnsAsync(new List<Account> { new Account { Id = accountId, CurrencyType = currency } });
+            _leadRepositoryMock
+                .Setup(m => m.GetById(leadId))
+                .ReturnsAsync(new Lead());
+            var sut = new AccountService(_autoMapper,
+                _accountRepositoryMock.Object,
+                _leadRepositoryMock.Object,
+                _logger.Object,
+                _transactionServiceMock.Object);
+            var expected = "Currency type should be among accounts.";
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<BadRequestException>(async () => await sut.GetBalance(leadId, Currency.AFN))!
+                .Message;
+
+            //then
+            _accountRepositoryMock.Verify(m => m.GetByLead(leadId), Times.Once);
+            _leadRepositoryMock.Verify(m => m.GetById(leadId), Times.Once);
+            Assert.AreEqual(expected, actual);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, "Balance receipt error. Currency type should be among accounts."); 
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Request to get all accounts.");
         }
     }
 }

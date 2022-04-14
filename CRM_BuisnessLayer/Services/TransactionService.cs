@@ -64,17 +64,14 @@ namespace CRM.BusinessLayer.Services
         public async Task<decimal> GetBalance(List<int> ids, Currency currency)
         {
             _logger.LogInformation($"Received get balance request from account with ID = {String.Join(", ", ids.ToArray())}.");
-            foreach (var id in ids)
-            {
-                var entity = await _accountRepository.GetById(id);
-                ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
-            }
-            _logger.LogInformation($"Send request.");
             var response = await _requestHelper.GetBalance(ids, currency);
             _logger.LogInformation($"Request successful.");
 
             return Convert.ToDecimal(response.Content);
         }
+
+        public async Task<decimal> GetBalance(int id, Currency currency) 
+            => await GetBalance(new List<int> { id }, currency);
 
 
         public async Task<RestResponse> GetTransactionsByAccountId(int id, int leadId)

@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace CRM.APILayer.Validation
 {
-    public class AccountUpdateRequestValidation : AbstractValidator<AccountUpdateRequest>
+    public class AccountUpdateRequestValidator : AbstractValidator<AccountUpdateRequest>
     {
-        public AccountUpdateRequestValidation()
+        public AccountUpdateRequestValidator()
         {
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Name).MaximumLength(20);

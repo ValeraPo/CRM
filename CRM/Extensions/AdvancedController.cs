@@ -64,7 +64,7 @@ namespace CRM.APILayer.Extensions
             return identity.Data;
         }
 
-        protected void Validation<T>(T requestModel, IValidator<T> validator)
+        protected void Validate<T>(T requestModel, IValidator<T> validator)
         {
             if (requestModel == null)
             {

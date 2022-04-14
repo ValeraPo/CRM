@@ -8,23 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ModelTests\**" />
-    <EmbeddedResource Remove="ModelTests\**" />
-    <None Remove="ModelTests\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Marvelous.Contracts" Version="1.1.31" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="Moq" Version="4.17.2" />
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CRM_BuisnessLayer\CRM.BusinessLayer.csproj" />
-    <ProjectReference Include="..\CRM_DataLayer\CRM.DataLayer.csproj" />
+    <ProjectReference Include="..\CRM\CRM.APILayer.csproj" />
   </ItemGroup>
 
 </Project>

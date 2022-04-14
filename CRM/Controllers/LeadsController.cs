@@ -58,7 +58,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Create lead")]
         public async Task<ActionResult<int>> AddLead([FromBody] LeadInsertRequest leadInsertRequest)
         {
-            Validation(leadInsertRequest, _validatorLeadInsertRequest);
+            Validate(leadInsertRequest, _validatorLeadInsertRequest);
             _logger.LogInformation($"Received a request to create a new lead.");
             var leadModel = _autoMapper.Map<LeadModel>(leadInsertRequest);
             var ids = await _leadService.AddLead(leadModel);
@@ -81,7 +81,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
         {
             await CheckRole(Role.Admin, Role.Vip, Role.Regular);
-            Validation(leadUpdateRequest, _validatorLeadUpdateRequest);
+            Validate(leadUpdateRequest, _validatorLeadUpdateRequest);
             _logger.LogInformation($"Received a request to update lead with ID = {id}.");
             var leadModel = _autoMapper.Map<LeadModel>(leadUpdateRequest);
             leadModel.Id = id;
@@ -189,7 +189,7 @@ namespace CRM.APILayer.Controllers
         public async Task<ActionResult> ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
         {
             await CheckRole(Role.Admin, Role.Vip, Role.Regular);
-            Validation(changePasswordRequest, _validatorLeadChangePasswordRequest);
+            Validate(changePasswordRequest, _validatorLeadChangePasswordRequest);
             var id = (int)(await GetIdentity()).Id;
             _logger.LogInformation($"Received a request to change the password of a lead with an ID = {id}.");
             await _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);

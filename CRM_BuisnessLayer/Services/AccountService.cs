@@ -83,10 +83,7 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfEntityNotFound(leadId, entity);
             var accounts = await _accountRepository.GetByLead(leadId);
             var accountModels = _autoMapper.Map<List<AccountModel>>(accounts);
-            foreach (var account in accountModels)
-            {
-                account.Balance = await _transactionService.GetBalance(new List<int> { account.Id}, account.CurrencyType);
-            }
+            
             return accountModels;
         }
 
@@ -108,7 +105,7 @@ namespace CRM.BusinessLayer.Services
                 _logger.LogError($"Authorisation Error. No access to someone else's account.");
                 throw new AuthorizationException("Authorisation Error. No access to someone else's account.");
             }
-            accountModel.Balance = await _transactionService.GetBalance(new List<int> { accountModel.Id }, accountModel.CurrencyType);
+            accountModel.Balance = await _transactionService.GetBalance(accountModel.Id, accountModel.CurrencyType);
             return accountModel;
         }
 
@@ -132,8 +129,7 @@ namespace CRM.BusinessLayer.Services
             var accounts = await _accountRepository.GetByLead(leadId);
             var c = accounts.Select(x => x.CurrencyType).ToList();
 
-            if ((await _accountRepository
-                .GetByLead(leadId))
+            if (accounts
                 .Select(a => a.CurrencyType)
                 .ToList()
                 .Contains(currency))

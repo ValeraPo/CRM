@@ -47,7 +47,7 @@ namespace CRM.APILayer.Extensions
             services.AddFluentValidation(fv =>
             {
                 //Регистрация валидаторов по сборке с временем жизни = Singleton
-                fv.RegisterValidatorsFromAssemblyContaining<LeadInsertRequestValidation>(lifetime: ServiceLifetime.Singleton);
+                fv.RegisterValidatorsFromAssemblyContaining<LeadInsertRequestValidator>(lifetime: ServiceLifetime.Singleton);
                 //Отключение валидации с помощью DataAnnotations
                 fv.DisableDataAnnotationsValidation = true;
             });
