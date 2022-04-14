@@ -29,7 +29,7 @@ namespace CRM.BusinessLayer
             return await GenerateRequest(request);
         }
 
-        public async Task<RestResponse> GetBalance(List<int> accountIds, Currency currency)
+        public async Task<decimal> GetBalance(List<int> accountIds, Currency currency)
         {
             var request = new RestRequest($"{TransactionEndpoints.ApiBalance}", Method.Get);
             foreach (var id in accountIds)
@@ -37,9 +37,12 @@ namespace CRM.BusinessLayer
                 request.AddParameter("id", id);
             }
             request.AddParameter("currency", (int)currency);
-
-            return await GenerateRequest(request);
+            var response = Convert.ToDecimal(GenerateRequest(request).Result.Content);
+            return response;
         }
+
+        public async Task<decimal> GetBalance(int accountId, Currency currency)
+            => await GetBalance(new List<int> { accountId }, currency);
 
         public async Task<RestResponse> GenerateRequest(RestRequest request)
         {

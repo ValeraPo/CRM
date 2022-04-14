@@ -24,11 +24,8 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
         public AccountServiceTests()
         {
-            _accountRepositoryMock = new Mock<IAccountRepository>();
-            _leadRepositoryMock = new Mock<ILeadRepository>();
             _autoMapper = new Mapper(
                 new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperToData>()));
-            _logger = new Mock<ILogger<AccountService>>();
             _requestHelper = new Mock<IRequestHelper>();
 
         }

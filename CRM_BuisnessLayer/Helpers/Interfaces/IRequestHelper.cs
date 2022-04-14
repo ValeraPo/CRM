@@ -8,7 +8,8 @@ namespace CRM.BusinessLayer
     public interface IRequestHelper
     {
         Task<RestResponse> SendTransactionPostRequest<T>(string path, T requestModel);
-        Task<RestResponse> GetBalance(List<int> accountIds, Currency currency);
+        Task<decimal> GetBalance(List<int> accountIds, Currency currency);
+        Task<decimal> GetBalance(int accountId, Currency currency);
         Task<RestResponse> GenerateRequest(RestRequest request);
         Task<RestResponse> GetTransactions(int id);
         Task<RestResponse<string>> GetToken(AuthRequestModel auth);

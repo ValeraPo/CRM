@@ -10,8 +10,6 @@ namespace CRM.BusinessLayer.Services
         Task<RestResponse> AddTransfer(TransferRequestModel transactionModel, int leadId);
         Task<RestResponse> Withdraw(TransactionRequestModel transactionModel, int leadId);
         Task<RestResponse> GetTransactionsByAccountId(int id, int leadId);
-        Task<decimal> GetBalance(List<int> ids, Currency currency);
-        Task<decimal> GetBalance(int id, Currency currency);
     }
 
 }

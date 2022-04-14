@@ -41,6 +41,7 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
             var accountTo = await _accountRepository.GetById(transactionModel.AccountIdTo);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdTo, accountTo);
+            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(accountTo.Lead.Id, leadId);
             _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Transfer, transactionModel);
             _logger.LogInformation($"Request successful.");
@@ -50,7 +51,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<RestResponse> Withdraw(TransactionRequestModel transactionModel, int leadId)
         {
-            _logger.LogInformation($"Received withdrawal request from account with ID = {transactionModel.AccountId}.");
+            _logger.LogInformation($"Received withdraw request from account with ID = {transactionModel.AccountId}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
@@ -60,19 +61,6 @@ namespace CRM.BusinessLayer.Services
 
             return response;
         }
-
-        public async Task<decimal> GetBalance(List<int> ids, Currency currency)
-        {
-            _logger.LogInformation($"Received get balance request from account with ID = {String.Join(", ", ids.ToArray())}.");
-            var response = await _requestHelper.GetBalance(ids, currency);
-            _logger.LogInformation($"Request successful.");
-
-            return Convert.ToDecimal(response.Content);
-        }
-
-        public async Task<decimal> GetBalance(int id, Currency currency) 
-            => await GetBalance(new List<int> { id }, currency);
-
 
         public async Task<RestResponse> GetTransactionsByAccountId(int id, int leadId)
         {
