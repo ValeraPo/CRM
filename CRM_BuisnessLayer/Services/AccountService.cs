@@ -15,19 +15,19 @@ namespace CRM.BusinessLayer.Services
         private readonly ILeadRepository _leadRepository;
         private readonly IMapper _autoMapper;
         private readonly ILogger<AccountService> _logger;
-        private readonly ITransactionService _transactionService;
+        private readonly IRequestHelper _requestHelper;
 
         public AccountService(IMapper mapper, 
             IAccountRepository accountRepository, 
             ILeadRepository leadRepository, 
             ILogger<AccountService> logger,
-            ITransactionService transactionService)
+            IRequestHelper requestHelper)
         {
             _accountRepository = accountRepository;
             _leadRepository = leadRepository;
             _autoMapper = mapper;
             _logger = logger;
-            _transactionService = transactionService;
+            _requestHelper = requestHelper;
         }
 
         public async Task<int> AddAccount(Role role, AccountModel accountModel)
@@ -105,7 +105,7 @@ namespace CRM.BusinessLayer.Services
                 _logger.LogError($"Authorisation Error. No access to someone else's account.");
                 throw new AuthorizationException("Authorisation Error. No access to someone else's account.");
             }
-            accountModel.Balance = await _transactionService.GetBalance(accountModel.Id, accountModel.CurrencyType);
+            accountModel.Balance = await _requestHelper.GetBalance(accountModel.Id, accountModel.CurrencyType);
             return accountModel;
         }
 
@@ -118,7 +118,7 @@ namespace CRM.BusinessLayer.Services
                 throw new BadRequestException("Currency type should be among accounts.");
             }
             var accountIds = accounts.Select(a => a.Id).ToList();
-            var balance = await _transactionService.GetBalance(accountIds, currencyType);
+            var balance = await _requestHelper.GetBalance(accountIds, currencyType);
             _logger.LogInformation("Balance was received.");
             return balance;
         }
