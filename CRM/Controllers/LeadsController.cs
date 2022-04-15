@@ -80,7 +80,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Update lead by id. Roles: All")]
         public async Task<ActionResult> UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
         {
-            await CheckRole(Role.Admin, Role.Vip, Role.Regular);
+            CheckRole(Role.Admin, Role.Vip, Role.Regular);
             Validate(leadUpdateRequest, _validatorLeadUpdateRequest);
             _logger.LogInformation($"Received a request to update lead with ID = {id}.");
             var leadModel = _autoMapper.Map<LeadModel>(leadUpdateRequest);
@@ -98,7 +98,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Change lead's role by id. Roles: Admin")]
         public async Task<ActionResult> ChangeRoleLead(int id, int role)
         {
-            await CheckRole(Role.Admin);
+            CheckRole(Role.Admin);
             _logger.LogInformation($"Received a request to update the role of the lead with ID = {id}.");
             await _leadService.ChangeRoleLead(id, (Role)role);
             _logger.LogInformation($"Successfully updated lead role with ID = {id}.");
@@ -113,7 +113,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Delete lead by id. Roles: Admin")]
         public async Task<ActionResult> DeleteById(int id)
         {
-            await CheckRole(Role.Admin);
+            CheckRole(Role.Admin);
             _logger.LogInformation($"Received a request to delete lead with ID = {id}.");
             await _leadService.DeleteById(id);
             _logger.LogInformation($"Lead successfully deleted with ID = {id}.");
@@ -128,7 +128,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Restore lead by id. Roles: Admin")]
         public async Task<ActionResult> RestoreById(int id)
         {
-            await CheckRole(Role.Admin);
+            CheckRole(Role.Admin);
             _logger.LogInformation($"Received a request to restore lead with ID = {id}.");
             await _leadService.RestoreById(id);
             _logger.LogInformation($"Lead successfully deleted with ID = {id}.");
@@ -142,7 +142,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Get all lead. Roles: Admin")]
         public async Task<ActionResult<List<LeadResponse>>> GetAll()
         {
-            await CheckRole(Role.Admin);
+            CheckRole(Role.Admin);
             _logger.LogInformation($"Received a request to receive all leads.");
             var leadModels = await _leadService.GetAll();
             var outputs = _autoMapper.Map<List<LeadResponse>>(leadModels);
@@ -156,8 +156,8 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Get all lead. Roles: all")]
         public async Task<ActionResult<List<LeadAuthExchangeModel>>> GetAllToAuth()
         {
-            if (!CheckMicroservice(Microservice.MarvelousAuth).Result)
-                await CheckRole(Role.Admin);
+            if (!CheckMicroservice(Microservice.MarvelousAuth))
+                CheckRole(Role.Admin);
             _logger.LogInformation($"Poluchen zapros na poluchenie vseh leadov.");
             var leadModels = await _leadService.GetAllToAuth();
             _logger.LogInformation($"Vse leady uspeshno polucheny.");
@@ -171,7 +171,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Get lead by id. Roles: Admin")]
         public async Task<ActionResult<LeadResponse>> GetById(int id)
         {
-            await CheckRole(Role.Admin);
+            CheckRole(Role.Admin);
             _logger.LogInformation($"Received to get an lead with an ID {id}.");
             var leadModel = await _leadService.GetById(id);
             var output = _autoMapper.Map<LeadResponse>(leadModel);
@@ -188,9 +188,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Change lead password. Roles: All")]
         public async Task<ActionResult> ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
         {
-            await CheckRole(Role.Admin, Role.Vip, Role.Regular);
+            CheckRole(Role.Admin, Role.Vip, Role.Regular);
             Validate(changePasswordRequest, _validatorLeadChangePasswordRequest);
-            var id = (int)(await GetIdentity()).Id;
+            var id = (int)GetIdentity().Id;
             _logger.LogInformation($"Received a request to change the password of a lead with an ID = {id}.");
             await _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
             _logger.LogInformation($"Successfully changed the password of the lead with ID = {id}.");
