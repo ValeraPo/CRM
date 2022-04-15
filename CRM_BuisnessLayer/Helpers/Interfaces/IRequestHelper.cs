@@ -13,7 +13,7 @@ namespace CRM.BusinessLayer
         Task<RestResponse> GenerateRequest(RestRequest request);
         Task<RestResponse> GetTransactions(int id);
         Task<RestResponse<string>> GetToken(AuthRequestModel auth);
-        Task<RestResponse<IdentityResponseModel>> GetLeadIdentityByToken(string token);
+        Task<IdentityResponseModel> GetLeadIdentityByToken(string token);
         Task<string> HashPassword(string password);
         Task<RestResponse<T>> SendRequestForConfigs<T>(string url, string path, string jwtToken = "null");
     }

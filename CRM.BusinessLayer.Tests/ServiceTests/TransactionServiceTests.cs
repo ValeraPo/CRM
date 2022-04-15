@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using CRM.BusinessLayer.Configurations;
-using CRM.BusinessLayer.Exceptions;
+﻿using CRM.BusinessLayer.Exceptions;
 using CRM.BusinessLayer.Services;
-using CRM.BusinessLayer.Tests.TestData;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts.Endpoints;
@@ -11,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using RestSharp;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CRM.BusinessLayer.Tests.ServiceTests

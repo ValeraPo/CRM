@@ -71,7 +71,7 @@ namespace CRM.BusinessLayer
             return response;
         }
 
-        public async Task<RestResponse<IdentityResponseModel>> GetLeadIdentityByToken(string token)
+        public async Task<IdentityResponseModel> GetLeadIdentityByToken(string token)
         {
             _logger.LogInformation($"Send token {token}");
             var client = new RestClient(_config[Microservice.MarvelousAuth.ToString()]);
@@ -80,7 +80,7 @@ namespace CRM.BusinessLayer
             var request = new RestRequest($"{AuthEndpoints.ApiAuth}{AuthEndpoints.DoubleValidation}");
             var response = await client.ExecuteAsync<IdentityResponseModel>(request);
             CheckTransactionError(response);
-            return response;
+            return response.Data;
         }
 
         public async Task<string> HashPassword(string password)

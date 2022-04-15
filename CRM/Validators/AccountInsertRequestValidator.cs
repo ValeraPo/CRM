@@ -7,10 +7,12 @@ namespace CRM.APILayer.Validation
     {
         public AccountInsertRequestValidator()
         {
-            RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Name).MaximumLength(20);
-            RuleFor(x => x.CurrencyType).NotEmpty();
-            RuleFor(x => x.CurrencyType).InclusiveBetween(1,113);
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .MaximumLength(20);
+            RuleFor(x => x.CurrencyType)
+                .NotEmpty()
+                .InclusiveBetween(1,113);
         }
     }
 }

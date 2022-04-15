@@ -76,11 +76,12 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerOperation("Update lead by id. Roles: All")]
         public async Task<ActionResult> UpdateLead(int id, [FromBody] LeadUpdateRequest leadUpdateRequest)
         {
-            CheckRole(Role.Admin, Role.Vip, Role.Regular);
+            CheckRole(GetIdentity(), Role.Admin, Role.Vip, Role.Regular);
             Validate(leadUpdateRequest, _validatorLeadUpdateRequest);
             _logger.LogInformation($"Received a request to update lead with ID = {id}.");
             var leadModel = _autoMapper.Map<LeadModel>(leadUpdateRequest);
@@ -94,11 +95,12 @@ namespace CRM.APILayer.Controllers
         //api/Leads/42/2
         [HttpPut("{id}/role/{role}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Change lead's role by id. Roles: Admin")]
         public async Task<ActionResult> ChangeRoleLead(int id, int role)
         {
-            CheckRole(Role.Admin);
+            CheckRole(GetIdentity(), Role.Admin);
             _logger.LogInformation($"Received a request to update the role of the lead with ID = {id}.");
             await _leadService.ChangeRoleLead(id, (Role)role);
             _logger.LogInformation($"Successfully updated lead role with ID = {id}.");
@@ -109,11 +111,12 @@ namespace CRM.APILayer.Controllers
         //api/Leads/42
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Delete lead by id. Roles: Admin")]
         public async Task<ActionResult> DeleteById(int id)
         {
-            CheckRole(Role.Admin);
+            CheckRole(GetIdentity(), Role.Admin);
             _logger.LogInformation($"Received a request to delete lead with ID = {id}.");
             await _leadService.DeleteById(id);
             _logger.LogInformation($"Lead successfully deleted with ID = {id}.");
@@ -124,11 +127,12 @@ namespace CRM.APILayer.Controllers
         //api/Leads/42
         [HttpPatch("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Restore lead by id. Roles: Admin")]
         public async Task<ActionResult> RestoreById(int id)
         {
-            CheckRole(Role.Admin);
+            CheckRole(GetIdentity(), Role.Admin);
             _logger.LogInformation($"Received a request to restore lead with ID = {id}.");
             await _leadService.RestoreById(id);
             _logger.LogInformation($"Lead successfully deleted with ID = {id}.");
@@ -138,11 +142,12 @@ namespace CRM.APILayer.Controllers
 
         //api/Leads/
         [HttpGet()]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(List<LeadResponse>), StatusCodes.Status200OK)]
         [SwaggerOperation("Get all lead. Roles: Admin")]
         public async Task<ActionResult<List<LeadResponse>>> GetAll()
         {
-            CheckRole(Role.Admin);
+            CheckRole(GetIdentity(), Role.Admin);
             _logger.LogInformation($"Received a request to receive all leads.");
             var leadModels = await _leadService.GetAll();
             var outputs = _autoMapper.Map<List<LeadResponse>>(leadModels);
@@ -152,12 +157,13 @@ namespace CRM.APILayer.Controllers
 
         //api/Leads/auth/
         [HttpGet(CrmEndpoints.Auth)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(List<LeadAuthExchangeModel>), StatusCodes.Status200OK)]
         [SwaggerOperation("Get all lead. Roles: all")]
         public async Task<ActionResult<List<LeadAuthExchangeModel>>> GetAllToAuth()
         {
             if (!CheckMicroservice(Microservice.MarvelousAuth))
-                CheckRole(Role.Admin);
+                CheckRole(GetIdentity(), Role.Admin);
             _logger.LogInformation($"Poluchen zapros na poluchenie vseh leadov.");
             var leadModels = await _leadService.GetAllToAuth();
             _logger.LogInformation($"Vse leady uspeshno polucheny.");
@@ -167,11 +173,12 @@ namespace CRM.APILayer.Controllers
         //api/Leads/42
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(LeadResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Get lead by id. Roles: Admin")]
         public async Task<ActionResult<LeadResponse>> GetById(int id)
         {
-            CheckRole(Role.Admin);
+            CheckRole(GetIdentity(), Role.Admin);
             _logger.LogInformation($"Received to get an lead with an ID {id}.");
             var leadModel = await _leadService.GetById(id);
             var output = _autoMapper.Map<LeadResponse>(leadModel);
@@ -184,13 +191,15 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionResponseModel), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerOperation("Change lead password. Roles: All")]
         public async Task<ActionResult> ChangePassword([FromBody] LeadChangePasswordRequest changePasswordRequest)
         {
-            CheckRole(Role.Admin, Role.Vip, Role.Regular);
+            var leadIdentity = GetIdentity();
+            CheckRole(leadIdentity, Role.Admin, Role.Vip, Role.Regular);
             Validate(changePasswordRequest, _validatorLeadChangePasswordRequest);
-            var id = (int)GetIdentity().Id;
+            var id = (int)leadIdentity.Id;
             _logger.LogInformation($"Received a request to change the password of a lead with an ID = {id}.");
             await _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
             _logger.LogInformation($"Successfully changed the password of the lead with ID = {id}.");

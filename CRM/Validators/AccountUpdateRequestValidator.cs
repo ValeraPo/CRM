@@ -7,8 +7,9 @@ namespace CRM.APILayer.Validation
     {
         public AccountUpdateRequestValidator()
         {
-            RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Name).MaximumLength(20);
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .MaximumLength(20);
         }
     }
 }
