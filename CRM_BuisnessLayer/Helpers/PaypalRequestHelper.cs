@@ -19,8 +19,10 @@ namespace CRM.BusinessLayer.Helpers
         private const string _createDraftInvoideUrl = "https://api-m.sandbox.paypal.com/v2/invoicing/invoices";
         private const string _sendInvoiceUrl = "https://api.sandbox.paypal.com/v2/invoicing/invoices/.InvoiceId./send";
         private const string _getInvoiceUrl = "https://api.sandbox.paypal.com/v2/invoicing/invoices/.InvoiceId.";
+        private const string _getPaymentUrl = "https://api.sandbox.paypal.com/v2/payments/captures/.PaymentId.";
 
         private const string _invoiceIdInUrl = ".InvoiceId.";
+        private const string _paymentIdInUrl = ".PaymentId.";
 
 
         private IConfiguration _configuration;
@@ -70,12 +72,23 @@ namespace CRM.BusinessLayer.Helpers
             return responseContentObject;
         }
 
+
+        public async Task<PaymentResponse> GetPayment(string paymentId)
+        {
+            var urlToReceivePayment = _getPaymentUrl.Replace(_paymentIdInUrl, paymentId);
+            var response = await Request(urlToReceivePayment, Method.Get);
+            var responseContentObject = JsonSerializer.Deserialize<PaymentResponse>(response.Content);
+            return responseContentObject;
+        }
+
+
         public string GetInvoiceIdFromLink(Link link)
         {
             if (link == null)
                 throw new ArgumentNullException(nameof(link));
             return link.Href.Split('/').Last();
         }
+
 
         private async Task GetTokenAndSaveToConfiguration()
         {

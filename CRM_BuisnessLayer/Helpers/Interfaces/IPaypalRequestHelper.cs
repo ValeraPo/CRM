@@ -11,5 +11,6 @@ namespace CRM.BusinessLayer.Helpers
         Task<ListInvoicesResponse> ListInvoices();
         Task<Link> SendInvoice(string invoiceId, SendInvoiceRequest request);
         string GetInvoiceIdFromLink(Link link);
+        Task<PaymentResponse> GetPayment(string paymentId);
     }
 }

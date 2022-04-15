@@ -27,6 +27,6 @@ namespace CRM.BusinessLayer.Models.Paypal
         [JsonPropertyName("configuration")]
         public Configuration Configuration { get; set; }
         [JsonPropertyName("payments")]
-        public Payments Payments { get; set; }
+        public InvoicePayments Payments { get; set; }
     }
 }

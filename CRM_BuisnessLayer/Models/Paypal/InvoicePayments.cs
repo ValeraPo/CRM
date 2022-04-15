@@ -2,7 +2,7 @@
 
 namespace CRM.BusinessLayer.Models.Paypal
 {
-    public class Payments
+    public class InvoicePayments
     {
         [JsonPropertyName("paid_amount")]
         public UnitAmount PaidAmount { get; set; }

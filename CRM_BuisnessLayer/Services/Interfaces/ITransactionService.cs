@@ -6,7 +6,7 @@ namespace CRM.BusinessLayer.Services
 {
     public interface ITransactionService
     {
-        Task<string> AddDeposit(TransactionRequestModel transactionModel, int leadId);
+        Task<RestResponse> AddDeposit(TransactionRequestModel transactionModel, int leadId);
         Task<RestResponse> AddTransfer(TransferRequestModel transactionModel, int leadId);
         Task<RestResponse> Withdraw(TransactionRequestModel transactionModel, int leadId);
         Task<RestResponse> GetTransactionsByAccountId(int id, int leadId);

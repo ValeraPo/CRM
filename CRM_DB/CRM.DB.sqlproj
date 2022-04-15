@@ -61,6 +61,7 @@
     <Folder Include="StoredProcedure" />
     <Folder Include="StoredProcedure\Account" />
     <Folder Include="StoredProcedure\Lead" />
+    <Folder Include="StoredProcedure\Invoice" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Lead.sql" />
@@ -80,6 +81,11 @@
     <Build Include="StoredProcedure\Account\Account_SelectAll.sql" />
     <Build Include="StoredProcedure\Lead\Lead_ChangeRole.sql" />
     <Build Include="StoredProcedure\Lead\Lead_SelectAllToAuth.sql" />
+    <Build Include="Tables\Invoice.sql" />
+    <Build Include="StoredProcedure\Invoice\Invoice_Insert.sql" />
+    <Build Include="StoredProcedure\Invoice\Invoice_SelectById.sql" />
+    <Build Include="StoredProcedure\Invoice\Invoice_SelectAll.sql" />
+    <Build Include="StoredProcedure\Invoice\Invoice_UpdateStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CRM_DB.refactorlog" />

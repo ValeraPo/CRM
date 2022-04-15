@@ -24,6 +24,7 @@ namespace CRM.APILayer.Extensions
         {
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ILeadRepository, LeadRepository>();
+            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
         }
 
         public static void RegisterCRMServices(this IServiceCollection services)
@@ -36,6 +37,7 @@ namespace CRM.APILayer.Extensions
             services.AddScoped<ICRMProducers, CRMProducer>();
             services.AddTransient<IInitializationHelper, InitializationHelper>();
             services.AddScoped<IPaypalRequestHelper, PaypalRequestHelper>();
+            services.AddScoped<IInvoiceService, InvoiceService>();
         }
 
         public static void RegisterCRMAutomappers(this IServiceCollection services)

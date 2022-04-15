@@ -12,27 +12,27 @@ namespace CRM.APILayer.Controllers
     public class TransactionsController : AdvancedController
     {
         private readonly ITransactionService _transactionService;
-        private readonly IMapper _mapper;
+        private readonly IInvoiceService _invoiceService;
         private readonly ILogger<TransactionsController> _logger;
         private readonly IRequestHelper _requestHelper;
         private readonly IConfiguration _config;
 
 
-        public TransactionsController(ITransactionService transactionService, 
-            IMapper autoMapper, 
+        public TransactionsController(ITransactionService transactionService,
+            IInvoiceService invoiceService,
             ILogger<TransactionsController> logger,
             IRequestHelper requestHelper,
             IConfiguration configuration) : base(configuration, requestHelper)
         {
             _transactionService = transactionService;
-            _mapper = autoMapper;
+            _invoiceService = invoiceService;
             _logger = logger;
             _requestHelper = requestHelper;
         }
 
         // api/deposit/
         [HttpPost("deposit")]
-        [SwaggerOperation("Created invoice on paypal to make deposit. Returns link on paypal site. Roles: Vip, Regular")]
+        [SwaggerOperation("Creates invoice on paypal to make deposit. Returns link on paypal site. Roles: Vip, Regular")]
         [SwaggerResponse(201, "Deposit added")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -41,7 +41,7 @@ namespace CRM.APILayer.Controllers
             await CheckRole(Role.Vip, Role.Regular);
             _logger.LogInformation($"Received a request to add a deposit to an account with ID = {transaction.AccountId}.");
             var leadId = (int)(await GetIdentity()).Id;
-            var linkToPay = await _transactionService.AddDeposit(transaction, leadId);
+            var linkToPay = await _invoiceService.GetNewInvoiceUrlToPay(transaction, leadId);
             _logger.LogInformation($"Successfully created invoice on paypal to deposit on account with ID = {transaction.AccountId}. Link to make payment = {linkToPay}");
 
             return StatusCode(201, linkToPay);
