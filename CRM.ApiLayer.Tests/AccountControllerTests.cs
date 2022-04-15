@@ -30,6 +30,7 @@ namespace CRM.ApiLayer.Tests
         private readonly Mock<IConfiguration> _configuration;
         private readonly IValidator<AccountInsertRequest> _validatorAccountInsertRequest;
         private readonly IValidator<AccountUpdateRequest> _validatorAccountUpdateRequest;
+        private AccountsController controller;
 
 
         public AccountControllerTests()
@@ -48,6 +49,14 @@ namespace CRM.ApiLayer.Tests
             _accountService = new Mock<IAccountService>();
             _logger = new Mock<ILogger<AccountsController>>();
             _requestHelper = new Mock<IRequestHelper>();
+            controller = new AccountsController(_accountService.Object,
+                _autoMapper,
+                _logger.Object,
+                _crmProducers.Object,
+                _requestHelper.Object,
+                _configuration.Object,
+                _validatorAccountInsertRequest,
+                _validatorAccountUpdateRequest);
         }
 
         [Test]
@@ -60,14 +69,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync( new IdentityResponseModel { Id = 1, Role = "Regular" } );
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -87,14 +88,6 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -119,14 +112,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel());
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -152,14 +137,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel());
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -184,14 +161,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel());
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -217,14 +186,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel());
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -250,14 +211,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel());
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -285,14 +238,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Regular" });
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -311,14 +256,6 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -342,14 +279,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel());
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -374,14 +303,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" }) ;
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -407,14 +328,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Role = "Regular"});
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -440,14 +353,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Role = "Regular" });
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -472,14 +377,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Role = "Regular" });
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -505,14 +402,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" }) ;
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -532,14 +421,6 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -563,14 +444,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Regular" });
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -596,14 +469,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
-           var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -622,14 +487,6 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -653,14 +510,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Regular" });
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -686,14 +535,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -712,14 +553,6 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -743,14 +576,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -777,14 +602,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -803,14 +620,6 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -834,14 +643,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -868,14 +669,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -894,14 +687,6 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;
@@ -925,14 +710,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
-            var controller = new AccountsController(_accountService.Object,
-                _autoMapper,
-                _logger.Object,
-                _crmProducers.Object,
-                _requestHelper.Object,
-                _configuration.Object,
-                _validatorAccountInsertRequest,
-                _validatorAccountUpdateRequest);
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
             controller.ControllerContext.HttpContext = context;

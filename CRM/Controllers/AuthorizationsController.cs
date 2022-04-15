@@ -30,7 +30,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Lead with email {auth.Email.Encryptor()} tries to log in.");
             var token = await _requestHelper.GetToken(auth);
             _logger.LogInformation($"Lead with email {auth.Email.Encryptor()} successfully logged in.");
-            return Ok(token.Content);
+            return Ok(token);
         }
     }
 }

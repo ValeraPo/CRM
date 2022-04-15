@@ -24,7 +24,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         //{
         //    //given
         //    _requestHelper
-        //        .Setup(m => m.SendRequestForConfigs<T>(It.IsAny<string>(), It.IsAny<string>()))
+        //        .Setup(m => m.SendRequestForConfigs<string>(It.IsAny<string>(), It.IsAny<string>()))
         //        .Returns((RestResponse)null!);
         //    var sut = new InitializationHelper(_requestHelper.Object,
         //        _configuration.Object);

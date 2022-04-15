@@ -21,6 +21,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         private Mock<ILogger<AccountService>> _logger;
         private readonly IMapper _autoMapper;
         private readonly Mock<IRequestHelper> _requestHelper;
+        private AccountService sut;
 
         public AccountServiceTests()
         {
@@ -36,6 +37,11 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepositoryMock = new Mock<IAccountRepository>();
             _leadRepositoryMock = new Mock<ILeadRepository>();
             _logger = new Mock<ILogger<AccountService>>();
+            sut =  new AccountService(_autoMapper,
+               _accountRepositoryMock.Object,
+               _leadRepositoryMock.Object,
+               _logger.Object,
+               _requestHelper.Object);
 
         }
 
@@ -48,11 +54,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             accountModel.Lead.Id = leadId;
             var accounts = new List<Account> { new Account { CurrencyType = Currency.RUB } };
             _accountRepositoryMock.Setup(m => m.GetByLead(leadId)).ReturnsAsync(accounts);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
+           
 
             //when
             await sut.AddAccount(Role.Vip, accountModel);
@@ -72,11 +74,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             accountModel.Lead.Id = leadId;
             var accounts = new List<Account> { new Account { CurrencyType = Currency.RUB } };
             _accountRepositoryMock.Setup(m => m.GetByLead(leadId)).ReturnsAsync(accounts);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = "Error: an account with this currency already exists.";
 
             //when
@@ -99,11 +96,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             accountModel.Lead.Id = leadId;
             var accounts = new List<Account> { new Account { CurrencyType = Currency.TRL } };
             _accountRepositoryMock.Setup(m => m.GetByLead(leadId)).ReturnsAsync(accounts);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = "Authorization error. The lead role does not allow you to create accounts other than dollar.";
 
             //when
@@ -126,11 +118,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var account = new Account { Id = accountId, Name = "Ne vazno", Lead = new Lead() };
             account.Lead.Id = leadId;
             _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync(account);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
 
             //when
             await sut.UpdateAccount(leadId, new AccountModel { Id = accountId });
@@ -148,11 +135,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var leadId = 42;
             var accountId = 21;
             _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync((Account)null!);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = $"Account entiy with ID = {accountId} not found";
 
             //when
@@ -175,11 +157,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var account = new Account { Id = accountId, Name = "Ne vazno", Lead = new Lead() };
             account.Lead.Id = leadId;
             _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync(account);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
 
             //when
@@ -199,11 +176,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var accountId = 21;
             var account = new Account { Id = accountId };
             _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync(account);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
 
             //when
             await sut.LockById(accountId);
@@ -220,11 +192,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var accountId = 21;
             _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync((Account)null!);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = $"Account entiy with ID = {accountId} not found";
 
             //when
@@ -245,12 +212,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepositoryMock
                 .Setup(m => m.GetById(accountId))
                 .ReturnsAsync(new Account { Id = accountId, CurrencyType = Currency.RUB });
-
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = "Error: it is forbidden to block ruble accounts.";
 
             //when
@@ -272,11 +233,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepositoryMock
                 .Setup(m => m.GetById(accountId))
                 .ReturnsAsync(new Account { Id = accountId });
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
 
             //when
             await sut.UnlockById(accountId);
@@ -293,11 +249,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var accountId = 21;
             _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync((Account)null!);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = $"Account entiy with ID = {accountId} not found";
 
             //when
@@ -320,11 +271,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 .Setup(m => m.GetByLead(leadId))
                 .ReturnsAsync(new List<Account> { new Account() });
             _leadRepositoryMock.Setup(m => m.GetById(leadId)).ReturnsAsync(new Lead());
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
 
             //when
             var actual = await sut.GetByLead(leadId);
@@ -342,11 +288,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var leadId = 24;
             _leadRepositoryMock.Setup(m => m.GetById(leadId)).ReturnsAsync((Lead)null!);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = $"Lead entiy with ID = {leadId} not found";
 
             //when
@@ -368,11 +309,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepositoryMock
                 .Setup(m => m.GetById(accountId))
                 .ReturnsAsync(new Account());
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
 
             //when
             var actual = await sut.GetById(accountId);
@@ -388,11 +324,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var accountId = 24;
             _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync((Account)null!);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = $"Account entiy with ID = {accountId} not found";
 
             //when
@@ -417,11 +348,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 {
                     Lead = new Lead { Id = leadId },
                 });
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
 
             //when
             var actual = await sut.GetById(accountId, leadId);
@@ -438,11 +364,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var accountId = 24;
             var leadId = 42;
             _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync((Account)null!);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = $"Account entiy with ID = {accountId} not found";
 
             //when
@@ -465,11 +386,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepositoryMock
                 .Setup(m => m.GetById(accountId))
                 .ReturnsAsync(new Account { Lead = new Lead { Id = leadId } });
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = "Authorisation Error. No access to someone else's account.";
 
             //when
@@ -496,11 +412,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _leadRepositoryMock
                 .Setup(m => m.GetById(leadId))
                 .ReturnsAsync(new Lead());
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
 
             //when
             var actual = await sut.GetBalance(leadId, currency);
@@ -517,11 +428,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //given
             var leadId = 24;
             _leadRepositoryMock.Setup(m => m.GetById(leadId)).ReturnsAsync((Lead)null!);
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = $"Lead entiy with ID = {leadId} not found";
 
             //when
@@ -548,11 +454,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _leadRepositoryMock
                 .Setup(m => m.GetById(leadId))
                 .ReturnsAsync(new Lead());
-            var sut = new AccountService(_autoMapper,
-                _accountRepositoryMock.Object,
-                _leadRepositoryMock.Object,
-                _logger.Object,
-                _requestHelper.Object);
             var expected = "Currency type should be among accounts.";
 
             //when

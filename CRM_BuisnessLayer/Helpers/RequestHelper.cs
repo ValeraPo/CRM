@@ -59,7 +59,7 @@ namespace CRM.BusinessLayer
             return await GenerateRequest(request);
         }
 
-        public async Task<RestResponse<string>> GetToken(AuthRequestModel auth)
+        public async Task<string> GetToken(AuthRequestModel auth)
         {
             var client = new RestClient(_config[Microservice.MarvelousAuth.ToString()]);
             client.AddDefaultHeader(nameof(Microservice), Microservice.MarvelousCrm.ToString());
@@ -67,8 +67,7 @@ namespace CRM.BusinessLayer
             request.AddBody(auth);
             var response = await client.ExecuteAsync<string>(request);
             CheckTransactionError(response);
-            _logger.LogWarning(response.Content);
-            return response;
+            return response.Data;
         }
 
         public async Task<IdentityResponseModel> GetLeadIdentityByToken(string token)
