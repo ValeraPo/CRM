@@ -159,15 +159,20 @@ namespace CRM.DataLayer.Repositories
             _logger.LogInformation("Try to connection DB.");
             using IDbConnection connection = ProvideConnection();
             _logger.LogInformation("DB connection established successfully.");
-            
-            var lead = new Lead { Accounts = new List<Account>() };
-            var leadInDB = connection
+
+            Lead lead = null;
+            var leadInDb = connection
                 .QueryAsync<Lead, Account, Lead>(
                 _selectById,
-                (leadInDB, account) =>
+                (leadInDb, account) =>
                 {
+                    if (lead == null)
+                    {
+                        leadInDb.Accounts = new List<Account>();
+                        lead = leadInDb;
+                    }
                     lead.Accounts.Add(account);
-                    return leadInDB;
+                    return leadInDb;
                 },
                 new { Id = id },
                 splitOn: "Id",
