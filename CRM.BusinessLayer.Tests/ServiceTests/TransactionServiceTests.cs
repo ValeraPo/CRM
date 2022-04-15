@@ -47,7 +47,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 .ReturnsAsync(new Account { Lead = new Lead {Id = leadId } });
             _requestHelper
                 .Setup(m => m.SendTransactionPostRequest(TransactionEndpoints.Deposit, transactionRequestModel))
-                .ReturnsAsync((RestResponse)null!);
+                .ReturnsAsync(1);
             
 
             //when
@@ -94,7 +94,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 .ReturnsAsync(new Account { Lead = new Lead { Id = leadId } });
             _requestHelper
                 .Setup(m => m.SendTransactionPostRequest(TransactionEndpoints.Deposit, transactionRequestModel))
-                .ReturnsAsync((RestResponse)null!);
+                .ReturnsAsync(1);
             var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
 
             //when
@@ -124,7 +124,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 .ReturnsAsync(new Account { Lead = new Lead { Id = leadId } });
             _requestHelper
                 .Setup(m => m.SendTransactionPostRequest(TransactionEndpoints.Transfer, transactionRequestModel))
-                .ReturnsAsync((RestResponse)null!);
+                .ReturnsAsync(1);
 
             //when
             await sut.AddTransfer(transactionRequestModel, leadId);
@@ -204,7 +204,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 .ReturnsAsync(new Account { Lead = new Lead { Id = leadId } });
             _requestHelper
                 .Setup(m => m.SendTransactionPostRequest(TransactionEndpoints.Transfer, transactionRequestModel))
-                .ReturnsAsync((RestResponse)null!);
+                .ReturnsAsync(1);
             var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
 
             //when
@@ -232,7 +232,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 .ReturnsAsync(new Account { Lead = new Lead { Id = leadId } });
             _requestHelper
                 .Setup(m => m.SendTransactionPostRequest(TransactionEndpoints.Transfer, transactionRequestModel))
-                .ReturnsAsync((RestResponse)null!);
+                .ReturnsAsync(1);
             var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
 
             //when
@@ -258,7 +258,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 .ReturnsAsync(new Account { Lead = new Lead { Id = leadId } });
             _requestHelper
                 .Setup(m => m.SendTransactionPostRequest(TransactionEndpoints.Withdraw, transactionRequestModel))
-                .ReturnsAsync((RestResponse)null!);
+                .ReturnsAsync(1);
 
             //when
             await sut.Withdraw(transactionRequestModel, leadId);
@@ -304,7 +304,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 .ReturnsAsync(new Account { Lead = new Lead { Id = leadId } });
             _requestHelper
                 .Setup(m => m.SendTransactionPostRequest(TransactionEndpoints.Withdraw, transactionRequestModel))
-                .ReturnsAsync((RestResponse)null!);
+                .ReturnsAsync(1);
             var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
 
             //when
@@ -329,7 +329,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 .ReturnsAsync(new Account { Lead = new Lead { Id = leadId } });
             _requestHelper
                 .Setup(m => m.GetTransactions(accountId))
-                .ReturnsAsync((RestResponse)null!);
+                .ReturnsAsync("fff");
 
             //when
             await sut.GetTransactionsByAccountId(accountId, leadId);
@@ -373,7 +373,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 .ReturnsAsync(new Account { Lead = new Lead { Id = leadId } });
             _requestHelper
                 .Setup(m => m.GetTransactions(accountId))
-                .ReturnsAsync((RestResponse)null!);
+                .ReturnsAsync("fff");
             var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
 
             //when

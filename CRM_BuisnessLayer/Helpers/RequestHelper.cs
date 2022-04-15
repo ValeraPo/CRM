@@ -22,11 +22,12 @@ namespace CRM.BusinessLayer
             _config = config;
         }
 
-        public async Task<RestResponse> SendTransactionPostRequest<T>(string path, T requestModel)
+        public async Task<int> SendTransactionPostRequest<T>(string path, T requestModel)
         {
             var request = new RestRequest($"{TransactionEndpoints.ApiTransactions}{path}", Method.Post);
             request.AddBody(requestModel!);
-            return await GenerateRequest(request);
+            var response = Convert.ToInt32(GenerateRequest(request).Result.Content);
+            return response;
         }
 
         public async Task<decimal> GetBalance(List<int> accountIds, Currency currency)
@@ -52,11 +53,11 @@ namespace CRM.BusinessLayer
             return response;
         }
 
-        public async Task<RestResponse> GetTransactions(int id)
+        public async Task<string> GetTransactions(int id)
         {
             var request = new RestRequest($"{TransactionEndpoints.ApiTransactions}by-accountIds", Method.Get);
             request.AddParameter("accountIds", id);
-            return await GenerateRequest(request);
+            return GenerateRequest(request).Result.Content;
         }
 
         public async Task<string> GetToken(AuthRequestModel auth)

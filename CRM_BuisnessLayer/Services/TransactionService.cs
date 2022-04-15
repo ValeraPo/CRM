@@ -4,6 +4,7 @@ using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.RequestModels;
 using Microsoft.Extensions.Logging;
 using RestSharp;
+using System.Collections;
 
 namespace CRM.BusinessLayer.Services
 {
@@ -20,7 +21,7 @@ namespace CRM.BusinessLayer.Services
             _requestHelper = requestHelper;
         }
 
-        public async Task<RestResponse> AddDeposit(TransactionRequestModel transactionModel, int leadId)
+        public async Task<int> AddDeposit(TransactionRequestModel transactionModel, int leadId)
         {
             _logger.LogInformation($"Received a request to add a deposit to an account with ID =  {transactionModel.AccountId}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
@@ -33,7 +34,7 @@ namespace CRM.BusinessLayer.Services
             return response;
         }
 
-        public async Task<RestResponse> AddTransfer(TransferRequestModel transactionModel, int leadId)
+        public async Task<int> AddTransfer(TransferRequestModel transactionModel, int leadId)
         {
             _logger.LogInformation($"Transfer request received from account with ID {transactionModel.AccountIdFrom} to account with ID {transactionModel.AccountIdTo}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountIdFrom);
@@ -49,7 +50,7 @@ namespace CRM.BusinessLayer.Services
             return response;
         }
 
-        public async Task<RestResponse> Withdraw(TransactionRequestModel transactionModel, int leadId)
+        public async Task<int> Withdraw(TransactionRequestModel transactionModel, int leadId)
         {
             _logger.LogInformation($"Received withdraw request from account with ID = {transactionModel.AccountId}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
@@ -62,7 +63,7 @@ namespace CRM.BusinessLayer.Services
             return response;
         }
 
-        public async Task<RestResponse> GetTransactionsByAccountId(int id, int leadId)
+        public async Task<string> GetTransactionsByAccountId(int id, int leadId)
         {
             _logger.LogInformation($"Popytka polucheniia transakcii accounta id = {id}.");
             var entity = await _accountRepository.GetById(id);
