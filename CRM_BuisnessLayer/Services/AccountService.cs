@@ -50,7 +50,7 @@ namespace CRM.BusinessLayer.Services
             var entity = await _accountRepository.GetById(accountModel.Id);
 
             ExceptionsHelper.ThrowIfEntityNotFound(accountModel.Id, entity);
-            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
+            ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
             var mappedAccount = _autoMapper.Map<Account>(accountModel);
             await _accountRepository.UpdateAccountById(mappedAccount);
         }

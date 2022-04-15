@@ -16,12 +16,12 @@ namespace CRM.BusinessLayer
             }
         }
 
-        public static void ThrowIfLeadDontHaveAccesToAccount(int accountLeadId, int authorizathionLeadId)
+        public static void ThrowIfLeadDontHaveAcces(int leadId, int authorizathionLeadId)
         {
-            if (accountLeadId != authorizathionLeadId)
+            if (leadId != authorizathionLeadId)
             {
-                _logger.Error($"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.");
-                throw new AuthorizationException($"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.");
+                _logger.Error($"Authorization error. Lead with ID {authorizathionLeadId} doesn't have acces.");
+                throw new AuthorizationException($"Authorization error. Lead with ID {authorizathionLeadId} doesn't have acces.");
             }
         }
 

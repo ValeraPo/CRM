@@ -157,7 +157,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             var account = new Account { Id = accountId, Name = "Ne vazno", Lead = new Lead() };
             account.Lead.Id = leadId;
             _accountRepositoryMock.Setup(m => m.GetById(accountId)).ReturnsAsync(account);
-            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
+            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} doesn't have acces.";
 
             //when
             var actual = Assert

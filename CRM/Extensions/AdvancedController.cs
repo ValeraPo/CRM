@@ -37,10 +37,8 @@ namespace CRM.APILayer.Extensions
             }
         }
 
-        protected bool CheckMicroservice(params Microservice[] microservices)
+        protected bool CheckMicroservice(IdentityResponseModel identity, params Microservice[] microservices)
         {
-            var identity = GetIdentity();
-
             if (!microservices.Select(r => r.ToString()).Contains(identity.IssuerMicroservice))
                 return false;
             return true;

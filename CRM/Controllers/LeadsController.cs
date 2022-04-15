@@ -97,11 +97,11 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Change lead's role by id. Roles: Admin")]
-        public async Task<ActionResult> ChangeRoleLead(int id, int role)
+        public async Task<ActionResult> ChangeRoleLead(int id, Role role)
         {
             CheckRole(GetIdentity(), Role.Admin);
             _logger.LogInformation($"Received a request to update the role of the lead with ID = {id}.");
-            await _leadService.ChangeRoleLead(id, (Role)role);
+            await _leadService.ChangeRoleLead(id, role);
             _logger.LogInformation($"Successfully updated lead role with ID = {id}.");
             await _crmProducers.NotifyLeadAdded(id);
             return Ok($"Successfully updated lead role with ID = {id}.");
@@ -161,8 +161,9 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Get all lead. Roles: all")]
         public async Task<ActionResult<List<LeadAuthExchangeModel>>> GetAllToAuth()
         {
-            if (!CheckMicroservice(Microservice.MarvelousAuth))
-                CheckRole(GetIdentity(), Role.Admin);
+            var leadIdentity = GetIdentity();
+            if (!CheckMicroservice(leadIdentity, Microservice.MarvelousAuth))
+                CheckRole(leadIdentity, Role.Admin);
             _logger.LogInformation($"Poluchen zapros na poluchenie vseh leadov.");
             var leadModels = await _leadService.GetAllToAuth();
             _logger.LogInformation($"Vse leady uspeshno polucheny.");
@@ -174,12 +175,13 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(typeof(LeadResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [SwaggerOperation("Get lead by id. Roles: Admin")]
+        [SwaggerOperation("Get lead by id. Roles: All")]
         public async Task<ActionResult<LeadResponse>> GetById(int id)
         {
-            CheckRole(GetIdentity(), Role.Admin);
+            var leadIdentity = GetIdentity();
+            CheckRole(leadIdentity, Role.Admin, Role.Vip, Role.Regular);
             _logger.LogInformation($"Received to get an lead with an ID {id}.");
-            var leadModel = await _leadService.GetById(id);
+            var leadModel = await _leadService.GetById(id, leadIdentity);
             var output = _autoMapper.Map<LeadResponse>(leadModel);
             _logger.LogInformation($"Successfully received a lead with ID = {id}.");
             return Ok(output);

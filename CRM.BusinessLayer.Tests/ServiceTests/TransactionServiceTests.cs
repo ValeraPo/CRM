@@ -95,7 +95,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _requestHelper
                 .Setup(m => m.SendTransactionPostRequest(TransactionEndpoints.Deposit, transactionRequestModel))
                 .ReturnsAsync(1);
-            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
+            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} doesn't have acces.";
 
             //when
             var actual = Assert
@@ -205,7 +205,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _requestHelper
                 .Setup(m => m.SendTransactionPostRequest(TransactionEndpoints.Transfer, transactionRequestModel))
                 .ReturnsAsync(1);
-            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
+            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} doesn't have acces.";
 
             //when
             var actual = Assert
@@ -233,7 +233,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _requestHelper
                 .Setup(m => m.SendTransactionPostRequest(TransactionEndpoints.Transfer, transactionRequestModel))
                 .ReturnsAsync(1);
-            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
+            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} doesn't have acces.";
 
             //when
             var actual = Assert
@@ -305,7 +305,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _requestHelper
                 .Setup(m => m.SendTransactionPostRequest(TransactionEndpoints.Withdraw, transactionRequestModel))
                 .ReturnsAsync(1);
-            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
+            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} doesn't have acces.";
 
             //when
             var actual = Assert
@@ -374,7 +374,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _requestHelper
                 .Setup(m => m.GetTransactions(accountId))
                 .ReturnsAsync("fff");
-            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} dont have acces to accoutn.";
+            var expected = $"Authorization error. Lead with ID {authorizathionLeadId} doesn't have acces.";
 
             //when
             var actual = Assert

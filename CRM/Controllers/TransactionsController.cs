@@ -1,17 +1,15 @@
-﻿using AutoMapper;
-using CRM.APILayer.Extensions;
+﻿using CRM.APILayer.Extensions;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Services;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Collections;
 
 namespace CRM.APILayer.Controllers
 {
     [ApiController]
-    [Route("api/transactions")]
+    [Route("/api/transactions")]
 
     public class TransactionsController : AdvancedController
     {

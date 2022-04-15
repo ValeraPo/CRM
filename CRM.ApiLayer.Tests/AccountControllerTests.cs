@@ -25,7 +25,7 @@ namespace CRM.ApiLayer.Tests
         private Mock<IAccountService> _accountService;
         private readonly IMapper _autoMapper;
         private Mock<ILogger<AccountsController>> _logger;
-        private readonly Mock<ICRMProducers> _crmProducers;
+        private Mock<ICRMProducers> _crmProducers;
         private Mock<IRequestHelper> _requestHelper;
         private readonly IValidator<AccountInsertRequest> _validatorAccountInsertRequest;
         private readonly IValidator<AccountUpdateRequest> _validatorAccountUpdateRequest;
@@ -36,7 +36,6 @@ namespace CRM.ApiLayer.Tests
         {
             
             _autoMapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperFromApi>()));
-            _crmProducers = new Mock<ICRMProducers>();
             _validatorAccountInsertRequest = new AccountInsertRequestValidator();
             _validatorAccountUpdateRequest = new AccountUpdateRequestValidator();
         }
@@ -46,6 +45,7 @@ namespace CRM.ApiLayer.Tests
         {
             _accountService = new Mock<IAccountService>();
             _logger = new Mock<ILogger<AccountsController>>();
+            _crmProducers = new Mock<ICRMProducers>();
             _requestHelper = new Mock<IRequestHelper>();
             controller = new AccountsController(_accountService.Object,
                 _autoMapper,
@@ -245,6 +245,7 @@ namespace CRM.ApiLayer.Tests
             //then
             _accountService.Verify(m => m.UpdateAccount(It.IsAny<int>(), It.IsAny<AccountModel>()), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
+            _crmProducers.Verify(m => m.NotifyAccountAdded(accountId), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
         }
 
@@ -476,6 +477,7 @@ namespace CRM.ApiLayer.Tests
             //then
             _accountService.Verify(m => m.UnlockById(accountId), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
+            _crmProducers.Verify(m => m.NotifyAccountAdded(accountId), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
         }
 

@@ -1,6 +1,7 @@
 ﻿using CRM.BusinessLayer.Models;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ExchangeModels;
+using Marvelous.Contracts.ResponseModels;
 
 namespace CRM.BusinessLayer.Services.Interfaces
 {
@@ -13,6 +14,7 @@ namespace CRM.BusinessLayer.Services.Interfaces
         Task RestoreById(int id);
         Task ChangePassword(int id, string oldPassword, string newPassword);
         Task<List<LeadModel>> GetAll();
+        Task<LeadModel> GetById(int id, IdentityResponseModel leadIdentity);
         Task<LeadModel> GetById(int id);
         Task<List<LeadAuthExchangeModel>> GetAllToAuth();
         Task ChangeRoleListLead(LeadShortExchangeModel[] models);

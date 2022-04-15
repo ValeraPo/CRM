@@ -26,7 +26,7 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Received a request to add a deposit to an account with ID =  {transactionModel.AccountId}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
-            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
+            ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
             _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Deposit, transactionModel);
             _logger.LogInformation($"Request successful.");
@@ -39,10 +39,10 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Transfer request received from account with ID {transactionModel.AccountIdFrom} to account with ID {transactionModel.AccountIdTo}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountIdFrom);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdFrom, entity);
-            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
+            ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
             var accountTo = await _accountRepository.GetById(transactionModel.AccountIdTo);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdTo, accountTo);
-            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(accountTo.Lead.Id, leadId);
+            ExceptionsHelper.ThrowIfLeadDontHaveAcces(accountTo.Lead.Id, leadId);
             _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Transfer, transactionModel);
             _logger.LogInformation($"Request successful.");
@@ -55,7 +55,7 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Received withdraw request from account with ID = {transactionModel.AccountId}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
-            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
+            ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
             _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Withdraw,  transactionModel);
             _logger.LogInformation($"Request successful.");
@@ -68,7 +68,7 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Popytka polucheniia transakcii accounta id = {id}.");
             var entity = await _accountRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
-            ExceptionsHelper.ThrowIfLeadDontHaveAccesToAccount(entity.Lead.Id, leadId);
+            ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
             _logger.LogInformation($"Otpravka zaprosa na poluchenie transakcii accounta id = {id}.");
             var response = await _requestHelper.GetTransactions(id);
             _logger.LogInformation($"Poluchen otvet na poluchenie transakcii accounta id = {id}.");

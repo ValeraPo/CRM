@@ -8,6 +8,7 @@ using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ExchangeModels;
 using Marvelous.Contracts.RequestModels;
+using Marvelous.Contracts.ResponseModels;
 using Microsoft.Extensions.Logging;
 
 namespace CRM.BusinessLayer.Services
@@ -124,9 +125,16 @@ namespace CRM.BusinessLayer.Services
             return leads;
         }
 
-        public async Task<LeadModel> GetById(int id)
+        public async Task<LeadModel> GetById(int id, IdentityResponseModel leadIdentity)
         {
             _logger.LogInformation($"Received to get an lead with an ID {id}.");
+            if ((Role)Enum.Parse(typeof(Role), leadIdentity.Role) != Role.Admin)
+                ExceptionsHelper.ThrowIfLeadDontHaveAcces(id, (int)leadIdentity.Id);
+            return await GetById(id);
+        }
+
+        public async Task<LeadModel> GetById(int id)
+        {
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             return _autoMapper.Map<LeadModel>(entity);
