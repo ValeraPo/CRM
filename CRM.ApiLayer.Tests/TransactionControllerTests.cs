@@ -27,15 +27,8 @@ namespace CRM.ApiLayer.Tests
         private Mock<ITransactionService> _transactionService;
         private Mock<ILogger<TransactionsController>> _logger;
         private Mock<IRequestHelper> _requestHelper;
-        private readonly Mock<IConfiguration> _configuration;
         private TransactionsController controller;
 
-
-        public TransactionControllerTests()
-        {
-            _configuration = new Mock<IConfiguration>();
-
-        }
 
         [SetUp]
         public void Setup()
@@ -45,8 +38,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper = new Mock<IRequestHelper>();
             controller = new TransactionsController(_transactionService.Object,
                 _logger.Object,
-                _requestHelper.Object,
-                _configuration.Object);
+                _requestHelper.Object);
         }
 
 

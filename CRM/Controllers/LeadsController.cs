@@ -34,10 +34,9 @@ namespace CRM.APILayer.Controllers
             ILogger<LeadsController> logger,
             ICRMProducers crmProducers,
             IRequestHelper requestHelper,
-            IConfiguration configuration,
             IValidator<LeadInsertRequest> validatorLeadInsertRequest,
             IValidator<LeadUpdateRequest> validatorLeadUpdateRequest,
-            IValidator<LeadChangePasswordRequest> validatorLeadChangePasswordRequest) : base(configuration, requestHelper, logger)
+            IValidator<LeadChangePasswordRequest> validatorLeadChangePasswordRequest) : base(requestHelper, logger)
         {
             _leadService = leadService;
             _autoMapper = autoMapper;

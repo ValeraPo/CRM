@@ -30,9 +30,8 @@ namespace CRM.APILayer.Controllers
             ILogger<AccountsController> logger,
             ICRMProducers crmProducers,
             IRequestHelper requestHelper,
-            IConfiguration configuration,
             IValidator<AccountInsertRequest> validatorAccountInsertRequest,
-            IValidator<AccountUpdateRequest> validatorAccountUpdateRequest) : base(configuration, requestHelper, logger)
+            IValidator<AccountUpdateRequest> validatorAccountUpdateRequest) : base(requestHelper, logger)
         {
             _accountService = accountService;
             _autoMapper = autoMapper;

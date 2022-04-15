@@ -4,7 +4,7 @@ using NUnit.Framework;
 using RestSharp;
 using System.Threading.Tasks;
 
-namespace CRM.BusinessLayer.Tests.ServiceTests
+namespace CRM.BusinessLayer.Tests
 {
     public class InitializationHelperTests
     {

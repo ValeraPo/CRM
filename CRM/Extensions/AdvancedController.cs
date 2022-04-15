@@ -8,18 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.APILayer.Extensions
 {
-    public class AdvancedController : Controller//, IAdvancedController
+    public class AdvancedController : Controller
     {
-        private readonly IConfiguration _configuration;
         private readonly IRequestHelper _requestHelper;
         private readonly ILogger<AdvancedController> _logger;
 
 
-        public AdvancedController(IConfiguration configuration,
-            IRequestHelper requestHelper,
+        public AdvancedController(IRequestHelper requestHelper,
              ILogger<AdvancedController> logger)
         {
-            _configuration = configuration;
             _requestHelper = requestHelper;
             _logger = logger;
         }
@@ -78,17 +75,5 @@ namespace CRM.APILayer.Extensions
                 throw ex;
             }
         }
-
-        //bool IAdvancedController.CheckMicroservice(params Microservice[] microservices)
-        //    => CheckMicroservice(microservices);
-
-        //void IAdvancedController.CheckRole(params Role[] roles)
-        //    => CheckRole(roles);
-
-        //IdentityResponseModel IAdvancedController.GetIdentity()
-        //    => GetIdentity();
-
-        //void IAdvancedController.Validate<T>(T requestModel, IValidator<T> validator)
-        //    =>Validate(requestModel, validator);
     }
 }

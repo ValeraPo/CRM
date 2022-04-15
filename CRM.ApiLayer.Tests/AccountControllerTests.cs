@@ -27,7 +27,6 @@ namespace CRM.ApiLayer.Tests
         private Mock<ILogger<AccountsController>> _logger;
         private readonly Mock<ICRMProducers> _crmProducers;
         private Mock<IRequestHelper> _requestHelper;
-        private readonly Mock<IConfiguration> _configuration;
         private readonly IValidator<AccountInsertRequest> _validatorAccountInsertRequest;
         private readonly IValidator<AccountUpdateRequest> _validatorAccountUpdateRequest;
         private AccountsController controller;
@@ -38,7 +37,6 @@ namespace CRM.ApiLayer.Tests
             
             _autoMapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperFromApi>()));
             _crmProducers = new Mock<ICRMProducers>();
-            _configuration = new Mock<IConfiguration>();
             _validatorAccountInsertRequest = new AccountInsertRequestValidator();
             _validatorAccountUpdateRequest = new AccountUpdateRequestValidator();
         }
@@ -54,7 +52,6 @@ namespace CRM.ApiLayer.Tests
                 _logger.Object,
                 _crmProducers.Object,
                 _requestHelper.Object,
-                _configuration.Object,
                 _validatorAccountInsertRequest,
                 _validatorAccountUpdateRequest);
         }

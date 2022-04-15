@@ -21,8 +21,7 @@ namespace CRM.APILayer.Controllers
 
         public TransactionsController(ITransactionService transactionService, 
             ILogger<TransactionsController> logger,
-            IRequestHelper requestHelper,
-            IConfiguration configuration) : base(configuration, requestHelper, logger)
+            IRequestHelper requestHelper) : base(requestHelper, logger)
         {
             _transactionService = transactionService;
             _logger = logger;

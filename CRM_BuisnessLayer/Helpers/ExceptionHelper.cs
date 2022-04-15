@@ -1,5 +1,4 @@
 ﻿using CRM.BusinessLayer.Exceptions;
-using Microsoft.Extensions.Logging;
 using NLog;
 
 namespace CRM.BusinessLayer

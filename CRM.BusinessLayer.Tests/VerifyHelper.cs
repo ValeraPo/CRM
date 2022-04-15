@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using static Moq.It;
 
-namespace CRM.BusinessLayer.Tests.ServiceTests
+namespace CRM.BusinessLayer.Tests
 {
     public static class VerifyHelper
     {
