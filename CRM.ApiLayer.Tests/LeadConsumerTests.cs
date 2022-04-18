@@ -1,4 +1,4 @@
-﻿using CRM.APILayer.Consumer;
+﻿using CRM.APILayer.Consumers;
 using CRM.BusinessLayer.Services.Interfaces;
 using Marvelous.Contracts.ExchangeModels;
 using MassTransit;

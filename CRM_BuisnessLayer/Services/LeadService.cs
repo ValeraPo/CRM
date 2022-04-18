@@ -38,10 +38,10 @@ namespace CRM.BusinessLayer.Services
         public async Task<(int, int)> AddLead(LeadModel leadModel)
         {
             _logger.LogInformation("Received a request to create a new lead.");
-            var lead = await _leadRepository.GetByEmail(leadModel.Email.Encryptor());
+            var lead = await _leadRepository.GetByEmail(leadModel.Email);
             if (lead != null)
             {
-                _logger.LogError($"Try to singup. Email {leadModel.Email} is already exists.");
+                _logger.LogError($"Try to singup. Email {leadModel.Email.Encryptor()} is already exists.");
                 throw new DuplicationException($"Try to singup. Email {leadModel.Email.Encryptor()} is already exists.");
             }
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
@@ -70,7 +70,7 @@ namespace CRM.BusinessLayer.Services
         public async Task ChangeRoleLead(int id, Role role)
         {
             _logger.LogInformation($"Received a request to update the role of the lead with ID = {id}.");
-            if (role != Role.Vip && role != Role.Regular)
+            if (role == Role.Admin)
             {
                 _logger.LogError($"Authorisation error. The role can be changed to Regular or VIP.");
                 throw new IncorrectRoleException("Authorisation error. The role can be changed to Regular or VIP.");
@@ -120,7 +120,7 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<List<LeadAuthExchangeModel>> GetAllToAuth()
         {
-            _logger.LogInformation($"Zapros na poluchenie vseh leadov.");
+            _logger.LogInformation($"Received a request to receive all leads for Auth.");
             var leads = await _leadRepository.GetAllToAuth();
             return leads;
         }
@@ -155,6 +155,7 @@ namespace CRM.BusinessLayer.Services
         
         public async Task ChangeRoleListLead(LeadShortExchangeModel[] models)
         {
+            _logger.LogInformation($"Received a request to change the role of a leads with.");
             await _leadRepository.ChangeRoleListLead(models.ToList());
         }
 

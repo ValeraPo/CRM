@@ -3,7 +3,7 @@ using CRM.BusinessLayer.Services.Interfaces;
 using Marvelous.Contracts.ExchangeModels;
 using MassTransit;
 
-namespace CRM.APILayer.Consumer
+namespace CRM.APILayer.Consumers
 {
     public class LeadConsumer : IConsumer<LeadShortExchangeModel[]>
     {

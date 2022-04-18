@@ -9,7 +9,9 @@ namespace CRM.APILayer.Validation
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .MaximumLength(20);
+                .WithMessage("Name is empty")
+                .MaximumLength(20)
+                .WithMessage("Maximum lenght of Name 20 symbols");
         }
     }
 }

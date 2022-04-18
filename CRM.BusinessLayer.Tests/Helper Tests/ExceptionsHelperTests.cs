@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRM.BusinessLayer.Tests.Helper_Tests
+namespace CRM.BusinessLayer.Tests
 {
     public class ExceptionsHelperTests
     {

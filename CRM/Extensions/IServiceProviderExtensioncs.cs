@@ -1,9 +1,10 @@
 ﻿using CRM.APILayer.Configuration;
-using CRM.APILayer.Consumer;
+using CRM.APILayer.Consumers;
 using CRM.APILayer.Producers;
 using CRM.APILayer.Validation;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Configurations;
+using CRM.BusinessLayer.Helpers;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Repositories;
@@ -38,6 +39,8 @@ namespace CRM.APILayer.Extensions
             services.AddScoped<IRequestHelper, RequestHelper>();
             services.AddScoped<ICRMProducers, CRMProducer>();
             services.AddTransient<IInitializationHelper, InitializationHelper>();
+            services.AddTransient<IRestClient, MarvelousRestClient>();
+
         }
 
         public static void AddFluentValidation(this IServiceCollection services)
@@ -138,6 +141,7 @@ namespace CRM.APILayer.Extensions
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<LeadConsumer>();
+                x.AddConsumer<ConfigConsumer>();
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host("rabbitmq://80.78.240.16", hst =>
@@ -148,6 +152,11 @@ namespace CRM.APILayer.Extensions
                     cfg.ReceiveEndpoint("leadCRMQueue", e =>
                     {
                         e.ConfigureConsumer<LeadConsumer>(context);
+                    });
+                    cfg.ReceiveEndpoint("ChangeConfigCrm", e =>
+                    {
+                        e.PurgeOnStartup = true;
+                        e.ConfigureConsumer<ConfigConsumer>(context);
                     });
                     cfg.Publish<LeadFullExchangeModel>(p =>
                     {

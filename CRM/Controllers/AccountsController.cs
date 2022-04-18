@@ -168,13 +168,13 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation("Get balance. Roles: Vip, Regular")]
-        public async Task<ActionResult> GetBalance(Currency currencyType)
+        public async Task<ActionResult> GetBalance(Currency CurrencyType)
         {
             var leadIdentity = GetIdentity();
             CheckRole(leadIdentity, Role.Vip, Role.Regular);
             var leadId = (int)leadIdentity.Id;
             _logger.LogInformation($"Poluchen zapros na polucheniie balance leada c id = {leadId}");
-            var balance = await _accountService.GetBalance(leadId, currencyType);
+            var balance = await _accountService.GetBalance(leadId, CurrencyType);
             _logger.LogInformation($"Balance dlya leada c id = {leadId} uspeshno poluchen.");
             return Ok(balance);
         }

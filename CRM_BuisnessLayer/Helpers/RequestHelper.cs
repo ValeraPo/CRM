@@ -1,4 +1,5 @@
 ﻿using CRM.BusinessLayer.Exceptions;
+using CRM.BusinessLayer.Helpers;
 using Marvelous.Contracts.Autentificator;
 using Marvelous.Contracts.Endpoints;
 using Marvelous.Contracts.Enums;
@@ -15,16 +16,21 @@ namespace CRM.BusinessLayer
     {
         private readonly ILogger<RequestHelper> _logger;
         private readonly IConfiguration _config;
+        private readonly IRestClient _client;
 
-        public RequestHelper(ILogger<RequestHelper> logger, IConfiguration config)
+        public RequestHelper(ILogger<RequestHelper> logger,
+            IConfiguration config,
+            IRestClient client)
         {
             _logger = logger;
             _config = config;
+            _client = client;
+
         }
 
         public async Task<int> SendTransactionPostRequest<T>(string path, T requestModel)
         {
-            var request = new RestRequest($"{TransactionEndpoints.ApiTransactions}{path}", Method.Post);
+            var request = new RestRequest($"{_config[Microservice.MarvelousTransactionStore.ToString() + "Url"]}{TransactionEndpoints.ApiTransactions}{path}", Method.Post);
             request.AddBody(requestModel!);
             var response = Convert.ToInt32(GenerateRequest(request).Result.Content);
             return response;
@@ -32,7 +38,7 @@ namespace CRM.BusinessLayer
 
         public async Task<decimal> GetBalance(List<int> accountIds, Currency currency)
         {
-            var request = new RestRequest($"{TransactionEndpoints.ApiBalance}", Method.Get);
+            var request = new RestRequest($"{_config[Microservice.MarvelousTransactionStore.ToString()+"Url"]}{TransactionEndpoints.ApiBalance}", Method.Get);
             foreach (var id in accountIds)
             {
                 request.AddParameter("id", id);
@@ -47,26 +53,24 @@ namespace CRM.BusinessLayer
 
         public async Task<RestResponse> GenerateRequest(RestRequest request)
         {
-            var client = new RestClient(_config[Microservice.MarvelousTransactionStore.ToString()]);
-            var response = await client.ExecuteAsync(request);
+            var response = await _client.ExecuteAsync(request);
             CheckTransactionError(response);
             return response;
         }
 
         public async Task<string> GetTransactions(int id)
         {
-            var request = new RestRequest($"{TransactionEndpoints.ApiTransactions}by-accountIds", Method.Get);
+            var request = new RestRequest($"{_config[Microservice.MarvelousTransactionStore.ToString() + "Url"]}{TransactionEndpoints.ApiTransactions}by-accountIds", Method.Get);
             request.AddParameter("accountIds", id);
             return GenerateRequest(request).Result.Content;
         }
 
         public async Task<string> GetToken(AuthRequestModel auth)
         {
-            var client = new RestClient(_config[Microservice.MarvelousAuth.ToString()]);
-            client.AddDefaultHeader(nameof(Microservice), Microservice.MarvelousCrm.ToString());
-            var request = new RestRequest($"{AuthEndpoints.ApiAuth}{AuthEndpoints.Login}", Method.Post);
+            _client.AddMicroservice(Microservice.MarvelousCrm);
+            var request = new RestRequest($"{_config[Microservice.MarvelousAuth.ToString()]}{AuthEndpoints.ApiAuth}{AuthEndpoints.Login}", Method.Post);
             request.AddBody(auth);
-            var response = await client.ExecuteAsync<string>(request);
+            var response = await _client.ExecuteAsync<string>(request);
             CheckTransactionError(response);
             return response.Data;
         }
@@ -74,11 +78,10 @@ namespace CRM.BusinessLayer
         public async Task<IdentityResponseModel> GetLeadIdentityByToken(string token)
         {
             _logger.LogInformation($"Send token {token}");
-            var client = new RestClient(_config[Microservice.MarvelousAuth.ToString()]);
-            client.Authenticator = new MarvelousAuthenticator(token);
-            client.AddDefaultHeader(nameof(Microservice), Microservice.MarvelousCrm.ToString());
-            var request = new RestRequest($"{AuthEndpoints.ApiAuth}{AuthEndpoints.DoubleValidation}");
-            var response = await client.ExecuteAsync<IdentityResponseModel>(request);
+            _client.Authenticator = new MarvelousAuthenticator(token);
+            _client.AddMicroservice(Microservice.MarvelousCrm);
+            var request = new RestRequest($"{_config[Microservice.MarvelousAuth.ToString()]}{AuthEndpoints.ApiAuth}{AuthEndpoints.DoubleValidation}");
+            var response = await _client.ExecuteAsync<IdentityResponseModel>(request);
             CheckTransactionError(response);
             return response.Data;
         }
@@ -86,22 +89,21 @@ namespace CRM.BusinessLayer
         public async Task<string> HashPassword(string password)
         {
             _logger.LogInformation($"Send password");
-            var client = new RestClient(_config[Microservice.MarvelousAuth.ToString()]);
-            client.AddDefaultHeader(nameof(Microservice), Microservice.MarvelousCrm.ToString());
-            var request = new RestRequest($"{AuthEndpoints.ApiAuth}{AuthEndpoints.Hash}", Method.Post);
+            _client.AddMicroservice(Microservice.MarvelousCrm);
+            var request = new RestRequest($"{_config[Microservice.MarvelousAuth.ToString()]}{AuthEndpoints.ApiAuth}{AuthEndpoints.Hash}", Method.Post);
             request.AddBody(password);
-            var response = await client.ExecuteAsync<string>(request);
+            var response = await _client.ExecuteAsync<string>(request);
             CheckTransactionError(response);
             return response.Data;
         }
 
         public async Task<RestResponse<T>> SendRequestForConfigs<T>(string url, string path, string jwtToken = "null")
         {
-            var request = new RestRequest(path);
-            var client = new RestClient(url);
-            client.Authenticator = new JwtAuthenticator(jwtToken);
-            client.AddDefaultHeader(nameof(Microservice), Microservice.MarvelousCrm.ToString());
-            var response = await client.ExecuteAsync<T>(request);
+            var request = new RestRequest($"{url}{path}");
+            _client.Authenticator = new JwtAuthenticator(jwtToken);
+            if (((RestClient)_client).DefaultParameters.Count == 0)
+                _client.AddMicroservice(Microservice.MarvelousCrm);
+            var response = await _client.ExecuteAsync<T>(request);
             CheckTransactionError(response);
 
             return response;
