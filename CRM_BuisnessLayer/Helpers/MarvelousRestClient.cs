@@ -14,8 +14,7 @@ namespace CRM.BusinessLayer.Helpers
         public Task<RestResponse<T>> ExecuteAsync<T>(RestRequest request, CancellationToken cancellationToken = default) =>
             RestClientExtensions.ExecuteAsync<T>(this, request, cancellationToken);
 
-        public new Task<RestResponse> ExecuteAsync(RestRequest request, CancellationToken cancellationToken = default(CancellationToken)) =>
-
-            base.ExecuteAsync(request, cancellationToken);
+        //public new Task<RestResponse> ExecuteAsync(RestRequest request, CancellationToken cancellationToken = default(CancellationToken)) =>
+        //    base.ExecuteAsync(request, cancellationToken);
     }
 }

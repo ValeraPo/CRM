@@ -55,6 +55,13 @@ namespace CRM.ApiLayer.Tests
                 _validatorAccountUpdateRequest);
         }
 
+        private void AddContext(string token)
+        {
+            var context = new DefaultHttpContext();
+            context.Request.Headers.Authorization = token;
+            _controller.ControllerContext.HttpContext = context;
+        }
+
         [Test]
         public async Task AddAccountTest_ShouldAddAccount()
         {
@@ -65,9 +72,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync( new IdentityResponseModel { Id = 1, Role = "Regular" } );
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
 
             //when
             await _controller.AddAccount(accountRequest);
@@ -84,9 +89,7 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             string token = default;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
@@ -110,9 +113,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Regular" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
 
             //when
             await _controller.UpdateAccount(accountId, accountRequest);
@@ -129,9 +130,7 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
@@ -152,9 +151,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel());
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = "Invalid token";
 
             //when
@@ -176,9 +173,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" }) ;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
@@ -201,9 +196,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" }) ;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
 
             //when
             await _controller.LockById(accountId);
@@ -220,9 +213,7 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
@@ -243,9 +234,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Regular" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
@@ -268,9 +257,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
 
             //when
             await _controller.UnlockById(accountId);
@@ -287,9 +274,7 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
@@ -310,9 +295,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Regular" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
@@ -335,9 +318,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
 
             //when
             await _controller.GetByLead();
@@ -353,9 +334,7 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
@@ -376,9 +355,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
@@ -402,9 +379,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
 
             //when
             await _controller.GetById(accountId);
@@ -420,9 +395,7 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
@@ -443,9 +416,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
@@ -469,9 +440,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
 
             //when
             await _controller.GetBalance(currency);
@@ -487,9 +456,7 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
@@ -510,9 +477,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when

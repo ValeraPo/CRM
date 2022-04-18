@@ -39,7 +39,7 @@ namespace CRM.APILayer.Extensions
             services.AddScoped<IRequestHelper, RequestHelper>();
             services.AddScoped<ICRMProducers, CRMProducer>();
             services.AddTransient<IInitializationHelper, InitializationHelper>();
-            services.AddTransient<IRestClient, MarvelousRestClient>();
+            services.AddScoped<IRestClient, MarvelousRestClient>();
 
         }
 
