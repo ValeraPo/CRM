@@ -164,9 +164,9 @@ namespace CRM.APILayer.Controllers
             var leadIdentity = GetIdentity();
             if (!CheckMicroservice(leadIdentity, Microservice.MarvelousAuth))
                 CheckRole(leadIdentity, Role.Admin);
-            _logger.LogInformation($"Poluchen zapros na poluchenie vseh leadov.");
+            _logger.LogInformation($"Received a request to receive all leads.");
             var leadModels = await _leadService.GetAllToAuth();
-            _logger.LogInformation($"Vse leady uspeshno polucheny.");
+            _logger.LogInformation($"All leads have been successfully received.");
             return Ok(leadModels);
         }
 

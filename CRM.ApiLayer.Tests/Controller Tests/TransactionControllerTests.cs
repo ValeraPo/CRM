@@ -1,20 +1,10 @@
-using AutoMapper;
-using CRM.APILayer.Configuration;
 using CRM.APILayer.Controllers;
-using CRM.APILayer.Models;
-using CRM.APILayer.Producers;
-using CRM.APILayer.Validation;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Exceptions;
-using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services;
-using CRM.BusinessLayer.Services.Interfaces;
-using FluentValidation;
-using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.RequestModels;
 using Marvelous.Contracts.ResponseModels;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -27,7 +17,7 @@ namespace CRM.ApiLayer.Tests
         private Mock<ITransactionService> _transactionService;
         private Mock<ILogger<TransactionsController>> _logger;
         private Mock<IRequestHelper> _requestHelper;
-        private TransactionsController controller;
+        private TransactionsController _controller;
 
 
         [SetUp]
@@ -36,12 +26,17 @@ namespace CRM.ApiLayer.Tests
             _transactionService = new Mock<ITransactionService>();
             _logger = new Mock<ILogger<TransactionsController>>();
             _requestHelper = new Mock<IRequestHelper>();
-            controller = new TransactionsController(_transactionService.Object,
+            _controller = new TransactionsController(_transactionService.Object,
                 _logger.Object,
                 _requestHelper.Object);
         }
 
-
+        private void AddContext(string token)
+        {
+            var context = new DefaultHttpContext();
+            context.Request.Headers.Authorization = token;
+            _controller.ControllerContext.HttpContext = context;
+        }
 
         [Test]
         public async Task AddDepositTest_ShouldAddDeposit()
@@ -53,12 +48,10 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            AddContext(token);
 
             //when
-            await controller.AddDeposit(model);
+            await _controller.AddDeposit(model);
 
             //then
             _transactionService.Verify(m => m.AddDeposit(model, leadId), Times.Once());
@@ -71,14 +64,12 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.AddDeposit(new TransactionRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.AddDeposit(new TransactionRequestModel()))!
                 .Message;
 
             //then
@@ -94,14 +85,12 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.AddDeposit(new TransactionRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.AddDeposit(new TransactionRequestModel()))!
                 .Message;
 
             //then
@@ -120,12 +109,10 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            AddContext(token);
 
             //when
-            await controller.AddTransfer(model);
+            await _controller.AddTransfer(model);
 
             //then
             _transactionService.Verify(m => m.AddTransfer(model, leadId), Times.Once());
@@ -138,14 +125,12 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.AddTransfer(new TransferRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.AddTransfer(new TransferRequestModel()))!
                 .Message;
 
             //then
@@ -161,14 +146,12 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.AddTransfer(new TransferRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.AddTransfer(new TransferRequestModel()))!
                 .Message;
 
             //then
@@ -187,12 +170,10 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            AddContext(token);
 
             //when
-            await controller.Withdraw(model);
+            await _controller.Withdraw(model);
 
             //then
             _transactionService.Verify(m => m.Withdraw(model, leadId), Times.Once());
@@ -205,14 +186,12 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.Withdraw(new TransactionRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.Withdraw(new TransactionRequestModel()))!
                 .Message;
 
             //then
@@ -228,14 +207,12 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.Withdraw(new TransactionRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.Withdraw(new TransactionRequestModel()))!
                 .Message;
 
             //then
@@ -254,12 +231,10 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            AddContext(token);
 
             //when
-            await controller.GetTransactionsByAccountId(accountId);
+            await _controller.GetTransactionsByAccountId(accountId);
 
             //then
             _transactionService.Verify(m => m.GetTransactionsByAccountId(accountId, leadId), Times.Once());
@@ -272,14 +247,12 @@ namespace CRM.ApiLayer.Tests
         {
             // given
             var token = (string)null;
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.GetTransactionsByAccountId(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetTransactionsByAccountId(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -295,14 +268,12 @@ namespace CRM.ApiLayer.Tests
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            AddContext(token);
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.GetTransactionsByAccountId(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetTransactionsByAccountId(It.IsAny<int>()))!
                 .Message;
 
             //then

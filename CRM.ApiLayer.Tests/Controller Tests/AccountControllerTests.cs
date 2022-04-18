@@ -12,7 +12,6 @@ using FluentValidation;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ResponseModels;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -29,7 +28,7 @@ namespace CRM.ApiLayer.Tests
         private Mock<IRequestHelper> _requestHelper;
         private readonly IValidator<AccountInsertRequest> _validatorAccountInsertRequest;
         private readonly IValidator<AccountUpdateRequest> _validatorAccountUpdateRequest;
-        private AccountsController controller;
+        private AccountsController _controller;
 
 
         public AccountControllerTests()
@@ -47,7 +46,7 @@ namespace CRM.ApiLayer.Tests
             _logger = new Mock<ILogger<AccountsController>>();
             _crmProducers = new Mock<ICRMProducers>();
             _requestHelper = new Mock<IRequestHelper>();
-            controller = new AccountsController(_accountService.Object,
+            _controller = new AccountsController(_accountService.Object,
                 _autoMapper,
                 _logger.Object,
                 _crmProducers.Object,
@@ -68,10 +67,10 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync( new IdentityResponseModel { Id = 1, Role = "Regular" } );
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
 
             //when
-            await controller.AddAccount(accountRequest);
+            await _controller.AddAccount(accountRequest);
 
             //then
             _accountService.Verify(m => m.AddAccount(Role.Regular, It.IsAny<AccountModel>()), Times.Once());
@@ -84,143 +83,19 @@ namespace CRM.ApiLayer.Tests
         public void AddAccount_TokenIsNull_ShouldThrowForbiddenException()
         {
             // given
-            var token = (string)null;
+            string token = default;
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.AddAccount(It.IsAny<AccountInsertRequest>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.AddAccount(It.IsAny<AccountInsertRequest>()))!
                 .Message;
 
             //then
             Assert.AreEqual(expected, actual);
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
-        }
-
-        [Test]
-        public void AddAccount_ModelIsEmpty_ShouldThrowBadRequestException()
-        {
-            // given
-            var token = "token";
-            AccountInsertRequest model = null; // Invalid model
-            _requestHelper
-                .Setup(m => m.GetLeadIdentityByToken(token))
-                .ReturnsAsync(new IdentityResponseModel());
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
-            var expected = "You must specify the table details in the request body";
-
-            //when
-            var actual = Assert
-                .ThrowsAsync<BadRequestException>(async () => await controller.AddAccount(model))!
-                .Message;
-
-            //then
-            Assert.AreEqual(expected, actual);
-            _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
-        }
-
-        [Test]
-        public void AddAccount_NameIsEmpty_ShouldThrowValidationException()
-        {
-            // given
-            var token = "token";
-            var model = new AccountInsertRequest { Name = "" }; // Invalid model
-            _requestHelper
-                .Setup(m => m.GetLeadIdentityByToken(token))
-                .ReturnsAsync(new IdentityResponseModel());
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
-            var expected = "Validation failed: \r\n -- Name: 'Name' must not be empty. Severity: Error\r\n -- CurrencyType: 'Currency Type' must not be empty. Severity: Error\r\n -- CurrencyType: 'Currency Type' must be between 1 and 113. You entered 0. Severity: Error";
-
-            //when
-            var actual = Assert
-                .ThrowsAsync<ValidationException>(async () => await controller.AddAccount(model))!
-                .Message;
-
-            //then
-            Assert.AreEqual(expected, actual);
-            _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
-        }
-
-        public void AddAccount_NameIsTooLong_ShouldThrowValidationException()
-        {
-            // given
-            var token = "token";
-            var model = new AccountInsertRequest { Name = "12345678901234567890123" }; // Invalid model
-            _requestHelper
-                .Setup(m => m.GetLeadIdentityByToken(token))
-                .ReturnsAsync(new IdentityResponseModel());
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
-            var expected = "Validation failed: \r\n -- Name: 'Name' must not be empty. Severity: Error\r\n -- CurrencyType: 'Currency Type' must not be empty. Severity: Error\r\n -- CurrencyType: 'Currency Type' must be between 1 and 113. You entered 0. Severity: Error";
-
-            //when
-            var actual = Assert
-                .ThrowsAsync<ValidationException>(async () => await controller.AddAccount(model))!
-                .Message;
-
-            //then
-            Assert.AreEqual(expected, actual);
-            _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
-        }
-
-        [Test]
-        public void AddAccount_CurrencyTypeIsLessDiapason_ShouldThrowValidationException()
-        {
-            // given
-            var token = "token";
-            var model = new AccountInsertRequest { Name = "Money", CurrencyType = 0 }; // Invalid model
-            _requestHelper
-                .Setup(m => m.GetLeadIdentityByToken(token))
-                .ReturnsAsync(new IdentityResponseModel());
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
-            var expected = "Validation failed: \r\n -- CurrencyType: 'Currency Type' must not be empty. Severity: Error\r\n -- CurrencyType: 'Currency Type' must be between 1 and 113. You entered 0. Severity: Error";
-
-            //when
-            var actual = Assert
-                .ThrowsAsync<ValidationException>(async () => await controller.AddAccount(model))!
-                .Message;
-
-            //then
-            Assert.AreEqual(expected, actual);
-            _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
-        }
-
-        [Test]
-        public void AddAccount_CurrencyTypeIsGreaterDiapason_ShouldThrowValidationException()
-        {
-            // given
-            var token = "token";
-            var model = new AccountInsertRequest { Name = "Money", CurrencyType = 200 }; // Invalid model
-            _requestHelper
-                .Setup(m => m.GetLeadIdentityByToken(token))
-                .ReturnsAsync(new IdentityResponseModel());
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
-            var expected = "Validation failed: \r\n -- CurrencyType: 'Currency Type' must be between 1 and 113. You entered 200. Severity: Error";
-
-            //when
-            var actual = Assert
-                .ThrowsAsync<ValidationException>(async () => await controller.AddAccount(model))!
-                .Message;
-
-            //then
-            Assert.AreEqual(expected, actual);
-            _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
 
@@ -237,10 +112,10 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Regular" });
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
 
             //when
-            await controller.UpdateAccount(accountId, accountRequest);
+            await _controller.UpdateAccount(accountId, accountRequest);
 
             //then
             _accountService.Verify(m => m.UpdateAccount(It.IsAny<int>(), It.IsAny<AccountModel>()), Times.Once());
@@ -256,12 +131,12 @@ namespace CRM.ApiLayer.Tests
             var token = (string)null;
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.UpdateAccount(It.IsAny<int>(), It.IsAny<AccountUpdateRequest>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.UpdateAccount(It.IsAny<int>(), It.IsAny<AccountUpdateRequest>()))!
                 .Message;
 
             //then
@@ -279,12 +154,12 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel());
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = "Invalid token";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.UpdateAccount(It.IsAny<int>(), It.IsAny<AccountUpdateRequest>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.UpdateAccount(It.IsAny<int>(), It.IsAny<AccountUpdateRequest>()))!
                 .Message;
 
             //then
@@ -303,86 +178,12 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" }) ;
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.UpdateAccount(It.IsAny<int>(), It.IsAny<AccountUpdateRequest>()))!
-                .Message;
-
-            //then
-            Assert.AreEqual(expected, actual);
-            _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
-        }
-
-        [Test]
-        public void UpdateAccount_ModelIsEmpty_ShouldThrowBadRequestException()
-        {
-            // given
-            var token = "token";
-            AccountUpdateRequest model = null; // Invalid model
-            _requestHelper
-                .Setup(m => m.GetLeadIdentityByToken(token))
-                .ReturnsAsync(new IdentityResponseModel { Role = "Regular"});
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
-            var expected = "You must specify the table details in the request body";
-
-            //when
-            var actual = Assert
-                .ThrowsAsync<BadRequestException>(async () => await controller.UpdateAccount(It.IsAny<int>(), model))!
-                .Message;
-
-            //then
-            Assert.AreEqual(expected, actual);
-            _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
-        }
-
-        [Test]
-        public void UpdateAccount_NameIsEmpty_ShouldThrowValidationException()
-        {
-            // given
-            var token = "token";
-            var model = new AccountUpdateRequest { Name = "" }; // Invalid model
-            _requestHelper
-                .Setup(m => m.GetLeadIdentityByToken(token))
-                .ReturnsAsync(new IdentityResponseModel { Role = "Regular" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
-            var expected = "Validation failed: \r\n -- Name: 'Name' must not be empty. Severity: Error";
-
-            //when
-            var actual = Assert
-                .ThrowsAsync<ValidationException>(async () => await controller.UpdateAccount(It.IsAny<int>(), model))!
-                .Message;
-
-            //then
-            Assert.AreEqual(expected, actual);
-            _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
-        }
-
-        public void UpdateAccount_NameIsTooLong_ShouldThrowValidationException()
-        {
-            // given
-            var token = "token";
-            var model = new AccountUpdateRequest { Name = "12345678901234567890123" }; // Invalid model
-            _requestHelper
-                .Setup(m => m.GetLeadIdentityByToken(token))
-                .ReturnsAsync(new IdentityResponseModel { Role = "Regular" });
-            var context = new DefaultHttpContext();
-            context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
-            var expected = "Validation failed: \r\n -- Name: 'Name' must not be empty. Severity: Error\r\n -- CurrencyType: 'Currency Type' must not be empty. Severity: Error\r\n -- CurrencyType: 'Currency Type' must be between 1 and 113. You entered 0. Severity: Error";
-
-            //when
-            var actual = Assert
-                .ThrowsAsync<ValidationException>(async () => await controller.UpdateAccount(It.IsAny<int>(), model))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.UpdateAccount(It.IsAny<int>(), It.IsAny<AccountUpdateRequest>()))!
                 .Message;
 
             //then
@@ -402,10 +203,10 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" }) ;
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
 
             //when
-            await controller.LockById(accountId);
+            await _controller.LockById(accountId);
 
             //then
             _accountService.Verify(m => m.LockById(accountId), Times.Once());
@@ -421,12 +222,12 @@ namespace CRM.ApiLayer.Tests
             var token = (string)null;
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.LockById(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.LockById(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -444,12 +245,12 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Regular" });
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.LockById(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.LockById(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -469,10 +270,10 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
 
             //when
-            await controller.UnlockById(accountId);
+            await _controller.UnlockById(accountId);
 
             //then
             _accountService.Verify(m => m.UnlockById(accountId), Times.Once());
@@ -488,12 +289,12 @@ namespace CRM.ApiLayer.Tests
             var token = (string)null;
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.UnlockById(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.UnlockById(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -511,12 +312,12 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Regular" });
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.UnlockById(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.UnlockById(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -536,10 +337,10 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
 
             //when
-            await controller.GetByLead();
+            await _controller.GetByLead();
 
             //then
             _accountService.Verify(m => m.GetByLead(leadId), Times.Once());
@@ -554,12 +355,12 @@ namespace CRM.ApiLayer.Tests
             var token = (string)null;
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.GetByLead())!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetByLead())!
                 .Message;
 
             //then
@@ -577,12 +378,12 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.GetByLead())!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetByLead())!
                 .Message;
 
             //then
@@ -603,10 +404,10 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
 
             //when
-            await controller.GetById(accountId);
+            await _controller.GetById(accountId);
 
             //then
             _accountService.Verify(m => m.GetById(accountId, leadId), Times.Once());
@@ -621,12 +422,12 @@ namespace CRM.ApiLayer.Tests
             var token = (string)null;
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.GetById(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetById(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -644,12 +445,12 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.GetById(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetById(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -670,10 +471,10 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
 
             //when
-            await controller.GetBalance(currency);
+            await _controller.GetBalance(currency);
 
             //then
             _accountService.Verify(m => m.GetBalance(leadId, currency), Times.Once());
@@ -688,12 +489,12 @@ namespace CRM.ApiLayer.Tests
             var token = (string)null;
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Anonimus doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.GetBalance(It.IsAny<Currency>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetBalance(It.IsAny<Currency>()))!
                 .Message;
 
             //then
@@ -711,12 +512,12 @@ namespace CRM.ApiLayer.Tests
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            controller.ControllerContext.HttpContext = context;
+            _controller.ControllerContext.HttpContext = context;
             var expected = $"Lead id = 1 doesn't have access to this endpiont";
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await controller.GetBalance(It.IsAny<Currency>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetBalance(It.IsAny<Currency>()))!
                 .Message;
 
             //then
