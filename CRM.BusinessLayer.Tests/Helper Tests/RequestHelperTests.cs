@@ -65,14 +65,14 @@ namespace CRM.BusinessLayer.Tests
         public void SendTransactionPostRequest_WasReturnTimeout_ShouldThrowRequestTimeoutException()
         {
             //given
-            var expected = "One or more errors occurred. (Exceptions test)";
+            var expected = _message;
             var response = Mock.Of<RestResponse>(m =>  m.StatusCode == HttpStatusCode.RequestTimeout && m.ErrorMessage == _message && m.ErrorException == new Exception(_message));
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
 
             //when
-            var actual = Assert.ThrowsAsync<AggregateException>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
+            var actual = Assert.ThrowsAsync<RequestTimeoutException>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
 
             //then
             Assert.AreEqual(expected, actual);
@@ -85,14 +85,14 @@ namespace CRM.BusinessLayer.Tests
         public void SendTransactionPostRequest_WasReturnServiceUnavailable_ShouldThrowServiceUnavailableException()
         {
             //given
-            var expected = "One or more errors occurred. (Exceptions test)";
+            var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.ServiceUnavailable && m.ErrorException == new Exception(_message));
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
 
             //when
-            var actual = Assert.ThrowsAsync<AggregateException>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
+            var actual = Assert.ThrowsAsync<ServiceUnavailableException>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
 
             //then
             Assert.AreEqual(expected, actual);
@@ -105,14 +105,14 @@ namespace CRM.BusinessLayer.Tests
         public void SendTransactionPostRequest_WasReturnBadRequest_ShouldThrowBadGatewayException()
         {
             //given
-            var expected = "One or more errors occurred. (Exceptions test)";
+            var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.BadRequest && m.ErrorException == new Exception(_message));
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
 
             //when
-            var actual = Assert.ThrowsAsync<AggregateException>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
+            var actual = Assert.ThrowsAsync<BadGatewayException>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
 
             //then
             Assert.AreEqual(expected, actual);
@@ -125,14 +125,14 @@ namespace CRM.BusinessLayer.Tests
         public void SendTransactionPostRequest_WasReturnForbiddent_ShouldThrowForbiddenException()
         {
             //given
-            var expected = "One or more errors occurred. (Exceptions test)";
+            var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.Forbidden && m.ErrorException == new Exception(_message));
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
 
             //when
-            var actual = Assert.ThrowsAsync<AggregateException>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
+            var actual = Assert.ThrowsAsync<ForbiddenException>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
 
             //then
             Assert.AreEqual(expected, actual);
@@ -145,14 +145,14 @@ namespace CRM.BusinessLayer.Tests
         public void SendTransactionPostRequest_WasReturnNull_ShouldThrowBadGatewayException()
         {
             //given
-            var expected = "One or more errors occurred. (Exceptions test)";
+            var expected = _message;
             var response = Mock.Of<RestResponse>(m => m.ErrorException == new Exception(_message));
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
 
             //when
-            var actual = Assert.ThrowsAsync<AggregateException>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
+            var actual = Assert.ThrowsAsync<BadGatewayException>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
 
             //then
             Assert.AreEqual(expected, actual);
@@ -165,14 +165,14 @@ namespace CRM.BusinessLayer.Tests
         public void SendTransactionPostRequest_WasNotReturnOk_ShouldThrowInternalServerError()
         {
             //given
-            var expected = "One or more errors occurred. (Exceptions test)";
-            var response = Mock.Of<RestResponse>(m => m.Content == "something" && m.ErrorException == new Exception(_message));
+            var expected = _message;
+            var response = new RestResponse { Content = "something", ErrorException = new Exception(_message) };
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
 
             //when
-            var actual = Assert.ThrowsAsync<AggregateException>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
+            var actual = Assert.ThrowsAsync<InternalServerError>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
 
             //then
             Assert.AreEqual(expected, actual);
@@ -181,7 +181,8 @@ namespace CRM.BusinessLayer.Tests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
         }
 
-        /// //////////////////////////////////////////////////////////////////////////////////////////////
+       
+        /////////////////////////////////////////////////////////////////////////////////////////////////
         [Test]
         public async Task GetBalanceTests_WithList_ShouldReturnBalance()
         {
@@ -200,7 +201,125 @@ namespace CRM.BusinessLayer.Tests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
         }
 
-        
+        [Test]
+        public void GetBalance_WithList_WasReturnTimeout_ShouldThrowRequestTimeoutException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse>(m => m.StatusCode == HttpStatusCode.RequestTimeout && m.ErrorMessage == _message && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<RequestTimeoutException>(() => _requestHelper.GetBalance(new List<int> { 1, 2 }, Currency.AFN))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Request Timeout {_message}");
+        }
+
+        [Test]
+        public void GetBalance_WithList_WasReturnServiceUnavailable_ShouldThrowServiceUnavailableException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.ServiceUnavailable && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<ServiceUnavailableException>(() => _requestHelper.GetBalance(new List<int> { 1, 2 }, Currency.AFN))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Service Unavailable {_message}");
+        }
+
+        [Test]
+        public void GetBalance_WithList_WasReturnBadRequest_ShouldThrowBadGatewayException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.BadRequest && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<BadGatewayException>(() => _requestHelper.GetBalance(new List<int> { 1, 2 }, Currency.AFN))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Bad Gatеway {_message}");
+        }
+
+        [Test]
+        public void GetBalance_WithList_WasReturnForbiddent_ShouldThrowForbiddenException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.Forbidden && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<ForbiddenException>(() => _requestHelper.GetBalance(new List<int> { 1, 2 }, Currency.AFN))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Forbidden {_message}");
+        }
+
+        [Test]
+        public void GetBalance_WithList_WasReturnNull_ShouldThrowBadGatewayException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse>(m => m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<BadGatewayException>(() => _requestHelper.GetBalance(new List<int> { 1, 2 }, Currency.AFN))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Content equal's null {_message}");
+        }
+
+        [Test]
+        public void GetBalance_WithList_WasNotReturnOk_ShouldThrowInternalServerError()
+        {
+            //given
+            var expected = _message;
+            var response = new RestResponse { Content = "something", ErrorException = new Exception(_message) };
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<InternalServerError>(() => _requestHelper.GetBalance(new List<int> { 1, 2 }, Currency.AFN))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
+        }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////
         [Test]
@@ -221,11 +340,129 @@ namespace CRM.BusinessLayer.Tests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
         }
 
-        
+        [Test]
+        public void GetBalance_WasReturnTimeout_ShouldThrowRequestTimeoutException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse>(m => m.StatusCode == HttpStatusCode.RequestTimeout && m.ErrorMessage == _message && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<RequestTimeoutException>(() => _requestHelper.GetBalance(new List<int> { 1, 2 }, Currency.AFN))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Request Timeout {_message}");
+        }
+
+        [Test]
+        public void GetBalance_WasReturnServiceUnavailable_ShouldThrowServiceUnavailableException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.ServiceUnavailable && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<ServiceUnavailableException>(() => _requestHelper.GetBalance(new List<int> { 1, 2 }, Currency.AFN))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Service Unavailable {_message}");
+        }
+
+        [Test]
+        public void GetBalance_WasReturnBadRequest_ShouldThrowBadGatewayException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.BadRequest && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<BadGatewayException>(() => _requestHelper.GetBalance(new List<int> { 1, 2 }, Currency.AFN))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Bad Gatеway {_message}");
+        }
+
+        [Test]
+        public void GetBalance_WasReturnForbiddent_ShouldThrowForbiddenException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.Forbidden && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<ForbiddenException>(() => _requestHelper.GetBalance(new List<int> { 1, 2 }, Currency.AFN))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Forbidden {_message}");
+        }
+
+        [Test]
+        public void GetBalance_WasReturnNull_ShouldThrowBadGatewayException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse>(m => m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<BadGatewayException>(() => _requestHelper.GetBalance(new List<int> { 1, 2 }, Currency.AFN))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Content equal's null {_message}");
+        }
+
+        [Test]
+        public void GetBalance_WasNotReturnOk_ShouldThrowInternalServerError()
+        {
+            //given
+            var expected = _message;
+            var response = new RestResponse { Content = "something", ErrorException = new Exception(_message) };
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<InternalServerError>(() => _requestHelper.GetBalance(new List<int> { 1, 2 }, Currency.AFN))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
+        }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////
         [Test]
-        public async Task GenerateRequestTests_ShouldReturnResponse()
+        public async Task ExecuteRequestTests_ShouldReturnResponse()
         {
             //given
             var expected = new RestResponse { Content = "something", StatusCode = System.Net.HttpStatusCode.OK };
@@ -234,16 +471,134 @@ namespace CRM.BusinessLayer.Tests
                 .ReturnsAsync(expected);
 
             //when
-            var actual = await _requestHelper.GenerateRequest(It.IsAny<RestRequest>());
+            var actual = await _requestHelper.ExecuteRequest(It.IsAny<RestRequest>());
 
             //then
             Assert.AreEqual(expected, actual);
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, actual.StatusCode);
+            Assert.AreEqual(HttpStatusCode.OK, actual.StatusCode);
             _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Response received.");
         }
 
-        
+        [Test]
+        public void ExecuteRequest_WasReturnTimeout_ShouldThrowRequestTimeoutException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse>(m => m.StatusCode == HttpStatusCode.RequestTimeout && m.ErrorMessage == _message && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<RequestTimeoutException>(() => _requestHelper.ExecuteRequest(It.IsAny<RestRequest>()))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Request Timeout {_message}");
+        }
+
+        [Test]
+        public void ExecuteRequest_WasReturnServiceUnavailable_ShouldThrowServiceUnavailableException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.ServiceUnavailable && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<ServiceUnavailableException>(() => _requestHelper.ExecuteRequest(It.IsAny<RestRequest>()))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Service Unavailable {_message}");
+        }
+
+        [Test]
+        public void ExecuteRequest_WasReturnBadRequest_ShouldThrowBadGatewayException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.BadRequest && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<BadGatewayException>(() => _requestHelper.ExecuteRequest(It.IsAny<RestRequest>()))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Bad Gatеway {_message}");
+        }
+
+        [Test]
+        public void ExecuteRequest_WasReturnForbiddent_ShouldThrowForbiddenException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.Forbidden && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<ForbiddenException>(() => _requestHelper.ExecuteRequest(It.IsAny<RestRequest>()))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Forbidden {_message}");
+        }
+
+        [Test]
+        public void ExecuteRequest_WasReturnNull_ShouldThrowBadGatewayException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse>(m => m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<BadGatewayException>(() => _requestHelper.ExecuteRequest(It.IsAny<RestRequest>()))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Content equal's null {_message}");
+        }
+
+        [Test]
+        public void ExecuteRequest_WasNotReturnOk_ShouldThrowInternalServerError()
+        {
+            //given
+            var expected = _message;
+            var response = new RestResponse { Content = "something", ErrorException = new Exception(_message) };
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<InternalServerError>(() => _requestHelper.ExecuteRequest(It.IsAny<RestRequest>()))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
+        }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////
         [Test]
@@ -265,7 +620,125 @@ namespace CRM.BusinessLayer.Tests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Try get transactions by acount id = 42 from Transaction Service.");
         }
 
-        
+        [Test]
+        public void GetTransactions_WasReturnTimeout_ShouldThrowRequestTimeoutException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse>(m => m.StatusCode == HttpStatusCode.RequestTimeout && m.ErrorMessage == _message && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<RequestTimeoutException>(() => _requestHelper.GetTransactions(42))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Request Timeout {_message}");
+        }
+
+        [Test]
+        public void GetTransactions_WasReturnServiceUnavailable_ShouldThrowServiceUnavailableException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.ServiceUnavailable && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<ServiceUnavailableException>(() => _requestHelper.GetTransactions(42))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Service Unavailable {_message}");
+        }
+
+        [Test]
+        public void GetTransactions_WasReturnBadRequest_ShouldThrowBadGatewayException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.BadRequest && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<BadGatewayException>(() => _requestHelper.GetTransactions(42))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Bad Gatеway {_message}");
+        }
+
+        [Test]
+        public void GetTransactions_WasReturnForbiddent_ShouldThrowForbiddenException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.Forbidden && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<ForbiddenException>(() => _requestHelper.GetTransactions(42))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Forbidden {_message}");
+        }
+
+        [Test]
+        public void GetTransactions_WasReturnNull_ShouldThrowBadGatewayException()
+        {
+            //given
+            var expected = _message;
+            var response = Mock.Of<RestResponse>(m => m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<BadGatewayException>(() => _requestHelper.GetTransactions(42))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Content equal's null {_message}");
+        }
+
+        [Test]
+        public void GetTransactions_WasNotReturnOk_ShouldThrowInternalServerError()
+        {
+            //given
+            var expected = _message;
+            var response = new RestResponse { Content = "something", ErrorException = new Exception(_message) };
+            _client
+                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<InternalServerError>(() => _requestHelper.GetTransactions(42))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
+        }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////
         [Test]
@@ -274,7 +747,7 @@ namespace CRM.BusinessLayer.Tests
             //given
             var authModel = new AuthRequestModel { Email = "test@mail.ru", Password = "pass" };
             var expected = "token";
-            var response = Mock.Of<RestResponse<string>>(_ => _.Data == expected && _.StatusCode == HttpStatusCode.OK);
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.OK);
 
             _client
                 .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
@@ -294,21 +767,155 @@ namespace CRM.BusinessLayer.Tests
         public void GetToken_WasReturnConflict_ShouldThrowIncorrectPasswordException()
         {
             //given
-            var expected = $"One or more errors occurred. (Try to login. Incorrected password.)";
+            var authModel = new AuthRequestModel { Email = "test@mail.ru", Password = "pass" };
+            var expected = $"Try to login. Incorrected password.";
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.Conflict && m.ErrorException == new Exception(_message));
             _client
-                .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new RestResponse { ErrorException = new Exception(_message), StatusCode = HttpStatusCode.Conflict });
+                .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
 
             //when
-            var actual = Assert.ThrowsAsync<AggregateException>(() => _requestHelper.SendTransactionPostRequest("path", new TransactionRequestModel()))!.Message;
+            var actual = Assert.ThrowsAsync<IncorrectPasswordException>(() => _requestHelper.GetToken(authModel))!.Message;
 
             //then
             Assert.AreEqual(expected, actual);
-            _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.ExecuteAsync<string>(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Try get token from Auth Service for email = t**********u.");
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Try to login. Incorrected password.");
         }
 
-        
+        [Test]
+        public void GetToken_WasReturnTimeout_ShouldThrowRequestTimeoutException()
+        {
+            //given
+            var authModel = new AuthRequestModel { Email = "test@mail.ru", Password = "pass" };
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.RequestTimeout && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<RequestTimeoutException>(() => _requestHelper.GetToken(authModel))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync<string>(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Try get token from Auth Service for email = t**********u.");
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Request Timeout {_message}");
+        }
+
+        [Test]
+        public void GetToken_WasReturnServiceUnavailable_ShouldThrowServiceUnavailableException()
+        {
+            //given
+            var authModel = new AuthRequestModel { Email = "test@mail.ru", Password = "pass" };
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.ServiceUnavailable && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<ServiceUnavailableException>(() => _requestHelper.GetToken(authModel))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync<string>(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Try get token from Auth Service for email = t**********u.");
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Service Unavailable {_message}");
+        }
+
+        [Test]
+        public void GetToken_WasReturnBadRequest_ShouldThrowBadGatewayException()
+        {
+            //given
+            var authModel = new AuthRequestModel { Email = "test@mail.ru", Password = "pass" };
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.BadRequest && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<BadGatewayException>(() => _requestHelper.GetToken(authModel))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync<string>(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Try get token from Auth Service for email = t**********u.");
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Bad Gatеway {_message}");
+        }
+
+        [Test]
+        public void GetToken_WasReturnForbiddent_ShouldThrowForbiddenException()
+        {
+            //given
+            var authModel = new AuthRequestModel { Email = "test@mail.ru", Password = "pass" };
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.Forbidden && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<ForbiddenException>(() => _requestHelper.GetToken(authModel))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync<string>(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Try get token from Auth Service for email = t**********u.");
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Forbidden {_message}");
+        }
+
+        [Test]
+        public void GetToken_WasReturnNull_ShouldThrowBadGatewayException()
+        {
+            //given
+            var authModel = new AuthRequestModel { Email = "test@mail.ru", Password = "pass" };
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<BadGatewayException>(() => _requestHelper.GetToken(authModel))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync<string>(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Try get token from Auth Service for email = t**********u.");
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Content equal's null {_message}");
+        }
+
+        [Test]
+        public void GetToken_WasNotReturnOk_ShouldThrowInternalServerError()
+        {
+            //given
+            var authModel = new AuthRequestModel { Email = "test@mail.ru", Password = "pass" };
+            var expected = _message;
+            var response = Mock.Of<RestResponse<string>>(m => m.Content == "something" && m.ErrorException == new Exception(_message));
+            _client
+                .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            //when
+            var actual = Assert.ThrowsAsync<InternalServerError>(() => _requestHelper.GetToken(authModel))!.Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _client.Verify(v => v.ExecuteAsync<string>(It.IsAny<RestRequest>(), default), Times.Once);
+            _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Try get token from Auth Service for email = t**********u.");
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
+        }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////
         [Test]
@@ -332,7 +939,6 @@ namespace CRM.BusinessLayer.Tests
             _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Send token token");
         }
-
 
         [Test]
         public void GetLeadIdentityByToken_WasReturnTimeout_ShouldThrowRequestTimeoutException()

@@ -35,7 +35,7 @@ namespace CRM.BusinessLayer
             _logger.LogInformation("Try send request to TransactionService and added new transaction.");
             var request = new RestRequest($"{_config[Microservice.MarvelousTransactionStore.ToString() + "Url"]}{TransactionEndpoints.ApiTransactions}{path}", Method.Post);
             request.AddBody(requestModel!);
-            var response = Convert.ToInt32(GenerateRequest(request).Result.Content);
+            var response = Convert.ToInt32((await ExecuteRequest(request)).Content);
             return response;
         }
 
@@ -48,14 +48,14 @@ namespace CRM.BusinessLayer
                 request.AddParameter("id", id);
             }
             request.AddParameter("currency", (int)currency);
-            var response = Convert.ToDecimal(GenerateRequest(request).Result.Content);
+            var response = Convert.ToDecimal((await ExecuteRequest(request)).Content);
             return response;
         }
 
         public async Task<decimal> GetBalance(int accountId, Currency currency)
             => await GetBalance(new List<int> { accountId }, currency);
 
-        public async Task<RestResponse> GenerateRequest(RestRequest request)
+        public async Task<RestResponse> ExecuteRequest(RestRequest request)
         {
             var response = await _client.ExecuteAsync(request);
             _logger.LogInformation("Response received.");
@@ -68,7 +68,7 @@ namespace CRM.BusinessLayer
             _logger.LogInformation($"Try get transactions by acount id = {id} from Transaction Service.");
             var request = new RestRequest($"{_config[Microservice.MarvelousTransactionStore.ToString() + "Url"]}{TransactionEndpoints.ApiTransactions}by-accountIds", Method.Get);
             request.AddParameter("accountIds", id);
-            return GenerateRequest(request).Result.Content;
+            return (await ExecuteRequest(request)).Content;
         }
 
         public async Task<string> GetToken(AuthRequestModel auth)

@@ -10,7 +10,7 @@ namespace CRM.BusinessLayer
         Task<int> SendTransactionPostRequest<T>(string path, T requestModel);
         Task<decimal> GetBalance(List<int> accountIds, Currency currency);
         Task<decimal> GetBalance(int accountId, Currency currency);
-        Task<RestResponse> GenerateRequest(RestRequest request);
+        Task<RestResponse> ExecuteRequest(RestRequest request);
         Task<string> GetTransactions(int id);
         Task<string> GetToken(AuthRequestModel auth);
         Task<IdentityResponseModel> GetLeadIdentityByToken(string token);
