@@ -70,12 +70,8 @@ namespace CRM.APILayer.Extensions
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = false,
-                        //ValidIssuer = AuthOptions.Issuer,
                         ValidateAudience = false,
-                        //ValidAudience = AuthOptions.Audience,
                         ValidateLifetime = false,
-                        //IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                        //ValidateIssuerSigningKey = true
                     };
                 });
             services.AddAuthorization();

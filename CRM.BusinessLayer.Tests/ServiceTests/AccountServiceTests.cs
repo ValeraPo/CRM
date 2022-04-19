@@ -45,6 +45,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
         }
 
+        /// ////////////////////////////////////////////////////////////////////////////////
         [Test]
         public async Task AddAccountTest_ShouldAddedAccount()
         {
@@ -65,14 +66,15 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Request was received to add an account.");
         }
 
-        [Test]
-        public void AddAccount_AccountHasDuplication_ShouldThrowException()
+        [TestCase(Currency.RUB)]
+        [TestCase(Currency.USD)]
+        public void AddAccount_AccountHasDuplication_ShouldThrowException(Currency currency)
         {
             //given
             var leadId = 42;
-            var accountModel = new AccountModel { CurrencyType = Currency.RUB, Lead = new LeadModel() };
+            var accountModel = new AccountModel { CurrencyType = currency, Lead = new LeadModel() };
             accountModel.Lead.Id = leadId;
-            var accounts = new List<Account> { new Account { CurrencyType = Currency.RUB } };
+            var accounts = new List<Account> { new Account { CurrencyType = currency } };
             _accountRepositoryMock.Setup(m => m.GetByLead(leadId)).ReturnsAsync(accounts);
             var expected = "Error: an account with this currency already exists.";
 
@@ -109,6 +111,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, "Authorisation error. The lead role does not allow you to create accounts other than dollar.");
         }
 
+        /// ////////////////////////////////////////////////////////////////////////////////
         [Test]
         public async Task UpdateAccountTest_ShouldUpdatedAccount()
         {
@@ -169,6 +172,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             Assert.AreEqual(expected, actual);
         }
 
+        /// ////////////////////////////////////////////////////////////////////////////////
         [Test]
         public async Task LockByIdTest_ShouldLockAccount()
         {
@@ -225,6 +229,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, "Error: it is forbidden to block ruble accounts.");
         }
 
+        /// ////////////////////////////////////////////////////////////////////////////////
         [Test]
         public async Task UnlockByIdTest_ShouldUnlockAccount()
         {
@@ -262,6 +267,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         }
 
 
+        /// ////////////////////////////////////////////////////////////////////////////////
         [Test]
         public async Task GetByLeadTest_ShouldReturnListOfAccounts()
         {
@@ -300,7 +306,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             Assert.AreEqual(expected, actual);
         }
 
-
+        /// ////////////////////////////////////////////////////////////////////////////////
         [Test]
         public async Task GetByIdTest_ShouldReturnAccount()
         {
@@ -336,6 +342,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             Assert.AreEqual(expected, actual);
         }
 
+        /// ////////////////////////////////////////////////////////////////////////////////
         [Test]
         public async Task GetByIdTest_WithLeadId_ShouldReturnAccount()
         {
@@ -358,7 +365,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         }
 
         [Test]
-        public async Task GetById_WithLeadId_AccountNotFound_ShouldThrowNotFoundException()
+        public void GetById_WithLeadId_AccountNotFound_ShouldThrowNotFoundException()
         {
             //given
             var accountId = 24;
@@ -399,6 +406,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Authorisation Error. No access to someone else's account.");
         }
 
+        /// ////////////////////////////////////////////////////////////////////////////////
         [Test]
         public async Task GetBalanceTest_ShouldReturnBalance()
         {
