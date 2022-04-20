@@ -31,7 +31,7 @@ namespace CRM.BusinessLayer.Services
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
-            transactionModel.Amount -= await GetAmountCommission("Deposit", transactionModel.Amount, entity.Lead.Role);
+            transactionModel.Amount -= GetAmountCommission("Deposit", transactionModel.Amount, entity.Lead.Role);
             _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Deposit, transactionModel);
             _logger.LogInformation($"Request successful.");
@@ -61,9 +61,7 @@ namespace CRM.BusinessLayer.Services
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
-            transactionModel.Amount -= await GetAmountCommission("Withdraw", transactionModel.Amount, entity.Lead.Role);
-
-
+            transactionModel.Amount -= GetAmountCommission("Withdraw", transactionModel.Amount, entity.Lead.Role);
             _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Withdraw,  transactionModel);
             _logger.LogInformation($"Request successful.");
@@ -84,11 +82,11 @@ namespace CRM.BusinessLayer.Services
             return response;
         }
 
-        private async Task<decimal> GetAmountCommission(string typeTransaction, decimal amount, Role role)
+        private decimal GetAmountCommission(string typeTransaction, decimal amount, Role role)
         {
-            var commission = Convert.ToInt32(_config[$"{typeTransaction}{Enum.GetName(typeof(Role), (int)role)}"]);
-            var amountCommission= amount * (decimal)(commission * 0.01);
-            _logger.LogInformation($"Discard commission {amountCommission}, Ammount={amount}");
+            int commission = Convert.ToInt32(_config[$"{typeTransaction}{Enum.GetName(typeof(Role), (int)role)}"]);
+            decimal amountCommission = amount * (decimal)(commission * 0.01);
+            _logger.LogInformation($"Before ammount:{amount} Discard commission {amountCommission}, Ammount={amount - amountCommission}");
             return amountCommission;
         }
     }
