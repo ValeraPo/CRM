@@ -2,6 +2,7 @@
 using Marvelous.Contracts.Endpoints;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.RequestModels;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RestSharp;
 using System.Collections;
@@ -13,12 +14,15 @@ namespace CRM.BusinessLayer.Services
         private readonly IAccountRepository _accountRepository;
         private readonly IRequestHelper _requestHelper;
         private readonly ILogger<TransactionService> _logger;
+        private readonly IConfiguration _config;
 
-        public TransactionService(IAccountRepository accountRepository, IRequestHelper requestHelper, ILogger<TransactionService> logger)
+
+        public TransactionService(IAccountRepository accountRepository, IRequestHelper requestHelper, ILogger<TransactionService> logger, IConfiguration config)
         {
             _accountRepository = accountRepository;
             _logger = logger;
             _requestHelper = requestHelper;
+            _config = config;
         }
 
         public async Task<int> AddDeposit(TransactionRequestModel transactionModel, int leadId)
@@ -27,6 +31,7 @@ namespace CRM.BusinessLayer.Services
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
+            transactionModel.Amount -= await GetAmountCommission("Deposit", transactionModel.Amount, entity.Lead.Role);
             _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Deposit, transactionModel);
             _logger.LogInformation($"Request successful.");
@@ -56,6 +61,9 @@ namespace CRM.BusinessLayer.Services
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
+            transactionModel.Amount -= await GetAmountCommission("Withdraw", transactionModel.Amount, entity.Lead.Role);
+
+
             _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Withdraw,  transactionModel);
             _logger.LogInformation($"Request successful.");
@@ -74,6 +82,14 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Poluchen otvet na poluchenie transakcii accounta id = {id}.");
 
             return response;
+        }
+
+        private async Task<decimal> GetAmountCommission(string typeTransaction, decimal amount, Role role)
+        {
+            var commission = Convert.ToInt32(_config[$"{typeTransaction}{Enum.GetName(typeof(Role), (int)role)}"]);
+            var amountCommission= amount * (decimal)(commission * 0.01);
+            _logger.LogInformation($"Discard commission {amountCommission}, Ammount={amount}");
+            return amountCommission;
         }
     }
 }
