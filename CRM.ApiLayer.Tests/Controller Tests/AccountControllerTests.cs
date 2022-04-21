@@ -63,7 +63,7 @@ namespace CRM.ApiLayer.Tests
             _sut.ControllerContext.HttpContext = context;
         }
 
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region AddAccountTests
         [Test]
         public async Task AddAccountTest_ShouldAddAccount()
         {
@@ -154,8 +154,9 @@ namespace CRM.ApiLayer.Tests
             _accountService.Verify(m => m.AddAccount(Role.Regular, It.IsAny<AccountModel>()), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
         }
+        #endregion
 
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region UpdateAccountTests
         [Test]
         public async Task UpdateAccountTest_ShouldUpdateAccount()
         {
@@ -293,7 +294,9 @@ namespace CRM.ApiLayer.Tests
             _accountService.Verify(m => m.UpdateAccount(It.IsAny<int>(), It.IsAny<AccountModel>()), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
         }
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #endregion
+
+        #region LockByIdTests
         [Test]
         public async Task LockByIdTest_ShouldLockAccount()
         {
@@ -408,8 +411,9 @@ namespace CRM.ApiLayer.Tests
             _accountService.Verify(m => m.LockById(accountId), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
         }
+        #endregion
 
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region UnlockByIdTests
         [Test]
         public async Task UnlockByIdTest_ShouldUnlockAccount()
         {
@@ -497,8 +501,9 @@ namespace CRM.ApiLayer.Tests
             _accountService.Verify(m => m.UnlockById(accountId), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
         }
+        #endregion
 
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region GetByLeadTests
         [Test]
         public async Task GetByLeadTest_ShouldGetListOfAccounts()
         {
@@ -585,7 +590,9 @@ namespace CRM.ApiLayer.Tests
             _accountService.Verify(m => m.GetByLead(leadId), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
         }
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #endregion
+
+        #region GetByIdTests
         [Test]
         public async Task GetByIdTest_ShouldGetfAccounts()
         {
@@ -702,8 +709,9 @@ namespace CRM.ApiLayer.Tests
             _accountService.Verify(m => m.GetById(accountId, leadId), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
         }
+        #endregion
 
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region GetBalanceTests
         [Test]
         public async Task GetBalanceTest_ShouldGetfAccounts()
         {
@@ -818,5 +826,6 @@ namespace CRM.ApiLayer.Tests
             _accountService.Verify(m => m.GetBalance(leadId, currency), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
         }
+        #endregion
     }
 }

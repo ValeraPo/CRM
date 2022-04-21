@@ -45,7 +45,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
         }
 
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region AddAccountTests
         [Test]
         public async Task AddAccountTest_ShouldAddedAccount()
         {
@@ -110,8 +110,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepositoryMock.Verify(m => m.GetByLead(leadId), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, "Authorisation error. The lead role does not allow you to create accounts other than dollar.");
         }
+        #endregion
 
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region UpdateAccountTests
         [Test]
         public async Task UpdateAccountTest_ShouldUpdatedAccount()
         {
@@ -171,8 +172,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once());
             Assert.AreEqual(expected, actual);
         }
+        #endregion
 
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region LockByIdTests
         [Test]
         public async Task LockByIdTest_ShouldLockAccount()
         {
@@ -228,8 +230,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, "Error: it is forbidden to block ruble accounts.");
         }
+        #endregion
 
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region UnlockByIdTests
         [Test]
         public async Task UnlockByIdTest_ShouldUnlockAccount()
         {
@@ -265,9 +268,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once());
             Assert.AreEqual(expected, actual);
         }
+        #endregion
 
-
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region GetByLeadTests
         [Test]
         public async Task GetByLeadTest_ShouldReturnListOfAccounts()
         {
@@ -305,8 +308,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _leadRepositoryMock.Verify(m => m.GetById(leadId), Times.Once);
             Assert.AreEqual(expected, actual);
         }
+        #endregion
 
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region GetByIdTests
         [Test]
         public async Task GetByIdTest_ShouldReturnAccount()
         {
@@ -341,8 +345,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _accountRepositoryMock.Verify(m => m.GetById(accountId), Times.Once);
             Assert.AreEqual(expected, actual);
         }
+        #endregion
 
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region GetByIdTests_WithLeadId
         [Test]
         public async Task GetByIdTest_WithLeadId_ShouldReturnAccount()
         {
@@ -405,8 +410,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             Assert.AreEqual(expected, actual);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Authorisation Error. No access to someone else's account.");
         }
+        #endregion
 
-        /// ////////////////////////////////////////////////////////////////////////////////
+        #region GetBalanceTests
         [Test]
         public async Task GetBalanceTest_ShouldReturnBalance()
         {
@@ -476,5 +482,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, "Balance receipt error. Currency type should be among accounts."); 
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Request to get all accounts.");
         }
+        #endregion
     }
 }

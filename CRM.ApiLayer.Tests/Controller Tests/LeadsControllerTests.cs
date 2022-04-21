@@ -65,6 +65,7 @@ namespace CRM.ApiLayer.Tests
             _controller.ControllerContext.HttpContext = context;
         }
 
+        #region AddLeadTests
         [Test]
         public async Task AddLeadTest_ShouldAddLead()
         {
@@ -81,7 +82,9 @@ namespace CRM.ApiLayer.Tests
             _crmProducers.Verify(m => m.NotifyAccountAdded(It.IsAny<int>()), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
         }
+        #endregion
 
+        #region UpdateLeadTests
         [Test]
         public async Task UpdateLeadTest_ShouldUpdateLead()
         {
@@ -123,7 +126,9 @@ namespace CRM.ApiLayer.Tests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
 
-        
+        #endregion
+
+        #region ChangeRoleLeadTests
         [Test]
         public async Task ChangeRoleLeadTest_ShouldChangeRoleLead()
         {
@@ -185,7 +190,9 @@ namespace CRM.ApiLayer.Tests
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
 
+        #region DeleteByIdTests
         [Test]
         public async Task DeleteByIdTest_ShouldDeleteLead()
         {
@@ -247,7 +254,9 @@ namespace CRM.ApiLayer.Tests
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
 
+        #region RestoreByIdTests
         [Test]
         public async Task RestoreById_ShouldRestoreLead()
         {
@@ -309,7 +318,9 @@ namespace CRM.ApiLayer.Tests
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
 
+        #region GetAllTests
         [Test]
         public async Task GetAll_ShouldReturnAllLead()
         {
@@ -368,7 +379,9 @@ namespace CRM.ApiLayer.Tests
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
 
+        #region GetAllToAuthTests
         [Test]
         public async Task GetAllToAuth_TokenFromAuthService_ShouldReturnAllLead()
         {
@@ -446,7 +459,9 @@ namespace CRM.ApiLayer.Tests
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
 
+        #region GetByIdTests
         [Test]
         public async Task GetById_ShouldReturnLead()
         {
@@ -485,7 +500,9 @@ namespace CRM.ApiLayer.Tests
             Assert.AreEqual(expected, actual);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
 
+        #region ChangePasswordTests
         [Test]
         public async Task ChangePasswordTest_ShouldChangePassword()
         {
@@ -525,5 +542,6 @@ namespace CRM.ApiLayer.Tests
             Assert.AreEqual(expected, actual);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
     }
 }

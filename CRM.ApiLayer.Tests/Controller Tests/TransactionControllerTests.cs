@@ -38,6 +38,7 @@ namespace CRM.ApiLayer.Tests
             _controller.ControllerContext.HttpContext = context;
         }
 
+        #region AddDepositTests
         [Test]
         public async Task AddDepositTest_ShouldAddDeposit()
         {
@@ -98,7 +99,9 @@ namespace CRM.ApiLayer.Tests
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
 
+        #region AddTransferTests
         [Test]
         public async Task AddTransferTest_ShouldAddTransfer()
         {
@@ -159,7 +162,9 @@ namespace CRM.ApiLayer.Tests
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
 
+        #region WithdrawTests
         [Test]
         public async Task WithdrawTest_ShouldWithdraw()
         {
@@ -220,7 +225,9 @@ namespace CRM.ApiLayer.Tests
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
 
+        #region GetTransactionsByAccountIdTests
         [Test]
         public async Task GetTransactionsByAccountIdTest_ShouldGetTransactionsByAccountId()
         {
@@ -281,6 +288,6 @@ namespace CRM.ApiLayer.Tests
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
-
+        #endregion
     }
 }
