@@ -17,7 +17,7 @@ namespace CRM.ApiLayer.Tests
         private Mock<ITransactionService> _transactionService;
         private Mock<ILogger<TransactionsController>> _logger;
         private Mock<IRequestHelper> _requestHelper;
-        private TransactionsController _controller;
+        private TransactionsController _sut;
 
 
         [SetUp]
@@ -26,7 +26,7 @@ namespace CRM.ApiLayer.Tests
             _transactionService = new Mock<ITransactionService>();
             _logger = new Mock<ILogger<TransactionsController>>();
             _requestHelper = new Mock<IRequestHelper>();
-            _controller = new TransactionsController(_transactionService.Object,
+            _sut = new TransactionsController(_transactionService.Object,
                 _logger.Object,
                 _requestHelper.Object);
         }
@@ -35,7 +35,7 @@ namespace CRM.ApiLayer.Tests
         {
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            _sut.ControllerContext.HttpContext = context;
         }
 
         #region AddDepositTests
@@ -52,7 +52,7 @@ namespace CRM.ApiLayer.Tests
             AddContext(token);
 
             //when
-            await _controller.AddDeposit(model);
+            await _sut.AddDeposit(model);
 
             //then
             _transactionService.Verify(m => m.AddDeposit(model, leadId), Times.Once());
@@ -70,7 +70,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.AddDeposit(new TransactionRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.AddDeposit(new TransactionRequestModel()))!
                 .Message;
 
             //then
@@ -91,13 +91,69 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.AddDeposit(new TransactionRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.AddDeposit(new TransactionRequestModel()))!
                 .Message;
 
             //then
             Assert.AreEqual(expected, actual);
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
+        }
+
+        [Test]
+        public void AddDeposit_AccountNotFound_ShouldThrowException()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var accountId = 1;
+            var model = new TransactionRequestModel { AccountId = accountId };
+            var expected = $"Account entiy with ID = {accountId} not found";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
+            _transactionService
+                .Setup(m => m.AddDeposit(model, leadId))
+                .Callback(() => throw new NotFoundException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await _sut.AddDeposit(model))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _transactionService.Verify(m => m.AddDeposit(model, leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received a request to add a deposit to an account with ID = {accountId}.");
+        }
+
+        [Test]
+        public void AddDeposit_LeadHasNoAccess_ShouldThrowAuthorizationExceptio()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var accountId = 1;
+            var model = new TransactionRequestModel { AccountId = accountId };
+            var expected = $"Authorization error. Lead with ID {leadId} doesn't have acces.";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
+            _transactionService
+                .Setup(m => m.AddDeposit(model, leadId))
+                .Callback(() => throw new AuthorizationException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<AuthorizationException>(async () => await _sut.AddDeposit(model))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _transactionService.Verify(m => m.AddDeposit(model, leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received a request to add a deposit to an account with ID = {accountId}.");
         }
         #endregion
 
@@ -115,7 +171,7 @@ namespace CRM.ApiLayer.Tests
             AddContext(token);
 
             //when
-            await _controller.AddTransfer(model);
+            await _sut.AddTransfer(model);
 
             //then
             _transactionService.Verify(m => m.AddTransfer(model, leadId), Times.Once());
@@ -133,7 +189,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.AddTransfer(new TransferRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.AddTransfer(new TransferRequestModel()))!
                 .Message;
 
             //then
@@ -154,13 +210,125 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.AddTransfer(new TransferRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.AddTransfer(new TransferRequestModel()))!
                 .Message;
 
             //then
             Assert.AreEqual(expected, actual);
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
+        }
+
+        [Test]
+        public void AddTransfer_AccountToNotFound_ShouldThrowException()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var accountId = 1;
+            var model = new TransferRequestModel { AccountIdTo = 1, AccountIdFrom = 2 };
+            var expected = $"Account entiy with ID = {accountId} not found";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
+            _transactionService
+                .Setup(m => m.AddTransfer(model, leadId))
+                .Callback(() => throw new NotFoundException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await _sut.AddTransfer(model))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _transactionService.Verify(m => m.AddTransfer(model, leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Transfer request received from account with ID 2 to account with ID 1.");
+        }
+
+        [Test]
+        public void AddTransfer_AccountFromNotFound_ShouldThrowException()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var accountId = 1;
+            var model = new TransferRequestModel { AccountIdTo = 1, AccountIdFrom = 2 };
+            var expected = $"Authorization error. Lead with ID {leadId} doesn't have acces.";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
+            _transactionService
+                .Setup(m => m.AddTransfer(model, leadId))
+                .Callback(() => throw new AuthorizationException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<AuthorizationException>(async () => await _sut.AddTransfer(model))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _transactionService.Verify(m => m.AddTransfer(model, leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Transfer request received from account with ID 2 to account with ID 1.");
+        }
+
+        [Test]
+        public void AddTransfer_LeadHasNoAccessAccountTo_ShouldThrowAuthorizationExceptio()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var accountId = 1;
+            var model = new TransferRequestModel { AccountIdTo = 1, AccountIdFrom = 2 };
+            var expected = $"Account entiy with ID = {accountId} not found";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
+            _transactionService
+                .Setup(m => m.AddTransfer(model, leadId))
+                .Callback(() => throw new NotFoundException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await _sut.AddTransfer(model))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _transactionService.Verify(m => m.AddTransfer(model, leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Transfer request received from account with ID 2 to account with ID 1.");
+        }
+
+        [Test]
+        public void AddTransfer_LeadHasNoAccessAccountFrom_ShouldThrowAuthorizationExceptio()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var accountId = 1;
+            var model = new TransferRequestModel { AccountIdTo = 1, AccountIdFrom = 2 };
+            var expected = $"Authorization error. Lead with ID {leadId} doesn't have acces.";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
+            _transactionService
+                .Setup(m => m.AddTransfer(model, leadId))
+                .Callback(() => throw new AuthorizationException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<AuthorizationException>(async () => await _sut.AddTransfer(model))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _transactionService.Verify(m => m.AddTransfer(model, leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Transfer request received from account with ID 2 to account with ID 1.");
         }
         #endregion
 
@@ -178,7 +346,7 @@ namespace CRM.ApiLayer.Tests
             AddContext(token);
 
             //when
-            await _controller.Withdraw(model);
+            await _sut.Withdraw(model);
 
             //then
             _transactionService.Verify(m => m.Withdraw(model, leadId), Times.Once());
@@ -196,7 +364,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.Withdraw(new TransactionRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.Withdraw(new TransactionRequestModel()))!
                 .Message;
 
             //then
@@ -217,13 +385,69 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.Withdraw(new TransactionRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.Withdraw(new TransactionRequestModel()))!
                 .Message;
 
             //then
             Assert.AreEqual(expected, actual);
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
+        }
+
+        [Test]
+        public void Withdraw_AccountNotFound_ShouldThrowException()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var accountId = 1;
+            var model = new TransactionRequestModel { AccountId = accountId };
+            var expected = $"Account entiy with ID = {accountId} not found";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
+            _transactionService
+                .Setup(m => m.Withdraw(model, leadId))
+                .Callback(() => throw new NotFoundException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await _sut.Withdraw(model))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _transactionService.Verify(m => m.Withdraw(model, leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received withdrawal request from account with ID = {accountId}.");
+        }
+
+        [Test]
+        public void Withdraw_LeadHasNoAccess_ShouldThrowAuthorizationExceptio()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var accountId = 1;
+            var model = new TransactionRequestModel { AccountId = accountId };
+            var expected = $"Authorization error. Lead with ID {leadId} doesn't have acces.";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
+            _transactionService
+                .Setup(m => m.Withdraw(model, leadId))
+                .Callback(() => throw new AuthorizationException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<AuthorizationException>(async () => await _sut.Withdraw(model))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _transactionService.Verify(m => m.Withdraw(model, leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received withdrawal request from account with ID = {accountId}.");
         }
         #endregion
 
@@ -241,7 +465,7 @@ namespace CRM.ApiLayer.Tests
             AddContext(token);
 
             //when
-            await _controller.GetTransactionsByAccountId(accountId);
+            await _sut.GetTransactionsByAccountId(accountId);
 
             //then
             _transactionService.Verify(m => m.GetTransactionsByAccountId(accountId, leadId), Times.Once());
@@ -259,7 +483,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetTransactionsByAccountId(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.GetTransactionsByAccountId(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -280,13 +504,69 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetTransactionsByAccountId(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.GetTransactionsByAccountId(It.IsAny<int>()))!
                 .Message;
 
             //then
             Assert.AreEqual(expected, actual);
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
+        }
+
+        [Test]
+        public void GetTransactionsByAccountId_AccountNotFound_ShouldThrowException()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var accountId = 1;
+            var model = new TransactionRequestModel { AccountId = accountId };
+            var expected = $"Account entiy with ID = {accountId} not found";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
+            _transactionService
+                .Setup(m => m.GetTransactionsByAccountId(accountId, leadId))
+                .Callback(() => throw new NotFoundException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await _sut.GetTransactionsByAccountId(accountId))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _transactionService.Verify(m => m.GetTransactionsByAccountId(accountId, leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Poluchen zapros na poluchenie transakcii c accounta id = 1");
+        }
+
+        [Test]
+        public void GetTransactionsByAccountId_LeadHasNoAccess_ShouldThrowAuthorizationExceptio()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var accountId = 1;
+            var model = new TransactionRequestModel { AccountId = accountId };
+            var expected = $"Authorization error. Lead with ID {leadId} doesn't have acces.";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
+            _transactionService
+                .Setup(m => m.GetTransactionsByAccountId(accountId, leadId))
+                .Callback(() => throw new AuthorizationException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<AuthorizationException>(async () => await _sut.GetTransactionsByAccountId(accountId))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _transactionService.Verify(m => m.GetTransactionsByAccountId(accountId, leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Poluchen zapros na poluchenie transakcii c accounta id = 1");
         }
         #endregion
     }
