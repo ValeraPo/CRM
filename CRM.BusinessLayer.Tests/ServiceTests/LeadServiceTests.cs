@@ -3,7 +3,6 @@ using CRM.BusinessLayer.Configurations;
 using CRM.BusinessLayer.Exceptions;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services;
-using CRM.BusinessLayer.Tests.TestData;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts.Enums;
