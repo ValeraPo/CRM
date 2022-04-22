@@ -1,4 +1,5 @@
 using CRM.APILayer.Controllers;
+using CRM.APILayer.Producers;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Exceptions;
 using CRM.BusinessLayer.Services;
@@ -18,17 +19,21 @@ namespace CRM.ApiLayer.Tests
         private Mock<ILogger<TransactionsController>> _logger;
         private Mock<IRequestHelper> _requestHelper;
         private TransactionsController _sut;
+        private Mock<ICRMProducers> _crmProducers;
+
 
 
         [SetUp]
         public void Setup()
         {
+            _crmProducers = new Mock<ICRMProducers>();
             _transactionService = new Mock<ITransactionService>();
             _logger = new Mock<ILogger<TransactionsController>>();
             _requestHelper = new Mock<IRequestHelper>();
             _sut = new TransactionsController(_transactionService.Object,
                 _logger.Object,
-                _requestHelper.Object);
+                _requestHelper.Object,
+                _crmProducers.Object);
         }
 
         private void AddContext(string token)
