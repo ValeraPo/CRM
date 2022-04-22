@@ -84,7 +84,8 @@ namespace CRM.BusinessLayer.Services
 
         private decimal GetAmountCommission(string typeTransaction, decimal amount, Role role)
         {
-            int commission = Convert.ToInt32(_config[$"{typeTransaction}{Enum.GetName(typeof(Role), (int)role)}"]);
+            string namekeyconfig= $"{typeTransaction}{Enum.GetName(typeof(Role), (int)role)}";
+            int commission = Convert.ToInt32(_config[namekeyconfig]);
             decimal amountCommission = amount * (decimal)(commission * 0.01);
             _logger.LogInformation($"Before ammount:{amount} Discard commission {amountCommission}, Ammount={amount - amountCommission}");
             return amountCommission;
