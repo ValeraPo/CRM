@@ -10,6 +10,7 @@ using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Repositories;
 using CRM.DataLayer.Repositories.Interfaces;
 using FluentValidation.AspNetCore;
+using Marvelous.Contracts.EmailMessageModels;
 using Marvelous.Contracts.ExchangeModels;
 using MassTransit;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
@@ -153,14 +154,6 @@ namespace CRM.APILayer.Extensions
                     {
                         e.PurgeOnStartup = true;
                         e.ConfigureConsumer<ConfigConsumer>(context);
-                    });
-                    cfg.Publish<LeadFullExchangeModel>(p =>
-                    {
-                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
-                    });
-                    cfg.Publish<AccountExchangeModel>(p =>
-                    {
-                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
                     });
                 });
             });

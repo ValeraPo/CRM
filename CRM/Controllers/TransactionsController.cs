@@ -1,4 +1,5 @@
 ﻿using CRM.APILayer.Extensions;
+using CRM.APILayer.Producers;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Services;
 using Marvelous.Contracts.Enums;
@@ -15,14 +16,17 @@ namespace CRM.APILayer.Controllers
     {
         private readonly ITransactionService _transactionService;
         private readonly ILogger<TransactionsController> _logger;
+        private readonly ICRMProducers _crmProducers;
 
 
         public TransactionsController(ITransactionService transactionService, 
             ILogger<TransactionsController> logger,
-            IRequestHelper requestHelper) : base(requestHelper, logger)
+            IRequestHelper requestHelper,
+            ICRMProducers crmProducers) : base(requestHelper, logger)
         {
             _transactionService = transactionService;
             _logger = logger;
+            _crmProducers = crmProducers;
         }
 
         // api/transactions/deposit/
@@ -77,7 +81,7 @@ namespace CRM.APILayer.Controllers
             var leadId = (int)leadIdentity.Id;
             var response = await _transactionService.Withdraw(transaction, leadId);
             _logger.LogInformation($"Successfully passed the request for withdrawal of funds from the account with the ID {transaction.AccountId}. Withdraw ID = {response}.");
-
+            await _crmProducers.NotifyWhithdraw(leadId, transaction);
             return StatusCode(201, response);
         }
 
