@@ -22,11 +22,6 @@ namespace CRM.BusinessLayer.Tests
         private IConfiguration _config;
         private Mock<ILogger<RequestHelper>> _logger;
         private RequestHelper _requestHelper;
-        private static readonly List<ConfigResponseModel> ListConfigs = new()
-        {
-            new ConfigResponseModel { Key = "BaseAddress", Value = "80.78.240.4" },
-            new ConfigResponseModel { Key = "Address", Value = "::1:4589" }
-        };
 
         private const string _message = "Exceptions test";
         private const Microservice Service = Microservice.MarvelousConfigs;
