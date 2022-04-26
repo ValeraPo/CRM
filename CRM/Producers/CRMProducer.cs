@@ -96,7 +96,7 @@ namespace CRM.APILayer.Producers
                NameTo = lead.Name,
                Subject = TransactionType.Withdraw.ToString(),
                TextMessage = $"There was a withdrawal of money in the amount of {transaction.Amount} " +
-               $"{transaction.Currency.ToString()} from account {account.Name}. " +
+               $"{account.CurrencyType.ToString()} from account {account.Name}. " +
                $"If you did not do this, contact the support service."
             },
             source.Token);

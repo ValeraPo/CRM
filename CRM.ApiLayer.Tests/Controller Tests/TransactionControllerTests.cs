@@ -1,4 +1,7 @@
+using AutoMapper;
+using CRM.APILayer.Configuration;
 using CRM.APILayer.Controllers;
+using CRM.APILayer.Models;
 using CRM.APILayer.Producers;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Exceptions;
@@ -19,9 +22,13 @@ namespace CRM.ApiLayer.Tests
         private Mock<ILogger<TransactionsController>> _logger;
         private Mock<IRequestHelper> _requestHelper;
         private TransactionsController _sut;
+        private readonly IMapper _autoMapper;
         private Mock<ICRMProducers> _crmProducers;
 
-
+        public TransactionControllerTests()
+        {
+            _autoMapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperFromApi>()));
+        }
 
         [SetUp]
         public void Setup()
@@ -32,6 +39,7 @@ namespace CRM.ApiLayer.Tests
             _requestHelper = new Mock<IRequestHelper>();
             _sut = new TransactionsController(_transactionService.Object,
                 _logger.Object,
+                _autoMapper,
                 _requestHelper.Object,
                 _crmProducers.Object);
         }
@@ -50,7 +58,7 @@ namespace CRM.ApiLayer.Tests
             //given
             var token = "token";
             var leadId = 42;
-            var model = new TransactionRequestModel { AccountId = 1};
+            var model = new TransactionShortRequest { AccountId = 1};
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
@@ -60,7 +68,7 @@ namespace CRM.ApiLayer.Tests
             await _sut.AddDeposit(model);
 
             //then
-            _transactionService.Verify(m => m.AddDeposit(model, leadId), Times.Once());
+            _transactionService.Verify(m => m.AddDeposit(It.IsAny<TransactionRequestModel>(), leadId), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
         }
@@ -75,7 +83,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _sut.AddDeposit(new TransactionRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.AddDeposit(new TransactionShortRequest()))!
                 .Message;
 
             //then
@@ -96,7 +104,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _sut.AddDeposit(new TransactionRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.AddDeposit(new TransactionShortRequest()))!
                 .Message;
 
             //then
@@ -112,13 +120,13 @@ namespace CRM.ApiLayer.Tests
             var token = "token";
             var leadId = 42;
             var accountId = 1;
-            var model = new TransactionRequestModel { AccountId = accountId };
+            var model = new TransactionShortRequest { AccountId = accountId };
             var expected = $"Account entiy with ID = {accountId} not found";
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             _transactionService
-                .Setup(m => m.AddDeposit(model, leadId))
+                .Setup(m => m.AddDeposit(It.IsAny<TransactionRequestModel>(), leadId))
                 .Callback(() => throw new NotFoundException(expected));
             AddContext(token);
 
@@ -129,7 +137,7 @@ namespace CRM.ApiLayer.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            _transactionService.Verify(m => m.AddDeposit(model, leadId), Times.Once());
+            _transactionService.Verify(m => m.AddDeposit(It.IsAny<TransactionRequestModel>(), leadId), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received a request to add a deposit to an account with ID = {accountId}.");
         }
 
@@ -140,13 +148,13 @@ namespace CRM.ApiLayer.Tests
             var token = "token";
             var leadId = 42;
             var accountId = 1;
-            var model = new TransactionRequestModel { AccountId = accountId };
+            var model = new TransactionShortRequest { AccountId = accountId };
             var expected = $"Authorization error. Lead with ID {leadId} doesn't have acces.";
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             _transactionService
-                .Setup(m => m.AddDeposit(model, leadId))
+                .Setup(m => m.AddDeposit(It.IsAny<TransactionRequestModel>(), leadId))
                 .Callback(() => throw new AuthorizationException(expected));
             AddContext(token);
 
@@ -157,7 +165,7 @@ namespace CRM.ApiLayer.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            _transactionService.Verify(m => m.AddDeposit(model, leadId), Times.Once());
+            _transactionService.Verify(m => m.AddDeposit(It.IsAny<TransactionRequestModel>(), leadId), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received a request to add a deposit to an account with ID = {accountId}.");
         }
         #endregion
@@ -169,7 +177,7 @@ namespace CRM.ApiLayer.Tests
             //given
             var token = "token";
             var leadId = 42;
-            var model = new TransferRequestModel { AccountIdTo = 1, AccountIdFrom = 2 };
+            var model = new TransferShortRequest { AccountIdTo = 1, AccountIdFrom = 2 };
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
@@ -179,7 +187,7 @@ namespace CRM.ApiLayer.Tests
             await _sut.AddTransfer(model);
 
             //then
-            _transactionService.Verify(m => m.AddTransfer(model, leadId), Times.Once());
+            _transactionService.Verify(m => m.AddTransfer(It.IsAny<TransferRequestModel>(), leadId), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
         }
@@ -194,7 +202,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _sut.AddTransfer(new TransferRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.AddTransfer(new TransferShortRequest()))!
                 .Message;
 
             //then
@@ -215,7 +223,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _sut.AddTransfer(new TransferRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.AddTransfer(new TransferShortRequest()))!
                 .Message;
 
             //then
@@ -231,13 +239,13 @@ namespace CRM.ApiLayer.Tests
             var token = "token";
             var leadId = 42;
             var accountId = 1;
-            var model = new TransferRequestModel { AccountIdTo = 1, AccountIdFrom = 2 };
+            var model = new TransferShortRequest { AccountIdTo = 1, AccountIdFrom = 2 };
             var expected = $"Account entiy with ID = {accountId} not found";
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             _transactionService
-                .Setup(m => m.AddTransfer(model, leadId))
+                .Setup(m => m.AddTransfer(It.IsAny<TransferRequestModel>(), leadId))
                 .Callback(() => throw new NotFoundException(expected));
             AddContext(token);
 
@@ -248,7 +256,7 @@ namespace CRM.ApiLayer.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            _transactionService.Verify(m => m.AddTransfer(model, leadId), Times.Once());
+            _transactionService.Verify(m => m.AddTransfer(It.IsAny<TransferRequestModel>(), leadId), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Transfer request received from account with ID 2 to account with ID 1.");
         }
 
@@ -259,13 +267,13 @@ namespace CRM.ApiLayer.Tests
             var token = "token";
             var leadId = 42;
             var accountId = 1;
-            var model = new TransferRequestModel { AccountIdTo = 1, AccountIdFrom = 2 };
+            var model = new TransferShortRequest { AccountIdTo = 1, AccountIdFrom = 2 };
             var expected = $"Authorization error. Lead with ID {leadId} doesn't have acces.";
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             _transactionService
-                .Setup(m => m.AddTransfer(model, leadId))
+                .Setup(m => m.AddTransfer(It.IsAny<TransferRequestModel>(), leadId))
                 .Callback(() => throw new AuthorizationException(expected));
             AddContext(token);
 
@@ -276,7 +284,7 @@ namespace CRM.ApiLayer.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            _transactionService.Verify(m => m.AddTransfer(model, leadId), Times.Once());
+            _transactionService.Verify(m => m.AddTransfer(It.IsAny<TransferRequestModel>(), leadId), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Transfer request received from account with ID 2 to account with ID 1.");
         }
 
@@ -287,13 +295,13 @@ namespace CRM.ApiLayer.Tests
             var token = "token";
             var leadId = 42;
             var accountId = 1;
-            var model = new TransferRequestModel { AccountIdTo = 1, AccountIdFrom = 2 };
+            var model = new TransferShortRequest { AccountIdTo = 1, AccountIdFrom = 2 };
             var expected = $"Account entiy with ID = {accountId} not found";
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             _transactionService
-                .Setup(m => m.AddTransfer(model, leadId))
+                .Setup(m => m.AddTransfer(It.IsAny<TransferRequestModel>(), leadId))
                 .Callback(() => throw new NotFoundException(expected));
             AddContext(token);
 
@@ -304,7 +312,7 @@ namespace CRM.ApiLayer.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            _transactionService.Verify(m => m.AddTransfer(model, leadId), Times.Once());
+            _transactionService.Verify(m => m.AddTransfer(It.IsAny<TransferRequestModel>(), leadId), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Transfer request received from account with ID 2 to account with ID 1.");
         }
 
@@ -315,13 +323,13 @@ namespace CRM.ApiLayer.Tests
             var token = "token";
             var leadId = 42;
             var accountId = 1;
-            var model = new TransferRequestModel { AccountIdTo = 1, AccountIdFrom = 2 };
+            var model = new TransferShortRequest { AccountIdTo = 1, AccountIdFrom = 2 };
             var expected = $"Authorization error. Lead with ID {leadId} doesn't have acces.";
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             _transactionService
-                .Setup(m => m.AddTransfer(model, leadId))
+                .Setup(m => m.AddTransfer(It.IsAny<TransferRequestModel>(), leadId))
                 .Callback(() => throw new AuthorizationException(expected));
             AddContext(token);
 
@@ -332,7 +340,7 @@ namespace CRM.ApiLayer.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            _transactionService.Verify(m => m.AddTransfer(model, leadId), Times.Once());
+            _transactionService.Verify(m => m.AddTransfer(It.IsAny<TransferRequestModel>(), leadId), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Transfer request received from account with ID 2 to account with ID 1.");
         }
         #endregion
@@ -344,7 +352,7 @@ namespace CRM.ApiLayer.Tests
             //given
             var token = "token";
             var leadId = 42;
-            var model = new TransactionRequestModel { AccountId = 1 };
+            var model = new TransactionShortRequest { AccountId = 1 };
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
@@ -354,8 +362,9 @@ namespace CRM.ApiLayer.Tests
             await _sut.Withdraw(model);
 
             //then
-            _transactionService.Verify(m => m.Withdraw(model, leadId), Times.Once());
+            _transactionService.Verify(m => m.Withdraw(It.IsAny<TransactionRequestModel>(), leadId), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
+            _crmProducers.Verify(m => m.NotifyWhithdraw(leadId, It.IsAny<TransactionRequestModel>()), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
         }
 
@@ -369,7 +378,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _sut.Withdraw(new TransactionRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.Withdraw(new TransactionShortRequest()))!
                 .Message;
 
             //then
@@ -390,7 +399,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _sut.Withdraw(new TransactionRequestModel()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.Withdraw(new TransactionShortRequest()))!
                 .Message;
 
             //then
@@ -406,13 +415,13 @@ namespace CRM.ApiLayer.Tests
             var token = "token";
             var leadId = 42;
             var accountId = 1;
-            var model = new TransactionRequestModel { AccountId = accountId };
+            var model = new TransactionShortRequest { AccountId = accountId };
             var expected = $"Account entiy with ID = {accountId} not found";
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             _transactionService
-                .Setup(m => m.Withdraw(model, leadId))
+                .Setup(m => m.Withdraw(It.IsAny<TransactionRequestModel>(), leadId))
                 .Callback(() => throw new NotFoundException(expected));
             AddContext(token);
 
@@ -423,7 +432,7 @@ namespace CRM.ApiLayer.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            _transactionService.Verify(m => m.Withdraw(model, leadId), Times.Once());
+            _transactionService.Verify(m => m.Withdraw(It.IsAny<TransactionRequestModel>(), leadId), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received withdrawal request from account with ID = {accountId}.");
         }
 
@@ -434,13 +443,13 @@ namespace CRM.ApiLayer.Tests
             var token = "token";
             var leadId = 42;
             var accountId = 1;
-            var model = new TransactionRequestModel { AccountId = accountId };
+            var model = new TransactionShortRequest { AccountId = accountId };
             var expected = $"Authorization error. Lead with ID {leadId} doesn't have acces.";
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             _transactionService
-                .Setup(m => m.Withdraw(model, leadId))
+                .Setup(m => m.Withdraw(It.IsAny<TransactionRequestModel>(), leadId))
                 .Callback(() => throw new AuthorizationException(expected));
             AddContext(token);
 
@@ -451,7 +460,7 @@ namespace CRM.ApiLayer.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            _transactionService.Verify(m => m.Withdraw(model, leadId), Times.Once());
+            _transactionService.Verify(m => m.Withdraw(It.IsAny<TransactionRequestModel>(), leadId), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received withdrawal request from account with ID = {accountId}.");
         }
         #endregion
