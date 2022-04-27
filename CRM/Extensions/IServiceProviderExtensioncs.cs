@@ -167,7 +167,7 @@ namespace CRM.APILayer.Extensions
                     {
                         p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
                     });
-                    cfg.Publish<CommissionTransactionModel>(p =>
+                    cfg.Publish<ComissionTransactionExchangeModel>(p =>
                     {
                         p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
                     });

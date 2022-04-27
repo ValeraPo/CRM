@@ -1,6 +1,7 @@
 ﻿using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts.Endpoints;
 using Marvelous.Contracts.Enums;
+using Marvelous.Contracts.ExchangeModels;
 using Marvelous.Contracts.RequestModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -22,7 +23,7 @@ namespace CRM.BusinessLayer.Services
             _config = config;
         }
 
-        public async Task<ComissionTransactionModel> AddDeposit(TransactionRequestModel transactionModel, int leadId)
+        public async Task<ComissionTransactionExchangeModel> AddDeposit(TransactionRequestModel transactionModel, int leadId)
         {
             _logger.LogInformation($"Received a request to add a deposit to an account with ID =  {transactionModel.AccountId}.");
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
@@ -33,8 +34,8 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Deposit, transactionModel);
             _logger.LogInformation($"Request successful.");
-            
-            ComissionTransactionModel comissionTransaction = new ComissionTransactionModel();
+
+            ComissionTransactionExchangeModel comissionTransaction = new ComissionTransactionExchangeModel();
             comissionTransaction.IdTransaction = response;
             comissionTransaction.AmountComission = ammountComission;
             return comissionTransaction;
@@ -56,10 +57,10 @@ namespace CRM.BusinessLayer.Services
             return response;
         }
 
-        public async Task<ComissionTransactionModel> Withdraw(TransactionRequestModel transactionModel, int leadId)
+        public async Task<ComissionTransactionExchangeModel> Withdraw(TransactionRequestModel transactionModel, int leadId)
         {
             _logger.LogInformation($"Received withdraw request from account with ID = {transactionModel.AccountId}.");
-            var comissionTransaction = new ComissionTransactionModel();
+            var comissionTransaction = new ComissionTransactionExchangeModel();
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
