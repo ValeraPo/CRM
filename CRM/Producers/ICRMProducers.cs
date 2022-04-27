@@ -1,12 +1,15 @@
 ﻿using CRM.BusinessLayer.Models;
+using Marvelous.Contracts.RequestModels;
+
 
 namespace CRM.APILayer.Producers
 {
     public interface ICRMProducers
     {
-        Task NotifyLeadAdded(LeadModel lead);
-        Task NotifyLeadAdded(int id);
+        Task AmmountCommissionForTransactionAdded(ComissionTransactionModel comissiontransaction);
         Task NotifyAccountAdded(AccountModel account);
         Task NotifyAccountAdded(int id);
+        Task NotifyLeadAdded(int id);
+        Task NotifyLeadAdded(LeadModel lead);
     }
 }

@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
+using CRM.APILayer.Models.Response;
 //using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 
 
@@ -163,6 +164,10 @@ namespace CRM.APILayer.Extensions
                         p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
                     });
                     cfg.Publish<AccountExchangeModel>(p =>
+                    {
+                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
+                    });
+                    cfg.Publish<CommissionTransactionModel>(p =>
                     {
                         p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
                     });

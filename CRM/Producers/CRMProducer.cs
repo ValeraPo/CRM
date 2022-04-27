@@ -1,6 +1,6 @@
 ﻿using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
-using CRM.DataLayer.Entities;
+using Marvelous.Contracts.RequestModels;
 using Marvelous.Contracts.ExchangeModels;
 using MassTransit;
 
@@ -77,6 +77,22 @@ namespace CRM.APILayer.Producers
             },
             source.Token);
             _logger.LogInformation("Account published");
+        }
+
+        public async Task AmmountCommissionForTransactionAdded(ComissionTransactionModel comissiontransaction)
+        {
+
+            var source = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            _logger.LogInformation("Try publish comissionTransactionModel");
+
+            await _bus.Publish<ComissionTransactionModel>(new
+            {
+                comissiontransaction.IdTransaction,
+                comissiontransaction.AmountComission
+
+            },
+            source.Token);
+            _logger.LogInformation("Access publish comissionTransactionModel");
         }
 
     }
