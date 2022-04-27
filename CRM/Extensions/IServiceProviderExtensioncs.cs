@@ -1,14 +1,16 @@
 ﻿using CRM.APILayer.Configuration;
-using CRM.APILayer.Consumer;
+using CRM.APILayer.Consumers;
 using CRM.APILayer.Producers;
 using CRM.APILayer.Validation;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Configurations;
+using CRM.BusinessLayer.Helpers;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Repositories;
 using CRM.DataLayer.Repositories.Interfaces;
 using FluentValidation.AspNetCore;
+using Marvelous.Contracts.EmailMessageModels;
 using Marvelous.Contracts.ExchangeModels;
 using MassTransit;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
@@ -35,10 +37,11 @@ namespace CRM.APILayer.Extensions
             services.AddScoped<ILeadService, LeadService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITransactionService, TransactionService>();
-            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IRequestHelper, RequestHelper>();
             services.AddScoped<ICRMProducers, CRMProducer>();
             services.AddTransient<IInitializationHelper, InitializationHelper>();
+            services.AddScoped<IRestClient, MarvelousRestClient>();
+
         }
 
         public static void AddFluentValidation(this IServiceCollection services)
@@ -47,7 +50,7 @@ namespace CRM.APILayer.Extensions
             services.AddFluentValidation(fv =>
             {
                 //Регистрация валидаторов по сборке с временем жизни = Singleton
-                fv.RegisterValidatorsFromAssemblyContaining<LeadInsertRequestValidation>(lifetime: ServiceLifetime.Singleton);
+                fv.RegisterValidatorsFromAssemblyContaining<LeadInsertRequestValidator>(lifetime: ServiceLifetime.Singleton);
                 //Отключение валидации с помощью DataAnnotations
                 fv.DisableDataAnnotationsValidation = true;
             });
@@ -68,12 +71,8 @@ namespace CRM.APILayer.Extensions
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = false,
-                        //ValidIssuer = AuthOptions.Issuer,
                         ValidateAudience = false,
-                        //ValidAudience = AuthOptions.Audience,
                         ValidateLifetime = false,
-                        //IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                        //ValidateIssuerSigningKey = true
                     };
                 });
             services.AddAuthorization();
@@ -139,6 +138,7 @@ namespace CRM.APILayer.Extensions
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<LeadConsumer>();
+                x.AddConsumer<ConfigConsumer>();
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host("rabbitmq://80.78.240.16", hst =>
@@ -150,13 +150,10 @@ namespace CRM.APILayer.Extensions
                     {
                         e.ConfigureConsumer<LeadConsumer>(context);
                     });
-                    cfg.Publish<LeadFullExchangeModel>(p =>
+                    cfg.ReceiveEndpoint("ChangeConfigCrm", e =>
                     {
-                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
-                    });
-                    cfg.Publish<AccountExchangeModel>(p =>
-                    {
-                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
+                        e.PurgeOnStartup = true;
+                        e.ConfigureConsumer<ConfigConsumer>(context);
                     });
                 });
             });

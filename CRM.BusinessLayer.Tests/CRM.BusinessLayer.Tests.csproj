@@ -8,21 +8,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Marvelous.Contracts" Version="1.1.29" />
+    <Compile Remove="ModelTests\**" />
+    <EmbeddedResource Remove="ModelTests\**" />
+    <None Remove="ModelTests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Marvelous.Contracts" Version="1.1.33" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="Moq" Version="4.17.2" />
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CRM_BuisnessLayer\CRM.BusinessLayer.csproj" />
     <ProjectReference Include="..\CRM_DataLayer\CRM.DataLayer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ModelTests\" />
   </ItemGroup>
 
 </Project>

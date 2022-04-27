@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
 using CRM.BusinessLayer.Exceptions;
 using CRM.BusinessLayer.Models;
-using CRM.BusinessLayer.Security;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Entities;
+using CRM.DataLayer.Extensions;
 using CRM.DataLayer.Repositories.Interfaces;
 using Google.Authenticator;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ExchangeModels;
+using Marvelous.Contracts.RequestModels;
+using Marvelous.Contracts.ResponseModels;
 using Microsoft.Extensions.Logging;
 
 namespace CRM.BusinessLayer.Services
@@ -18,21 +20,33 @@ namespace CRM.BusinessLayer.Services
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _autoMapper;
         private readonly ILogger<LeadService> _logger;
+        private readonly IRequestHelper _requestHelper;
 
-        public LeadService(IMapper autoMapper, ILeadRepository leadRepository, IAccountRepository accountRepository, ILogger<LeadService> logger)
+
+        public LeadService(IMapper autoMapper, 
+            ILeadRepository leadRepository, 
+            IAccountRepository accountRepository, 
+            ILogger<LeadService> logger,
+            IRequestHelper requestHelper)
         {
             _leadRepository = leadRepository;
             _autoMapper = autoMapper;
             _accountRepository = accountRepository;
             _logger = logger;
+            _requestHelper = requestHelper;
         }
 
         public async Task<(int, int)> AddLead(LeadModel leadModel)
         {
             _logger.LogInformation("Received a request to create a new lead.");
-            ExceptionsHelper.ThrowIfEmailRepeat((await _leadRepository.GetByEmail(leadModel.Email)), leadModel.Email);
+            var lead = await _leadRepository.GetByEmail(leadModel.Email);
+            if (lead != null)
+            {
+                _logger.LogError($"Try to singup. Email {leadModel.Email.Encryptor()} is already exists.");
+                throw new DuplicationException($"Try to singup. Email {leadModel.Email.Encryptor()} is already exists.");
+            }
             var mappedLead = _autoMapper.Map<Lead>(leadModel);
-            mappedLead.Password = PasswordHash.HashPassword(mappedLead.Password);
+            mappedLead.Password = await _requestHelper.HashPassword(leadModel.Password);
             var id = await _leadRepository.AddLead(mappedLead);
             mappedLead.Id = id;
             var accountId = await _accountRepository.AddAccount(new Account
@@ -57,7 +71,7 @@ namespace CRM.BusinessLayer.Services
         public async Task ChangeRoleLead(int id, Role role)
         {
             _logger.LogInformation($"Received a request to update the role of the lead with ID = {id}.");
-            if (role != Role.Vip && role != Role.Regular)
+            if (role == Role.Admin)
             {
                 _logger.LogError($"Authorisation error. The role can be changed to Regular or VIP.");
                 throw new IncorrectRoleException("Authorisation error. The role can be changed to Regular or VIP.");
@@ -107,13 +121,21 @@ namespace CRM.BusinessLayer.Services
 
         public async Task<List<LeadAuthExchangeModel>> GetAllToAuth()
         {
-            _logger.LogInformation($"Zapros na poluchenie vseh leadov.");
+            _logger.LogInformation($"Received a request to receive all leads for Auth.");
             var leads = await _leadRepository.GetAllToAuth();
             return leads;
         }
-        public async Task<LeadModel> GetById(int id)
+
+        public async Task<LeadModel> GetById(int id, IdentityResponseModel leadIdentity)
         {
             _logger.LogInformation($"Received to get an lead with an ID {id}.");
+            if ((Role)Enum.Parse(typeof(Role), leadIdentity.Role) != Role.Admin)
+                ExceptionsHelper.ThrowIfLeadDontHaveAcces(id, (int)leadIdentity.Id);
+            return await GetById(id);
+        }
+
+        public async Task<LeadModel> GetById(int id)
+        {
             var entity = await _leadRepository.GetById(id);
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
             return _autoMapper.Map<LeadModel>(entity);
@@ -125,14 +147,16 @@ namespace CRM.BusinessLayer.Services
             var entity = await _leadRepository.GetById(id);
 
             ExceptionsHelper.ThrowIfEntityNotFound(id, entity);
-            ExceptionsHelper.ThrowIfPasswordIsIncorrected(oldPassword, entity.Password);
+            //Пробуем зарегистрироваться со старым паролем. Если пароль неверный, будет ошибка
+            await _requestHelper.GetToken(new AuthRequestModel { Email = entity.Email, Password = oldPassword });
 
-            string hashPassword = PasswordHash.HashPassword(newPassword);
+            string hashPassword = await _requestHelper.HashPassword(newPassword);
             await _leadRepository.ChangePassword(entity.Id, hashPassword);
         }
 
         public async Task ChangeRoleListLead(LeadShortExchangeModel[] models)
         {
+            _logger.LogInformation($"Received a request to change the role of a leads with.");
             await _leadRepository.ChangeRoleListLead(models.ToList());
         }
 

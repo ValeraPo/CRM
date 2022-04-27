@@ -12,6 +12,6 @@ namespace CRM.APILayer.Models
         public string City { get; set; }
         public string Phone { get; set; }
         public Role Role { get; set; }
-        public List<AccountResponse> Accounts { get; set; }
+        public List<AccountShortResponse> Accounts { get; set; }
     }
 }

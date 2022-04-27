@@ -4,22 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace CRM.APILayer.Validation
 {
-    public class LeadInsertRequestValidation : AbstractValidator<LeadInsertRequest>
+    public class LeadUpdateRequestValidator : AbstractValidator<LeadUpdateRequest>
     {
-        public  LeadInsertRequestValidation()
+        public LeadUpdateRequestValidator()
         {
-           RuleFor(x => x.Password)
-                .NotEmpty()
-                .WithMessage("Password is empty")
-                .MinimumLength(8)
-                .WithMessage("Minimum lenght of Password 8 symbols")
-                .MaximumLength(30)
-                .WithMessage("Maximum lenght of Password 30 symbols");
-            RuleFor(x => x.Email)
-                .NotEmpty()
-                .WithMessage("Email is empty")
-                .EmailAddress()
-                .WithMessage("Email address is not valid");
             RuleFor(x => x.Name)
                 .NotEmpty()
                 .WithMessage("Name is empty")
@@ -39,8 +27,6 @@ namespace CRM.APILayer.Validation
             RuleFor(x => x.City)
                .MaximumLength(20)
                .WithMessage("Maximum lenght of City 20 symbols");
-            
-
         }
     }
 }

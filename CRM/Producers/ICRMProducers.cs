@@ -1,4 +1,5 @@
 ﻿using CRM.BusinessLayer.Models;
+using Marvelous.Contracts.RequestModels;
 
 namespace CRM.APILayer.Producers
 {
@@ -8,5 +9,6 @@ namespace CRM.APILayer.Producers
         Task NotifyLeadAdded(int id);
         Task NotifyAccountAdded(AccountModel account);
         Task NotifyAccountAdded(int id);
+        Task NotifyWhithdraw(int leadId, TransactionRequestModel transaction);
     }
 }

@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace CRM.APILayer.Validation
 {
-    public class LeadChangePasswordRequestValidation : AbstractValidator<LeadChangePasswordRequest>
+    public class LeadChangePasswordRequestValidator : AbstractValidator<LeadChangePasswordRequest>
     {
-        public LeadChangePasswordRequestValidation()
+        public LeadChangePasswordRequestValidator()
         {
             RuleFor(x => x.NewPassword)
                 .NotEmpty()
