@@ -13,8 +13,6 @@ string connString = builder.Configuration.GetValue<string>(_connectionStringVari
 string logDirectory = builder.Configuration.GetValue<string>(_logDirectoryVariableName);
 string auth = builder.Configuration.GetValue<string>(_identityUrlVariableName);
 var configs = builder.Configuration.GetValue<string>(_configsUrlVariableName);
-//var configs = "https://piter-education.ru:6040";
-//var auth = "https://piter-education.ru:6042";
 
 builder.Services.Configure<DbConfiguration>(opt =>
 {

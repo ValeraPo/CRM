@@ -1,6 +1,5 @@
 ﻿using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services.Interfaces;
-using CRM.DataLayer.Entities;
 using Marvelous.Contracts.EmailMessageModels;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ExchangeModels;

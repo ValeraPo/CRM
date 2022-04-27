@@ -1,5 +1,5 @@
 ﻿using CRM.BusinessLayer.Exceptions;
-using CRM.BusinessLayer.Helpers;
+using Marvelous.Contracts.Client;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.RequestModels;
 using Marvelous.Contracts.ResponseModels;

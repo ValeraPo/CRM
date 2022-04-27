@@ -8,7 +8,6 @@ using Marvelous.Contracts.ExchangeModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Data;
-using System.Data.SqlClient;
 using Z.Dapper.Plus;
 
 namespace CRM.DataLayer.Repositories
@@ -235,10 +234,6 @@ namespace CRM.DataLayer.Repositories
             connection.BulkUpdate(models);
 
         }
-
-
-
-
     }
 }
 

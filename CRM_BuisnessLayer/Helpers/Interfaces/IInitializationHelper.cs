@@ -1,5 +1,4 @@
-﻿
-namespace CRM.BusinessLayer
+﻿namespace CRM.BusinessLayer
 {
     public interface IInitializationHelper
     {

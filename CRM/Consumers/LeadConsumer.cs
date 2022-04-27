@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using CRM.BusinessLayer.Services.Interfaces;
+﻿using CRM.BusinessLayer.Services.Interfaces;
 using Marvelous.Contracts.ExchangeModels;
 using MassTransit;
 
