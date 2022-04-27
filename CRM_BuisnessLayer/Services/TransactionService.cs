@@ -31,7 +31,7 @@ namespace CRM.BusinessLayer.Services
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
-            transactionModel.Amount -= GetAmountCommission("Deposit", transactionModel.Amount, entity.Lead.Role);
+            transactionModel.Amount -= GetAmountCommission(TransactionType.Deposit.ToString(), transactionModel.Amount, entity.Lead.Role);
             _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Deposit, transactionModel);
             _logger.LogInformation($"Request successful.");
@@ -61,7 +61,7 @@ namespace CRM.BusinessLayer.Services
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
-            transactionModel.Amount -= GetAmountCommission("Withdraw", transactionModel.Amount, entity.Lead.Role);
+            transactionModel.Amount -= GetAmountCommission(TransactionType.Withdraw.ToString(), transactionModel.Amount, entity.Lead.Role);
             _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Withdraw,  transactionModel);
             _logger.LogInformation($"Request successful.");
@@ -84,10 +84,11 @@ namespace CRM.BusinessLayer.Services
 
         private decimal GetAmountCommission(string typeTransaction, decimal amount, Role role)
         {
-            string namekeyconfig= $"{typeTransaction}{Enum.GetName(typeof(Role), (int)role)}";
-            int commission = Convert.ToInt32(_config[namekeyconfig]);
-            decimal amountCommission = amount * (decimal)(commission * 0.01);
+            var nameKeyConfig= $"{typeTransaction}{role.ToString()}";
+            var commission = Convert.ToInt32(_config[nameKeyConfig]);
+            var amountCommission = amount * (decimal)(commission * 0.01);
             _logger.LogInformation($"Before ammount:{amount} Discard commission {amountCommission}, Ammount={amount - amountCommission}");
+            
             return amountCommission;
         }
     }
