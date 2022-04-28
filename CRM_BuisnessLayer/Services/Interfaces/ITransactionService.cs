@@ -1,16 +1,14 @@
-﻿using Marvelous.Contracts.Enums;
-using Marvelous.Contracts.RequestModels;
-using RestSharp;
+﻿using Marvelous.Contracts.RequestModels;
+using System.Collections;
 
 namespace CRM.BusinessLayer.Services
 {
     public interface ITransactionService
     {
-        Task<RestResponse> AddDeposit(TransactionRequestModel transactionModel, int leadId);
-        Task<RestResponse> AddTransfer(TransferRequestModel transactionModel, int leadId);
-        Task<RestResponse> Withdraw(TransactionRequestModel transactionModel, int leadId);
-        Task<RestResponse> GetTransactionsByAccountId(int id, int leadId);
-        Task<decimal> GetBalance(List<int> ids, Currency currency);
+        Task<int> AddDeposit(TransactionRequestModel transactionModel, int leadId);
+        Task<int> AddTransfer(TransferRequestModel transactionModel, int leadId);
+        Task<int> Withdraw(TransactionRequestModel transactionModel, int leadId);
+        Task<string> GetTransactionsByAccountId(int id, int leadId);
     }
 
 }

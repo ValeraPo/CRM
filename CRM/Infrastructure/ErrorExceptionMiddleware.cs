@@ -3,6 +3,7 @@ using CRM.BusinessLayer.Exceptions;
 using NLog;
 using System.Net;
 using System.Text.Json;
+using FluentValidation;
 
 namespace CRM.APILayer.Infrastructure
 {
@@ -28,11 +29,6 @@ namespace CRM.APILayer.Infrastructure
             {
                 await ConstructResponse(context, HttpStatusCode.Forbidden, error.Message);
             }
-            catch (System.Data.SqlClient.SqlException error)
-            {
-                _logger.Error(error);
-                await ConstructResponse(context, HttpStatusCode.ServiceUnavailable, message: "База данных недоступна");
-            }
             catch (NotFoundException error)
             {
                 await ConstructResponse(context, HttpStatusCode.NotFound, error.Message);
@@ -40,6 +36,10 @@ namespace CRM.APILayer.Infrastructure
             catch (BadRequestException error)
             {
                 await ConstructResponse(context, HttpStatusCode.BadRequest, error.Message);
+            }
+            catch (ValidationException ex)
+            {
+                await ConstructResponse(context, HttpStatusCode.UnprocessableEntity, ex.Message);
             }
             catch (DuplicationException error)
             {
@@ -60,6 +60,11 @@ namespace CRM.APILayer.Infrastructure
             catch (InternalServerError error)
             {
                 await ConstructResponse(context, HttpStatusCode.InternalServerError, error.Message);
+            }
+            catch (System.Data.SqlClient.SqlException error)
+            {
+                _logger.Error(error);
+                await ConstructResponse(context, HttpStatusCode.ServiceUnavailable, message: "База данных недоступна");
             }
             catch (Exception ex)
             {

@@ -19,7 +19,8 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "LOG_DIRECTORY": "C:\\Users\\admin\\source\\repos\\CRM",
         "CRM_CONNECTION_STRING": "Data Source=80.78.240.16;Initial Catalog=CRM.Db;Persist Security Info=True;User ID=student;Password=qwe!23",
-        "IDENTITY_SERVICE_URL": "https://piter-education.ru:6042"
+        "IDENTITY_SERVICE_URL": "https://piter-education.ru:6042",
+        "CONFIGS_SERVICE_URL": "https://piter-education.ru:6040"
       }
     },
     "IIS Express": {

@@ -16,5 +16,5 @@ BEGIN
 		a.[Name],
 		a.CurrencyType
 	FROM dbo.[Lead] l inner join dbo.[Account] a ON a.LeadId = l.Id
-	WHERE l.Id = @Id
+	WHERE l.Id = @Id and a.IsBlocked = 0
 END

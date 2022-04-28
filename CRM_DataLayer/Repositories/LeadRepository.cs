@@ -8,7 +8,6 @@ using Marvelous.Contracts.ExchangeModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Data;
-using System.Data.SqlClient;
 using Z.Dapper.Plus;
 
 namespace CRM.DataLayer.Repositories
@@ -160,14 +159,19 @@ namespace CRM.DataLayer.Repositories
             using IDbConnection connection = ProvideConnection();
             _logger.LogInformation("DB connection established successfully.");
 
-            var lead = connection
+            Lead lead = null;
+            var leadInDb = connection
                 .QueryAsync<Lead, Account, Lead>(
                 _selectById,
-                (lead, account) =>
+                (leadInDb, account) =>
                 {
-                    lead.Accounts = new List<Account>();
+                    if (lead == null)
+                    {
+                        leadInDb.Accounts = new List<Account>();
+                        lead = leadInDb;
+                    }
                     lead.Accounts.Add(account);
-                    return lead;
+                    return leadInDb;
                 },
                 new { Id = id },
                 splitOn: "Id",
@@ -230,10 +234,6 @@ namespace CRM.DataLayer.Repositories
             connection.BulkUpdate(models);
 
         }
-
-
-
-
     }
 }
 
