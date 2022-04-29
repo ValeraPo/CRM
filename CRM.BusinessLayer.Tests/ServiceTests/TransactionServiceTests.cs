@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using RestSharp;
 using System.Threading.Tasks;
 
 namespace CRM.BusinessLayer.Tests.ServiceTests

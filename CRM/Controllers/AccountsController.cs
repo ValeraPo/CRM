@@ -136,7 +136,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Request received to get all accounts by lead with ID = {id}");
             var accountModels = await _accountService.GetByLead(id);
             var outputs = _autoMapper.Map<List<AccountShortResponse>>(accountModels);
-            
+
             _logger.LogInformation($"All lead accounts with ID {id} have been successfully received");
             return Ok(outputs);
         }
@@ -156,7 +156,7 @@ namespace CRM.APILayer.Controllers
             var leadId = (int)leadIdentity.Id;
             var accountModel = await _accountService.GetById(id, leadId);
             var output = _autoMapper.Map<AccountResponse>(accountModel);
-            
+
             _logger.LogInformation($"Account with ID = {id} successfully received");
             return Ok(output);
         }

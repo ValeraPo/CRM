@@ -1,6 +1,4 @@
-﻿
-
-namespace CRM.BusinessLayer.Exceptions
+﻿namespace CRM.BusinessLayer.Exceptions
 {
     public class ServiceUnavailableException: Exception
     {

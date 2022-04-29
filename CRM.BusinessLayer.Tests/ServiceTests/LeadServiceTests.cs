@@ -3,7 +3,6 @@ using CRM.BusinessLayer.Configurations;
 using CRM.BusinessLayer.Exceptions;
 using CRM.BusinessLayer.Models;
 using CRM.BusinessLayer.Services;
-using CRM.BusinessLayer.Tests.TestData;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts.Enums;
@@ -47,6 +46,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
         }
 
+        #region AddLeadTests
         [Test]
         public async Task AddLeadTest_ShouldAddLead()
         {
@@ -95,7 +95,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Received a request to create a new lead.");
 
         }
+        #endregion
 
+        #region UpdateLeadTests
         [Test]
         public async Task UpdateLeadTest_ShouldUpdateLead()
         {
@@ -134,7 +136,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _leadRepositoryMock.Verify(m => m.GetById(leadId), Times.Once());
             Assert.AreEqual(expected, actual);
         }
+        #endregion
 
+        #region ChangeRoleLeadTests
         [Test]
         public async Task ChangeRoleLeadTest_ShouldChangeRoleLead()
         {
@@ -194,7 +198,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             Assert.AreEqual(expected, actual);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received a request to update the role of the lead with ID = {leadId}.");
         }
+        #endregion
 
+        #region DeleteByIdTests
         [Test]
         public async Task DeleteByIdTest_ShouldDeleteLead()
         {
@@ -254,8 +260,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             Assert.AreEqual(expected, actual);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received a request to delete lead with ID =  {leadId}.");
         }
+        #endregion
 
-        
+        #region RestoreByIdTests
         [Test]
         public async Task RestoreByIdTest_ShouldRestoreLead()
         {
@@ -315,7 +322,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             Assert.AreEqual(expected, actual);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received a request to restore lead with ID =  {leadId}.");
         }
+        #endregion
 
+        #region GetAllTests
         [Test]
         public async Task GetAllTest_ShouldReturnAllLeads()
         {
@@ -337,7 +346,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _leadRepositoryMock.Verify(m => m.GetAllToAuth(), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received a request to receive all leads for Auth.");
         }
+        #endregion
 
+        #region GetByIdTests_WithIdentityModel
         [Test]
         public async Task GetByIdTest_WithIdentityModelNotAdmin_ShouldReturnLead()
         {
@@ -413,7 +424,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             Assert.AreEqual(expected, actual);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received to get an lead with an ID {leadId}.");
         }
+        #endregion
 
+        #region GetByIdTests
         [Test]
         public async Task GetByIdTest_ShouldReturnLead()
         {
@@ -449,7 +462,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _leadRepositoryMock.Verify(m => m.GetById(leadId), Times.Once());
             Assert.AreEqual(expected, actual);
         }
+        #endregion
 
+        #region ChangePasswordTests
         [Test]
         public async Task ChangePasswordTest_ShouldChangePassword()
         {
@@ -477,8 +492,6 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _leadRepositoryMock.Verify(m => m.ChangePassword(leadId, hash), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received a request to change the password of a lead with an ID = {leadId}.");
         }
-
-
-
+        #endregion
     }
 }

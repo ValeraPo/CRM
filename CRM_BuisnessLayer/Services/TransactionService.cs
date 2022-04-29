@@ -29,6 +29,7 @@ namespace CRM.BusinessLayer.Services
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
+            transactionModel.Currency = entity.CurrencyType;
             var ammountComission = GetAmountCommission(TransactionType.Deposit.ToString(), transactionModel.Amount, entity.Lead.Role);
             transactionModel.Amount -= ammountComission;
             _logger.LogInformation($"Send request.");
@@ -44,12 +45,14 @@ namespace CRM.BusinessLayer.Services
         public async Task<int> AddTransfer(TransferRequestModel transactionModel, int leadId)
         {
             _logger.LogInformation($"Transfer request received from account with ID {transactionModel.AccountIdFrom} to account with ID {transactionModel.AccountIdTo}.");
-            var entity = await _accountRepository.GetById(transactionModel.AccountIdFrom);
-            ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdFrom, entity);
-            ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
+            var accountFrom = await _accountRepository.GetById(transactionModel.AccountIdFrom);
+            ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdFrom, accountFrom);
+            ExceptionsHelper.ThrowIfLeadDontHaveAcces(accountFrom.Lead.Id, leadId);
             var accountTo = await _accountRepository.GetById(transactionModel.AccountIdTo);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountIdTo, accountTo);
             ExceptionsHelper.ThrowIfLeadDontHaveAcces(accountTo.Lead.Id, leadId);
+            transactionModel.CurrencyTo = accountTo.CurrencyType;
+            transactionModel.CurrencyFrom = accountFrom.CurrencyType;
             _logger.LogInformation($"Send request.");
             var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Transfer, transactionModel);
             _logger.LogInformation($"Request successful.");
@@ -64,6 +67,7 @@ namespace CRM.BusinessLayer.Services
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
+            transactionModel.Currency = entity.CurrencyType;
             var ammountComission = GetAmountCommission(TransactionType.Withdraw.ToString(), transactionModel.Amount, entity.Lead.Role);
             transactionModel.Amount -= ammountComission;
             _logger.LogInformation($"Send request.");

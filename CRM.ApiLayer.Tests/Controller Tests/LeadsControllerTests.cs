@@ -29,7 +29,7 @@ namespace CRM.ApiLayer.Tests
         private readonly IValidator<LeadInsertRequest> _validatorLeadInsertRequest;
         private readonly IValidator<LeadUpdateRequest> _validatorLeadUpdateRequest;
         private readonly IValidator<LeadChangePasswordRequest> _validatorLeadChangePasswordRequest;
-        private LeadsController _controller;
+        private LeadsController _sut;
 
 
         public LeadsControllerTests()
@@ -48,7 +48,7 @@ namespace CRM.ApiLayer.Tests
             _leadService = new Mock<ILeadService>();
             _logger = new Mock<ILogger<LeadsController>>();
             _requestHelper = new Mock<IRequestHelper>();
-            _controller = new LeadsController(_leadService.Object,
+            _sut = new LeadsController(_leadService.Object,
                 _autoMapper,
                 _logger.Object,
                 _crmProducers.Object,
@@ -62,18 +62,18 @@ namespace CRM.ApiLayer.Tests
         {
             var context = new DefaultHttpContext();
             context.Request.Headers.Authorization = token;
-            _controller.ControllerContext.HttpContext = context;
+            _sut.ControllerContext.HttpContext = context;
         }
 
+        #region AddLeadTests
         [Test]
         public async Task AddLeadTest_ShouldAddLead()
         {
             //given
             var leadRequest = LeadControllerTestData.GetInsertModel();
-            var accountModel = _autoMapper.Map<LeadModel>(leadRequest);
 
             //when
-            await _controller.AddLead(leadRequest);
+            await _sut.AddLead(leadRequest);
 
             //then
             _leadService.Verify(m => m.AddLead(It.IsAny<LeadModel>()), Times.Once());
@@ -83,12 +83,34 @@ namespace CRM.ApiLayer.Tests
         }
 
         [Test]
+        public void AddLeadTest_EmailExists_ShouldThrowDuplicationException()
+        {
+            //given
+            var expected = $"Try to singup. Email e***l is already exists.";
+            var leadModel = LeadControllerTestData.GetInsertModel();
+            _leadService
+                .Setup(m => m.AddLead(It.IsAny<LeadModel>()))
+                .Callback(() => throw new DuplicationException(expected));
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<DuplicationException>(async () => await _sut.AddLead(leadModel))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _leadService.Verify(m => m.AddLead(It.IsAny<LeadModel>()), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Received a request to create a new lead.");
+        }
+        #endregion
+
+        #region UpdateLeadTests
+        [Test]
         public async Task UpdateLeadTest_ShouldUpdateLead()
         {
             //given
             var token = "token";
             var leadRequest = LeadControllerTestData.GetUpdateModel();
-            var accountModel = _autoMapper.Map<LeadModel>(leadRequest);
             var leadId = 42;
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
@@ -96,7 +118,7 @@ namespace CRM.ApiLayer.Tests
             AddContext(token);
 
             //when
-            await _controller.UpdateLead(leadId, leadRequest);
+            await _sut.UpdateLead(leadId, leadRequest);
 
             //then
             _leadService.Verify(m => m.UpdateLead(leadId, It.IsAny<LeadModel>()), Times.Once());
@@ -115,7 +137,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.UpdateLead(It.IsAny<int>(), It.IsAny<LeadUpdateRequest>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.UpdateLead(It.IsAny<int>(), It.IsAny<LeadUpdateRequest>()))!
                 .Message;
 
             //then
@@ -123,7 +145,35 @@ namespace CRM.ApiLayer.Tests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
 
-        
+        [Test]
+        public void UpdateLead_LeadNotFound_ShouldThrowNotFoundException()
+        {
+            //given
+            var token = "token";
+            var leadRequest = LeadControllerTestData.GetUpdateModel();
+            var leadId = 42;
+            var expected = $"Lead entiy with ID = {leadId} not found";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
+            _leadService
+                .Setup(m => m.UpdateLead(leadId, It.IsAny<LeadModel>()))
+                .Callback(() => throw new NotFoundException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await _sut.UpdateLead(leadId, leadRequest))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _leadService.Verify(m => m.UpdateLead(leadId, It.IsAny<LeadModel>()), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Received a request to update lead with ID = 42.");
+        }
+        #endregion
+
+        #region ChangeRoleLeadTests
         [Test]
         public async Task ChangeRoleLeadTest_ShouldChangeRoleLead()
         {
@@ -137,7 +187,7 @@ namespace CRM.ApiLayer.Tests
             AddContext(token);
 
             //when
-            await _controller.ChangeRoleLead(leadId, role);
+            await _sut.ChangeRoleLead(leadId, role);
 
             //then
             _leadService.Verify(m => m.ChangeRoleLead(leadId, role), Times.Once());
@@ -156,7 +206,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.ChangeRoleLead(It.IsAny<int>(), It.IsAny<Role>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.ChangeRoleLead(It.IsAny<int>(), It.IsAny<Role>()))!
                 .Message;
 
             //then
@@ -177,7 +227,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.ChangeRoleLead(It.IsAny<int>(), It.IsAny<Role>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.ChangeRoleLead(It.IsAny<int>(), It.IsAny<Role>()))!
                 .Message;
 
             //then
@@ -187,19 +237,74 @@ namespace CRM.ApiLayer.Tests
         }
 
         [Test]
-        public async Task DeleteByIdTest_ShouldDeleteLead()
+        public void ChangeRoleLead_RoleIsAdmin_ShouldThrowNotFoundException()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var role = Role.Admin;
+            var expected = $"Authorisation error. The role can be changed to Regular or VIP.";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
+            _leadService
+                .Setup(m => m.ChangeRoleLead(leadId, role))
+                .Callback(() => throw new IncorrectRoleException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<IncorrectRoleException>(async () => await _sut.ChangeRoleLead(leadId, role))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _leadService.Verify(m => m.ChangeRoleLead(leadId, role), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received a request to update the role of the lead with ID = {leadId}.");
+        }
+
+        [Test]
+        public void ChangeRoleLead_LeadNotFound_ShouldThrowNotFoundException()
         {
             //given
             var token = "token";
             var leadId = 42;
             var role = Role.Regular;
+            var expected = $"Lead entiy with ID = {leadId} not found";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
+            _leadService
+                .Setup(m => m.ChangeRoleLead(leadId, role))
+                .Callback(() => throw new NotFoundException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await _sut.ChangeRoleLead(leadId, role))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _leadService.Verify(m => m.ChangeRoleLead(leadId, role), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received a request to update the role of the lead with ID = {leadId}.");
+        }
+        #endregion
+
+        #region DeleteByIdTests
+        [Test]
+        public async Task DeleteByIdTest_ShouldDeleteLead()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
             _requestHelper
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
             AddContext(token);
 
             //when
-            await _controller.DeleteById(leadId);
+            await _sut.DeleteById(leadId);
 
             //then
             _leadService.Verify(m => m.DeleteById(leadId), Times.Once());
@@ -218,7 +323,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.DeleteById(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.DeleteById(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -239,7 +344,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.DeleteById(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.DeleteById(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -248,6 +353,60 @@ namespace CRM.ApiLayer.Tests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
 
+        [Test]
+        public void DeleteById_LeadNotFound_ShouldThrowNotFoundException()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var expected = $"Lead entiy with ID = {leadId} not found";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
+            _leadService
+                .Setup(m => m.DeleteById(leadId))
+                .Callback(() => throw new NotFoundException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await _sut.DeleteById(leadId))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _leadService.Verify(m => m.DeleteById(leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Received a request to delete lead with ID = 42.");
+        }
+
+        [Test]
+        public void DeleteById_LeadIsBanned_ShouldThrowNotFoundException()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var expected = $"Lead witd ID {leadId} is already banned.";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
+            _leadService
+                .Setup(m => m.DeleteById(leadId))
+                .Callback(() => throw new BannedException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<BannedException>(async () => await _sut.DeleteById(leadId))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _leadService.Verify(m => m.DeleteById(leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Received a request to delete lead with ID = 42.");
+        }
+        #endregion
+
+        #region RestoreByIdTests
         [Test]
         public async Task RestoreById_ShouldRestoreLead()
         {
@@ -261,7 +420,7 @@ namespace CRM.ApiLayer.Tests
             AddContext(token);
 
             //when
-            await _controller.RestoreById(leadId);
+            await _sut.RestoreById(leadId);
 
             //then
             _leadService.Verify(m => m.RestoreById(leadId), Times.Once());
@@ -280,7 +439,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.RestoreById(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.RestoreById(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -301,7 +460,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.RestoreById(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.RestoreById(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -310,6 +469,60 @@ namespace CRM.ApiLayer.Tests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
 
+        [Test]
+        public void RestoreById_LeadNotFound_ShouldThrowNotFoundException()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var expected = $"Lead entiy with ID = {leadId} not found";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
+            _leadService
+                .Setup(m => m.RestoreById(leadId))
+                .Callback(() => throw new NotFoundException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await _sut.RestoreById(leadId))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _leadService.Verify(m => m.RestoreById(leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Received a request to restore lead with ID = 42.");
+        }
+
+        [Test]
+        public void RestoreById_LeadIsNotBanned_ShouldThrowNotFoundException()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var expected = $"Lead witd ID {leadId} is already banned.";
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(new IdentityResponseModel { Id = 1, Role = "Admin" });
+            _leadService
+                .Setup(m => m.RestoreById(leadId))
+                .Callback(() => throw new BannedException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<BannedException>(async () => await _sut.RestoreById(leadId))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _leadService.Verify(m => m.RestoreById(leadId), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Received a request to restore lead with ID = 42.");
+        }
+        #endregion
+
+        #region GetAllTests
         [Test]
         public async Task GetAll_ShouldReturnAllLead()
         {
@@ -321,7 +534,7 @@ namespace CRM.ApiLayer.Tests
             AddContext(token);
 
             //when
-            await _controller.GetAll();
+            await _sut.GetAll();
 
             //then
             _leadService.Verify(m => m.GetAll(), Times.Once());
@@ -339,7 +552,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetAll())!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.GetAll())!
                 .Message;
 
             //then
@@ -360,7 +573,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetAll())!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.GetAll())!
                 .Message;
 
             //then
@@ -368,7 +581,9 @@ namespace CRM.ApiLayer.Tests
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
 
+        #region GetAllToAuthTests
         [Test]
         public async Task GetAllToAuth_TokenFromAuthService_ShouldReturnAllLead()
         {
@@ -380,7 +595,7 @@ namespace CRM.ApiLayer.Tests
             AddContext(token);
 
             //when
-            await _controller.GetAllToAuth();
+            await _sut.GetAllToAuth();
 
             //then
             _leadService.Verify(m => m.GetAllToAuth(), Times.Once());
@@ -399,7 +614,7 @@ namespace CRM.ApiLayer.Tests
             AddContext(token);
 
             //when
-            await _controller.GetAllToAuth();
+            await _sut.GetAllToAuth();
 
             //then
             _leadService.Verify(m => m.GetAllToAuth(), Times.Once());
@@ -417,7 +632,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetAllToAuth())!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.GetAllToAuth())!
                 .Message;
 
             //then
@@ -438,7 +653,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetAllToAuth())!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.GetAllToAuth())!
                 .Message;
 
             //then
@@ -446,7 +661,9 @@ namespace CRM.ApiLayer.Tests
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
 
+        #region GetByIdTests
         [Test]
         public async Task GetById_ShouldReturnLead()
         {
@@ -460,7 +677,7 @@ namespace CRM.ApiLayer.Tests
             AddContext(token);
 
             //when
-            await _controller.GetById(leadId);
+            await _sut.GetById(leadId);
 
             //then
             _leadService.Verify(m => m.GetById(leadId, leadIdentity), Times.Once());
@@ -478,7 +695,7 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.GetById(It.IsAny<int>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.GetById(It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -486,6 +703,62 @@ namespace CRM.ApiLayer.Tests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
 
+        [Test]
+        public void GetById_LeadNotFound_ShouldThrowNotFoundException()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var expected = $"Lead entiy with ID = {leadId} not found";
+            var identity = new IdentityResponseModel { Id = 1, Role = "Admin" };
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(identity);
+            _leadService
+                .Setup(m => m.GetById(leadId, identity))
+                .Callback(() => throw new NotFoundException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<NotFoundException>(async () => await _sut.GetById(leadId))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _leadService.Verify(m => m.GetById(leadId, identity), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received to get an lead with an ID {leadId}.");
+        }
+
+        [Test]
+        public void GetById_LeadIsNotAdmin_ShouldThrowAuthorizationException()
+        {
+            //given
+            var token = "token";
+            var leadId = 42;
+            var expected = $"Authorization error. Lead with ID 1 doesn't have acces.";
+            var identity = new IdentityResponseModel { Id = 1, Role = "Regular" };
+            _requestHelper
+                .Setup(m => m.GetLeadIdentityByToken(token))
+                .ReturnsAsync(identity);
+            _leadService
+                .Setup(m => m.GetById(leadId, identity))
+                .Callback(() => throw new AuthorizationException(expected));
+            AddContext(token);
+
+            //when
+            var actual = Assert
+                .ThrowsAsync<AuthorizationException>(async () => await _sut.GetById(leadId))!
+                .Message;
+
+            //then
+            Assert.AreEqual(expected, actual);
+            _leadService.Verify(m => m.GetById(leadId, identity), Times.Once());
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received to get an lead with an ID 42.");
+        }
+        #endregion
+
+        #region ChangePasswordTests
         [Test]
         public async Task ChangePasswordTest_ShouldChangePassword()
         {
@@ -500,7 +773,7 @@ namespace CRM.ApiLayer.Tests
             AddContext(token);
 
             //when
-            await _controller.ChangePassword(leadRequest);
+            await _sut.ChangePassword(leadRequest);
 
             //then
             _leadService.Verify(m => m.ChangePassword(leadId, leadRequest.OldPassword, leadRequest.NewPassword), Times.Once());
@@ -518,12 +791,13 @@ namespace CRM.ApiLayer.Tests
 
             //when
             var actual = Assert
-                .ThrowsAsync<ForbiddenException>(async () => await _controller.ChangePassword(It.IsAny<LeadChangePasswordRequest>()))!
+                .ThrowsAsync<ForbiddenException>(async () => await _sut.ChangePassword(It.IsAny<LeadChangePasswordRequest>()))!
                 .Message;
 
             //then
             Assert.AreEqual(expected, actual);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, expected);
         }
+        #endregion
     }
 }

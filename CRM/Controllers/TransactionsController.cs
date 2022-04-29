@@ -1,4 +1,6 @@
-﻿using CRM.APILayer.Extensions;
+﻿using AutoMapper;
+using CRM.APILayer.Extensions;
+using CRM.APILayer.Models;
 using CRM.APILayer.Producers;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Services;
@@ -17,15 +19,18 @@ namespace CRM.APILayer.Controllers
         private readonly ITransactionService _transactionService;
         private readonly ILogger<TransactionsController> _logger;
         private readonly ICRMProducers _crmProducers;
+        private readonly IMapper _autoMapper;
 
 
         public TransactionsController(ITransactionService transactionService, 
             ILogger<TransactionsController> logger,
+            IMapper autoMapper,
             IRequestHelper requestHelper,
-            ICRMProducers crmProducers): base(requestHelper, logger)
+            ICRMProducers crmProducers) : base(requestHelper, logger)
         {
             _transactionService = transactionService;
             _logger = logger;
+            _autoMapper = autoMapper;
             _crmProducers = crmProducers;
         }
 
@@ -36,13 +41,14 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> AddDeposit([FromBody] TransactionRequestModel transaction)
+        public async Task<ActionResult> AddDeposit([FromBody] TransactionShortRequest transaction)
         {
             var leadIdentity = GetIdentity();
             CheckRole(leadIdentity, Role.Vip, Role.Regular);
             _logger.LogInformation($"Received a request to add a deposit to an account with ID = {transaction.AccountId}.");
             var leadId = (int)leadIdentity.Id;
-            var response = await _transactionService.AddDeposit(transaction, leadId);
+            var transactionModel = _autoMapper.Map<TransactionRequestModel>(transaction);
+            var response = await _transactionService.AddDeposit(transactionModel, leadId);
             _logger.LogInformation($"Successfully added deposit to account with ID = {transaction.AccountId}. Deposit ID = {response}.");
             await _crmProducers.AmmountCommissionForTransactionAdded(response);
             return StatusCode(201, response);
@@ -55,13 +61,14 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> AddTransfer([FromBody] TransferRequestModel transaction)
+        public async Task<ActionResult> AddTransfer([FromBody] TransferShortRequest transaction)
         {
             var leadIdentity = GetIdentity();
             CheckRole(leadIdentity, Role.Vip, Role.Regular);
             _logger.LogInformation($"Transfer request received from account with ID {transaction.AccountIdFrom} to account with ID {transaction.AccountIdTo}.");
             var leadId = (int)leadIdentity.Id;
-            var response = await _transactionService.AddTransfer(transaction, leadId);
+            var transactionModel = _autoMapper.Map<TransferRequestModel>(transaction);
+            var response = await _transactionService.AddTransfer(transactionModel, leadId);
             _logger.LogInformation($"Successfully added transfer from account with ID {transaction.AccountIdFrom} to account with ID {transaction.AccountIdTo}. Transfer ID = {response}.");
             return StatusCode(201, response);
         }
@@ -73,14 +80,16 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Withdraw([FromBody] TransactionRequestModel transaction)
+        public async Task<ActionResult> Withdraw([FromBody] TransactionShortRequest transaction)
         {
             var leadIdentity = GetIdentity();
             CheckRole(leadIdentity,Role.Vip, Role.Regular);
             _logger.LogInformation($"Received withdrawal request from account with ID = {transaction.AccountId}.");
             var leadId = (int)leadIdentity.Id;
-            var response = await _transactionService.Withdraw(transaction, leadId);
+            var transactionModel = _autoMapper.Map<TransactionRequestModel>(transaction);
+            var response = await _transactionService.Withdraw(transactionModel, leadId);
             _logger.LogInformation($"Successfully passed the request for withdrawal of funds from the account with the ID {transaction.AccountId}. Withdraw ID = {response}.");
+            await _crmProducers.NotifyWhithdraw(leadId, transactionModel);
             await _crmProducers.AmmountCommissionForTransactionAdded(response);
             return StatusCode(201, response);
         }

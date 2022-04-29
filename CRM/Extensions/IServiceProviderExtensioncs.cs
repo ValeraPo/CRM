@@ -4,13 +4,12 @@ using CRM.APILayer.Producers;
 using CRM.APILayer.Validation;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Configurations;
-using CRM.BusinessLayer.Helpers;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Repositories;
 using CRM.DataLayer.Repositories.Interfaces;
 using FluentValidation.AspNetCore;
-using Marvelous.Contracts.ExchangeModels;
+using Marvelous.Contracts.Client;
 using MassTransit;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,7 +18,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
 using CRM.APILayer.Models.Response;
-//using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 
 
 namespace CRM.APILayer.Extensions
@@ -71,12 +69,8 @@ namespace CRM.APILayer.Extensions
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = false,
-                        //ValidIssuer = AuthOptions.Issuer,
                         ValidateAudience = false,
-                        //ValidAudience = AuthOptions.Audience,
                         ValidateLifetime = false,
-                        //IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                        //ValidateIssuerSigningKey = true
                     };
                 });
             services.AddAuthorization();
@@ -158,18 +152,6 @@ namespace CRM.APILayer.Extensions
                     {
                         e.PurgeOnStartup = true;
                         e.ConfigureConsumer<ConfigConsumer>(context);
-                    });
-                    cfg.Publish<LeadFullExchangeModel>(p =>
-                    {
-                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
-                    });
-                    cfg.Publish<AccountExchangeModel>(p =>
-                    {
-                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
-                    });
-                    cfg.Publish<ComissionTransactionExchangeModel>(p =>
-                    {
-                        p.BindAlternateExchangeQueue("alternate-exchange", "alternate-queue");
                     });
                 });
             });

@@ -1,7 +1,6 @@
 ﻿using CRM.BusinessLayer;
 using CRM.BusinessLayer.Exceptions;
 using FluentValidation;
-using Marvelous.Contracts.Endpoints;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ResponseModels;
 using Microsoft.AspNetCore.Mvc;

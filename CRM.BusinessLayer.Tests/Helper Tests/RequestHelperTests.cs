@@ -1,5 +1,5 @@
 ﻿using CRM.BusinessLayer.Exceptions;
-using CRM.BusinessLayer.Helpers;
+using Marvelous.Contracts.Client;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.RequestModels;
 using Marvelous.Contracts.ResponseModels;
@@ -22,11 +22,6 @@ namespace CRM.BusinessLayer.Tests
         private IConfiguration _config;
         private Mock<ILogger<RequestHelper>> _logger;
         private RequestHelper _requestHelper;
-        private static readonly List<ConfigResponseModel> ListConfigs = new()
-        {
-            new ConfigResponseModel { Key = "BaseAddress", Value = "80.78.240.4" },
-            new ConfigResponseModel { Key = "Address", Value = "::1:4589" }
-        };
 
         private const string _message = "Exceptions test";
         private const Microservice Service = Microservice.MarvelousConfigs;
@@ -41,7 +36,7 @@ namespace CRM.BusinessLayer.Tests
             _requestHelper = new RequestHelper(_logger.Object, _config, _client.Object);
         }
 
-        /// //////////////////////////////////////////////////////////////////////////////////////////////
+        #region SendTransactionPostRequestTests
         [Test]
         public async Task SendTransactionPostRequestTests_ShouldSentRequest()
         {
@@ -180,11 +175,11 @@ namespace CRM.BusinessLayer.Tests
             _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
         }
+        #endregion
 
-       
-        /////////////////////////////////////////////////////////////////////////////////////////////////
+        #region GetBalanceTests_WithList
         [Test]
-        public async Task GetBalanceTests_WithList_ShouldReturnBalance()
+        public async Task GetBalanceTest_WithList_ShouldReturnBalance()
         {
             //given
             var expected = 100.5;
@@ -320,8 +315,9 @@ namespace CRM.BusinessLayer.Tests
             _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
         }
+        #endregion
 
-        /// //////////////////////////////////////////////////////////////////////////////////////////////
+        #region GetBalanceTests
         [Test]
         public async Task GetBalanceTests_ShouldReturnBalance()
         {
@@ -459,8 +455,9 @@ namespace CRM.BusinessLayer.Tests
             _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
         }
+        #endregion
 
-        /// //////////////////////////////////////////////////////////////////////////////////////////////
+        #region ExecuteRequestTests
         [Test]
         public async Task ExecuteRequestTests_ShouldReturnResponse()
         {
@@ -599,8 +596,9 @@ namespace CRM.BusinessLayer.Tests
             _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
         }
+        #endregion
 
-        /// //////////////////////////////////////////////////////////////////////////////////////////////
+        #region GetTransactionsTests
         [Test]
         public async Task GetTransactionsTests_ShouldReturnTransactions()
         {
@@ -739,8 +737,9 @@ namespace CRM.BusinessLayer.Tests
             _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
         }
+        #endregion
 
-        /// //////////////////////////////////////////////////////////////////////////////////////////////
+        #region GetTokenTests
         [Test]
         public async Task GetTokenTests_ShouldReturnToken()
         {
@@ -916,8 +915,9 @@ namespace CRM.BusinessLayer.Tests
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, "Try get token from Auth Service for email = t**********u.");
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
         }
+        #endregion
 
-        /// //////////////////////////////////////////////////////////////////////////////////////////////
+        #region GetLeadIdentityByTokenTests
         [Test]
         public async Task GetLeadIdentityByTokenTests_ShouldReturnLeadIdentity()
         {
@@ -1059,8 +1059,9 @@ namespace CRM.BusinessLayer.Tests
             _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
         }
+        #endregion
 
-        /// //////////////////////////////////////////////////////////////////////////////////////////////
+        #region HashPasswordTests
         [Test]
         public async Task HashPasswordTests_ShouldReturnHashPassword()
         {
@@ -1200,8 +1201,9 @@ namespace CRM.BusinessLayer.Tests
             _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
         }
+        #endregion
 
-        /// //////////////////////////////////////////////////////////////////////////////////////////////
+        #region SendRequestForConfigsTests
         [Test]
         public async Task SendRequestForConfigsTests_ShouldReturnConfigs()
         {
@@ -1341,7 +1343,6 @@ namespace CRM.BusinessLayer.Tests
             _client.Verify(v => v.AddMicroservice(Microservice.MarvelousCrm), Times.Once);
             VerifyHelper.VerifyLogger(_logger, LogLevel.Error, $"Error Other Service {_message}");
         }
-
-
+        #endregion
     }
 }
