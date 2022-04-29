@@ -65,7 +65,7 @@ namespace CRM.APILayer.Controllers
             var accountId = ids.Item2;
             leadModel.Id = leadId;
             _logger.LogInformation($"Lead successfully created. Received ID = {leadId}");
-            await _crmProducers.NotifyLeadAdded(leadModel);
+            await _crmProducers.NotifyLeadAdded(leadId);
             await _crmProducers.NotifyAccountAdded(accountId);
             return StatusCode(StatusCodes.Status201Created, leadId);
         }
