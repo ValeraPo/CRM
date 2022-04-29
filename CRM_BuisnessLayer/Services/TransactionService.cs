@@ -1,5 +1,4 @@
-﻿using CRM.BusinessLayer.Helpers;
-using CRM.BusinessLayer.Models;
+﻿using CRM.BusinessLayer.Models;
 using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts.Endpoints;
 using Marvelous.Contracts.Enums;
@@ -9,6 +8,8 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace CRM.BusinessLayer.Services
 {
     public class TransactionService : ITransactionService
@@ -20,14 +21,12 @@ namespace CRM.BusinessLayer.Services
         private readonly IConfiguration _config;
         private readonly IMemoryCache _memoryCache;
 
-        public TransactionService(IAccountRepository accountRepository, IRequestHelper requestHelper, ILogger<TransactionService> logger, ILeadRepository leadRepository, IMemoryCache memoryCache)
-
-        public TransactionService(IAccountRepository accountRepository, IRequestHelper requestHelper, ILogger<TransactionService> logger, IConfiguration config)
+        public TransactionService(IAccountRepository accountRepository, IRequestHelper requestHelper, ILogger<TransactionService> logger, IConfiguration config, ILeadRepository leadRepository, IMemoryCache memoryCache)
         {
             _accountRepository = accountRepository;
             _logger = logger;
             _requestHelper = requestHelper;
-            _leadRepository= leadRepository;
+            _leadRepository = leadRepository;
             _memoryCache = memoryCache;
             _config = config;
         }
@@ -69,14 +68,19 @@ namespace CRM.BusinessLayer.Services
             return response;
         }
 
-        public async Task<ComissionTransactionExchangeModel> Withdraw(TransactionRequestModel transactionModel, int leadId)
+        public async Task<Tuple<ComissionTransactionExchangeModel, TransactionRequestModel>> WithdrawApproved(int tmpId, int leadId, int pin2FA)
         {
+            var leadentity = await _leadRepository.GetById(leadId);
+            ExceptionsHelper.ThrowIfPin2FAIsIncorrected(pin2FA, leadId, leadentity.Password);
+            var transactionModel = (TransactionRequestModel)_memoryCache.Get(tmpId);
+            ExceptionsHelper.ThrowIfEntityNotFound(tmpId, _memoryCache.Get(tmpId));
             _logger.LogInformation($"Received withdraw request from account with ID = {transactionModel.AccountId}.");
-            var comissionTransaction = new ComissionTransactionExchangeModel();
             var entity = await _accountRepository.GetById(transactionModel.AccountId);
             ExceptionsHelper.ThrowIfEntityNotFound(transactionModel.AccountId, entity);
             ExceptionsHelper.ThrowIfLeadDontHaveAcces(entity.Lead.Id, leadId);
             transactionModel.Currency = entity.CurrencyType;
+
+            var comissionTransaction = new ComissionTransactionExchangeModel();
             var ammountComission = GetAmountCommission(TransactionType.Withdraw.ToString(), transactionModel.Amount, entity.Lead.Role);
             transactionModel.Amount -= ammountComission;
             _logger.LogInformation($"Send request.");
@@ -84,9 +88,20 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Request successful.");
             comissionTransaction.IdTransaction = response;
             comissionTransaction.AmountComission = ammountComission;
-            return comissionTransaction;
+            return Tuple.Create(comissionTransaction, transactionModel);
         }
 
+        public async Task<string> Withdraw(TransactionRequestModel transactionRequestModel)
+        {
+            int keyCache = transactionRequestModel.AccountId;
+            while (null != _memoryCache.Get(keyCache))
+            {
+                keyCache++;
+            }
+            _memoryCache.Set(keyCache, transactionRequestModel);
+            var response = $"https://piter-education.ru:5050/api/transactions/withdraw/{keyCache}/approve";
+            return response;
+        }
         public async Task<string> GetTransactionsByAccountId(int id, int leadId)
         {
             _logger.LogInformation($"Popytka polucheniia transakcii accounta id = {id}.");
@@ -98,12 +113,6 @@ namespace CRM.BusinessLayer.Services
             _logger.LogInformation($"Poluchen otvet na poluchenie transakcii accounta id = {id}.");
 
             return response;
-        }
-        public async Task<bool> CheckPin2FA(int pin, int leadId)
-        {
-            var entity = await _leadRepository.GetById(leadId);
-            ExceptionsHelper.ThrowIfPin2FAIsIncorrected(pin, leadId, entity.Password);
-            return true;
         }
 
         private decimal GetAmountCommission(string typeTransaction, decimal amount, Role role)

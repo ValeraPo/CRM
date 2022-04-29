@@ -363,7 +363,7 @@ namespace CRM.ApiLayer.Tests
             await _sut.Withdraw(model);
 
             //then
-            _transactionService.Verify(m => m.Withdraw(It.IsAny<TransactionRequestModel>(), leadId), Times.Once());
+            _transactionService.Verify(m => m.WithdrawApproved(It.IsAny<int>(), leadId, It.IsAny<int>()), Times.Once());
             _requestHelper.Verify(m => m.GetLeadIdentityByToken(token), Times.Once());
             _crmProducers.Verify(m => m.NotifyWhithdraw(leadId, It.IsAny<TransactionRequestModel>()), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
@@ -422,7 +422,7 @@ namespace CRM.ApiLayer.Tests
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             _transactionService
-                .Setup(m => m.Withdraw(It.IsAny<TransactionRequestModel>(), leadId))
+                .Setup(m => m.WithdrawApproved(It.IsAny<int>(), leadId, It.IsAny<int>()))
                 .Callback(() => throw new NotFoundException(expected));
             AddContext(token);
 
@@ -433,7 +433,7 @@ namespace CRM.ApiLayer.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            _transactionService.Verify(m => m.Withdraw(It.IsAny<TransactionRequestModel>(), leadId), Times.Once());
+            _transactionService.Verify(m => m.WithdrawApproved(It.IsAny<int>(), leadId, It.IsAny<int>()), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received withdrawal request from account with ID = {accountId}.");
         }
 
@@ -450,7 +450,7 @@ namespace CRM.ApiLayer.Tests
                 .Setup(m => m.GetLeadIdentityByToken(token))
                 .ReturnsAsync(new IdentityResponseModel { Id = leadId, Role = "Regular" });
             _transactionService
-                .Setup(m => m.Withdraw(It.IsAny<TransactionRequestModel>(), leadId))
+                .Setup(m => m.WithdrawApproved(It.IsAny<int>(), leadId, It.IsAny<int>()))
                 .Callback(() => throw new AuthorizationException(expected));
             AddContext(token);
 
@@ -461,7 +461,7 @@ namespace CRM.ApiLayer.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            _transactionService.Verify(m => m.Withdraw(It.IsAny<TransactionRequestModel>(), leadId), Times.Once());
+            _transactionService.Verify(m => m.WithdrawApproved(It.IsAny<int>(), leadId, It.IsAny<int>()), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, $"Received withdrawal request from account with ID = {accountId}.");
         }
         #endregion

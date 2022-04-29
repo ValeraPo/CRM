@@ -1,5 +1,4 @@
 ﻿using CRM.BusinessLayer.Exceptions;
-using CRM.DataLayer.Entities;
 using Google.Authenticator;
 using NLog;
 
@@ -8,7 +7,7 @@ namespace CRM.BusinessLayer
     public static class ExceptionsHelper
     {
         private static Logger _logger = LogManager.GetCurrentClassLogger();
-       
+
         public static void ThrowIfEntityNotFound<T>(int id, T entity)
         {
             if (entity is null)
@@ -32,6 +31,7 @@ namespace CRM.BusinessLayer
             TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
             if (!tfa.ValidateTwoFactorPIN(password, Convert.ToString(pin)))
             {
+                _logger.Error($"Try to WithDraw. Incorrected pin 2FA.");
                 throw new IncorrectPin2FAException("Try to WithDraw. Incorrected pin 2FA.");
             }
         }

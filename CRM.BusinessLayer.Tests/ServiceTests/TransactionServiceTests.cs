@@ -39,7 +39,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             sut = new TransactionService(_accountRepository.Object,
                 _requestHelper.Object,
                 _logger.Object,
-                _configuration.Object);
+                _configuration.Object,
                 _leadRepository.Object,
                 _memoryCache.Object);
         }
@@ -270,7 +270,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 .ReturnsAsync(1);
 
             //when
-            await sut.Withdraw(transactionRequestModel, leadId);
+            await sut.WithdrawApproved(transactionRequestModel.AccountId, leadId, It.IsAny<int>());
 
             //then
             _accountRepository.Verify(m => m.GetById(accountId), Times.Once());
@@ -291,7 +291,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
             //when
             var actual = Assert
-                .ThrowsAsync<NotFoundException>(async () => await sut.Withdraw(transactionRequestModel, It.IsAny<int>()))!
+                .ThrowsAsync<NotFoundException>(async () => await sut.WithdrawApproved(transactionRequestModel.AccountId, It.IsAny<int>(), It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -318,7 +318,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
             //when
             var actual = Assert
-                .ThrowsAsync<AuthorizationException>(async () => await sut.Withdraw(transactionRequestModel, authorizathionLeadId))!
+                .ThrowsAsync<AuthorizationException>(async () => await sut.WithdrawApproved(transactionRequestModel.AccountId, authorizathionLeadId, It.IsAny<int>()))!
                 .Message;
 
             //then

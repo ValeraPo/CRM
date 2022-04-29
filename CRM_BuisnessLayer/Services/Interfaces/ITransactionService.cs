@@ -8,7 +8,7 @@ namespace CRM.BusinessLayer.Services
         Task<ComissionTransactionExchangeModel> AddDeposit(TransactionRequestModel transactionModel, int leadId);
         Task<int> AddTransfer(TransferRequestModel transactionModel, int leadId);
         Task<string> GetTransactionsByAccountId(int id, int leadId);
-        Task<bool> CheckPin2FA(int pin, int leadId);
-        Task<ComissionTransactionExchangeModel> Withdraw(TransactionRequestModel transactionModel, int leadId);
+        Task<string> Withdraw(TransactionRequestModel transactionRequestModel);
+        Task<Tuple<ComissionTransactionExchangeModel, TransactionRequestModel>> WithdrawApproved(int tmpId, int leadId, int pin2FA);
     }
 }
