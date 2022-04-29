@@ -131,7 +131,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //then
             _accountRepository.Verify(m => m.GetById(accountIdTo), Times.Once());
             _accountRepository.Verify(m => m.GetById(accountIdFrom), Times.Once());
-            _requestHelper.Verify(m => m.SendTransactionPostRequest(TransactionEndpoints.Transfer, transactionRequestModel), Times.Once());
+            _requestHelper.Verify(m => m.SendTransactionTransferRequest(TransactionEndpoints.Transfer, transactionRequestModel), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 3);
         }
 

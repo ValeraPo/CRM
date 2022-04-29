@@ -77,7 +77,7 @@ namespace CRM.ApiLayer.Tests
 
             //then
             _leadService.Verify(m => m.AddLead(It.IsAny<LeadModel>()), Times.Once());
-            _crmProducers.Verify(m => m.NotifyLeadAdded(It.IsAny<LeadModel>()), Times.Once());
+            _crmProducers.Verify(m => m.NotifyLeadAdded(It.IsAny<int>()), Times.Once());
             _crmProducers.Verify(m => m.NotifyAccountAdded(It.IsAny<int>()), Times.Once());
             VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
         }

@@ -42,6 +42,10 @@ namespace CRM.BusinessLayer.Tests
         {
             //given
             var expected = 42;
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new RestResponse { Content = expected.ToString(), StatusCode = HttpStatusCode.OK });
@@ -52,7 +56,7 @@ namespace CRM.BusinessLayer.Tests
             //then
             Assert.AreEqual(expected, actual);
             _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 3);
 
         }
 
@@ -62,6 +66,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse>(m =>  m.StatusCode == HttpStatusCode.RequestTimeout && m.ErrorMessage == _message && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -82,6 +90,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.ServiceUnavailable && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -102,6 +114,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.BadRequest && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -122,6 +138,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.Forbidden && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -142,6 +162,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse>(m => m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -162,6 +186,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = new RestResponse { Content = "something", ErrorException = new Exception(_message) };
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -183,6 +211,10 @@ namespace CRM.BusinessLayer.Tests
         {
             //given
             var expected = 100.5;
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new RestResponse { Content = expected.ToString(), StatusCode = System.Net.HttpStatusCode.OK });
@@ -193,7 +225,7 @@ namespace CRM.BusinessLayer.Tests
             //then
             Assert.AreEqual(expected, actual);
             _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 3);
         }
 
         [Test]
@@ -202,6 +234,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse>(m => m.StatusCode == HttpStatusCode.RequestTimeout && m.ErrorMessage == _message && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -222,6 +258,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.ServiceUnavailable && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -242,6 +282,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.BadRequest && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -262,6 +306,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.Forbidden && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -282,6 +330,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse>(m => m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -302,6 +354,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = new RestResponse { Content = "something", ErrorException = new Exception(_message) };
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -323,6 +379,10 @@ namespace CRM.BusinessLayer.Tests
         {
             //given
             var expected = 100.5;
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new RestResponse { Content = expected.ToString(), StatusCode = System.Net.HttpStatusCode.OK });
@@ -333,7 +393,7 @@ namespace CRM.BusinessLayer.Tests
             //then
             Assert.AreEqual(expected, actual);
             _client.Verify(v => v.ExecuteAsync(It.IsAny<RestRequest>(), default), Times.Once);
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 2);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 3);
         }
 
         [Test]
@@ -342,6 +402,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse>(m => m.StatusCode == HttpStatusCode.RequestTimeout && m.ErrorMessage == _message && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -362,6 +426,11 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.ServiceUnavailable && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
+            
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -382,6 +451,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.BadRequest && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -402,6 +475,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.Forbidden && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -422,6 +499,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse>(m => m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -442,6 +523,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = new RestResponse { Content = "something", ErrorException = new Exception(_message) };
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -603,7 +688,11 @@ namespace CRM.BusinessLayer.Tests
         public async Task GetTransactionsTests_ShouldReturnTransactions()
         {
             //given
-            var expected = "transactions";
+            var expected = "transactions"; 
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new RestResponse { Content = expected, StatusCode = System.Net.HttpStatusCode.OK });
@@ -623,6 +712,10 @@ namespace CRM.BusinessLayer.Tests
         {
             //given
             var expected = _message;
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             var response = Mock.Of<RestResponse>(m => m.StatusCode == HttpStatusCode.RequestTimeout && m.ErrorMessage == _message && m.ErrorException == new Exception(_message));
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
@@ -644,6 +737,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.ServiceUnavailable && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -664,6 +761,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.BadRequest && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -684,6 +785,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse<string>>(m => m.Data == expected && m.StatusCode == HttpStatusCode.Forbidden && m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -704,6 +809,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = Mock.Of<RestResponse>(m => m.ErrorException == new Exception(_message));
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -724,6 +833,10 @@ namespace CRM.BusinessLayer.Tests
             //given
             var expected = _message;
             var response = new RestResponse { Content = "something", ErrorException = new Exception(_message) };
+            var token = Mock.Of<RestResponse<string>>(m => m.Data == "token" && m.StatusCode == HttpStatusCode.OK);
+            _client
+               .Setup(s => s.ExecuteAsync<string>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(token);
             _client
                 .Setup(s => s.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
