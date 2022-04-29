@@ -102,6 +102,22 @@ namespace CRM.APILayer.Producers
             _logger.LogInformation("Message published");
         }
 
+        public async Task AmmountCommissionForTransactionAdded(ComissionTransactionExchangeModel comissiontransaction)
+        {
+
+            var source = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            _logger.LogInformation("Try publish comissionTransactionModel");
+
+            await _bus.Publish<ComissionTransactionExchangeModel>(new
+            {
+                comissiontransaction.IdTransaction,
+                comissiontransaction.AmountComission
+
+            },
+            source.Token);
+            _logger.LogInformation("Access publish comissionTransactionModel");
+        }
+
     }
 }
 

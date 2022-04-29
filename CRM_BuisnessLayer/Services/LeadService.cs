@@ -5,6 +5,7 @@ using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Extensions;
 using CRM.DataLayer.Repositories.Interfaces;
+using Google.Authenticator;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.ExchangeModels;
 using Marvelous.Contracts.RequestModels;
@@ -54,7 +55,7 @@ namespace CRM.BusinessLayer.Services
                 CurrencyType = Currency.RUB,
                 Lead = mappedLead
             });
-            
+
             return (id, accountId);
         }
 
@@ -152,11 +153,20 @@ namespace CRM.BusinessLayer.Services
             string hashPassword = await _requestHelper.HashPassword(newPassword);
             await _leadRepository.ChangePassword(entity.Id, hashPassword);
         }
-        
+
         public async Task ChangeRoleListLead(LeadShortExchangeModel[] models)
         {
             _logger.LogInformation($"Received a request to change the role of a leads with.");
             await _leadRepository.ChangeRoleListLead(models.ToList());
+        }
+
+        public async Task<Data2FAModel> GetData2FA(LeadModel lead)
+        {
+            TwoFactorAuthenticator tfA = new TwoFactorAuthenticator();
+            var setupCode = tfA.GenerateSetupCode(Convert.ToString(lead.Id), Convert.ToString(lead.Id), lead.Password, false, 3);
+            Data2FAModel data2FA = new Data2FAModel { LeadId = setupCode.Account, EncodedKey = setupCode.ManualEntryKey };
+            
+            return data2FA;
         }
 
     }

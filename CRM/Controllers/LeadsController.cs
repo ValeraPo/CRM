@@ -67,7 +67,8 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Lead successfully created. Received ID = {leadId}");
             await _crmProducers.NotifyLeadAdded(leadId);
             await _crmProducers.NotifyAccountAdded(accountId);
-            return StatusCode(StatusCodes.Status201Created, leadId);
+            var data2FA =_leadService.GetData2FA( await _leadService.GetById(leadId));
+            return StatusCode(StatusCodes.Status201Created, $"{leadId}, Data to 2FA: {data2FA}");
         }
 
         //api/Leads/42
@@ -87,7 +88,7 @@ namespace CRM.APILayer.Controllers
             leadModel.Id = id;
             await _leadService.UpdateLead(id, leadModel);
             _logger.LogInformation($"Lead successfully updated with ID = {id}.");
-            await _crmProducers.NotifyLeadAdded(id);
+            await _crmProducers.NotifyLeadAdded(leadModel);
             return Ok($"Lead successfully updated with ID = {id}.");
         }
 
@@ -205,7 +206,8 @@ namespace CRM.APILayer.Controllers
             await _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
             _logger.LogInformation($"Successfully changed the password of the lead with ID = {id}.");
             await _crmProducers.NotifyLeadAdded(id);
-            return Ok();
+            Data2FAModel data2FA = await _leadService.GetData2FA(await _leadService.GetById(id));
+            return Ok($"Data to 2FA: {data2FA.LeadId}, {data2FA.EncodedKey}");
         }
 
     }

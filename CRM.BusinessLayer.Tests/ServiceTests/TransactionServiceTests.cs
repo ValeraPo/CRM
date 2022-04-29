@@ -1,9 +1,12 @@
-﻿using CRM.BusinessLayer.Exceptions;
+﻿
+using CRM.BusinessLayer.Exceptions;
 using CRM.BusinessLayer.Services;
 using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts.Endpoints;
 using Marvelous.Contracts.RequestModels;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -17,6 +20,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         private Mock<ILogger<TransactionService>> _logger;
         private Mock<IAccountRepository> _accountRepository;
         private readonly Mock<IRequestHelper> _requestHelper;
+        private Mock<IConfiguration> _configuration;
+        private readonly Mock<ILeadRepository> _leadRepository;
+        private readonly Mock<IMemoryCache> _memoryCache;
         private TransactionService sut;
 
         public TransactionServiceTests()
@@ -29,9 +35,13 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         {
             _accountRepository = new Mock<IAccountRepository>();
             _logger = new Mock<ILogger<TransactionService>>();
+            _configuration = new Mock<IConfiguration>();
             sut = new TransactionService(_accountRepository.Object,
                 _requestHelper.Object,
-                _logger.Object);
+                _logger.Object,
+                _configuration.Object,
+                _leadRepository.Object,
+                _memoryCache.Object);
         }
 
         [Test]
@@ -55,7 +65,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             //then
             _accountRepository.Verify(m => m.GetById(accountId), Times.Once());
             _requestHelper.Verify(m => m.SendTransactionPostRequest(TransactionEndpoints.Deposit, transactionRequestModel), Times.Once());
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 3);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 4);
         }
 
         [Test]
@@ -260,12 +270,12 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
                 .ReturnsAsync(1);
 
             //when
-            await sut.Withdraw(transactionRequestModel, leadId);
+            await sut.WithdrawApproved(transactionRequestModel.AccountId, leadId, It.IsAny<int>());
 
             //then
             _accountRepository.Verify(m => m.GetById(accountId), Times.Once());
             _requestHelper.Verify(m => m.SendTransactionPostRequest(TransactionEndpoints.Withdraw, transactionRequestModel), Times.Once());
-            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 3);
+            VerifyHelper.VerifyLogger(_logger, LogLevel.Information, 4);
         }
 
         [Test]
@@ -281,7 +291,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
             //when
             var actual = Assert
-                .ThrowsAsync<NotFoundException>(async () => await sut.Withdraw(transactionRequestModel, It.IsAny<int>()))!
+                .ThrowsAsync<NotFoundException>(async () => await sut.WithdrawApproved(transactionRequestModel.AccountId, It.IsAny<int>(), It.IsAny<int>()))!
                 .Message;
 
             //then
@@ -308,7 +318,7 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
 
             //when
             var actual = Assert
-                .ThrowsAsync<AuthorizationException>(async () => await sut.Withdraw(transactionRequestModel, authorizathionLeadId))!
+                .ThrowsAsync<AuthorizationException>(async () => await sut.WithdrawApproved(transactionRequestModel.AccountId, authorizathionLeadId, It.IsAny<int>()))!
                 .Message;
 
             //then

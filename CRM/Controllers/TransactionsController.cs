@@ -50,7 +50,7 @@ namespace CRM.APILayer.Controllers
             var transactionModel = _autoMapper.Map<TransactionRequestModel>(transaction);
             var response = await _transactionService.AddDeposit(transactionModel, leadId);
             _logger.LogInformation($"Successfully added deposit to account with ID = {transaction.AccountId}. Deposit ID = {response}.");
-
+            await _crmProducers.AmmountCommissionForTransactionAdded(response);
             return StatusCode(201, response);
         }
 
@@ -85,12 +85,29 @@ namespace CRM.APILayer.Controllers
             var leadIdentity = GetIdentity();
             CheckRole(leadIdentity,Role.Vip, Role.Regular);
             _logger.LogInformation($"Received withdrawal request from account with ID = {transaction.AccountId}.");
-            var leadId = (int)leadIdentity.Id;
             var transactionModel = _autoMapper.Map<TransactionRequestModel>(transaction);
-            var response = await _transactionService.Withdraw(transactionModel, leadId);
-            _logger.LogInformation($"Successfully passed the request for withdrawal of funds from the account with the ID {transaction.AccountId}. Withdraw ID = {response}.");
-            await _crmProducers.NotifyWhithdraw(leadId, transactionModel);
-            return StatusCode(201, response);
+            var response = _transactionService.Withdraw(transactionModel);
+            _logger.LogInformation($"Withdraw accepted to account ID = {transaction.AccountId}. Redirect to WithdrawApprove {response.Result}");
+            return StatusCode(201, $"Redirect to Post {response.Result} AccessTime 10 minutes");
+            
+        }
+
+        // api/transactions/withdraw/{tmpId}/approve
+        [HttpPost("withdraw/{tmpId}/approve")]
+        [SwaggerOperation("Withdraw Roles: Vip, Regular")]
+        [SwaggerResponse(201, "Withdraw Approved successful")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> WithdrawApprove(int tmpId,[FromBody] int pin2FA)
+        {
+            var leadIdentity= GetIdentity();
+            var leadId = (int)leadIdentity.Id;
+            CheckRole(leadIdentity, Role.Vip, Role.Regular);
+            var response = await _transactionService.WithdrawApproved(tmpId, leadId, pin2FA);
+            _logger.LogInformation($"Successfully passed the request for withdrawal of funds from the ID transaction = {response.Item1.IdTransaction}.");
+            await _crmProducers.AmmountCommissionForTransactionAdded(response.Item1);
+            await _crmProducers.NotifyWhithdraw(leadId, response.Item2);
+            return StatusCode(201, $"Id transaction {response.Item1.IdTransaction}, commission for her {response.Item1.AmountComission}");
         }
 
         //api/transactions/42

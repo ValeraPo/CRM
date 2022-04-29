@@ -38,6 +38,7 @@ builder.Services.RegisterCRMServices();
 builder.Services.RegisterCRMAutomappers();
 builder.Services.RegisterLogger(config);
 builder.Services.AddMassTransit();
+builder.Services.AddMemoryCache();
 builder.Services.AddFluentValidation();
 
 var app = builder.Build();
