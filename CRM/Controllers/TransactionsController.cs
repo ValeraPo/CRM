@@ -85,32 +85,25 @@ namespace CRM.APILayer.Controllers
             var leadIdentity = GetIdentity();
             CheckRole(leadIdentity,Role.Vip, Role.Regular);
             _logger.LogInformation($"Received withdrawal request from account with ID = {transaction.AccountId}.");
-            var leadId = (int)leadIdentity.Id;
             var transactionModel = _autoMapper.Map<TransactionRequestModel>(transaction);
-            var response = await _transactionService.Withdraw(transactionModel, leadId);
-            _logger.LogInformation($"Successfully passed the request for withdrawal of funds from the account with the ID {transaction.AccountId}. Withdraw ID = {response}.");
-            await _crmProducers.NotifyWhithdraw(leadId, transactionModel);
-            return StatusCode(201, response);
-            await CheckRole(Role.Vip, Role.Regular);
-            //_logger.LogInformation($"Received withdrawal request from account with ID = {transaction.AccountId}.");
-            //var leadId = (int)(await GetIdentity()).Id;
-            //var response = await _transactionService.Withdraw(transaction, leadId);
-            //_logger.LogInformation($"Successfully passed the request for withdrawal of funds from the account with the ID {transaction.AccountId}. Withdraw ID = {response.Content}.");
-            return RedirectToAction("WithdrawApprove");
-            //return StatusCode(201, response.Content);
+            var tmpId= _transactionService.SetChacheTransactionModel(transactionModel);
+
+            return StatusCode(201, $"Redirect to Post https://localhost:7294/api/transactions/withdrapprove/{transactionModel.AccountId}/{transactionModel.Amount}/{transactionModel.Currency}");
         }
 
         // api/transactions/withdraw/
-        [HttpPost("/transactions/approve")]
+        [HttpPost("withdraw/tmpId/approve")]
         [SwaggerOperation("Withdraw Roles: Vip, Regular")]
         [SwaggerResponse(201, "Withdraw successful")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> WithdrawApprove([FromBody] TransactionRequestModel transaction)
-        {
-            
-
-            return StatusCode(201);
+        public async Task<ActionResult> WithdrawApprove(int tmpId,[FromBody] int pin2FA)
+        {   
+            var leadId = (int)GetIdentity().Id;
+            var pinApporove = await _transactionService.CheckPin2FA(pin2FA, leadId);
+            //_logger.LogInformation($"Successfully passed the request for withdrawal of funds from the account with the ID {accountId}. Withdraw ID = {response}.");
+            //await _crmProducers.NotifyWhithdraw(leadId, transactionModel);
+            //return StatusCode(201,response);
         }
 
         //api/transactions/42

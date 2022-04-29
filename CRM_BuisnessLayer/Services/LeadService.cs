@@ -165,8 +165,8 @@ namespace CRM.BusinessLayer.Services
             TwoFactorAuthenticator tfA = new TwoFactorAuthenticator();
             var setupCode = tfA.GenerateSetupCode(Convert.ToString(lead.Id), Convert.ToString(lead.Id), lead.Password, false, 3);
             Data2FAModel data2FA = new Data2FAModel { LeadId = setupCode.Account, EncodedKey = setupCode.ManualEntryKey };
+            
             return data2FA;
-
         }
 
     }

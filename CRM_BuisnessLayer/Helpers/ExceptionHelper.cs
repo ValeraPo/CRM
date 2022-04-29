@@ -1,6 +1,6 @@
 ﻿using CRM.BusinessLayer.Exceptions;
-using CRM.BusinessLayer.Security;
 using CRM.DataLayer.Entities;
+using Google.Authenticator;
 using NLog;
 
 namespace CRM.BusinessLayer
@@ -30,7 +30,7 @@ namespace CRM.BusinessLayer
         public static void ThrowIfPin2FAIsIncorrected(int pin, int leadId, string password)
         {
             TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
-            if (tfa.ValidateTwoFactorPIN(Convert.ToString(leadId), password))
+            if (!tfa.ValidateTwoFactorPIN(password, Convert.ToString(pin)))
             {
                 throw new IncorrectPin2FAException("Try to WithDraw. Incorrected pin 2FA.");
             }

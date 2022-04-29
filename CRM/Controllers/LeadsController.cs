@@ -206,8 +206,8 @@ namespace CRM.APILayer.Controllers
             await _leadService.ChangePassword(id, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
             _logger.LogInformation($"Successfully changed the password of the lead with ID = {id}.");
             await _crmProducers.NotifyLeadAdded(id);
-            var data2FA = _leadService.GetData2FA(await _leadService.GetById(id));
-            return Ok($"Data to 2FA: {data2FA}");
+            Data2FAModel data2FA = await _leadService.GetData2FA(await _leadService.GetById(id));
+            return Ok($"Data to 2FA: {data2FA.LeadId}, {data2FA.EncodedKey}");
         }
 
     }

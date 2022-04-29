@@ -4,6 +4,7 @@ using CRM.DataLayer.Entities;
 using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts.Endpoints;
 using Marvelous.Contracts.RequestModels;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -18,6 +19,10 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
         private Mock<ILogger<TransactionService>> _logger;
         private Mock<IAccountRepository> _accountRepository;
         private readonly Mock<IRequestHelper> _requestHelper;
+        private readonly Mock<ILeadRepository> _leadRepository;
+        private readonly Mock<IMemoryCache> _memoryCache;
+
+
         private TransactionService sut;
 
         public TransactionServiceTests()
@@ -32,7 +37,9 @@ namespace CRM.BusinessLayer.Tests.ServiceTests
             _logger = new Mock<ILogger<TransactionService>>();
             sut = new TransactionService(_accountRepository.Object,
                 _requestHelper.Object,
-                _logger.Object);
+                _logger.Object,
+                _leadRepository.Object,
+                _memoryCache.Object);
         }
 
         [Test]

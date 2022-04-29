@@ -1,8 +1,11 @@
-﻿using CRM.BusinessLayer.Models;
+﻿using CRM.BusinessLayer.Helpers;
+using CRM.BusinessLayer.Models;
 using CRM.DataLayer.Repositories.Interfaces;
 using Marvelous.Contracts.Endpoints;
 using Marvelous.Contracts.RequestModels;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace CRM.BusinessLayer.Services
 {
@@ -12,12 +15,15 @@ namespace CRM.BusinessLayer.Services
         private readonly IRequestHelper _requestHelper;
         private readonly ILogger<TransactionService> _logger;
         private readonly ILeadRepository _leadRepository;
+        private readonly IMemoryCache _memoryCache;
 
-        public TransactionService(IAccountRepository accountRepository, IRequestHelper requestHelper, ILogger<TransactionService> logger)
+        public TransactionService(IAccountRepository accountRepository, IRequestHelper requestHelper, ILogger<TransactionService> logger, ILeadRepository leadRepository, IMemoryCache memoryCache)
         {
             _accountRepository = accountRepository;
             _logger = logger;
             _requestHelper = requestHelper;
+            _leadRepository= leadRepository;
+            _memoryCache = memoryCache;
         }
 
         public async Task<int> AddDeposit(TransactionRequestModel transactionModel, int leadId)
@@ -85,5 +91,19 @@ namespace CRM.BusinessLayer.Services
             ExceptionsHelper.ThrowIfPin2FAIsIncorrected(pin, leadId, entity.Password);
             return true;
         }
-    }
+
+        public async Task<int> SetChacheTransactionModel(TransactionRequestModel transactionModel)
+        {
+            int key =transactionModel.AccountId+Convert.ToInt32(DateTime.Now.ToString());
+            _memoryCache.Set(key, transactionModel, new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+            });
+            return key;
+        }
+
+        public async Task<TransactionRequestModel> GetChacheTransactionModel(int tmpId)
+        {
+            return (TransactionRequestModel)_memoryCache.Get(tmpId);
+        }
 }
