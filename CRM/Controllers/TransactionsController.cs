@@ -107,7 +107,7 @@ namespace CRM.APILayer.Controllers
             _logger.LogInformation($"Successfully passed the request for withdrawal of funds from the ID transaction = {response.Item1.IdTransaction}.");
             await _crmProducers.AmmountCommissionForTransactionAdded(response.Item1);
             await _crmProducers.NotifyWhithdraw(leadId, response.Item2);
-            return StatusCode(201, response);
+            return StatusCode(201, $"Id transaction {response.Item1.IdTransaction}, commission for her {response.Item1.AmountComission}");
         }
 
         //api/transactions/42
