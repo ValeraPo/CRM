@@ -32,15 +32,27 @@ namespace CRM.BusinessLayer
         public async Task<int> SendTransactionPostRequest<T>(string path, T requestModel)
         {
             _logger.LogInformation("Try send request to TransactionService and added new transaction.");
+            _client.Authenticator = new JwtAuthenticator(await GetTokenForMicroservice());
             var request = new RestRequest($"{_config[Microservice.MarvelousTransactionStore.ToString() + "Url"]}{TransactionEndpoints.ApiTransactions}{path}", Method.Post);
             request.AddBody(requestModel!);
             var response = Convert.ToInt32((await ExecuteRequest(request)).Content);
             return response;
         }
 
+        public async Task<string> SendTransactionTransferRequest<T>(string path, T requestModel)
+        {
+            _logger.LogInformation("Try send request to TransactionService and added new transaction.");
+            _client.Authenticator = new JwtAuthenticator(await GetTokenForMicroservice());
+            var request = new RestRequest($"{_config[Microservice.MarvelousTransactionStore.ToString() + "Url"]}{TransactionEndpoints.ApiTransactions}{path}", Method.Post);
+            request.AddBody(requestModel!);
+            var response = (await ExecuteRequest(request)).Content;
+            return response;
+        }
+
         public async Task<decimal> GetBalance(List<int> accountIds, Currency currency)
         {
             _logger.LogInformation($"Try get balance from Transaction Service for account ids = {string.Join(", ", accountIds.ToArray())}.");
+            _client.Authenticator = new JwtAuthenticator(await GetTokenForMicroservice());
             var request = new RestRequest($"{_config[Microservice.MarvelousTransactionStore.ToString()+"Url"]}{TransactionEndpoints.ApiBalance}", Method.Get);
             foreach (var id in accountIds)
             {
@@ -65,8 +77,9 @@ namespace CRM.BusinessLayer
         public async Task<string> GetTransactions(int id)
         {
             _logger.LogInformation($"Try get transactions by acount id = {id} from Transaction Service.");
+            _client.Authenticator = new JwtAuthenticator(await GetTokenForMicroservice());
             var request = new RestRequest($"{_config[Microservice.MarvelousTransactionStore.ToString() + "Url"]}{TransactionEndpoints.ApiTransactions}by-accountIds", Method.Get);
-            request.AddParameter("accountIds", id);
+            request.AddParameter("ids", id);
             return (await ExecuteRequest(request)).Content;
         }
 
@@ -109,6 +122,15 @@ namespace CRM.BusinessLayer
             CheckTransactionError(response);
 
             return response;
+        }
+
+        private async Task<string> GetTokenForMicroservice()
+        {
+            _logger.LogInformation($"Try get token.");
+            var request = new RestRequest($"{_config[Microservice.MarvelousAuth.ToString()]}{AuthEndpoints.ApiAuth}{AuthEndpoints.TokenForMicroservice}", Method.Get);
+            var response = await _client.ExecuteAsync<string>(request);
+            CheckTransactionError(response);
+            return response.Data;
         }
 
 

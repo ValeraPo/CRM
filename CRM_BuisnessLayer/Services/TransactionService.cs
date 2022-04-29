@@ -50,7 +50,7 @@ namespace CRM.BusinessLayer.Services
             return comissionTransaction;
         }
 
-        public async Task<int> AddTransfer(TransferRequestModel transactionModel, int leadId)
+        public async Task<string> AddTransfer(TransferRequestModel transactionModel, int leadId)
         {
             _logger.LogInformation($"Transfer request received from account with ID {transactionModel.AccountIdFrom} to account with ID {transactionModel.AccountIdTo}.");
             var accountFrom = await _accountRepository.GetById(transactionModel.AccountIdFrom);
@@ -62,7 +62,7 @@ namespace CRM.BusinessLayer.Services
             transactionModel.CurrencyTo = accountTo.CurrencyType;
             transactionModel.CurrencyFrom = accountFrom.CurrencyType;
             _logger.LogInformation($"Send request.");
-            var response = await _requestHelper.SendTransactionPostRequest(TransactionEndpoints.Transfer, transactionModel);
+            var response = await _requestHelper.SendTransactionTransferRequest(TransactionEndpoints.Transfer, transactionModel);
             _logger.LogInformation($"Request successful.");
 
             return response;

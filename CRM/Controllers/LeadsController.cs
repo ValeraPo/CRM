@@ -65,7 +65,7 @@ namespace CRM.APILayer.Controllers
             var accountId = ids.Item2;
             leadModel.Id = leadId;
             _logger.LogInformation($"Lead successfully created. Received ID = {leadId}");
-            await _crmProducers.NotifyLeadAdded(leadModel);
+            await _crmProducers.NotifyLeadAdded(leadId);
             await _crmProducers.NotifyAccountAdded(accountId);
             var data2FA =_leadService.GetData2FA( await _leadService.GetById(leadId));
             return StatusCode(StatusCodes.Status201Created, $"{leadId}, Data to 2FA: {data2FA}");
@@ -159,7 +159,7 @@ namespace CRM.APILayer.Controllers
         [HttpGet(CrmEndpoints.Auth)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(List<LeadAuthExchangeModel>), StatusCodes.Status200OK)]
-        [SwaggerOperation("Get all lead. Roles: all")]
+        [SwaggerOperation("Get all lead for auth. Roles: Admin")]
         public async Task<ActionResult<List<LeadAuthExchangeModel>>> GetAllToAuth()
         {
             var leadIdentity = GetIdentity();
