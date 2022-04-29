@@ -4,14 +4,12 @@ using CRM.APILayer.Producers;
 using CRM.APILayer.Validation;
 using CRM.BusinessLayer;
 using CRM.BusinessLayer.Configurations;
-using CRM.BusinessLayer.Helpers;
 using CRM.BusinessLayer.Services;
 using CRM.BusinessLayer.Services.Interfaces;
 using CRM.DataLayer.Repositories;
 using CRM.DataLayer.Repositories.Interfaces;
 using FluentValidation.AspNetCore;
-using Marvelous.Contracts.EmailMessageModels;
-using Marvelous.Contracts.ExchangeModels;
+using Marvelous.Contracts.Client;
 using MassTransit;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,7 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
-//using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+using CRM.APILayer.Models.Response;
 
 
 namespace CRM.APILayer.Extensions

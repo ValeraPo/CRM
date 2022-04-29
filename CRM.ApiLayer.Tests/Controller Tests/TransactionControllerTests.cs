@@ -30,6 +30,7 @@ namespace CRM.ApiLayer.Tests
             _autoMapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperFromApi>()));
         }
 
+
         [SetUp]
         public void Setup()
         {

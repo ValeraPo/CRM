@@ -1,7 +1,7 @@
 ﻿using CRM.BusinessLayer.Exceptions;
-using CRM.BusinessLayer.Helpers;
 using CRM.DataLayer.Extensions;
 using Marvelous.Contracts.Autentificator;
+using Marvelous.Contracts.Client;
 using Marvelous.Contracts.Endpoints;
 using Marvelous.Contracts.Enums;
 using Marvelous.Contracts.RequestModels;
@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RestSharp;
 using RestSharp.Authenticators;
-using System.Linq;
 
 namespace CRM.BusinessLayer
 {
