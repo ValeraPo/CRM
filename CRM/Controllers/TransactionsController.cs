@@ -50,7 +50,7 @@ namespace CRM.APILayer.Controllers
             var transactionModel = _autoMapper.Map<TransactionRequestModel>(transaction);
             var response = await _transactionService.AddDeposit(transactionModel, leadId);
             _logger.LogInformation($"Successfully added deposit to account with ID = {transaction.AccountId}. Deposit ID = {response}.");
-
+            await _crmProducers.AmmountCommissionForTransactionAdded(response);
             return StatusCode(201, response);
         }
 
@@ -90,6 +90,7 @@ namespace CRM.APILayer.Controllers
             var response = await _transactionService.Withdraw(transactionModel, leadId);
             _logger.LogInformation($"Successfully passed the request for withdrawal of funds from the account with the ID {transaction.AccountId}. Withdraw ID = {response}.");
             await _crmProducers.NotifyWhithdraw(leadId, transactionModel);
+            await _crmProducers.AmmountCommissionForTransactionAdded(response);
             return StatusCode(201, response);
         }
 

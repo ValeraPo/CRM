@@ -87,7 +87,7 @@ namespace CRM.APILayer.Controllers
             leadModel.Id = id;
             await _leadService.UpdateLead(id, leadModel);
             _logger.LogInformation($"Lead successfully updated with ID = {id}.");
-            await _crmProducers.NotifyLeadAdded(id);
+            await _crmProducers.NotifyLeadAdded(leadModel);
             return Ok($"Lead successfully updated with ID = {id}.");
         }
 
