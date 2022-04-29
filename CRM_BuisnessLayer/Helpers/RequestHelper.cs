@@ -39,6 +39,16 @@ namespace CRM.BusinessLayer
             return response;
         }
 
+        public async Task<string> SendTransactionTransferRequest<T>(string path, T requestModel)
+        {
+            _logger.LogInformation("Try send request to TransactionService and added new transaction.");
+            _client.Authenticator = new JwtAuthenticator(await GetTokenForMicroservice());
+            var request = new RestRequest($"{_config[Microservice.MarvelousTransactionStore.ToString() + "Url"]}{TransactionEndpoints.ApiTransactions}{path}", Method.Post);
+            request.AddBody(requestModel!);
+            var response = (await ExecuteRequest(request)).Content;
+            return response;
+        }
+
         public async Task<decimal> GetBalance(List<int> accountIds, Currency currency)
         {
             _logger.LogInformation($"Try get balance from Transaction Service for account ids = {string.Join(", ", accountIds.ToArray())}.");
@@ -69,7 +79,7 @@ namespace CRM.BusinessLayer
             _logger.LogInformation($"Try get transactions by acount id = {id} from Transaction Service.");
             _client.Authenticator = new JwtAuthenticator(await GetTokenForMicroservice());
             var request = new RestRequest($"{_config[Microservice.MarvelousTransactionStore.ToString() + "Url"]}{TransactionEndpoints.ApiTransactions}by-accountIds", Method.Get);
-            request.AddParameter("accountIds", id);
+            request.AddParameter("ids", id);
             return (await ExecuteRequest(request)).Content;
         }
 

@@ -158,7 +158,7 @@ namespace CRM.APILayer.Controllers
         [HttpGet(CrmEndpoints.Auth)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(List<LeadAuthExchangeModel>), StatusCodes.Status200OK)]
-        [SwaggerOperation("Get all lead. Roles: all")]
+        [SwaggerOperation("Get all lead for auth. Roles: Admin")]
         public async Task<ActionResult<List<LeadAuthExchangeModel>>> GetAllToAuth()
         {
             var leadIdentity = GetIdentity();
