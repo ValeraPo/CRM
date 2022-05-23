@@ -20,6 +20,8 @@ namespace CRM.APILayer.Extensions
             _logger = logger;
         }
 
+        // Checking role
+        // If role is not in the params, will throw exception
         protected void CheckRole(IdentityResponseModel identity, params Role[] roles)
         {
             if (identity.Role == null)
@@ -36,6 +38,8 @@ namespace CRM.APILayer.Extensions
             }
         }
 
+        // Checking service
+        // If service is not in the params, will return false
         protected bool CheckMicroservice(IdentityResponseModel identity, params Microservice[] microservices)
         {
             if (!microservices.Select(r => r.ToString()).Contains(identity.IssuerMicroservice))
@@ -43,6 +47,7 @@ namespace CRM.APILayer.Extensions
             return true;
         }
 
+        //Getting info from token
         protected IdentityResponseModel GetIdentity()
         {
             var token = HttpContext.Request.Headers.Authorization.FirstOrDefault();
@@ -52,10 +57,13 @@ namespace CRM.APILayer.Extensions
                 _logger.LogError(ex.Message);
                 throw ex;
             }
-            var identity = _requestHelper.GetLeadIdentityByToken(token).Result;
+            // Senting request to authorization service
+            var identity = _requestHelper.GetLeadIdentityByToken(token).Result; // IdentityResponseModel
             return identity;
         }
 
+        // Validating model
+        // If data is null or wrong, will throw exception
         protected void Validate<T>(T requestModel, IValidator<T> validator)
         {
             if (requestModel == null)

@@ -7,6 +7,7 @@ namespace CRM.BusinessLayer
     {
         private static Logger _logger = LogManager.GetCurrentClassLogger();
        
+        // Checking if entity is null
         public static void ThrowIfEntityNotFound<T>(int id, T entity)
         {
             if (entity is null)
@@ -16,6 +17,7 @@ namespace CRM.BusinessLayer
             }
         }
 
+        // Checking if lead id is not id from token
         public static void ThrowIfLeadDontHaveAcces(int leadId, int authorizathionLeadId)
         {
             if (leadId != authorizathionLeadId)

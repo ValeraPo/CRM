@@ -8,6 +8,7 @@ using MassTransit;
 
 namespace CRM.APILayer.Producers
 {
+    // with the help of the RabbitMQ we notify other services
     public class CRMProducer : ICRMProducers
     {
         private readonly ILeadService _leadService;
@@ -24,6 +25,7 @@ namespace CRM.APILayer.Producers
             _bus = bus;
         }
 
+        //When lead added
         public async Task NotifyLeadAdded(int id)
         {
             var lead = await _leadService.GetById(id);
@@ -54,6 +56,7 @@ namespace CRM.APILayer.Producers
             _logger.LogInformation("Lead published");
         }
 
+        // When account added
         public async Task NotifyAccountAdded(int id)
         {
             var account = await _accountService.GetById(id);
@@ -81,6 +84,7 @@ namespace CRM.APILayer.Producers
             _logger.LogInformation("Account published");
         }
 
+        // When withdrawed
         public async Task NotifyWhithdraw(int leadId, TransactionRequestModel transaction)
         {
 

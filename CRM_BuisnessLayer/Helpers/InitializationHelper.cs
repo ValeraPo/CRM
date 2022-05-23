@@ -15,6 +15,7 @@ namespace CRM.BusinessLayer
             _configuration = configuration;
         }
 
+        // Getting configs from cofige service
         public async Task InitializeConfigs()
         {
             var token = await _requestHelper.SendRequestForConfigs<string>(

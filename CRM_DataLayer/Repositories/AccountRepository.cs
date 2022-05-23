@@ -25,6 +25,7 @@ namespace CRM.DataLayer.Repositories
         public async Task<int> AddAccount(Account account)
         {
             _logger.LogInformation("Try to connection DB.");
+            // Connecting with data base
             using IDbConnection connection = ProvideConnection();
             _logger.LogInformation("DB connection established successfully.");
 

@@ -5,6 +5,7 @@ using Marvelous.Contracts.RequestModels;
 
 namespace CRM.APILayer.Configuration
 {
+    // Mapping Request/Response Models and Model from BLL
     public class AutoMapperFromApi : Profile
     {
         public AutoMapperFromApi()

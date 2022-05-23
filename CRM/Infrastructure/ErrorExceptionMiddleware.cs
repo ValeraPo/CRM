@@ -7,6 +7,7 @@ using FluentValidation;
 
 namespace CRM.APILayer.Infrastructure
 {
+    // Global error handling
     public class ErrorExceptionMiddleware
     {
 
@@ -73,6 +74,7 @@ namespace CRM.APILayer.Infrastructure
             }
         }
 
+        // If we catch error, program will not stop working
         private async Task ConstructResponse(HttpContext context, HttpStatusCode code, string message)
         {
             context.Response.ContentType = "application/json";

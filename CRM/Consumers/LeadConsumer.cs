@@ -4,6 +4,7 @@ using MassTransit;
 
 namespace CRM.APILayer.Consumers
 {
+    // When lead's roles are changed, we change them here
     public class LeadConsumer : IConsumer<LeadShortExchangeModel[]>
     {
         private readonly ILogger<LeadConsumer> _logger;

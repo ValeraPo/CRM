@@ -27,6 +27,7 @@ namespace CRM.APILayer.Controllers
         [SwaggerOperation("Authentication")]
         public async Task<ActionResult<string>> Login([FromBody] AuthRequestModel auth)
         {
+            // We get token from authorization service by RestSharp
             _logger.LogInformation($"Lead with email {auth.Email.Encryptor()} tries to log in.");
             var token = await _requestHelper.GetToken(auth);
             _logger.LogInformation($"Lead with email {auth.Email.Encryptor()} successfully logged in.");

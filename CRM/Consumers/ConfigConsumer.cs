@@ -3,6 +3,7 @@ using MassTransit;
 
 namespace CRM.APILayer.Consumers
 {
+    // When configs are changed, we change them here
     public class ConfigConsumer : IConsumer<CrmCfg>
     {
         private readonly IConfiguration _config;

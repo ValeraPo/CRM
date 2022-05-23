@@ -23,12 +23,14 @@ namespace CRM.APILayer.Extensions
 {
     public static class IServiceProviderExtensioncs
     {
+        // Registration repositories
         public static void RegisterCRMRepositories(this IServiceCollection services)
         {
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ILeadRepository, LeadRepository>();
         }
 
+        // Registration services
         public static void RegisterCRMServices(this IServiceCollection services)
         {
             services.AddScoped<ILeadService, LeadService>();
@@ -41,27 +43,31 @@ namespace CRM.APILayer.Extensions
 
         }
 
+        // Validation
         public static void AddFluentValidation(this IServiceCollection services)
         {
-            //Добавление FluentValidation
+            //Adding FluentValidation
             services.AddFluentValidation(fv =>
             {
-                //Регистрация валидаторов по сборке с временем жизни = Singleton
+                //Register validators  Singleton
                 fv.RegisterValidatorsFromAssemblyContaining<LeadInsertRequestValidator>(lifetime: ServiceLifetime.Singleton);
-                //Отключение валидации с помощью DataAnnotations
+                //Turning off validation with DataAnnotations
                 fv.DisableDataAnnotationsValidation = true;
             });
-            //Отключение стандартного валидатора
+            //Turning off normal validation
             services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
         }
 
+        //Registration automappers
         public static void RegisterCRMAutomappers(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(AutoMapperFromApi), typeof(AutoMapperToData));
         }
 
+        // Adding authorization
         public static void AddCustomAuth(this IServiceCollection services)
         {
+            // Turn off validate token, because we chek in in authorisation service
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -75,6 +81,7 @@ namespace CRM.APILayer.Extensions
             services.AddAuthorization();
         }
 
+        // Settings swagger
         public static void RegisterSwaggerGen(this IServiceCollection services)
         {
             services.AddSwaggerGen(config =>
@@ -119,6 +126,7 @@ namespace CRM.APILayer.Extensions
 
         }
 
+        // Adding logger
         public static void RegisterLogger(this IServiceCollection service, IConfiguration config)
         {
             service.Configure<ConsoleLifetimeOptions>(opts => opts.SuppressStatusMessages = true);
@@ -130,6 +138,7 @@ namespace CRM.APILayer.Extensions
             });
         }
 
+        // Addind MassTransit (RabbitMQ)
         public static void AddMassTransit(this IServiceCollection services)
         {
             services.AddMassTransit(x =>

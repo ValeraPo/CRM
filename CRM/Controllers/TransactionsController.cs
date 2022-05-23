@@ -14,6 +14,7 @@ namespace CRM.APILayer.Controllers
     [ApiController]
     [Route("/api/transactions")]
 
+    // Controller for interraction transaction service
     public class TransactionsController : AdvancedController
     {
         private readonly ITransactionService _transactionService;
@@ -34,6 +35,7 @@ namespace CRM.APILayer.Controllers
             _crmProducers = crmProducers;
         }
 
+        // Adding deposit
         // api/transactions/deposit/
         [HttpPost("deposit")]
         [SwaggerOperation("Add deposit Roles: Vip, Regular")]
@@ -43,17 +45,18 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddDeposit([FromBody] TransactionShortRequest transaction)
         {
-            var leadIdentity = GetIdentity();
-            CheckRole(leadIdentity, Role.Vip, Role.Regular);
+            var leadIdentity = GetIdentity();  // Checking token
+            CheckRole(leadIdentity, Role.Vip, Role.Regular); //Checking role
             _logger.LogInformation($"Received a request to add a deposit to an account with ID = {transaction.AccountId}.");
             var leadId = (int)leadIdentity.Id;
             var transactionModel = _autoMapper.Map<TransactionRequestModel>(transaction);
-            var response = await _transactionService.AddDeposit(transactionModel, leadId);
+            var response = await _transactionService.AddDeposit(transactionModel, leadId);  //transactionId
             _logger.LogInformation($"Successfully added deposit to account with ID = {transaction.AccountId}. Deposit ID = {response}.");
 
             return StatusCode(201, response);
         }
 
+        // Adding transfer
         // api/transactions/trsnsfer/
         [HttpPost("transfer")]
         [SwaggerOperation("Add transfer Roles: Vip, Regular")]
@@ -63,16 +66,17 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddTransfer([FromBody] TransferShortRequest transaction)
         {
-            var leadIdentity = GetIdentity();
-            CheckRole(leadIdentity, Role.Vip, Role.Regular);
+            var leadIdentity = GetIdentity();  // Checking token
+            CheckRole(leadIdentity, Role.Vip, Role.Regular); //Checking role
             _logger.LogInformation($"Transfer request received from account with ID {transaction.AccountIdFrom} to account with ID {transaction.AccountIdTo}.");
             var leadId = (int)leadIdentity.Id;
             var transactionModel = _autoMapper.Map<TransferRequestModel>(transaction);
-            var response = await _transactionService.AddTransfer(transactionModel, leadId);
+            var response = await _transactionService.AddTransfer(transactionModel, leadId); //(transactionIdFrom, transactionIdTo)
             _logger.LogInformation($"Successfully added transfer from account with ID {transaction.AccountIdFrom} to account with ID {transaction.AccountIdTo}. Transfer ID = {response}.");
             return StatusCode(201, response);
         }
 
+        //Withdraw
         // api/transactions/withdraw/
         [HttpPost("withdraw")]
         [SwaggerOperation("Withdraw Roles: Vip, Regular")]
@@ -82,17 +86,18 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Withdraw([FromBody] TransactionShortRequest transaction)
         {
-            var leadIdentity = GetIdentity();
-            CheckRole(leadIdentity,Role.Vip, Role.Regular);
+            var leadIdentity = GetIdentity(); // Checking token
+            CheckRole(leadIdentity,Role.Vip, Role.Regular); //Checking role
             _logger.LogInformation($"Received withdrawal request from account with ID = {transaction.AccountId}.");
             var leadId = (int)leadIdentity.Id;
             var transactionModel = _autoMapper.Map<TransactionRequestModel>(transaction);
-            var response = await _transactionService.Withdraw(transactionModel, leadId);
+            var response = await _transactionService.Withdraw(transactionModel, leadId); //transactionId
             _logger.LogInformation($"Successfully passed the request for withdrawal of funds from the account with the ID {transaction.AccountId}. Withdraw ID = {response}.");
-            await _crmProducers.NotifyWhithdraw(leadId, transactionModel);
+            await _crmProducers.NotifyWhithdraw(leadId, transactionModel); //Senting message to lead about withdraw
             return StatusCode(201, response);
         }
 
+        // Getting all account's transaction
         //api/transactions/42
         [HttpGet("{accountId}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Successful", typeof(string))]
@@ -102,12 +107,12 @@ namespace CRM.APILayer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> GetTransactionsByAccountId(int accountId)
         {
-            var leadIdentity = GetIdentity();
-            CheckRole(leadIdentity, Role.Vip, Role.Regular);
+            var leadIdentity = GetIdentity(); // Checking token
+            CheckRole(leadIdentity, Role.Vip, Role.Regular); //Checking role
             _logger.LogInformation($"Poluchen zapros na poluchenie transakcii c accounta id = {accountId}");
             var leadId = (int)leadIdentity.Id;
             var transactionModel = await _transactionService.GetTransactionsByAccountId(accountId, leadId);
-            _logger.LogInformation($"Poluchenie transakcii c accounta id = {accountId} proshel uspeshno");
+            _logger.LogInformation($"Successfully got all transactions from account with id = {accountId}.");
 
             return Ok(transactionModel);
         }

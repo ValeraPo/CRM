@@ -1,5 +1,6 @@
 ﻿namespace CRM.DataLayer.Extensions
 {
+    // Class for secure logging emails
     public static class StringExtension
     {
         public static string Encryptor(this string str)
